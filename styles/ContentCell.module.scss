@@ -1,0 +1,140 @@
+// This is the project stylesheet
+
+// Colors
+$black: rgba(0, 0, 0, 1);
+$black-primary: rgba(35, 35, 35, 1);
+$black-secondary: rgba(57, 64, 64, 1);
+$blue: rgba(64, 163, 255, 1);
+$brown: rgba(170, 43, 43, 1);
+$cornflower-blue: rgba(114, 150, 243, 1);
+$dark-slate-blue: rgba(19, 74, 144, 1);
+$error: rgba(243, 90, 63, 1);
+$forest-green: rgba(19, 144, 27, 1);
+$green-primary: rgba(55, 126, 127, 1);
+$grey-secondary: rgba(157, 173, 173, 1);
+$light-grey: rgba(210, 210, 210, 1);
+$light-grey2: rgba(215, 228, 228, 1);
+$linen: rgba(245, 238, 238, 1);
+$medium-aquamarine: rgba(76, 203, 157, 1);
+$medium-purple: rgba(147, 84, 227, 1);
+$medium-sea-green: rgba(57, 174, 132, 1);
+$medium-slate-blue: rgba(162, 89, 255, 1);
+$orange: rgba(255, 142, 78, 1);
+$plum: rgba(194, 165, 231, 1);
+$powder-blue: rgba(195, 219, 255, 1);
+$red-secondary: rgba(245, 153, 137, 1);
+$silver: rgba(196, 196, 196, 1);
+$silver-2: rgba(187, 187, 187, 1);
+$slate-blue: rgba(117, 56, 195, 1);
+$success: rgba(57, 214, 157, 1);
+$transparent-black: rgba(0, 0, 0, 0.25);
+$turquoise: rgba(64, 232, 171, 1);
+$very-light-grey: rgba(239, 245, 245, 1);
+$white: rgba(255, 255, 255, 1);
+$white-smoke: rgba(248, 248, 248, 1);
+$yellow: rgba(255, 241, 114, 1);
+$yellow-primary: rgba(250, 219, 111, 1);
+
+// Typographies
+@mixin helvetica-16-regular {
+  font-family: "Helvetica";
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 30px;
+}
+@mixin helvetica-24-bold {
+  font-family: "Helvetica";
+  font-size: 24px;
+  font-weight: 700;
+  line-height: normal;
+}
+@mixin helvetica-24-regular {
+  font-family: "Helvetica";
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 30px;
+}
+@mixin inter-12-regular {
+  font-family: "Inter";
+  font-size: 12px;
+  font-weight: 400;
+  line-height: normal;
+}
+@mixin inter-16-bold {
+  font-family: "Inter";
+  font-size: 16px;
+  font-weight: 700;
+  line-height: normal;
+}
+@mixin inter-16-regular {
+  font-family: "Inter";
+  font-size: 16px;
+  font-weight: 400;
+  line-height: normal;
+}
+@mixin open-sans-10-regular {
+  font-family: "Open Sans";
+  font-size: 10px;
+  font-weight: 400;
+  line-height: normal;
+}
+@mixin open-sans-12-semi-bold {
+  font-family: "Open Sans";
+  font-size: 12px;
+  font-weight: 600;
+  line-height: normal;
+}
+@mixin open-sans-14-bold {
+  font-family: "Open Sans";
+  font-size: 14px;
+  font-weight: 700;
+  line-height: normal;
+}
+@mixin open-sans-14-semi-bold {
+  font-family: "Open Sans";
+  font-size: 14px;
+  font-weight: 600;
+  line-height: normal;
+}
+@mixin open-sans-20-bold {
+  font-family: "Open Sans";
+  font-size: 20px;
+  font-weight: 700;
+  line-height: normal;
+}
+@mixin open-sans-20-regular {
+  font-family: "Open Sans";
+  font-size: 20px;
+  font-weight: 400;
+  line-height: normal;
+}
+@mixin open-sans-20-semi-bold {
+  font-family: "Open Sans";
+  font-size: 20px;
+  font-weight: 600;
+  line-height: normal;
+}
+@mixin open-sans-24-extra-bold {
+  font-family: "Open Sans";
+  font-size: 24px;
+  font-weight: 800;
+  line-height: normal;
+}
+@mixin roboto-14-regular {
+  font-family: "Roboto";
+  font-size: 14px;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.contentCell {
+  background-color: $error;
+  border-radius: 4px;
+  padding: 8px 17px 8px 15px;
+  display: flex;
+  align-items: center;
+}
+.cellLabel {
+  color: $black-secondary;
+  @include inter-16-regular;
+}
