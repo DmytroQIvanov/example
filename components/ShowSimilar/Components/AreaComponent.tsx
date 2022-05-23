@@ -1,18 +1,18 @@
-import Button from '@mui/material/Button';
-import React, { useState } from 'react';
+import Button from "@mui/material/Button";
+import React, { useState } from "react";
 
-import Dropdown from '../../Dropdown';
+import Dropdown from "../../Dropdown";
 
 const AreaComponent = () => {
   const cityItems = [
-    { name: 'A', value: 'A' },
-    { name: 'B', value: 'B' },
-    { name: 'C', value: 'C' },
-    { name: 'D', value: 'D' },
+    { name: "A", value: "A" },
+    { name: "B", value: "B" },
+    { name: "C", value: "C" },
+    { name: "D", value: "D" },
   ];
 
-  const [city, setCity] = useState('');
-  const [principle, setPrinciple] = useState('');
+  const [city, setCity] = useState("");
+  const [principle, setPrinciple] = useState("");
   return (
     <div className="flex flex-col">
       <div className="flex flex-col justify-center gap-3 px-3 md:flex-row">
@@ -51,10 +51,12 @@ const AreaComponent = () => {
         </div>
         <div className="flex w-full flex-row items-end md:w-1/6">
           <Button
-            className=" green-button mb-1 w-full text-white"
+            className=" mb-1 w-full"
             variant="contained"
-            type={'submit'}
+            type={"submit"}
+            color={"green"}
             disabled={!city || !principle}
+            sx={{ height: "40px" }}
           >
             Search
           </Button>

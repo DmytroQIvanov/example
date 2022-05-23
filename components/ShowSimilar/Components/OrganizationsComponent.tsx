@@ -1,13 +1,13 @@
-import Button from '@mui/material/Button';
+import Button from "@mui/material/Button";
 
-import Dropdown from '../../Dropdown';
+import Dropdown from "../../Dropdown";
 
 const OrganizationsComponent = () => {
   const cityItems = [
-    { name: 'A', value: 'A' },
-    { name: 'B', value: 'B' },
-    { name: 'C', value: 'C' },
-    { name: 'D', value: 'D' },
+    { name: "A", value: "A" },
+    { name: "B", value: "B" },
+    { name: "C", value: "C" },
+    { name: "D", value: "D" },
   ];
   return (
     <div className="flex flex-col">
@@ -41,8 +41,10 @@ const OrganizationsComponent = () => {
         <div className="flex w-full flex-col items-center gap-4 xl:w-1/3 xl:flex-row xl:items-end">
           <div className="flex w-full flex-row items-end justify-center md:w-1/2 xl:justify-start">
             <Button
-              className=" green-button mb-1 w-full text-white"
+              className="w-full"
+              sx={{ height: "40px" }}
               variant="contained"
+              color={"green"}
             >
               Search
             </Button>

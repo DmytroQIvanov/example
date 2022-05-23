@@ -1,14 +1,14 @@
-import { Box } from '@mui/material';
-import Paper from '@mui/material/Paper';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import TableSortLabel from '@mui/material/TableSortLabel';
-import { visuallyHidden } from '@mui/utils';
-import * as React from 'react';
+import { Box } from "@mui/material";
+import Paper from "@mui/material/Paper";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import TableSortLabel from "@mui/material/TableSortLabel";
+import { visuallyHidden } from "@mui/utils";
+import * as React from "react";
 
 interface Data {
   id: number;
@@ -64,291 +64,291 @@ function createData(
 const rows: Data[] = [
   createData(
     1,
-    'aasdfa',
-    'aqwea',
-    'aqea',
-    'awea',
-    'asda',
-    'aacs',
-    'sdfaa',
-    'aasdf',
-    'adqa',
-    'aasd',
-    'aaada',
-    'fddaa',
-    'atrtya'
+    "aasdfa",
+    "aqwea",
+    "aqea",
+    "awea",
+    "asda",
+    "aacs",
+    "sdfaa",
+    "aasdf",
+    "adqa",
+    "aasd",
+    "aaada",
+    "fddaa",
+    "atrtya"
   ),
   createData(
     2,
-    'artya',
-    'adfga',
-    'arta',
-    'agfgha',
-    'artya',
-    'artya',
-    'atyua',
-    'tyuaa',
-    'tiaa',
-    'atyuia',
-    'tyuaa',
-    'ayua',
-    'ayta'
+    "artya",
+    "adfga",
+    "arta",
+    "agfgha",
+    "artya",
+    "artya",
+    "atyua",
+    "tyuaa",
+    "tiaa",
+    "atyuia",
+    "tyuaa",
+    "ayua",
+    "ayta"
   ),
   createData(
     3,
-    'aa',
-    'ara',
-    'artya',
-    'artya',
-    'artyua',
-    'artya',
-    'rtyaa',
-    'artya',
-    'artyua',
-    'rtyuaa',
-    'artyua',
-    'artyua',
-    'artyua'
+    "aa",
+    "ara",
+    "artya",
+    "artya",
+    "artyua",
+    "artya",
+    "rtyaa",
+    "artya",
+    "artyua",
+    "rtyuaa",
+    "artyua",
+    "artyua",
+    "artyua"
   ),
   createData(
     4,
-    'artyua',
-    'artya',
-    'artya',
-    'artyua',
-    'artyua',
-    'artya',
-    'artya',
-    'rtyuaa',
-    'rtyaa',
-    'artyua',
-    'artya',
-    'artya',
-    'atya'
+    "artyua",
+    "artya",
+    "artya",
+    "artyua",
+    "artyua",
+    "artya",
+    "artya",
+    "rtyuaa",
+    "rtyaa",
+    "artyua",
+    "artya",
+    "artya",
+    "atya"
   ),
   createData(
     5,
-    'awera',
-    'adfga',
-    'asdfa',
-    'asdfga',
-    'asdfga',
-    'asra',
-    'awerta',
-    'awerta',
-    'awqa',
-    'aawer',
-    'aader',
-    'aaxdf',
-    'asa'
+    "awera",
+    "adfga",
+    "asdfa",
+    "asdfga",
+    "asdfga",
+    "asra",
+    "awerta",
+    "awerta",
+    "awqa",
+    "aawer",
+    "aader",
+    "aaxdf",
+    "asa"
   ),
   createData(
     6,
-    'asdfa',
-    'awta',
-    'awerta',
-    'awerta',
-    'awerta',
-    'awera',
-    'aaaa',
-    'adfa',
-    'aoyiua',
-    'ayuia',
-    'ahka',
-    'hhaa',
-    'aakl'
+    "asdfa",
+    "awta",
+    "awerta",
+    "awerta",
+    "awerta",
+    "awera",
+    "aaaa",
+    "adfa",
+    "aoyiua",
+    "ayuia",
+    "ahka",
+    "hhaa",
+    "aakl"
   ),
   createData(
     7,
-    'ara',
-    'aerta',
-    'aerta',
-    'asa',
-    'aqea',
-    'aqea',
-    'aqwera',
-    'aqwera',
-    'aqwera',
-    'aqwera',
-    'aasdfa',
-    'aasdfa',
-    'aasdfa'
+    "ara",
+    "aerta",
+    "aerta",
+    "asa",
+    "aqea",
+    "aqea",
+    "aqwera",
+    "aqwera",
+    "aqwera",
+    "aqwera",
+    "aasdfa",
+    "aasdfa",
+    "aasdfa"
   ),
   createData(
     8,
-    'aasdaadf',
-    'aasdfa',
-    'aasdfa',
-    'azxa',
-    'aera',
-    'aqwea',
-    'aqwera',
-    'aawea',
-    'awera',
-    'asdaa',
-    'aasda',
-    'aqwera',
-    'qwera'
+    "aasdaadf",
+    "aasdfa",
+    "aasdfa",
+    "azxa",
+    "aera",
+    "aqwea",
+    "aqwera",
+    "aawea",
+    "awera",
+    "asdaa",
+    "aasda",
+    "aqwera",
+    "qwera"
   ),
   createData(
     9,
-    'asdaa',
-    'werasaa',
-    'awera',
-    'ayua',
-    'rta',
-    'ada',
-    'dfgaa',
-    'dertaa',
-    'ertaa',
-    'ertaa',
-    'rtyaa',
-    'rtawa',
-    'uyiaa'
+    "asdaa",
+    "werasaa",
+    "awera",
+    "ayua",
+    "rta",
+    "ada",
+    "dfgaa",
+    "dertaa",
+    "ertaa",
+    "ertaa",
+    "rtyaa",
+    "rtawa",
+    "uyiaa"
   ),
   createData(
     10,
-    'rtyaa',
-    'ytiaa',
-    'gjaa',
-    'oiypaa',
-    'ertaa',
-    'qerwaa',
-    'hjaa',
-    'asdaa',
-    'ertaa',
-    'sdfaa',
-    'ryuaa',
-    'ghjaa',
-    'yjaa'
+    "rtyaa",
+    "ytiaa",
+    "gjaa",
+    "oiypaa",
+    "ertaa",
+    "qerwaa",
+    "hjaa",
+    "asdaa",
+    "ertaa",
+    "sdfaa",
+    "ryuaa",
+    "ghjaa",
+    "yjaa"
   ),
   createData(
     11,
-    'qweaa',
-    'weraa',
-    'sdfaa',
-    'wraa',
-    'ertaa',
-    'qeraa',
-    'sdaa',
-    'wertaa',
-    'ghdaa',
-    'rtaa',
-    'eraa',
-    'sdfaa',
-    'tyaa'
+    "qweaa",
+    "weraa",
+    "sdfaa",
+    "wraa",
+    "ertaa",
+    "qeraa",
+    "sdaa",
+    "wertaa",
+    "ghdaa",
+    "rtaa",
+    "eraa",
+    "sdfaa",
+    "tyaa"
   ),
   createData(
     12,
-    'ghetaa',
-    'dfgaa',
-    'ertaa',
-    'faa',
-    'cdfaa',
-    'ertaa',
-    'dfgaa',
-    'eraa',
-    'uyraa',
-    'fgaa',
-    'jfaa',
-    'mghaa',
-    'rtyaa'
+    "ghetaa",
+    "dfgaa",
+    "ertaa",
+    "faa",
+    "cdfaa",
+    "ertaa",
+    "dfgaa",
+    "eraa",
+    "uyraa",
+    "fgaa",
+    "jfaa",
+    "mghaa",
+    "rtyaa"
   ),
   createData(
     13,
-    'yuiaa',
-    'tyaa',
-    'tyaa',
-    'eryaa',
-    'weraa',
-    'weaa',
-    'weaa',
-    'weaa',
-    'fgaa',
-    'gdfaa',
-    'fgaa',
-    'dfgaa',
-    'rtraa'
+    "yuiaa",
+    "tyaa",
+    "tyaa",
+    "eryaa",
+    "weraa",
+    "weaa",
+    "weaa",
+    "weaa",
+    "fgaa",
+    "gdfaa",
+    "fgaa",
+    "dfgaa",
+    "rtraa"
   ),
   createData(
     14,
-    'yuiaa',
-    'rtyaa',
-    'etaa',
-    'tyaa',
-    'rtaa',
-    'iyaa',
-    'tyaa',
-    'tyaa',
-    'ghjaa',
-    'bgaa',
-    'yuaa',
-    'qweaa',
-    'eraa'
+    "yuiaa",
+    "rtyaa",
+    "etaa",
+    "tyaa",
+    "rtaa",
+    "iyaa",
+    "tyaa",
+    "tyaa",
+    "ghjaa",
+    "bgaa",
+    "yuaa",
+    "qweaa",
+    "eraa"
   ),
   createData(
     15,
-    'tyreaa',
-    'dfgaa',
-    'ghaa',
-    'dfgaa',
-    'reaa',
-    'sdfaa',
-    'vdfaa',
-    'greraa',
-    'yraa',
-    'eraa',
-    'dfaa',
-    'hfdaa',
-    'eraa'
+    "tyreaa",
+    "dfgaa",
+    "ghaa",
+    "dfgaa",
+    "reaa",
+    "sdfaa",
+    "vdfaa",
+    "greraa",
+    "yraa",
+    "eraa",
+    "dfaa",
+    "hfdaa",
+    "eraa"
   ),
   createData(
     16,
-    'qweaa',
-    'aqwa',
-    'aqa',
-    'asda',
-    'aeqra',
-    'qaa',
-    'sdaa',
-    'eraera',
-    'arta',
-    'qawea',
-    'aqa',
-    'qweaqwa',
-    'traa'
+    "qweaa",
+    "aqwa",
+    "aqa",
+    "asda",
+    "aeqra",
+    "qaa",
+    "sdaa",
+    "eraera",
+    "arta",
+    "qawea",
+    "aqa",
+    "qweaqwa",
+    "traa"
   ),
   createData(
     17,
-    'fghaa',
-    'rtaa',
-    'rtaa',
-    'utaa',
-    'eraa',
-    'wraa',
-    'utaa',
-    'eeraa',
-    'iyaa',
-    'ryaa',
-    'mghaa',
-    'hyaa',
-    'rtyaa'
+    "fghaa",
+    "rtaa",
+    "rtaa",
+    "utaa",
+    "eraa",
+    "wraa",
+    "utaa",
+    "eeraa",
+    "iyaa",
+    "ryaa",
+    "mghaa",
+    "hyaa",
+    "rtyaa"
   ),
   createData(
     18,
-    'nhnaa',
-    'rtaa',
-    'fgaa',
-    'bfaa',
-    'gfgaa',
-    'teaa',
-    'eraa',
-    'ghaa',
-    'yjaa',
-    'teraa',
-    'ertaa',
-    'eraa',
-    'oytaa'
+    "nhnaa",
+    "rtaa",
+    "fgaa",
+    "bfaa",
+    "gfgaa",
+    "teaa",
+    "eraa",
+    "ghaa",
+    "yjaa",
+    "teraa",
+    "ertaa",
+    "eraa",
+    "oytaa"
   ),
 ];
 
@@ -362,7 +362,7 @@ function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   return 0;
 }
 
-type Order = 'asc' | 'desc';
+type Order = "asc" | "desc";
 
 export function getComparator<Key extends keyof any>(
   order: Order,
@@ -371,7 +371,7 @@ export function getComparator<Key extends keyof any>(
   a: { [key in Key]: number | string },
   b: { [key in Key]: number | string }
 ) => number {
-  return order === 'desc'
+  return order === "desc"
     ? (a, b) => descendingComparator(a, b, orderBy)
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
@@ -399,74 +399,74 @@ interface HeadCell {
 
 const headCells: readonly HeadCell[] = [
   {
-    id: 'id',
+    id: "id",
     numeric: true,
-    label: 'Person ID',
+    label: "Person ID",
   },
   {
-    id: 'type',
+    id: "type",
     numeric: false,
-    label: 'Type',
+    label: "Type",
   },
   {
-    id: 'firstName',
+    id: "firstName",
     numeric: false,
-    label: 'First Name',
+    label: "First Name",
   },
   {
-    id: 'lastName',
+    id: "lastName",
     numeric: false,
-    label: 'Last Name',
+    label: "Last Name",
   },
   {
-    id: 'principle',
+    id: "principle",
     numeric: false,
-    label: 'Principle',
+    label: "Principle",
   },
   {
-    id: 'area',
+    id: "area",
     numeric: false,
-    label: 'Area',
+    label: "Area",
   },
   {
-    id: 'locations',
+    id: "locations",
     numeric: false,
-    label: 'Locations',
+    label: "Locations",
   },
   {
-    id: 'phones',
+    id: "phones",
     numeric: false,
-    label: 'Phones',
+    label: "Phones",
   },
   {
-    id: 'department',
+    id: "department",
     numeric: false,
-    label: 'Department',
+    label: "Department",
   },
   {
-    id: 'pI',
+    id: "pI",
     numeric: false,
-    label: 'PI',
+    label: "PI",
   },
   {
-    id: 'card',
+    id: "card",
     numeric: false,
-    label: 'Card',
+    label: "Card",
   },
   {
-    id: 'activeUnit',
+    id: "activeUnit",
     numeric: false,
-    label: 'Active Unit',
+    label: "Active Unit",
   },
   {
-    id: 'left',
+    id: "left",
     numeric: false,
-    label: 'Left',
+    label: "Left",
   },
   {
-    id: 'city',
+    id: "city",
     numeric: false,
-    label: 'City',
+    label: "City",
   },
 ];
 
@@ -498,13 +498,13 @@ export function EnhancedTableHead(props: EnhancedTableProps) {
           >
             <TableSortLabel
               active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : 'asc'}
+              direction={orderBy === headCell.id ? order : "asc"}
               onClick={createSortHandler(headCell.id)}
             >
               {headCell.label}
               {orderBy === headCell.id ? (
                 <Box component="span" sx={visuallyHidden}>
-                  {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                  {order === "desc" ? "sorted descending" : "sorted ascending"}
                 </Box>
               ) : null}
             </TableSortLabel>
@@ -516,12 +516,12 @@ export function EnhancedTableHead(props: EnhancedTableProps) {
 }
 
 function ShowSimilarTable() {
-  const [order, setOrder] = React.useState<Order>('asc');
-  const [orderBy, setOrderBy] = React.useState<keyof Data>('id');
+  const [order, setOrder] = React.useState<Order>("asc");
+  const [orderBy, setOrderBy] = React.useState<keyof Data>("id");
 
   const handleRequestSort = (_: any, property: keyof Data) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
+    const isAsc = orderBy === property && order === "asc";
+    setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
   };
 
@@ -541,90 +541,39 @@ function ShowSimilarTable() {
             return (
               <TableRow key={row.id}>
                 <TableCell
-                  className="whitespace-nowrap text-left"
+                  className="whitespace-nowrap"
                   component="th"
                   scope="row"
                 >
                   {row.id}
                 </TableCell>
-                <TableCell
-                  className="whitespace-nowrap text-left"
-                  align="right"
-                >
-                  {row.type}
-                </TableCell>
-                <TableCell
-                  className="whitespace-nowrap text-left"
-                  align="right"
-                >
+                <TableCell className="whitespace-nowrap">{row.type}</TableCell>
+                <TableCell className="whitespace-nowrap">
                   {row.firstName}
                 </TableCell>
-                <TableCell
-                  className="whitespace-nowrap text-left"
-                  align="right"
-                >
+                <TableCell className="whitespace-nowrap">
                   {row.lastName}
                 </TableCell>
-                <TableCell
-                  className="whitespace-nowrap text-left"
-                  align="right"
-                >
+                <TableCell className="whitespace-nowrap">
                   {row.principle}
                 </TableCell>
-                <TableCell
-                  className="whitespace-nowrap text-left"
-                  align="right"
-                >
-                  {row.area}
-                </TableCell>
-                <TableCell
-                  className="whitespace-nowrap text-left"
-                  align="right"
-                >
+                <TableCell className="whitespace-nowrap">{row.area}</TableCell>
+                <TableCell className="whitespace-nowrap">
                   {row.locations}
                 </TableCell>
-                <TableCell
-                  className="whitespace-nowrap text-left"
-                  align="right"
-                >
+                <TableCell className="whitespace-nowrap">
                   {row.phones}
                 </TableCell>
-                <TableCell
-                  className="whitespace-nowrap text-left"
-                  align="right"
-                >
+                <TableCell className="whitespace-nowrap">
                   {row.department}
                 </TableCell>
-                <TableCell
-                  className="whitespace-nowrap text-left"
-                  align="right"
-                >
-                  {row.pI}
-                </TableCell>
-                <TableCell
-                  className="whitespace-nowrap text-left"
-                  align="right"
-                >
-                  {row.card}
-                </TableCell>
-                <TableCell
-                  className="whitespace-nowrap text-left"
-                  align="right"
-                >
+                <TableCell className="whitespace-nowrap">{row.pI}</TableCell>
+                <TableCell className="whitespace-nowrap">{row.card}</TableCell>
+                <TableCell className="whitespace-nowrap">
                   {row.activeUnit}
                 </TableCell>
-                <TableCell
-                  className="whitespace-nowrap text-left"
-                  align="right"
-                >
-                  {row.left}
-                </TableCell>
-                <TableCell
-                  className="whitespace-nowrap text-left"
-                  align="right"
-                >
-                  {row.city}
-                </TableCell>
+                <TableCell className="whitespace-nowrap">{row.left}</TableCell>
+                <TableCell className="whitespace-nowrap">{row.city}</TableCell>
               </TableRow>
             );
           })}

@@ -1,6 +1,6 @@
-import { TextField } from '@mui/material';
-import Button from '@mui/material/Button';
-import React from 'react';
+import { TextField } from "@mui/material";
+import Button from "@mui/material/Button";
+import React from "react";
 
 const Phone = () => {
   return (
@@ -22,8 +22,10 @@ const Phone = () => {
         </div>
         <div className="flex w-full flex-row items-end md:w-1/6">
           <Button
-            className=" green-button mb-1 w-full text-white"
+            className="mb-1 w-full"
             variant="contained"
+            sx={{ height: "40px" }}
+            color={"green"}
           >
             Search
           </Button>

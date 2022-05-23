@@ -1,10 +1,10 @@
-import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
-import Button from '@mui/material/Button';
-import React from 'react';
+import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
+import Button from "@mui/material/Button";
+import React from "react";
 
-import InteractionInputPanel from './InteractionInputPanel';
-import ModalSearchPanel from './ModalSearchPanel';
-import ModalTable from './ModalTable';
+import InteractionInputPanel from "./InteractionInputPanel";
+import ModalSearchPanel from "./ModalSearchPanel";
+import ModalTable from "./ModalTable";
 
 function ModalBody(props: { onClose: () => void }) {
   const { onClose } = props;
@@ -23,6 +23,7 @@ function ModalBody(props: { onClose: () => void }) {
             className="bg-green-600 font-bold text-white"
             variant="contained"
             disableRipple
+            color={"green"}
           >
             Save Interaction
           </Button>
