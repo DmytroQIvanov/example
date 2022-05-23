@@ -1,18 +1,18 @@
-import Button from '@mui/material/Button';
-import React, { useState } from 'react';
+import Button from "@mui/material/Button";
+import React, { useState } from "react";
 
-import Dropdown from '../../Dropdown';
+import Dropdown from "../../Dropdown";
 
 const PiComponent = () => {
   const cityItems = [
-    { name: 'A', value: 'A' },
-    { name: 'B', value: 'B' },
-    { name: 'C', value: 'C' },
-    { name: 'D', value: 'D' },
+    { name: "A", value: "A" },
+    { name: "B", value: "B" },
+    { name: "C", value: "C" },
+    { name: "D", value: "D" },
   ];
 
-  const [city, setCity] = useState('');
-  const [PI, setPI] = useState('');
+  const [city, setCity] = useState("");
+  const [PI, setPI] = useState("");
 
   return (
     <div className="flex flex-col">
@@ -43,9 +43,11 @@ const PiComponent = () => {
         </div>
         <div className="flex w-full flex-row items-end md:w-1/6">
           <Button
-            className=" green-button mb-1 w-full text-white"
+            className="mb-1 w-full"
             variant="contained"
             disabled={!city || !PI}
+            color={"green"}
+            sx={{ height: "40px" }}
           >
             Search
           </Button>
