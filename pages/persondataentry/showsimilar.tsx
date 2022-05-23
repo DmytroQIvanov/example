@@ -80,8 +80,9 @@ const SimilarViewTable = () => {
       </div>
       <div className="flex flex-row justify-end p-5">
         <Button
-          className="green-button w-full text-white md:w-60"
+          className="w-full text-white md:w-60"
           variant="contained"
+          color={"green"}
         >
           Export to Drive
         </Button>
