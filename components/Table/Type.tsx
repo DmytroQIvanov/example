@@ -1,12 +1,14 @@
 export interface HeaderCellData {
   id: string;
   label: string;
-  cellType: number;
+  type: number;
+  cellType?: number;
   options?: { [key: string]: string[] };
   editDisabledValues?: string[];
   ctaType?: string;
   ctaLabel?: string;
   rows?: number;
+  variant?: number;
 }
 
 export enum Order {
@@ -25,7 +27,7 @@ export interface RowData {
   [id: string]: RowCellData;
 }
 
-export const HeaderData: readonly HeaderCellData[] = [
+export const HeaderData: HeaderCellData[] = [
   {
     id: 'id7',
     label: 'ID 7',

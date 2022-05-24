@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { AppSelection } from "../components/AppSelection";
 import useStyles from './styles';
 

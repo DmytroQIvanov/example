@@ -23,6 +23,7 @@ export interface RowCellProps {
   isValue1EditDisabled: boolean;
   isValue2EditDisabled: boolean;
   isValue3EditDisabled: boolean;
+  disabled?: boolean;
 
   isEditDisabled: (key: string) => boolean;
   onChangeCellValue1: (event: React.ChangeEvent<HTMLSelectElement>) => void;
@@ -37,6 +38,7 @@ export interface RowCellProps {
   onClickSave: () => void;
   onClickCancel: () => void;
   changeRowValue: (RowCellData) => void;
+  changeAddress?: (address: any) => void;
 }
 
 const RowCell: React.FC = (props: RowCellProps) => {
@@ -56,6 +58,7 @@ const RowCell: React.FC = (props: RowCellProps) => {
   };
 
   const onAddressCellValue = (key: string, address: any) => {
+    console.log([props.data, address])
     const newValue = {
       ...props.data,
       [key]: address,
@@ -70,7 +73,9 @@ const RowCell: React.FC = (props: RowCellProps) => {
       onChangeCellValue1={(event) => onChangeCellValue('value1', event)}
       onChangeCellValue2={(event) => onChangeCellValue('value2', event)}
       onChangeCellValue3={(event) => onChangeCellValue('value3', event)}
-      onChangeAddress={(address) => onAddressCellValue('address', address)}
+      onChangeAddress={(address) => {
+        props.changeAddress ? props.changeAddress(address): onAddressCellValue('address', address)
+      }}
       isValue1EditDisabled={props.isEditDisabled('value1')}
       isValue2EditDisabled={props.isEditDisabled('value2')}
       isValue3EditDisabled={props.isEditDisabled('value3')}

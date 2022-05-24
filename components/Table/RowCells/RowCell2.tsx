@@ -130,8 +130,8 @@ const RowCell2: React.FC = (props: RowCellProps) => {
         <RowCell2Edit {...props} />
       ) : (
         <>
-          <div>{props.data.value1}</div>
-          <div>{props.data.value2}</div>
+          <div><span className="table-cell-text">{props.data.value1}</span></div>
+          <div><span className="table-cell-text">{props.data.value2}</span></div>
         </>
       )}
     </TableCell>

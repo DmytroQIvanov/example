@@ -2,8 +2,8 @@ import TableRow from '@mui/material/TableRow';
 import * as React from 'react';
 import { useState } from 'react';
 
-import RowCell from './RowCell';
-import { RowCellData, RowData } from './Type';
+import RowCell from '../../../../components/Table/RowCell';
+import { RowCellData, RowData } from '../../../../components/Table/Type';
 import {
   getCtaLabel,
   getCtaType,
@@ -11,11 +11,13 @@ import {
   getOptions,
   getType,
   getVariant,
-} from './Utils';
+} from '../../../../components/Table/Utils';
 import { HeaderData } from './Type';
 
 interface RowProps {
   data: RowData;
+  updateData ?: (data: any) => void;
+  rowDelete ?: () => void;
 }
 
 const Row: React.FC = (props: RowProps) => {
@@ -24,10 +26,8 @@ const Row: React.FC = (props: RowProps) => {
   const [isEditing, setIsEditing] = useState<boolean>(false);
 
   const onClickEdit = () => {
-    setIsEditing(true);
-  };
 
-  const onClickDelete = () => {};
+  };
 
   const onClickSave = () => {
     setIsEditing(false);
@@ -48,7 +48,20 @@ const Row: React.FC = (props: RowProps) => {
     };
 
     setData(newData);
+    props.updateData(newData);
   };
+
+  const changeAddress = (address: any) => {
+    const newData = {
+      ...data,
+      'home-address': {value1: address.full},
+      'source': {value1: address.source},
+      'comments': {value1: address.comments},
+    };
+    newData.options = { ...newData.options, address: address };
+    setData(newData);
+    props.updateData(newData);
+  }
 
   const isEditDisabled: boolean = (headerKey: string, valueKey: string) => {
     return getEditDisabledValues(headerKey)?.includes(valueKey);
@@ -61,6 +74,8 @@ const Row: React.FC = (props: RowProps) => {
         const newData = { ...data };
         newData[headerKey].ctaChecked = event.target.checked;
 
+        console.log(newData)
+
         setData(newData);
         break;
       }
@@ -71,7 +86,7 @@ const Row: React.FC = (props: RowProps) => {
   };
 
   return (
-    <TableRow hover key={props.id}>
+    <TableRow hover key={props.id} className={data['marked-invalid'].ctaChecked ? 'disabled' : ''}>
       {Object.keys(data).filter(key => key !== 'id').map((key) => {
         return (
           <RowCell
@@ -85,12 +100,14 @@ const Row: React.FC = (props: RowProps) => {
             isEditing={isEditing}
             ctaType={getCtaType(HeaderData, key)}
             ctaLabel={getCtaLabel(HeaderData, key)}
-            onCtaClick={(event) => onCtaClick(key, getCtaType(key), event)}
+            onCtaClick={(event) => onCtaClick(key, getCtaType(HeaderData, key), event)}
             onClickEdit={onClickEdit}
-            onClickDelete={onClickDelete}
+            onClickDelete={props.rowDelete}
             onClickSave={onClickSave}
             onClickCancel={onClickCancel}
             changeRowValue={changeRowValue}
+            changeAddress={changeAddress}
+            disabled={data['marked-invalid'].ctaChecked}
           />
         );
       })}

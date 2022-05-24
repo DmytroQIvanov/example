@@ -41,7 +41,7 @@ const CallToAction: React.FC = (props: CallToActionProps) => {
       );
     default:
       return (
-        <Button variant="outlined" onClick={props.onClick}>
+        <Button variant="outlined" onClick={props.onClick} disabled={props.disabled}>
           {props.label}
         </Button>
       );

@@ -27,11 +27,12 @@ const RowCell3: React.FC = (props: RowCellProps) => {
         {props.isEditing ? (
           <RowCell3Edit {...props} />
         ) : (
-          <>{props.data.value1}</>
+          <span className="table-cell-text">{props.data.value1}</span>
         )}
       </div>
       <div>
         <CallToActionCell
+          disabled={props.disabled}
           type={props.ctaType}
           label={props.ctaLabel}
           checked={props.data.ctaChecked}

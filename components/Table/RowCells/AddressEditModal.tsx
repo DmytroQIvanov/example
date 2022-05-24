@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { useRouter } from 'next/router';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -22,7 +22,9 @@ import {
 import Modal from '../../Modal/Modal';
 
 const Sources = [
-  {value: 'paper', label: 'Paper Card'},
+  {value: 'Paper Card', label: 'Paper Card'},
+  {value: 'On the Ground', label: 'On the Ground'},
+  {value: 'UC List', label: 'UC List'},
 ]
 
 console.log(process.env.NEXT_PUBLIC_API_KEY)
@@ -31,14 +33,18 @@ const scriptOptions = {
   libraries: ['places'],
 }
 
-const AddressEditModal = ({open, title, handleClose, onChangeAddress, modalProps}: any) => {
-  const [address, setAddress] = React.useState({source: 'paper'});
+const AddressEditModal = ({open, data, title, handleClose, onChangeAddress, modalProps}: any) => {
+  const [address, setAddress] = React.useState({source: '', comments: ''});
 
   const { isLoaded, loadError } = useLoadScript(scriptOptions);
   const [autocomplete, setAutocomplete] = useState(null);
   const inputEl = useRef(null);
 
   const classes = useStyles();
+
+  useEffect(() => {
+    setAddress(data.address);
+  }, [data]);
 
   // Handle the keypress for input
   const onKeypress = (e) => {
@@ -59,34 +65,53 @@ const AddressEditModal = ({open, title, handleClose, onChangeAddress, modalProps
 
   const handleChange = (e: any) => {
     let update = { ...address };
+
     update[e.target.name] = e.target.value;
     setAddress(update)
   }
 
   const onPlaceChanged = (e) => {
-    let autoAddress = {...address, street:'', city:'', state:'', postal:'', country:''};
+    let autoAddress = {...address,
+      street_number:'',
+      street:'',
+      city:'',
+      state:'',
+      postal:'',
+      country:'',
+      full: ''
+    };
     if (autocomplete) {
       const place = autocomplete.getPlace();
-      console.log(place)
+      let fullAddress: array = [];
       if ('address_components' in place) {
         place['address_components'].forEach(item => {
+          if (item['types'][0] == 'street_number' && item['long_name']) {
+            autoAddress = {...autoAddress, street_number: item['long_name']}
+            fullAddress.push(item['long_name'])
+          }
           if (item['types'][0] == 'route' && item['long_name']) {
             autoAddress = {...autoAddress, street: item['long_name']}
+            fullAddress.push(item['long_name'])
           }
           if (item['types'][0] == 'locality' && item['long_name']) {
             autoAddress = {...autoAddress, city: item['long_name']}
+            fullAddress.push(item['long_name'])
           }
           if (item['types'][0] == 'administrative_area_level_1' && item['long_name']) {
             autoAddress = {...autoAddress, state: item['long_name']}
+            fullAddress.push(item['long_name'])
           }
           if (item['types'][0] == 'postal_code' && item['long_name']) {
             autoAddress = {...autoAddress, postal: item['long_name']}
+            fullAddress.push(item['long_name'])
           }
           if (item['types'][0] == 'country' && item['long_name']) {
             autoAddress = {...autoAddress, country: item['long_name']}
+            fullAddress.push(item['long_name'])
           }
         })
 
+        autoAddress = {...autoAddress, full: fullAddress.join(', ')};
         setAddress(autoAddress);
       }
     }
@@ -97,7 +122,6 @@ const AddressEditModal = ({open, title, handleClose, onChangeAddress, modalProps
     handleClose();
   }
   const onCancel = () => {
-    onChangeAddress({});
     handleClose();
   }
 
@@ -151,6 +175,7 @@ const AddressEditModal = ({open, title, handleClose, onChangeAddress, modalProps
                 value={address.source}
                 label="Source"
                 name="source"
+                onChange={(e) => handleChange(e)}
                 InputLabelProps={{'shrink': true}}
                 className={classes.fullWidth}
               >
@@ -164,6 +189,7 @@ const AddressEditModal = ({open, title, handleClose, onChangeAddress, modalProps
             <TextField
               label="Street Number"
               variant="outlined"
+              value={address.street_number}
               InputLabelProps={{'shrink': true}}
               name="street_number"
               onChange={(e) => handleChange(e)}
@@ -257,10 +283,11 @@ const AddressEditModal = ({open, title, handleClose, onChangeAddress, modalProps
               rows={4}
               variant="outlined"
               value={address.comments}
+              onChange={(e) => handleChange(e)}
               name="comments"
               className={classes.fullWidth} />
           </Grid>
-          <Grid item xs={2} className={classes.addressModalAction}>
+          <Grid item xs={2}>
             <div>
               <Button variant="contained" color="error" onClick={onCancel}>
                 Cancel

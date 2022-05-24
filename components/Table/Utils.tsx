@@ -1,31 +1,43 @@
-import { HeaderData } from './Type';
+import { HeaderCellData } from './Type';
 
-export const getType: number = (key: string) => {
-  return HeaderData.find((data) => data.id === key).type;
+export const getType: number = (HeaderData: HeaderCellData[], key: string) => {
+  if (Array.isArray(HeaderData)) {
+    return HeaderData.find((data) => data.id === key).type;
+  }
 };
 
 export const getOptions: (key: string) => { [p: string]: string[] } = (
-  key: string
+  HeaderData: HeaderCellData[], key: string
 ) => {
-  return HeaderData.find((data) => data.id === key).options;
+  if (Array.isArray(HeaderData)) {
+    return HeaderData.find((data) => data.id === key).options;
+  }
 };
 
-export const getVariant: (key: string) => any = (key: string) => {
-  return HeaderData.find((data) => data.id === key).variant;
+export const getVariant: (key: string) => any = (HeaderData: HeaderCellData[], key: string) => {
+  if (Array.isArray(HeaderData)) {
+    return HeaderData.find((data) => data.id === key).variant;
+  }
 };
 
 export const getEditDisabledValues: (key: string) => string[] = (
-  key: string
+  HeaderData: HeaderCellData[], key: string
 ) => {
-  return HeaderData.find((data) => data.id === key).editDisabledValues;
+  if (Array.isArray(HeaderData)) {
+    return HeaderData.find((data) => data.id === key).editDisabledValues;
+  }
 };
 
-export const getCtaType: string[] = (key: string) => {
-  return HeaderData.find((data) => data.id === key).ctaType;
+export const getCtaType: string[] = (HeaderData: HeaderCellData[], key: string) => {
+  if (Array.isArray(HeaderData)) {
+    return HeaderData.find((data) => data.id === key).ctaType;
+  }
 };
 
-export const getCtaLabel: string[] = (key: string) => {
-  return HeaderData.find((data) => data.id === key).ctaLabel;
+export const getCtaLabel: string[] = (HeaderData: HeaderCellData[], key: string) => {
+  if (Array.isArray(HeaderData)) {
+    return HeaderData.find((data) => data.id === key).ctaLabel;
+  }
 };
 
 export const deepCopy: any = (obj: any) => {

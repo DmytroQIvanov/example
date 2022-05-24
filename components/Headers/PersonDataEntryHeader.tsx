@@ -19,79 +19,100 @@ import { BootstrapInput } from '../Search/Type';
 
 export function PersonDataEntryHeader() {
   return (
-    <div className="header">
-      <Box>
-        <Grid container>
-          <Grid item sm={6}>
-            <Grid container>
-              <Grid item sm={3}>
-                <FormControl sx={{ m: 1, width: '90%' }} variant="standard">
-                  <Button
-                    sx={[
-                      {
-                        background: 'white',
-                        color: '#134A90'
-                      },
-                      {
-                        '&:hover': {
-                          background: '#efefef'
-                        }
-                      }
-                    ]}
-                    variant="contained">Show Smaller</Button>
-                </FormControl>
+      <div className="header">
+        <Box>
+          <Grid container>
+            <Grid item sm={3}>
+              <Grid container>
+                <Grid item sm={6}>
+                  <FormControl sx={{ m: 1, width: '90%' }} variant="standard">
+                    <Button
+                        sx={[
+                          {
+                            background: 'white',
+                            color: '#134A90'
+                          },
+                          {
+                            '&:hover': {
+                              background: '#efefef'
+                            }
+                          }
+                        ]}
+                        variant="contained">Show Similar</Button>
+                  </FormControl>
+                </Grid>
+                <Grid item sm={6}>
+                  <FormControl sx={{ m: 1, width: '90%' }} variant="standard">
+                    <NativeSelect
+                        id="campus-id"
+                        label="Campus"
+                        name="campus"
+                        InputLabelProps={{'shrink': true}}
+                        size="small"
+                        input={<BootstrapInput />}
+                    >
+                      <option className="default-option" value="">Campus</option>
+                      {ConfTemplate.campus.map((item, itemIndex) => {
+                        return <option value={item}>{item}</option>;
+                      })}
+                    </NativeSelect>
+                  </FormControl>
+                </Grid>
               </Grid>
-              <Grid item sm={9}>
-                <FormControl sx={{ m: 1, width: '95%' }} variant="standard">
-                  <SearchMenu />
-                </FormControl>
+            </Grid>
+            <Grid item sm={4}>
+              <Grid container>
+                <Grid item sm={12}>
+                  <FormControl sx={{ m: 1, width: '95%' }} variant="standard">
+                    <SearchMenu />
+                  </FormControl>
+                </Grid>
+              </Grid>
+            </Grid>
+            <Grid item sm={5}>
+              <Grid container>
+                <Grid item sm={4}>
+                  <FormControl sx={{ m: 1, width: '90%' }} variant="standard">
+                    <NativeSelect
+                        id="fullname-id"
+                        label="Fullname"
+                        name="fullname"
+                        size="small"
+                        input={<BootstrapInput />}
+                    >
+                      <option className="default-option" value="">Last, First</option>
+                      {ConfTemplate.campus.map((item, itemIndex) => {
+                        return <option value={item}>{item}</option>;
+                      })}
+                    </NativeSelect>
+                  </FormControl>
+                </Grid>
+                <Grid item sm={4}>
+                  <FormControl sx={{ m: 1, width: '90%' }} variant="standard">
+                    <NativeSelect
+                        id="person-id"
+                        labelId="person"
+                        label="Person"
+                        name="person"
+                        size="small"
+                        input={<BootstrapInput />}
+                    >
+                      <option className="default-option" value="">Person Category</option>
+                      {ConfTemplate.campus.map((item, itemIndex) => {
+                        return <option value={item}>{item}</option>;
+                      })}
+                    </NativeSelect>
+                  </FormControl>
+                </Grid>
+                <Grid item sm={4}>
+                  <FormControl sx={{ m: 1, width: '90%' }} variant="standard">
+                    <Button variant="contained" color="success">Add New Person</Button>
+                  </FormControl>
+                </Grid>
               </Grid>
             </Grid>
           </Grid>
-          <Grid item sm={6}>
-            <Grid container>
-              <Grid item sm={4}>
-                <FormControl sx={{ m: 1, width: '90%' }} variant="standard">
-                  <NativeSelect
-                    id="campus-id"
-                    label="Campus"
-                    name="campus"
-                    InputLabelProps={{'shrink': true}}
-                    size="small"
-                    input={<BootstrapInput />}
-                  >
-                    <option className="default-option" value="">Campus</option>
-                    {ConfTemplate.campus.map((item, itemIndex) => {
-                      return <option value={item}>{item}</option>;
-                    })}
-                  </NativeSelect>
-                </FormControl>
-              </Grid>
-              <Grid item sm={4}>
-                <FormControl sx={{ m: 1, width: '90%' }} variant="standard">
-                  <NativeSelect
-                    id="fullname-id"
-                    label="Fullname"
-                    name="fullname"
-                    size="small"
-                    input={<BootstrapInput />}
-                  >
-                    <option className="default-option" value="">Last, First</option>
-                    {ConfTemplate.campus.map((item, itemIndex) => {
-                      return <option value={item}>{item}</option>;
-                    })}
-                  </NativeSelect>
-                </FormControl>
-              </Grid>
-              <Grid item sm={4}>
-                <FormControl sx={{ m: 1, width: '90%' }} variant="standard">
-                  <Button variant="contained" color="success">Add New Person</Button>
-                </FormControl>
-              </Grid>
-            </Grid>
-          </Grid>
-        </Grid>
-      </Box>
-    </div>
+        </Box>
+      </div>
   )
 }

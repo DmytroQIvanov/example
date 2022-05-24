@@ -54,10 +54,10 @@ const RowCell5: React.FC = (props: RowCellProps) => {
         <RowCell5Edit {...props} />
       ) : (
         <>
-          <div>{props.data.value1}</div>
+          <div><span className="table-cell-text">{props.data.value1}</span></div>
           <div>
-            <span>{props.data.value2}</span>
-            <span>{props.data.value3}</span>
+            <span className="table-cell-text">{props.data.value2}</span>
+            <span className="table-cell-text">{props.data.value3}</span>
           </div>
         </>
       )}

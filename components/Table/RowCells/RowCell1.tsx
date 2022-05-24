@@ -52,7 +52,7 @@ const RowCell1: React.FC<RowCellVariantProps> = (
   return (
     <TableCell>
       <Box className={classes.wrapperSmall}>
-        {props.isEditing ? <>{rowCell1Edit()}</> : <>{props.data.value1}</>}
+        {props.isEditing ? <>{rowCell1Edit()}</> : <span className="table-cell-text">{props.data.value1}</span>}
       </Box>
     </TableCell>
   );

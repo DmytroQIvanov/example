@@ -1,3 +1,4 @@
+// @ts-nocheck
 import type { NextPage } from 'next'
 import {useQuery, gql, useMutation} from "@apollo/client";
 import {UserButton, useAuth} from "@clerk/nextjs"

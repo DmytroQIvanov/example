@@ -41,10 +41,10 @@ const SEARCH_DATA = gql`
 
 const searchTitle = {
   name: 'Name',
-  id: 'ID',
-  orderID: 'Order ID',
-  code: 'Code',
-  state: 'State',
+  id: 'PID',
+  orderID: 'Unit',
+  code: 'Campus',
+  state: 'Employee ID',
 };
 
 const SearchMenu = () => {
