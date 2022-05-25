@@ -238,7 +238,7 @@
 .sidebar .profile-details{
     bottom: 0;
     left: 0;
-    width: 220px;
+    /*width: 220px;*/
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -249,6 +249,7 @@
 .sidebar.close .profile-details{
     background: none;
     width: 57px;
+    overflow: hidden;
 }
 .sidebar .profile-details .profile-content{
     display: flex;
