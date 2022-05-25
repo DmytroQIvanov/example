@@ -182,6 +182,10 @@ const AccountMain = () => {
     setPersonDataState(state);
     setEditStatus(0);
   };
+  const onCancel = () => {
+    setState(personDataState);
+    setEditStatus(0);
+  };
 
   return (
     <Box
@@ -669,7 +673,7 @@ const AccountMain = () => {
                 backgroundColor: "#6BAD43",
               }}
               variant="contained"
-              onClick={() => handleEditStatus()}
+              onClick={() => onCancel()}
             >
               Cancel
             </Button>
