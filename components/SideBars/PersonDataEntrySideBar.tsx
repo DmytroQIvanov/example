@@ -10,7 +10,7 @@ import { useRouter } from "next/router";
 const arrowNavigation = [
   {
     link: "/persondataentry/interactions",
-    icon: <BsFillPersonFill className="react-icon arrow" />,
+    icon: <BsFillPersonFill className="react-icon" />,
     text: "Person Interactions",
   },
   {
@@ -91,41 +91,42 @@ export function PersonDataEntrySideBar() {
       <div className="logo-details">
         <span className="logo_name">Person Data Entry</span>
       </div>
-      <ul className="nav-links">
-        <li onClick={handleCollapseState} className={"disable-select"}>
-          <div className="iocn-link">
-            <a href="#">
-              <BsArrowRight className="react-icon arrow" />
-              <span className="link_name">Collapse</span>
-            </a>
-          </div>
-          <ul className="sub-menu blank">
-            <li>
-              <a className="link_name" href="#">
-                Expand Side Bar
-              </a>
-            </li>
-          </ul>
-        </li>
-        {arrowNavigation.map((elem, index) => (
-          <li className={"disable-select"} key={index}>
+      <div className="menulist-container">
+        <ul className="nav-links disable-scrollbar">
+          <li onClick={handleCollapseState} className={"disable-select"}>
             <div className="iocn-link">
-              <a onClick={(e) => goTo(e, elem.link)}>
-                {elem.icon}
-                <span className="link_name">{elem.text}</span>
+              <a href="#">
+                <BsArrowRight className="react-icon arrow disable-select" />
+                <span className="link_name">Collapse</span>
               </a>
             </div>
-            <ul className="sub-menu">
+            <div className="sub-menu blank">
               <li>
                 <a className="link_name" href="#">
-                  {elem.text}
+                  Expand Side Bar
                 </a>
               </li>
-            </ul>
+            </div>
           </li>
-        ))}
-      </ul>
-
+          {arrowNavigation.map((elem, index) => (
+            <li className={"disable-select list-element"} key={index}>
+              <div className="iocn-link">
+                <a onClick={(e) => goTo(e, elem.link)}>
+                  <div className={"disable-select"}>{elem.icon}</div>
+                  <span className="link_name">{elem.text}</span>
+                </a>
+                <div className="sub-menu">
+                  <div>
+                    <a className="link_name" href="#">
+                      {elem.text}
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
       <div className="profile-details">
         <div className="profile-content"></div>
         <div className="name-job">

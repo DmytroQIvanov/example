@@ -52,6 +52,14 @@ main {
   -ms-user-select: none; /* Internet Explorer/Edge */
 }
 
+.menulist-container::-webkit-scrollbar {
+  width: 0;
+}
+.disable-scrollbar{
+  height: fit-content;
+  padding: 0;
+
+}
 .home-section .home-content{
   height: 60px;
   display: flex;

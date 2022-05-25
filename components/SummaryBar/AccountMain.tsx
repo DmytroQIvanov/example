@@ -20,6 +20,7 @@ import * as React from "react";
 
 import { ColorLabel } from "./ColorLabel";
 import Autocomplete from "@mui/material/Autocomplete";
+import { useEffect, useState } from "react";
 
 const PERSON_DATA = gql`
   query sample_query {
@@ -70,10 +71,7 @@ const row2Title = {
   cid: "Employee ID",
   type: "Person Type",
 };
-const options = [
-  { label: "The Godfather", id: 1 },
-  { label: "Pulp Fiction", id: 2 },
-];
+const options = [{ label: "The Godfather" }, { label: "Pulp Fiction" }];
 const row3Title = {
   dateCreated: "Date Created",
   dateEdited: "Date Edited",
@@ -97,6 +95,16 @@ const textOnLabels = [
   "Left UC",
   "Organized",
 ];
+interface valuesTypes {
+  firstName: string | undefined;
+  middleNames: string | undefined;
+  lastName: string | undefined;
+  nickName: string | undefined;
+  suffix: string | undefined;
+  nameSourceType: string | undefined;
+  personId: string | undefined;
+  employeeId: string | undefined;
+}
 
 const AccountMain = () => {
   const [index, setIndex] = React.useState(0);
@@ -104,7 +112,44 @@ const AccountMain = () => {
   const [editStatus, setEditStatus] = React.useState(0);
   const [collapse, setCollapse] = React.useState(false);
 
+  const [state, setState] = useState<valuesTypes>({
+    firstName: "1",
+    middleNames: "2",
+    lastName: "3",
+    nickName: "4",
+    suffix: "5",
+    nameSourceType: "6",
+    personId: "7",
+    employeeId: "8",
+  });
+
+  function handleChangeEvent(event: React.ChangeEvent<any>) {
+    const { name, value } = event.target;
+    setState({
+      ...state,
+      [name]: value as string,
+    });
+  }
+
+  function handleChange(name: string, text: string | number) {
+    setState({
+      ...state,
+      [name]: text.toString(),
+    });
+  }
+
   const { data, loading } = useQuery(PERSON_DATA);
+
+  const [personDataState, setPersonDataState] = useState<valuesTypes>({
+    firstName: "1",
+    middleNames: "2",
+    lastName: "3",
+    nickName: "4",
+    suffix: "5",
+    nameSourceType: "6",
+    personId: "7",
+    employeeId: "8",
+  });
 
   const handleIndex = (direction: string) => {
     if (direction === "prev") {
@@ -131,6 +176,11 @@ const AccountMain = () => {
   };
   const handleCollapse = () => {
     setCollapse(!collapse);
+  };
+
+  const onSave = () => {
+    setPersonDataState(state);
+    setEditStatus(0);
   };
 
   return (
@@ -242,51 +292,66 @@ const AccountMain = () => {
                   <TableCell>
                     {editStatus ? (
                       <TextField
-                        defaultValue={data?.sample_person[index].first_name}
+                        defaultValue={personDataState?.firstName}
                         variant="outlined"
+                        onChange={handleChangeEvent}
+                        name={"firstName"}
+                        value={state["firstName"]}
                       />
                     ) : (
-                      data?.sample_person[index].first_name
+                      personDataState?.firstName
                     )}
                   </TableCell>
                   <TableCell>
                     {editStatus ? (
                       <TextField
-                        defaultValue={data?.sample_person[index].middle_names}
+                        defaultValue={personDataState?.middleNames}
                         variant="outlined"
+                        onChange={handleChangeEvent}
+                        name={"middleNames"}
+                        value={state["middleNames"]}
                       />
                     ) : (
-                      data?.sample_person[index].middle_names
+                      personDataState?.middleNames
                     )}
                   </TableCell>
                   <TableCell>
                     {editStatus ? (
                       <TextField
-                        defaultValue={data?.sample_person[index].last_name}
+                        defaultValue={personDataState?.lastName}
                         variant="outlined"
+                        onChange={handleChangeEvent}
+                        name={"lastName"}
+                        value={state["lastName"]}
                       />
                     ) : (
-                      data?.sample_person[index].last_name
+                      personDataState?.lastName
                     )}
                   </TableCell>
                   <TableCell>
                     {editStatus ? (
                       <TextField
-                        defaultValue={data?.sample_person[index].last_name}
+                        defaultValue={personDataState?.lastName}
                         variant="outlined"
+                        onChange={handleChangeEvent}
+                        name={"nickName"}
+                        value={state["nickName"]}
                       />
                     ) : (
-                      data?.sample_person[index].nicknames
+                      personDataState?.nickName
                     )}
                   </TableCell>
                   <TableCell>
                     {editStatus ? (
                       <TextField
-                        defaultValue={data?.sample_person[index].suffix}
+                        defaultValue={personDataState?.suffix}
                         variant="outlined"
+                        onChange={handleChangeEvent}
+                        name={"suffix"}
+                        value={state["suffix"]}
                       />
                     ) : (
-                      data?.sample_person[index].suffix
+                      personDataState?.suffix
                     )}
                   </TableCell>
                   <TableCell>
@@ -296,11 +361,11 @@ const AccountMain = () => {
                           {/*Name Source Type*/}
                         </InputLabel>
                         <Select
-                          labelId="demo-simple-select-label"
-                          id="demo-simple-select"
-                          // value={age}
-                          label="Age"
-                          // onChange={handleChange}
+                          onChange={(event, child) =>
+                            handleChange("nameSourceType", event.target.value)
+                          }
+                          name={"nameSourceType"}
+                          value={state["nameSourceType"]}
                         >
                           <MenuItem value={10}>Ten</MenuItem>
                           <MenuItem value={20}>Twenty</MenuItem>
@@ -308,7 +373,7 @@ const AccountMain = () => {
                         </Select>
                       </FormControl>
                     ) : (
-                      data?.sample_person[index].google_id
+                      personDataState?.nameSourceType
                     )}
                   </TableCell>
                 </TableRow>
@@ -344,28 +409,37 @@ const AccountMain = () => {
                             disablePortal
                             id="combo-box-demo"
                             options={options}
+                            onChange={(data) =>
+                              handleChange(
+                                "personId",
+                                options[data.target.value].label
+                              )
+                            }
+                            value={{ label: state["personId"] }}
                             sx={{ width: 170 }}
                             renderInput={(params) => (
                               <TextField {...params} label="" />
                             )}
                           />
                         ) : (
-                          data?.sample_person[index].suffix
+                          personDataState?.personId
                         )}
-                        {data?.sample_person[index].app_id}
                       </TableCell>
                       <TableCell>
                         {editStatus ? (
                           <>
                             <TextField
                               defaultValue={
-                                data?.sample_person[index].person_id
+                                data?.sample_person[index].employeeId
                               }
                               variant="outlined"
+                              onChange={handleChangeEvent}
+                              name={"employeeId"}
+                              value={state["employeeId"]}
                             />
                           </>
                         ) : (
-                          data?.sample_person[index].person_id
+                          personDataState.employeeId
                         )}
                       </TableCell>
                       <TableCell>
@@ -586,7 +660,7 @@ const AccountMain = () => {
                 marginRight: 10,
               }}
               variant="contained"
-              onClick={() => handleEditStatus()}
+              onClick={() => onSave()}
             >
               Save
             </Button>
