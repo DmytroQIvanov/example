@@ -236,10 +236,8 @@
 }
 
 .sidebar .profile-details{
-    position: fixed;
     bottom: 0;
     left: 0;
-    /*width: 100%;*/
     width: 220px;
     display: flex;
     align-items: center;
