@@ -108,33 +108,33 @@ export function PersonDataEntrySideBar() {
           </ul>
         </li>
         {arrowNavigation.map((elem, index) => (
-          <li className={"disable-select"}>
+          <li className={"disable-select"} key={index}>
             <div className="iocn-link">
               <a onClick={(e) => goTo(e, elem.link)}>
                 {elem.icon}
                 <span className="link_name">{elem.text}</span>
               </a>
             </div>
-            <ul className="sub-menu">
-              <li>
+            <div className="sub-menu">
+              <div>
                 <a className="link_name" href="#">
                   {elem.text}
                 </a>
-              </li>
-            </ul>
+              </div>
+            </div>
           </li>
         ))}
       </ul>
 
-      <div className="profile-details">
-        <div className="profile-content"></div>
-        <div className="name-job">
-          <div className="profile_name">Alberto Aguilera</div>
-          <UserButton />
-        </div>
-        <HiOutlineCog />
-        <BiLogOut className="react-icon" />
-      </div>
+      {/*<div className="profile-details">*/}
+      {/*  <div className="profile-content"></div>*/}
+      {/*  <div className="name-job">*/}
+      {/*    <div className="profile_name">Alberto Aguilera</div>*/}
+      {/*    <UserButton />*/}
+      {/*  </div>*/}
+      {/*  <HiOutlineCog />*/}
+      {/*  <BiLogOut className="react-icon" />*/}
+      {/*</div>*/}
     </div>
   );
 }
