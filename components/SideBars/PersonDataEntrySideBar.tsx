@@ -75,16 +75,16 @@ const arrowNavigation = [
   },
 ];
 export function PersonDataEntrySideBar() {
-    const [collapsed, setCollapsed] = useState(false);
-    function handleCollapseState() {
-        !collapsed ? setCollapsed(true) : setCollapsed(false);
-    }
+  const [collapsed, setCollapsed] = useState(false);
+  function handleCollapseState() {
+    !collapsed ? setCollapsed(true) : setCollapsed(false);
+  }
 
-    const router = useRouter();
-    const goTo = (e: any, href: string) => {
-        e.preventDefault();
-        router.push(href);
-    };
+  const router = useRouter();
+  const goTo = (e: any, href: string) => {
+    e.preventDefault();
+    router.push(href);
+  };
 
   return (
     <div className={collapsed ? "sidebar close" : "sidebar open"}>
@@ -124,19 +124,17 @@ export function PersonDataEntrySideBar() {
             </ul>
           </li>
         ))}
+      </ul>
 
-                <li>
-                    <div className="profile-details">
-                        <div className="profile-content"></div>
-                        <div className="name-job">
-                            <div className="profile_name">Alberto Aguilera</div>
-                            <UserButton />
-                        </div>
-                        <HiOutlineCog />
-                        <BiLogOut className="react-icon" />
-                    </div>
-                </li>
-            </ul>
+      <div className="profile-details">
+        <div className="profile-content"></div>
+        <div className="name-job">
+          <div className="profile_name">Alberto Aguilera</div>
+          <UserButton />
         </div>
-    );
+        <HiOutlineCog />
+        <BiLogOut className="react-icon" />
+      </div>
+    </div>
+  );
 }
