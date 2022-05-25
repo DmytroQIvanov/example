@@ -95,7 +95,7 @@ export function PersonDataEntrySideBar() {
         <li onClick={handleCollapseState} className={"disable-select"}>
           <div className="iocn-link">
             <a href="#">
-              <BsArrowRight className="react-icon" />
+              <BsArrowRight className="react-icon arrow" />
               <span className="link_name">Collapse</span>
             </a>
           </div>
@@ -115,26 +115,26 @@ export function PersonDataEntrySideBar() {
                 <span className="link_name">{elem.text}</span>
               </a>
             </div>
-            <div className="sub-menu">
-              <div>
+            <ul className="sub-menu">
+              <li>
                 <a className="link_name" href="#">
                   {elem.text}
                 </a>
-              </div>
-            </div>
+              </li>
+            </ul>
           </li>
         ))}
       </ul>
 
-      {/*<div className="profile-details">*/}
-      {/*  <div className="profile-content"></div>*/}
-      {/*  <div className="name-job">*/}
-      {/*    <div className="profile_name">Alberto Aguilera</div>*/}
-      {/*    <UserButton />*/}
-      {/*  </div>*/}
-      {/*  <HiOutlineCog />*/}
-      {/*  <BiLogOut className="react-icon" />*/}
-      {/*</div>*/}
+      <div className="profile-details">
+        <div className="profile-content"></div>
+        <div className="name-job">
+          <div className="profile_name">Alberto Aguilera</div>
+          <UserButton />
+        </div>
+        <HiOutlineCog />
+        <BiLogOut className="react-icon" />
+      </div>
     </div>
   );
 }
