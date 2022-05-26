@@ -9,6 +9,7 @@ import Paper from "@material-ui/core/Paper";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import {Box, Button} from "@mui/material";
 import { visuallyHidden } from "@mui/utils";
+import ModalBody from "../PersonInteractionModal";
 
 //ICONS
 import AddSharpIcon from '@mui/icons-material/AddSharp';
@@ -16,8 +17,7 @@ import EditSharpIcon from '@mui/icons-material/EditSharp';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Modal from "@mui/material/Modal";
 import Typography from "@mui/material/Typography";
-import ModalBody from "../PersonInteractionModal";
-
+import CloseIcon from '@mui/icons-material/Close';
 
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
@@ -261,6 +261,14 @@ const PersonInteractionTable = () => {
   }
   return (
       <div>
+        <Box sx={{display:'flex', mt:"10px"}}>
+          <Button sx={{m: "auto 20px auto auto"}}
+                  color={"success"}
+                  variant={'contained'}
+                  onClick={handleOpenPersonInteractionModal}>
+            Add
+          </Button>
+        </Box>
     <TableContainer component={Paper} >
       <Table aria-label="simple table" >
         <EnhancedTableHead
@@ -284,7 +292,7 @@ const PersonInteractionTable = () => {
               <TableCell>{row.createdBy}</TableCell>
               <TableCell>{row.dateCreated}</TableCell>
               <TableCell>
-                <AddSharpIcon onClick={handleOpenPersonInteractionModal} sx={{cursor:"pointer",mr:'2px'}}/>
+                <AddSharpIcon onClick={()=>{}} sx={{cursor:"pointer",mr:'2px'}}/>
                 <EditSharpIcon onClick={handleOpenPersonInteractionModal} sx={{cursor:"pointer",mr:'2px'}}/>
                 <DeleteIcon onClick={handleOpenDeleteModal} sx={{cursor:"pointer"}}/>
               </TableCell>
@@ -299,13 +307,19 @@ const PersonInteractionTable = () => {
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
         >
-          <Box sx={style}>
+          <Box sx={{...style, width:'550px'}}>
+            <CloseIcon sx={{position:'absolute', right:'15px', top:'15px',cursor:'pointer'}} onClick={handleCloseDeleteModal}/>
             <Typography id="modal-modal-title" variant="h6" component="h2">
               Confirm deletion?
             </Typography>
-            <Box sx={{mt:3}}>
-            <Button color={"success"} variant={"contained"} sx={{mr:3}}>Yes</Button>
-            <Button color={'error'} variant={"contained"}>No</Button>
+
+            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+              Do you really want to delete all the data?
+            </Typography>
+            <Box sx={{mt:3,display:'flex',
+              justifyContent: 'right'}}>
+            <Button color={"success"} variant={"contained"} sx={{mr:3}} onClick={handleCloseDeleteModal}>Confirm</Button>
+            <Button color={'error'} variant={"contained"} onClick={handleCloseDeleteModal}>Cancel</Button>
             </Box>
           </Box>
         </Modal>
