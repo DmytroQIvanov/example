@@ -16,6 +16,7 @@ import EditSharpIcon from '@mui/icons-material/EditSharp';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Modal from "@mui/material/Modal";
 import Typography from "@mui/material/Typography";
+import ModalBody from "../PersonInteractionModal";
 
 
 
@@ -69,6 +70,7 @@ interface Data {
   interactionDate: string;
   createdBy: string;
   dateCreated: string;
+  options?: string;
 }
 const array: Data[] = [
   {
@@ -179,8 +181,10 @@ const style = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 400,
+  maxWidth: '90vw',
+  maxHeight: '90vh',
   bgcolor: 'background.paper',
+  overflow:'scroll',
   boxShadow: 24,
   p: 4,
 };
@@ -246,6 +250,15 @@ const PersonInteractionTable = () => {
   const handleOpenDeleteModal =()=>{
     setDeleteModal(true);
   }
+  const [personInteractionModal,setPersonInteractionModal] = useState(false);
+
+  const handleClosePersonInteractionModal =()=>{
+    setPersonInteractionModal(false);
+  }
+
+  const handleOpenPersonInteractionModal =()=>{
+    setPersonInteractionModal(true);
+  }
   return (
       <div>
     <TableContainer component={Paper} >
@@ -271,8 +284,10 @@ const PersonInteractionTable = () => {
               <TableCell>{row.createdBy}</TableCell>
               <TableCell>{row.dateCreated}</TableCell>
               <TableCell>
-                <AddSharpIcon onClick={()=>alert()}/>
-                <EditSharpIcon/><DeleteIcon onClick={()=>handleOpenDeleteModal()}/></TableCell>
+                <AddSharpIcon onClick={handleOpenPersonInteractionModal} sx={{cursor:"pointer",mr:'2px'}}/>
+                <EditSharpIcon onClick={handleOpenPersonInteractionModal} sx={{cursor:"pointer",mr:'2px'}}/>
+                <DeleteIcon onClick={handleOpenDeleteModal} sx={{cursor:"pointer"}}/>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -295,8 +310,20 @@ const PersonInteractionTable = () => {
           </Box>
         </Modal>
 
+        <Modal
+            open={personInteractionModal}
+            onClose={handleClosePersonInteractionModal}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+        >
+          <Box sx={style}>
+            <ModalBody onClose={handleClosePersonInteractionModal}/>
+          </Box>
+        </Modal>
+
+
       </div>
   );
 };
 
-export default PersonInteractionTable;
+export default React.memo(PersonInteractionTable);

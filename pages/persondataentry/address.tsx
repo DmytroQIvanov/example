@@ -1,7 +1,7 @@
 import React from 'react';
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
-import ModalBody from '../../components/ModalBody';
+import ModalBody from '../../components/PersonInteractionModal';
 import AddressReport from "../../components/AddressReport/AddressReport";
 
 export default function Address (){
