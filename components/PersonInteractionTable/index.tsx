@@ -184,7 +184,6 @@ const style = {
   maxWidth: '90vw',
   maxHeight: '90vh',
   bgcolor: 'background.paper',
-  overflow:'scroll',
   boxShadow: 24,
   p: 4,
 };
@@ -307,7 +306,7 @@ const PersonInteractionTable = () => {
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
         >
-          <Box sx={{...style, width:'550px'}}>
+          <Box sx={{...style, width:'550px'}} className={'disable-scrollbar'}>
             <CloseIcon sx={{position:'absolute', right:'15px', top:'15px',cursor:'pointer'}} onClick={handleCloseDeleteModal}/>
             <Typography id="modal-modal-title" variant="h6" component="h2">
               Confirm deletion?
@@ -330,7 +329,7 @@ const PersonInteractionTable = () => {
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
         >
-          <Box sx={style}>
+          <Box sx={{...style,overflow:'scroll'}}>
             <ModalBody onClose={handleClosePersonInteractionModal}/>
           </Box>
         </Modal>
