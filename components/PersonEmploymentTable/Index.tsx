@@ -138,7 +138,7 @@ const headCells: readonly HeadCell[] = [
   {
     id: "dlvk",
     numeric: false,
-    label: "dlvk",
+    label: "DLVK",
   },
   {
     id: "dmi",
@@ -221,6 +221,11 @@ const PersonEmploymentTable = () => {
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
   };
+  const [tableElements, setTableElements] = useState(rows);
+  const onDelete = (id: string | undefined) => {
+    if (!id) return;
+    setTableElements(tableElements.filter((elem) => elem.id !== id));
+  };
 
   return (
     <div>
@@ -233,9 +238,9 @@ const PersonEmploymentTable = () => {
           Add
         </Button>
       </Box>
-      <div>
-        <TableContainer component={Paper}>
-          <Table aria-label="simple table">
+      <div style={{ overflow: "auto", width: "100%" }}>
+        <TableContainer component={Paper} style={{ width: "max-content" }}>
+          <Table aria-label="customized table">
             <EnhancedTableHead
               order={order}
               orderBy={orderBy}
@@ -244,9 +249,13 @@ const PersonEmploymentTable = () => {
             />
             <TableBody>
               {/*@ts-ignore*/}
-              {stableSort(rows, getComparator(order, orderBy)).map(
+              {stableSort(tableElements, getComparator(order, orderBy)).map(
                 (row: IRowsPersonEmploymentTable) => (
-                  <TableRowComponent row={row} key={row.id} />
+                  <TableRowComponent
+                    row={row}
+                    key={row.id}
+                    onDelete={onDelete}
+                  />
                 )
               )}
             </TableBody>

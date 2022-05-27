@@ -1,16 +1,33 @@
-import React, { ChangeEventHandler, useEffect, useState } from "react";
+import React, {
+  ChangeEventHandler,
+  CSSProperties,
+  useEffect,
+  useState,
+} from "react";
 import TableCell from "@material-ui/core/TableCell";
-import { Autocomplete, Box, Grid, TextField, Typography } from "@mui/material";
+import {
+  Autocomplete,
+  Box,
+  Checkbox,
+  Chip,
+  FormControlLabel,
+  Grid,
+  TextField,
+  Typography,
+} from "@mui/material";
 import TableRow from "@material-ui/core/TableRow";
+
+//STYLES
+import styles from "./PersonEmpoymentTable.module.css";
 
 //INTERFACES
 import { IRowsPersonEmploymentTable } from "./interfaces";
 
 //ICONS
-import AddSharpIcon from "@mui/icons-material/AddSharp";
 import EditSharpIcon from "@mui/icons-material/EditSharp";
 import SaveIcon from "@mui/icons-material/Save";
 import CancelIcon from "@mui/icons-material/Cancel";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 const dropArray = [
   {
@@ -33,6 +50,8 @@ interface propsBlockWithState {
   summaryState: { [index: string]: any };
   titleVisibly?: boolean;
   handleChange: Function;
+  style?: CSSProperties;
+  className?: string;
   handleChangeEvent: (
     e: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
   ) => void;
@@ -49,6 +68,7 @@ const blockWithState: React.FC<propsBlockWithState> = ({
   editStateBoolean,
   handleChange,
   handleChangeEvent,
+
   titleVisibly = true,
   ...inputParams
 }) => {
@@ -95,6 +115,7 @@ const blockWithState: React.FC<propsBlockWithState> = ({
               value={summaryState[name]}
               multiline={multiline ? true : false}
               rows={multiline}
+              d
               size={"small"}
               {...inputParams}
             />
@@ -107,9 +128,10 @@ const blockWithState: React.FC<propsBlockWithState> = ({
   );
 };
 
-const TableRowComponent: React.FC<{ row: IRowsPersonEmploymentTable }> = ({
-  row,
-}) => {
+const TableRowComponent: React.FC<{
+  row: IRowsPersonEmploymentTable;
+  onDelete: (id: string) => void;
+}> = ({ row, onDelete }) => {
   //STATES
   const [editStateBoolean, setEditStateBoolean] = useState(false);
   const [rowState, setRowState] = useState(row);
@@ -161,7 +183,7 @@ const TableRowComponent: React.FC<{ row: IRowsPersonEmploymentTable }> = ({
   };
   return (
     <TableRow>
-      <TableCell component="th" scope="row" width={150}>
+      <TableCell component="th" scope="row" width={"300px"}>
         <Box>
           {blockWithState({
             ...SummaryObject,
@@ -179,6 +201,7 @@ const TableRowComponent: React.FC<{ row: IRowsPersonEmploymentTable }> = ({
               name: "campus",
               type: "dropdown",
               itemsArray: dropArray,
+              className: styles.blueInput,
             })}
           </Box>
           <Box sx={{ ml: "20px" }}>
@@ -192,10 +215,10 @@ const TableRowComponent: React.FC<{ row: IRowsPersonEmploymentTable }> = ({
           </Box>
         </Box>
       </TableCell>
-      <TableCell width={100}>
+      <TableCell width={"150px"}>
         {blockWithState({ ...SummaryObject, name: "unit", title: "Unit" })}
       </TableCell>
-      <TableCell width={70}>
+      <TableCell width={"250px"}>
         <Box>
           <Box>
             {blockWithState({
@@ -213,11 +236,15 @@ const TableRowComponent: React.FC<{ row: IRowsPersonEmploymentTable }> = ({
           </Box>
         </Box>
       </TableCell>
-      <TableCell width={70}>
+      <TableCell width={"200px"}>
         <Box sx={{ display: "flex", flexDirection: "row" }}>
           <Box>
             {blockWithState({ ...SummaryObject, name: "apt", title: "Apt" })}
           </Box>
+          <Typography mt={0.8} ml={2.5}>
+            \
+          </Typography>
+
           <Box sx={{ ml: "20px" }}>
             {blockWithState({
               ...SummaryObject,
@@ -227,41 +254,50 @@ const TableRowComponent: React.FC<{ row: IRowsPersonEmploymentTable }> = ({
           </Box>
         </Box>
       </TableCell>
-      <TableCell width={250}>
+      <TableCell width={"400px"}>
         {blockWithState({
           ...SummaryObject,
           name: "comments",
           multiline: 6,
           title: "Comments",
+          width: "320px",
         })}
       </TableCell>
-      <TableCell>
+      <TableCell width={"130px"}>
         {blockWithState({ ...SummaryObject, name: "dfkv", title: "DFKV" })}
       </TableCell>
-      <TableCell>
+      <TableCell width={"130px"}>
         {blockWithState({ ...SummaryObject, name: "dlkv", title: "DLKV" })}
+        <Chip
+          label="Validate"
+          sx={{ backgroundColor: "#3d3de1", color: "white", mt: "5px" }}
+        />
       </TableCell>
-      <TableCell>
+      <TableCell width={"130px"}>
         {blockWithState({ ...SummaryObject, name: "dmi", title: "DMI" })}
+
+        <FormControlLabel
+          control={<Checkbox defaultChecked />}
+          label="Invalidate"
+        />
       </TableCell>
-      <TableCell>
+      <TableCell width={"130px"}>
         {editStateBoolean ? (
           <Box sx={{ mt: "20px" }}>
-            <SaveIcon onClick={onSave} sx={{ cursor: "pointer", mr: "2px" }} />
-            <CancelIcon
-              onClick={onCancel}
-              sx={{ cursor: "pointer", mr: "2px" }}
-            />
+            <SaveIcon onClick={onSave} sx={{ cursor: "pointer", mr: "10px" }} />
+            <CancelIcon onClick={onCancel} sx={{ cursor: "pointer" }} />
           </Box>
         ) : (
           <>
             <EditSharpIcon
               onClick={handleEditableState}
-              sx={{ cursor: "pointer", mr: "2px" }}
+              sx={{ cursor: "pointer", mr: "10px" }}
             />
-            <AddSharpIcon
-              onClick={() => {}}
-              sx={{ cursor: "pointer", mr: "2px" }}
+            <DeleteIcon
+              onClick={() => {
+                onDelete(row.id);
+              }}
+              sx={{ cursor: "pointer" }}
             />
           </>
         )}
