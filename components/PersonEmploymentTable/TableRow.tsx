@@ -48,6 +48,8 @@ const TableRowComponent: React.FC<{
     handleEditableState,
     onSave,
     editState,
+    validateState,
+    onChangeValidateState,
   } = UseEditableTable(row);
 
   const SummaryObject = {
@@ -58,7 +60,7 @@ const TableRowComponent: React.FC<{
     titleVisibly: false,
   };
   return (
-    <TableRow>
+    <TableRow style={!validateState ? { backgroundColor: "#ececec" } : {}}>
       <TableCell component="th" scope="row" width={"300px"}>
         <Box>
           {EditableBlock({
@@ -141,10 +143,12 @@ const TableRowComponent: React.FC<{
         {EditableBlock({ ...SummaryObject, name: "dfkv", title: "DFKV" })}
       </TableCell>
       <TableCell width={"130px"}>
-        {EditableBlock({ ...SummaryObject, name: "dlkv", title: "DLKV" })}
-        <Button sx={{ backgroundColor: "#3434e0", color: "white", mt: "5px" }}>
-          Validate
-        </Button>
+        {EditableBlock({
+          ...SummaryObject,
+          name: "dlkv",
+          title: "DLKV",
+          validate: { label: "validate", onClick: onChangeValidateState },
+        })}
       </TableCell>
       <TableCell width={"130px"}>
         {EditableBlock({
@@ -155,25 +159,29 @@ const TableRowComponent: React.FC<{
         })}
       </TableCell>
       <TableCell width={"130px"}>
-        {editStateBoolean ? (
-          <Box sx={{ mt: "20px" }}>
-            <SaveIcon onClick={onSave} sx={{ cursor: "pointer", mr: "10px" }} />
-            <CancelIcon onClick={onCancel} sx={{ cursor: "pointer" }} />
-          </Box>
-        ) : (
-          <>
-            <EditSharpIcon
-              onClick={handleEditableState}
-              sx={{ cursor: "pointer", mr: "10px" }}
-            />
-            <DeleteIcon
-              onClick={() => {
-                onDelete(row.id);
-              }}
-              sx={{ cursor: "pointer" }}
-            />
-          </>
-        )}
+        {validateState &&
+          (editStateBoolean ? (
+            <Box sx={{ mt: "20px" }}>
+              <SaveIcon
+                onClick={onSave}
+                sx={{ cursor: "pointer", mr: "10px" }}
+              />
+              <CancelIcon onClick={onCancel} sx={{ cursor: "pointer" }} />
+            </Box>
+          ) : (
+            <>
+              <EditSharpIcon
+                onClick={handleEditableState}
+                sx={{ cursor: "pointer", mr: "10px" }}
+              />
+              <DeleteIcon
+                onClick={() => {
+                  onDelete(row.id);
+                }}
+                sx={{ cursor: "pointer" }}
+              />
+            </>
+          ))}
       </TableCell>
     </TableRow>
   );

@@ -5,6 +5,7 @@ export const UseEditableTable = (row: any) => {
   const [editStateBoolean, setEditStateBoolean] = useState(false);
   const [rowState, setRowState] = useState(row);
   const [editState, setEditState] = useState<typeof row>(row);
+  const [validateState, setValidateState] = useState(true);
 
   //HANDLERS
   const handleEditableState = () => {
@@ -27,6 +28,12 @@ export const UseEditableTable = (row: any) => {
       };
     });
   };
+  const onChangeValidateState = (state?: boolean) => {
+    setValidateState((prevState) => {
+      if (state && typeof state === "boolean") return state;
+      return !prevState;
+    });
+  };
   const onSave = () => {
     setRowState(editState);
     setEditStateBoolean(false);
@@ -35,6 +42,8 @@ export const UseEditableTable = (row: any) => {
     setEditState(rowState);
     setEditStateBoolean(false);
   };
+
+  //USE-EFFECTS
   useEffect(() => {
     setRowState(row);
   }, [row]);
@@ -51,5 +60,7 @@ export const UseEditableTable = (row: any) => {
     onCancel,
     editState,
     editStateBoolean,
+    onChangeValidateState,
+    validateState,
   };
 };

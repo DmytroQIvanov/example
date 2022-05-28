@@ -25,7 +25,10 @@ interface propsBlockWithState {
   style?: CSSProperties;
   className?: string;
   checkBox?: { onChange: Function; label: string; value: boolean };
-  validate?: { onChange: Function; label?: string };
+  validate?: {
+    onClick?: React.MouseEventHandler<HTMLAnchorElement>;
+    label?: string;
+  };
   handleChangeEvent: React.ChangeEventHandler<
     HTMLTextAreaElement | HTMLInputElement
   >;
@@ -116,6 +119,7 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
               m: "auto",
               mt: "5px",
             }}
+            onClick={validate.onClick && validate.onClick}
           >
             {validate.label ? validate.label : "Validate"}
           </Button>
