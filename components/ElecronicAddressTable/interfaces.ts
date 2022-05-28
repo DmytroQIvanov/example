@@ -1,14 +1,9 @@
 interface IRowsPersonEmploymentTable {
   id: string;
-  jobTitle: string;
-  campus: string;
+  electronicAddress: string;
+  electronicType: string;
   source: string;
-  unit: string;
-  dateStart: string;
-  dateEnd: string;
-  apt: string;
-  salary: string;
-  comments: string;
+  emailOptions: boolean;
   dfkv: string;
   dlkv: string;
   dmi: string;
@@ -16,14 +11,12 @@ interface IRowsPersonEmploymentTable {
 }
 interface IColumnsPersonEmploymentTable {
   id: string;
-  jobTitle: string;
-  unit: string;
-  datesStartDateEnd: string;
-  aptSalary: string;
-  comments: string;
+  electronicAddress: string;
+  electronicType: string;
+  source: string;
+  emailOptions: string;
   dfkv: string;
   dlkv: string;
-  dlvk: string;
   dmi: string;
   options: string;
 }

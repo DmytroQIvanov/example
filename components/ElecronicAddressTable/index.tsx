@@ -58,35 +58,13 @@ function stableSort<T>(
 const rows: IRowsPersonEmploymentTable[] = [
   {
     id: "1",
-    jobTitle: "DNMAJ-ADUH-NADMі",
-    campus: "smth",
-    source: "string1",
-    unit: "string1",
-    dateStart: "01/03/2021",
-    dateEnd: "02/03/2021",
-    apt: "50 %",
-    salary: "23.424141",
-    comments:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-    dfkv: "01/02/2021",
-    dlkv: "string1",
-    dmi: "02/03/2013",
-  },
-  {
-    id: "2",
-    jobTitle: "DNMAJ-ADUH-NADM",
-    campus: "smth",
-    source: "string1",
-    unit: "string1",
-    dateStart: "01/02/2021",
-    dateEnd: "02/03/2021",
-    apt: "50 %",
-    salary: "23.424141",
-    comments:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-    dfkv: "01/02/2021",
-    dlkv: "string1",
-    dmi: "02/03/2013",
+    electronicAddress: "msalvador@school.edu",
+    electronicType: "University Email",
+    source: "U.List",
+    emailOptions: true,
+    dfkv: "01/01/2021",
+    dlkv: "01/01/2022",
+    dmi: "01/01/2022",
   },
 ];
 
@@ -98,30 +76,24 @@ interface HeadCell {
 }
 const headCells: readonly HeadCell[] = [
   {
-    id: "jobTitle",
-    numeric: true,
-    label: "Job Title",
+    id: "electronicAddress",
+    numeric: false,
+    label: "Electronic Address",
   },
   {
-    id: "unit",
+    id: "electronicType",
     numeric: false,
-    label: "Unit",
+    label: "Electronic Type",
   },
   {
-    id: "datesStartDateEnd",
+    id: "source",
     numeric: false,
-    label: "Dates Start  Dates End",
+    label: "Source",
   },
   {
-    id: "aptSalary",
+    id: "emailOptions",
     numeric: false,
-    label: "Apt % / \n Salary",
-  },
-  {
-    id: "comments",
-    numeric: false,
-    label: "Comments",
-    width: "400px",
+    label: "Email Options",
   },
   {
     id: "dfkv",
@@ -190,10 +162,10 @@ export function EnhancedTableHead(props: EnhancedTableProps) {
     </TableHead>
   );
 }
-const PersonEmploymentTable = () => {
+const Index = () => {
   const [order, setOrder] = React.useState<Order>("asc");
   const [orderBy, setOrderBy] =
-    React.useState<keyof IRowsPersonEmploymentTable>("jobTitle");
+    React.useState<keyof IRowsPersonEmploymentTable>("electronicAddress");
 
   const handleRequestSort = (
     _: any,
@@ -248,4 +220,4 @@ const PersonEmploymentTable = () => {
   );
 };
 
-export default React.memo(PersonEmploymentTable);
+export default React.memo(Index);

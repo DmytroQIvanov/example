@@ -58,30 +58,10 @@ function stableSort<T>(
 const rows: IRowsPersonEmploymentTable[] = [
   {
     id: "1",
-    jobTitle: "DNMAJ-ADUH-NADMі",
-    campus: "smth",
-    source: "string1",
-    unit: "string1",
-    dateStart: "01/03/2021",
-    dateEnd: "02/03/2021",
-    apt: "50 %",
-    salary: "23.424141",
-    comments:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-    dfkv: "01/02/2021",
-    dlkv: "string1",
-    dmi: "02/03/2013",
-  },
-  {
-    id: "2",
-    jobTitle: "DNMAJ-ADUH-NADM",
-    campus: "smth",
-    source: "string1",
-    unit: "string1",
-    dateStart: "01/02/2021",
-    dateEnd: "02/03/2021",
-    apt: "50 %",
-    salary: "23.424141",
+    phoneNumber: "(408) 702-0623",
+    cell: "Cell",
+    card: "card",
+    doNotCallDate: "01/01/2021",
     comments:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
     dfkv: "01/02/2021",
@@ -98,24 +78,24 @@ interface HeadCell {
 }
 const headCells: readonly HeadCell[] = [
   {
-    id: "jobTitle",
+    id: "phoneNumber",
     numeric: true,
-    label: "Job Title",
+    label: "Phone Number",
   },
   {
-    id: "unit",
+    id: "phonyType",
     numeric: false,
-    label: "Unit",
+    label: "Phone Type",
   },
   {
-    id: "datesStartDateEnd",
+    id: "infoSource",
     numeric: false,
-    label: "Dates Start  Dates End",
+    label: "Info Source",
   },
   {
-    id: "aptSalary",
+    id: "doNotCallDate",
     numeric: false,
-    label: "Apt % / \n Salary",
+    label: "Do Not Call Date",
   },
   {
     id: "comments",
@@ -144,7 +124,18 @@ const headCells: readonly HeadCell[] = [
     label: "Options",
   },
 ];
-
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  maxWidth: "90vw",
+  maxHeight: "90vh",
+  bgcolor: "background.paper",
+  overflow: "scroll",
+  boxShadow: 24,
+  p: 4,
+};
 interface EnhancedTableProps {
   onRequestSort: (
     event: React.MouseEvent<unknown>,
@@ -190,7 +181,7 @@ export function EnhancedTableHead(props: EnhancedTableProps) {
     </TableHead>
   );
 }
-const PersonEmploymentTable = () => {
+const PhoneTable = () => {
   const [order, setOrder] = React.useState<Order>("asc");
   const [orderBy, setOrderBy] =
     React.useState<keyof IRowsPersonEmploymentTable>("jobTitle");
@@ -248,4 +239,4 @@ const PersonEmploymentTable = () => {
   );
 };
 
-export default React.memo(PersonEmploymentTable);
+export default React.memo(PhoneTable);

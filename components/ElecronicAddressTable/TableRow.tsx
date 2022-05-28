@@ -63,78 +63,32 @@ const TableRowComponent: React.FC<{
         <Box>
           {EditableBlock({
             ...SummaryObject,
-            name: "jobTitle",
-            type: "dropdown",
-            itemsArray: dropArray,
-            title: "Job Title",
+            name: "electronicAddress",
+            title: "Electronic Address",
           })}
-        </Box>
-        <Box sx={{ display: "flex", mt: "25px" }}>
-          <Box>
-            Campus:
-            {EditableBlock({
-              ...SummaryObject,
-              name: "campus",
-              type: "dropdown",
-              itemsArray: dropArray,
-              className: styles.blueInput,
-            })}
-          </Box>
-          <Box sx={{ ml: "20px" }}>
-            Source:
-            {EditableBlock({
-              ...SummaryObject,
-              name: "source",
-              type: "dropdown",
-              itemsArray: dropArray,
-            })}
-          </Box>
         </Box>
       </TableCell>
       <TableCell width={"150px"}>
-        {EditableBlock({ ...SummaryObject, name: "unit", title: "Unit" })}
-      </TableCell>
-      <TableCell width={"250px"}>
-        <Box>
-          <Box>
-            {EditableBlock({
-              ...SummaryObject,
-              name: "dataStart",
-              title: "Date start",
-            })}
-          </Box>
-          <Box sx={{ mt: "20px" }}>
-            {EditableBlock({
-              ...SummaryObject,
-              name: "dataEnd",
-              title: "Date end",
-            })}
-          </Box>
-        </Box>
-      </TableCell>
-      <TableCell width={"200px"}>
-        <Box sx={{ display: "flex", flexDirection: "row" }}>
-          <Box>
-            {EditableBlock({ ...SummaryObject, name: "apt", title: "Apt" })}
-          </Box>
-          <Typography sx={{ m: "auto" }}>/</Typography>
-
-          <Box sx={{ ml: "20px" }}>
-            {EditableBlock({
-              ...SummaryObject,
-              name: "salary",
-              title: "Salary",
-            })}
-          </Box>
-        </Box>
-      </TableCell>
-      <TableCell width={"400px"}>
         {EditableBlock({
           ...SummaryObject,
-          name: "comments",
-          multiline: 6,
-          title: "Comments",
-          width: 100,
+          name: "electronicType",
+          type: "dropdown",
+          itemsArray: dropArray,
+        })}
+      </TableCell>
+
+      <TableCell width={"130px"}>
+        {EditableBlock({
+          ...SummaryObject,
+          name: "source",
+          title: "Source",
+        })}
+      </TableCell>
+      <TableCell width={"130px"}>
+        {EditableBlock({
+          ...SummaryObject,
+          name: "emailOptions",
+          title: "emailOptions",
         })}
       </TableCell>
       <TableCell width={"130px"}>
@@ -142,9 +96,6 @@ const TableRowComponent: React.FC<{
       </TableCell>
       <TableCell width={"130px"}>
         {EditableBlock({ ...SummaryObject, name: "dlkv", title: "DLKV" })}
-        <Button sx={{ backgroundColor: "#3434e0", color: "white", mt: "5px" }}>
-          Validate
-        </Button>
       </TableCell>
       <TableCell width={"130px"}>
         {EditableBlock({

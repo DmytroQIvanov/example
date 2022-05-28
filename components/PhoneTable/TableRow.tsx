@@ -14,8 +14,8 @@ import {
 import TableRow from "@material-ui/core/TableRow";
 
 //STYLES
-import styles from "./PersonEmpoymentTable.module.css";
-
+// import styles from "./PersonEmpoymentTable.module.css";
+import EditableBlock from "../EditableBlock/index";
 //INTERFACES
 import { IRowsPersonEmploymentTable } from "./interfaces";
 
@@ -24,8 +24,6 @@ import EditSharpIcon from "@mui/icons-material/EditSharp";
 import SaveIcon from "@mui/icons-material/Save";
 import CancelIcon from "@mui/icons-material/Cancel";
 import DeleteIcon from "@mui/icons-material/Delete";
-import EditableBlock from "../EditableBlock/index";
-import { UseEditableTable } from "../../hooks/UseEditableTable";
 
 const dropArray = [
   {
@@ -40,15 +38,47 @@ const TableRowComponent: React.FC<{
   row: IRowsPersonEmploymentTable;
   onDelete: (id: string | undefined) => void;
 }> = ({ row, onDelete }) => {
-  const {
-    onCancel,
-    handleChange,
-    editStateBoolean,
-    handleChangeEvent,
-    handleEditableState,
-    onSave,
-    editState,
-  } = UseEditableTable(row);
+  //STATES
+  const [editStateBoolean, setEditStateBoolean] = useState(false);
+  const [rowState, setRowState] = useState(row);
+  const [editState, setEditState] = useState<typeof row>(row);
+
+  //HANDLERS
+  const handleEditableState = () => {
+    setEditStateBoolean((prevState) => !prevState);
+  };
+  const handleChangeEvent = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setEditState((prevState) => {
+      return {
+        ...prevState,
+        [name]: value,
+      };
+    });
+  };
+  const handleChange = (name: string, text: string | number) => {
+    setEditState((prevState) => {
+      return {
+        ...prevState,
+        [name]: text.toString(),
+      };
+    });
+  };
+  const onSave = () => {
+    setRowState(editState);
+    setEditStateBoolean(false);
+  };
+  const onCancel = () => {
+    setEditState(rowState);
+    setEditStateBoolean(false);
+  };
+  useEffect(() => {
+    setRowState(row);
+  }, [row]);
+
+  useEffect(() => {
+    setEditState(rowState);
+  }, [editStateBoolean]);
 
   const SummaryObject = {
     handleChangeEvent,
@@ -59,73 +89,44 @@ const TableRowComponent: React.FC<{
   };
   return (
     <TableRow>
-      <TableCell component="th" scope="row" width={"300px"}>
+      <TableCell component="th" scope="row" width={"270px"}>
         <Box>
           {EditableBlock({
             ...SummaryObject,
-            name: "jobTitle",
-            type: "dropdown",
-            itemsArray: dropArray,
-            title: "Job Title",
+            name: "phoneNumber",
+            title: "Phone Number",
           })}
         </Box>
-        <Box sx={{ display: "flex", mt: "25px" }}>
-          <Box>
-            Campus:
-            {EditableBlock({
-              ...SummaryObject,
-              name: "campus",
-              type: "dropdown",
-              itemsArray: dropArray,
-              className: styles.blueInput,
-            })}
-          </Box>
-          <Box sx={{ ml: "20px" }}>
-            Source:
-            {EditableBlock({
-              ...SummaryObject,
-              name: "source",
-              type: "dropdown",
-              itemsArray: dropArray,
-            })}
-          </Box>
-        </Box>
+        <Box sx={{ display: "flex", mt: "25px" }}></Box>
       </TableCell>
       <TableCell width={"150px"}>
-        {EditableBlock({ ...SummaryObject, name: "unit", title: "Unit" })}
+        {EditableBlock({
+          ...SummaryObject,
+          name: "phoneType",
+          type: "dropdown",
+          itemsArray: dropArray,
+        })}
       </TableCell>
       <TableCell width={"250px"}>
         <Box>
           <Box>
             {EditableBlock({
               ...SummaryObject,
-              name: "dataStart",
-              title: "Date start",
-            })}
-          </Box>
-          <Box sx={{ mt: "20px" }}>
-            {EditableBlock({
-              ...SummaryObject,
-              name: "dataEnd",
-              title: "Date end",
+              name: "card",
+              type: "dropdown",
+              itemsArray: dropArray,
             })}
           </Box>
         </Box>
       </TableCell>
       <TableCell width={"200px"}>
         <Box sx={{ display: "flex", flexDirection: "row" }}>
-          <Box>
-            {EditableBlock({ ...SummaryObject, name: "apt", title: "Apt" })}
-          </Box>
-          <Typography sx={{ m: "auto" }}>/</Typography>
-
-          <Box sx={{ ml: "20px" }}>
-            {EditableBlock({
-              ...SummaryObject,
-              name: "salary",
-              title: "Salary",
-            })}
-          </Box>
+          {EditableBlock({
+            ...SummaryObject,
+            name: "doNotCallDate",
+            title: "Do Not Call Date",
+            checkBox: { label: "Do Not Call" },
+          })}
         </Box>
       </TableCell>
       <TableCell width={"400px"}>
@@ -138,13 +139,19 @@ const TableRowComponent: React.FC<{
         })}
       </TableCell>
       <TableCell width={"130px"}>
-        {EditableBlock({ ...SummaryObject, name: "dfkv", title: "DFKV" })}
+        {EditableBlock({
+          ...SummaryObject,
+          name: "dfkv",
+          title: "DFKV",
+        })}
       </TableCell>
       <TableCell width={"130px"}>
-        {EditableBlock({ ...SummaryObject, name: "dlkv", title: "DLKV" })}
-        <Button sx={{ backgroundColor: "#3434e0", color: "white", mt: "5px" }}>
-          Validate
-        </Button>
+        {EditableBlock({
+          ...SummaryObject,
+          name: "dlkv",
+          title: "DLKV",
+          validate: {},
+        })}
       </TableCell>
       <TableCell width={"130px"}>
         {EditableBlock({

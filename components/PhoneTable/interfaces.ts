@@ -1,13 +1,9 @@
 interface IRowsPersonEmploymentTable {
   id: string;
-  jobTitle: string;
-  campus: string;
-  source: string;
-  unit: string;
-  dateStart: string;
-  dateEnd: string;
-  apt: string;
-  salary: string;
+  phoneNumber: string;
+  cell: string;
+  card: string;
+  doNotCallDate: string;
   comments: string;
   dfkv: string;
   dlkv: string;
@@ -16,14 +12,13 @@ interface IRowsPersonEmploymentTable {
 }
 interface IColumnsPersonEmploymentTable {
   id: string;
-  jobTitle: string;
-  unit: string;
-  datesStartDateEnd: string;
-  aptSalary: string;
+  phoneNumber: string;
+  phonyType: string;
+  infoSource: string;
+  doNotCallDate: string;
   comments: string;
   dfkv: string;
   dlkv: string;
-  dlvk: string;
   dmi: string;
   options: string;
 }
