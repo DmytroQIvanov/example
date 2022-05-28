@@ -9,6 +9,9 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
 interface propsBlockWithState {
   title?: string;
@@ -16,7 +19,7 @@ interface propsBlockWithState {
   disabled?: boolean;
   width?: number;
   itemsArray?: { label: string }[];
-  type?: "textField" | "dropdown";
+  type?: "textField" | "dropdown" | "date" | "checkBox";
   multiline?: number;
   editStateBoolean: boolean;
   summaryState: { [index: string]: any };
@@ -51,6 +54,74 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
 
   ...inputParams
 }) => {
+  const Component = () => {
+    switch (type) {
+      case "textField":
+        return (
+          <TextField
+            fullWidth={width ? true : false}
+            onChange={handleChangeEvent}
+            name={name}
+            variant="outlined"
+            value={summaryState[name]}
+            multiline={multiline ? true : false}
+            rows={multiline}
+            size={"small"}
+            {...inputParams}
+          />
+        );
+
+      case "dropdown":
+        return (
+          <Autocomplete
+            disablePortal
+            options={itemsArray && itemsArray}
+            fullWidth={width ? true : false}
+            {...inputParams}
+            value={{ label: summaryState[name] }}
+            onChange={(
+              event: any,
+              newValue: { label: string | number } | null
+            ) => {
+              if (newValue !== null) handleChange(name, newValue.label);
+            }}
+            renderInput={(params) => (
+              <TextField {...params} size={"small"} label={""} name={name} />
+            )}
+          />
+        );
+      case "date":
+        return (
+          <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <DatePicker
+              label="Basic example"
+              // value={value}
+              // onChange={(newValue) => {
+              //   setValue(newValue);
+
+              renderInput={(params) => <TextField {...params} />}
+            />
+          </LocalizationProvider>
+        );
+      case "checkBox":
+        return <Checkbox />;
+      default:
+        return (
+          <TextField
+            fullWidth={width ? true : false}
+            onChange={handleChangeEvent}
+            name={name}
+            variant="outlined"
+            value={summaryState[name]}
+            multiline={multiline ? true : false}
+            rows={multiline}
+            size={"small"}
+            {...inputParams}
+          />
+        );
+    }
+  };
+
   return (
     <Box>
       <Grid container direction="column" position="relative">
@@ -69,41 +140,8 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
         </Grid>
         <Grid item width={width && `${width}%`}>
           {editStateBoolean ? (
-            type === "dropdown" && itemsArray && itemsArray.length >= 1 ? (
-              <Autocomplete
-                disablePortal
-                options={itemsArray && itemsArray}
-                fullWidth={width ? true : false}
-                {...inputParams}
-                value={{ label: summaryState[name] }}
-                onChange={(
-                  event: any,
-                  newValue: { label: string | number } | null
-                ) => {
-                  if (newValue !== null) handleChange(name, newValue.label);
-                }}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    size={"small"}
-                    label={""}
-                    name={name}
-                  />
-                )}
-              />
-            ) : (
-              <TextField
-                fullWidth={width ? true : false}
-                onChange={handleChangeEvent}
-                name={name}
-                variant="outlined"
-                value={summaryState[name]}
-                multiline={multiline ? true : false}
-                rows={multiline}
-                size={"small"}
-                {...inputParams}
-              />
-            )
+            // type === "dropdown" && itemsArray && itemsArray.length >= 1 ? (
+            <Component />
           ) : (
             <Typography mt={0.8}>{summaryState[name]}</Typography>
           )}

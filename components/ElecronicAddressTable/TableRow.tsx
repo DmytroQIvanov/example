@@ -24,7 +24,7 @@ import EditSharpIcon from "@mui/icons-material/EditSharp";
 import SaveIcon from "@mui/icons-material/Save";
 import CancelIcon from "@mui/icons-material/Cancel";
 import DeleteIcon from "@mui/icons-material/Delete";
-import EditableBlock from "../EditableBlock/index";
+import EditableBlock from "../TablesComponents/EditableBlock/index";
 import { UseEditableTable } from "../../hooks/UseEditableTable";
 
 const dropArray = [
