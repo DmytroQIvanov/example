@@ -170,7 +170,7 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
             control={<Checkbox />}
             label={checkBox.label}
             labelPlacement="start"
-            sx={{ m: "auto" }}
+            // sx={{ ml: "auto" }}
           />
         </Box>
       )}

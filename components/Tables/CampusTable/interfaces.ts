@@ -1,29 +1,29 @@
 interface IRowsPersonEmploymentTable {
   id: string;
   campus: string;
-  source: string;
-  unit: string;
-  dateStart: string;
-  dateEnd: string;
-  apt: string;
-  salary: string;
+  superArea: string;
+  area: string;
+  turf: string;
+  informationSource: string;
+  suppress: boolean;
+  pi: boolean;
   comments: string;
   dfkv: string;
   dlkv: string;
   dmi: string;
-  options?: string;
 }
 interface IColumnsPersonEmploymentTable {
   id: string;
   campus: string;
-  organization: string;
+  superAreaArea: string;
+  turf: string;
   informationSource: string;
-  primary: string;
+  suppress: string;
+  pi: string;
   comments: string;
   dfkv: string;
   dlkv: string;
   dmi: string;
-  options: string;
 }
 
 export type { IRowsPersonEmploymentTable, IColumnsPersonEmploymentTable };

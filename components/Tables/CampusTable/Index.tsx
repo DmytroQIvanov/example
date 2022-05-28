@@ -58,30 +58,13 @@ function stableSort<T>(
 const rows: IRowsPersonEmploymentTable[] = [
   {
     id: "1",
-    jobTitle: "DNMAJ-ADUH-NADMі",
-    campus: "smth",
-    source: "string1",
-    unit: "string1",
-    dateStart: "01/03/2021",
-    dateEnd: "02/03/2021",
-    apt: "50 %",
-    salary: "23.424141",
-    comments:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-    dfkv: "01/02/2021",
-    dlkv: "string1",
-    dmi: "02/03/2013",
-  },
-  {
-    id: "2",
-    jobTitle: "DNMAJ-ADUH-NADM",
-    campus: "smth",
-    source: "string1",
-    unit: "string1",
-    dateStart: "01/02/2021",
-    dateEnd: "02/03/2021",
-    apt: "50 %",
-    salary: "23.424141",
+    campus: "Los Angeles",
+    area: "Phyiscs",
+    superArea: "2810 Cohort",
+    turf: "Josh Kenshall",
+    suppress: true,
+    pi: true,
+    informationSource: "smth",
     comments:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
     dfkv: "01/02/2021",
@@ -94,34 +77,47 @@ interface HeadCell {
   id: keyof IColumnsPersonEmploymentTable;
   label: string;
   numeric: boolean;
+  secondLabel?: string;
   width?: string;
 }
 const headCells: readonly HeadCell[] = [
   {
-    id: "jobTitle",
+    id: "campus",
     numeric: true,
-    label: "Job Title",
+    label: "Campus",
   },
   {
-    id: "unit",
+    id: "superAreaArea",
     numeric: false,
-    label: "Unit",
+    label: "Super Area",
+    secondLabel: "Area",
   },
   {
-    id: "datesStartDateEnd",
+    id: "turf",
     numeric: false,
-    label: "Dates Start  Dates End",
+    label: "Turf",
   },
   {
-    id: "aptSalary",
+    id: "informationSource",
     numeric: false,
-    label: "Apt % / \n Salary",
+    label: "Information Source",
   },
+  {
+    id: "suppress",
+    numeric: false,
+    label: "Suppress",
+  },
+
+  {
+    id: "pi",
+    numeric: false,
+    label: "PI",
+  },
+
   {
     id: "comments",
     numeric: false,
     label: "Comments",
-    width: "400px",
   },
   {
     id: "dfkv",
@@ -137,11 +133,6 @@ const headCells: readonly HeadCell[] = [
     id: "dmi",
     numeric: false,
     label: "DMI",
-  },
-  {
-    id: "options",
-    numeric: false,
-    label: "Options",
   },
 ];
 
@@ -176,8 +167,21 @@ export function EnhancedTableHead(props: EnhancedTableProps) {
               active={orderBy === headCell.id}
               direction={orderBy === headCell.id ? order : "asc"}
               onClick={createSortHandler(headCell.id)}
+              sx={{
+                flexDirection: "column",
+                alignContent: "flex-start",
+                ml: "0px",
+              }}
             >
-              {headCell.label}
+              <Box>
+                {headCell.label}
+                {headCell.secondLabel && (
+                  <>
+                    <br /> {headCell.secondLabel}
+                  </>
+                )}
+              </Box>
+
               {orderBy === headCell.id ? (
                 <Box component="span" sx={visuallyHidden}>
                   {order === "desc" ? "sorted descending" : "sorted ascending"}
@@ -190,10 +194,10 @@ export function EnhancedTableHead(props: EnhancedTableProps) {
     </TableHead>
   );
 }
-const PersonEmploymentTable = () => {
+const CampusTable = () => {
   const [order, setOrder] = React.useState<Order>("asc");
   const [orderBy, setOrderBy] =
-    React.useState<keyof IRowsPersonEmploymentTable>("jobTitle");
+    React.useState<keyof IRowsPersonEmploymentTable>("campus");
 
   const handleRequestSort = (
     _: any,
@@ -248,4 +252,4 @@ const PersonEmploymentTable = () => {
   );
 };
 
-export default React.memo(PersonEmploymentTable);
+export default React.memo(CampusTable);

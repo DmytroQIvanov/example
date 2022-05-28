@@ -1,10 +1,10 @@
 import React from "react";
-import PhoneTable from "../../components/Tables/PhoneTable";
+import CampusTable from "../../components/Tables/CampusTable/Index";
 
 export default function Index() {
   return (
     <div>
-      <PhoneTable />
+      <CampusTable />
     </div>
   );
 }

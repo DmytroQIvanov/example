@@ -13,9 +13,6 @@ import {
 } from "@mui/material";
 import TableRow from "@material-ui/core/TableRow";
 
-//STYLES
-import styles from "./PersonEmpoymentTable.module.css";
-
 //INTERFACES
 import { IRowsPersonEmploymentTable } from "./interfaces";
 
@@ -24,8 +21,8 @@ import EditSharpIcon from "@mui/icons-material/EditSharp";
 import SaveIcon from "@mui/icons-material/Save";
 import CancelIcon from "@mui/icons-material/Cancel";
 import DeleteIcon from "@mui/icons-material/Delete";
-import EditableBlock from "../TablesComponents/EditableBlock/index";
-import { UseEditableTable } from "../../hooks/UseEditableTable";
+import EditableBlock from "../TablesComponents/EditableBlock";
+import { UseEditableTable } from "../../../hooks/UseEditableTable";
 import OptionsBlock from "../TablesComponents/OptionsBlock";
 
 const dropArray = [

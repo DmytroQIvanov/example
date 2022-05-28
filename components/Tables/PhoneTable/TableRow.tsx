@@ -14,8 +14,8 @@ import {
 import TableRow from "@material-ui/core/TableRow";
 
 //STYLES
-import styles from "./PersonEmpoymentTable.module.css";
-
+// import styles from "./PersonEmpoymentTable.module.css";
+import EditableBlock from "../TablesComponents/EditableBlock";
 //INTERFACES
 import { IRowsPersonEmploymentTable } from "./interfaces";
 
@@ -24,8 +24,8 @@ import EditSharpIcon from "@mui/icons-material/EditSharp";
 import SaveIcon from "@mui/icons-material/Save";
 import CancelIcon from "@mui/icons-material/Cancel";
 import DeleteIcon from "@mui/icons-material/Delete";
-import EditableBlock from "../Tables/TablesComponents/EditableBlock/index";
-import { UseEditableTable } from "../../hooks/UseEditableTable";
+import { UseEditableTable } from "../../../hooks/UseEditableTable";
+import OptionsBlock from "../TablesComponents/OptionsBlock";
 
 const dropArray = [
   {
@@ -48,6 +48,8 @@ const TableRowComponent: React.FC<{
     handleEditableState,
     onSave,
     editState,
+    validateState,
+    onChangeValidateState,
   } = UseEditableTable(row);
 
   const SummaryObject = {
@@ -58,44 +60,70 @@ const TableRowComponent: React.FC<{
     titleVisibly: false,
   };
   return (
-    <TableRow>
-      <TableCell component="th" scope="row" width={"300px"}>
+    <TableRow style={!validateState ? { backgroundColor: "#ececec" } : {}}>
+      <TableCell component="th" scope="row" width={"270px"}>
         <Box>
           {EditableBlock({
             ...SummaryObject,
-            name: "electronicAddress",
-            title: "Electronic Address",
+            name: "phoneNumber",
+            title: "Phone Number",
           })}
         </Box>
+        <Box sx={{ display: "flex", mt: "25px" }}></Box>
       </TableCell>
       <TableCell width={"150px"}>
         {EditableBlock({
           ...SummaryObject,
-          name: "electronicType",
+          name: "phoneType",
           type: "dropdown",
           itemsArray: dropArray,
         })}
       </TableCell>
-
-      <TableCell width={"130px"}>
+      <TableCell width={"250px"}>
+        <Box>
+          <Box>
+            {EditableBlock({
+              ...SummaryObject,
+              name: "card",
+              type: "dropdown",
+              itemsArray: dropArray,
+            })}
+          </Box>
+        </Box>
+      </TableCell>
+      <TableCell width={"200px"}>
+        <Box sx={{ display: "flex", flexDirection: "row" }}>
+          {EditableBlock({
+            ...SummaryObject,
+            name: "doNotCallDate",
+            title: "Do Not Call Date",
+            checkBox: { label: "Do Not Call" },
+          })}
+        </Box>
+      </TableCell>
+      <TableCell width={"400px"}>
         {EditableBlock({
           ...SummaryObject,
-          name: "source",
-          title: "Source",
+          name: "comments",
+          multiline: 6,
+          title: "Comments",
+          width: 100,
         })}
       </TableCell>
       <TableCell width={"130px"}>
         {EditableBlock({
           ...SummaryObject,
-          name: "emailOptions",
-          title: "emailOptions",
+          name: "dfkv",
+          title: "DFKV",
         })}
       </TableCell>
       <TableCell width={"130px"}>
-        {EditableBlock({ ...SummaryObject, name: "dfkv", title: "DFKV" })}
-      </TableCell>
-      <TableCell width={"130px"}>
-        {EditableBlock({ ...SummaryObject, name: "dlkv", title: "DLKV" })}
+        {EditableBlock({
+          ...SummaryObject,
+          name: "dlkv",
+          title: "DLKV",
+          validate: { onClick: onChangeValidateState },
+        })}
       </TableCell>
       <TableCell width={"130px"}>
         {EditableBlock({
@@ -106,25 +134,15 @@ const TableRowComponent: React.FC<{
         })}
       </TableCell>
       <TableCell width={"130px"}>
-        {editStateBoolean ? (
-          <Box sx={{ mt: "20px" }}>
-            <SaveIcon onClick={onSave} sx={{ cursor: "pointer", mr: "10px" }} />
-            <CancelIcon onClick={onCancel} sx={{ cursor: "pointer" }} />
-          </Box>
-        ) : (
-          <>
-            <EditSharpIcon
-              onClick={handleEditableState}
-              sx={{ cursor: "pointer", mr: "10px" }}
-            />
-            <DeleteIcon
-              onClick={() => {
-                onDelete(row.id);
-              }}
-              sx={{ cursor: "pointer" }}
-            />
-          </>
-        )}
+        <OptionsBlock
+          editStateBoolean={editStateBoolean}
+          onSave={onSave}
+          onCancel={onCancel}
+          handleEditableState={handleEditableState}
+          onDelete={onDelete}
+          id={row.id}
+          validateState={validateState}
+        />
       </TableCell>
     </TableRow>
   );

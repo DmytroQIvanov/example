@@ -13,6 +13,9 @@ import {
 } from "@mui/material";
 import TableRow from "@material-ui/core/TableRow";
 
+//STYLES
+import styles from "./PersonEmpoymentTable.module.css";
+
 //INTERFACES
 import { IRowsPersonEmploymentTable } from "./interfaces";
 
@@ -21,8 +24,8 @@ import EditSharpIcon from "@mui/icons-material/EditSharp";
 import SaveIcon from "@mui/icons-material/Save";
 import CancelIcon from "@mui/icons-material/Cancel";
 import DeleteIcon from "@mui/icons-material/Delete";
-import EditableBlock from "../TablesComponents/EditableBlock/index";
-import { UseEditableTable } from "../../hooks/UseEditableTable";
+import EditableBlock from "../TablesComponents/EditableBlock";
+import { UseEditableTable } from "../../../hooks/UseEditableTable";
 import OptionsBlock from "../TablesComponents/OptionsBlock";
 
 const dropArray = [
@@ -63,79 +66,43 @@ const TableRowComponent: React.FC<{
         <Box>
           {EditableBlock({
             ...SummaryObject,
-            name: "jobTitle",
+            name: "campus",
             type: "dropdown",
             itemsArray: dropArray,
-            title: "Job Title",
           })}
         </Box>
-        <Box sx={{ display: "flex", mt: "25px" }}>
-          <Box>
-            Campus:
-            {EditableBlock({
-              ...SummaryObject,
-              name: "campus",
-              type: "dropdown",
-              itemsArray: dropArray,
-            })}
-          </Box>
-          <Box sx={{ ml: "20px" }}>
-            Source:
-            {EditableBlock({
-              ...SummaryObject,
-              name: "source",
-              type: "dropdown",
-              itemsArray: dropArray,
-            })}
-          </Box>
+      </TableCell>
+      <TableCell component="th" scope="row" width={"300px"}>
+        <Box>
+          {EditableBlock({
+            ...SummaryObject,
+            name: "organization1",
+            type: "dropdown",
+            itemsArray: dropArray,
+          })}
+        </Box>
+        <Box sx={{ mt: "20px" }}>
+          {EditableBlock({
+            ...SummaryObject,
+            name: "organization1",
+            type: "dropdown",
+            itemsArray: dropArray,
+          })}
         </Box>
       </TableCell>
       <TableCell width={"150px"}>
-        {EditableBlock({ ...SummaryObject, name: "unit", title: "Unit" })}
+        {EditableBlock({
+          ...SummaryObject,
+          name: "informationSource",
+        })}
       </TableCell>
-      <TableCell width={"250px"}>
-        <Box>
-          <Box>
-            {EditableBlock({
-              ...SummaryObject,
-              name: "dataStart",
-              title: "Date start",
-            })}
-          </Box>
-          <Box sx={{ mt: "20px" }}>
-            {EditableBlock({
-              ...SummaryObject,
-              name: "dataEnd",
-              title: "Date end",
-            })}
-          </Box>
-        </Box>
-      </TableCell>
-      <TableCell width={"200px"}>
-        <Box sx={{ display: "flex", flexDirection: "row" }}>
-          <Box sx={{ position: "relative" }}>
-            {EditableBlock({ ...SummaryObject, name: "apt", title: "Apt" })}
-            <Box
-              sx={{
-                position: "absolute",
-                right: "-13px",
-                transform: "translateY(-50%)",
-                top: editStateBoolean ? "70%" : "66%",
-                fontSize: "22px",
-              }}
-            >
-              /
-            </Box>
-          </Box>
-
-          <Box sx={{ ml: "20px" }}>
-            {EditableBlock({
-              ...SummaryObject,
-              name: "salary",
-              title: "Salary",
-            })}
-          </Box>
-        </Box>
+      <TableCell width={"100px"}>
+        {EditableBlock({
+          ...SummaryObject,
+          name: "primary",
+          title: "Primary",
+          type: "checkBox",
+        })}
       </TableCell>
       <TableCell width={"400px"}>
         {EditableBlock({
@@ -153,15 +120,14 @@ const TableRowComponent: React.FC<{
         {EditableBlock({
           ...SummaryObject,
           name: "dlkv",
-          title: "DLKV",
           validate: { label: "validate", onClick: onChangeValidateState },
         })}
       </TableCell>
-      <TableCell width={"130px"}>
+      <TableCell width={"220px"}>
         {EditableBlock({
           ...SummaryObject,
           name: "dmi",
-          title: "DMI",
+          type: "date",
           checkBox: { label: "Invalidate" },
         })}
       </TableCell>
