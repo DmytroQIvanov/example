@@ -29,7 +29,7 @@ interface propsBlockWithState {
   className?: string;
   checkBox?: {
     label?: string;
-    textVariants: { trueVariant: string; falseVariant: string };
+    textVariants?: { trueVariant: string; falseVariant: string };
     type?: "green" | "default";
   };
   validate?: {
@@ -154,9 +154,13 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
             mt={0.8}
             style={checkBox?.type == "green" ? { color: "green" } : {}}
           >
-            {summaryState[name]
-              ? checkBox?.textVariants.trueVariant
-              : checkBox?.textVariants.falseVariant}
+            {checkBox?.textVariants
+              ? summaryState[name]
+                ? checkBox?.textVariants.trueVariant
+                : checkBox?.textVariants.falseVariant
+              : summaryState[name]
+              ? "Yes"
+              : "N/A"}
           </Typography>
         );
       default:
@@ -196,7 +200,7 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
               // ml: "-2px",
               mt: "5px",
             }}
-            onClick={validate.onClick && validate.onClick}
+            onClick={validate.onClick ? validate.onClick : console.log}
           >
             {validate.label ? validate.label : "Validate"}
           </Button>
