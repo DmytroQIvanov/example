@@ -66,72 +66,21 @@ const TableRowComponent: React.FC<{
         <Box>
           {EditableBlock({
             ...SummaryObject,
-            name: "campus",
-            type: "dropdown",
-            itemsArray: dropArray,
+            name: "date",
           })}
         </Box>
       </TableCell>
-      <TableCell component="th" scope="row" width={"300px"}>
-        <Box>
-          {EditableBlock({
-            ...SummaryObject,
-            name: "organization1",
-            type: "dropdown",
-            itemsArray: dropArray,
-          })}
-        </Box>
-        <Box sx={{ mt: "20px" }}>
-          {EditableBlock({
-            ...SummaryObject,
-            name: "organization1",
-            type: "dropdown",
-            itemsArray: dropArray,
-          })}
-        </Box>
-      </TableCell>
-      <TableCell width={"150px"}>
-        {EditableBlock({
-          ...SummaryObject,
-          name: "informationSource",
-        })}
-      </TableCell>
-      <TableCell width={"100px"}>
-        {EditableBlock({
-          ...SummaryObject,
-          name: "primary",
-          type: "checkBox",
-          checkBox: {
-            type: "green",
-            textVariants: { trueVariant: "YES", falseVariant: "NO" },
-          },
-        })}
-      </TableCell>
-      <TableCell width={"400px"}>
+      <TableCell component="th" scope="row" width={"600px"}>
         {EditableBlock({
           ...SummaryObject,
           name: "comments",
-          multiline: 6,
-          // title: "Comments",
-          width: 100,
+          width: "100",
         })}
       </TableCell>
-      <TableCell width={"130px"}>
-        {EditableBlock({ ...SummaryObject, name: "dfkv", title: "DFKV" })}
-      </TableCell>
-      <TableCell width={"130px"}>
+      <TableCell width={"200px"}>
         {EditableBlock({
           ...SummaryObject,
-          name: "dlkv",
-          validate: { label: "validate", onClick: onChangeValidateState },
-        })}
-      </TableCell>
-      <TableCell width={"220px"}>
-        {EditableBlock({
-          ...SummaryObject,
-          name: "dmi",
-          type: "date",
-          checkBox: { label: "Invalidate" },
+          name: "createdBy",
         })}
       </TableCell>
       <TableCell width={"130px"}>

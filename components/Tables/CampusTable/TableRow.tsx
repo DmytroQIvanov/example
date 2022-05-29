@@ -22,7 +22,6 @@ import { IRowsPersonEmploymentTable } from "./interfaces";
 //ICONS
 import EditableBlock from "../TablesComponents/EditableBlock";
 import { UseEditableTable } from "../../../hooks/UseEditableTable";
-import OptionsBlock from "../TablesComponents/OptionsBlock";
 
 const dropArray = [
   {
@@ -106,6 +105,9 @@ const TableRowComponent: React.FC<{
           ...SummaryObject,
           name: "suppress",
           type: "checkBox",
+          checkBox: {
+            textVariants: { trueVariant: "Yes", falseVariant: "No" },
+          },
         })}
       </TableCell>
 
@@ -114,6 +116,9 @@ const TableRowComponent: React.FC<{
           ...SummaryObject,
           name: "pi",
           type: "checkBox",
+          checkBox: {
+            textVariants: { trueVariant: "Yes", falseVariant: "No" },
+          },
         })}
       </TableCell>
 

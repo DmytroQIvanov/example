@@ -81,27 +81,34 @@ const TableRowComponent: React.FC<{
         {EditableBlock({
           ...SummaryObject,
           name: "source",
-          title: "Source",
+          type: "dropdown",
+          itemsArray: dropArray,
         })}
       </TableCell>
       <TableCell width={"130px"}>
         {EditableBlock({
           ...SummaryObject,
           name: "emailOptions",
-          title: "emailOptions",
+          type: "checkBox",
+          checkBox: {
+            type: "green",
+            textVariants: {
+              falseVariant: "No",
+              trueVariant: "Preffered",
+            },
+          },
         })}
       </TableCell>
       <TableCell width={"130px"}>
-        {EditableBlock({ ...SummaryObject, name: "dfkv", title: "DFKV" })}
+        {EditableBlock({ ...SummaryObject, name: "dfkv" })}
       </TableCell>
       <TableCell width={"130px"}>
-        {EditableBlock({ ...SummaryObject, name: "dlkv", title: "DLKV" })}
+        {EditableBlock({ ...SummaryObject, name: "dlkv" })}
       </TableCell>
       <TableCell width={"130px"}>
         {EditableBlock({
           ...SummaryObject,
           name: "dmi",
-          title: "DMI",
           checkBox: { label: "Invalidate" },
         })}
       </TableCell>

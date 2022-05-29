@@ -20,11 +20,14 @@ export const UseEditableTable = (row: any) => {
       };
     });
   };
-  const handleChange = (name: string, text: string | number) => {
+  const handleChange = (
+    name: string,
+    text: string | number | boolean | Date
+  ) => {
     setEditState((prevState) => {
       return {
         ...prevState,
-        [name]: text.toString(),
+        [name]: text,
       };
     });
   };

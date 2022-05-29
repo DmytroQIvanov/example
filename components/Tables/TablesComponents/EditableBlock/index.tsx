@@ -27,12 +27,16 @@ interface propsBlockWithState {
   handleChange: Function;
   style?: CSSProperties;
   className?: string;
-  checkBox?: { onChange: Function; label: string; value: boolean };
+  checkBox?: {
+    label?: string;
+    textVariants: { trueVariant: string; falseVariant: string };
+    type?: "green" | "default";
+  };
   validate?: {
     onClick?: React.MouseEventHandler<HTMLAnchorElement>;
     label?: string;
   };
-  handleChangeEvent: React.ChangeEventHandler<
+  handleChangeEvent?: React.ChangeEventHandler<
     HTMLTextAreaElement | HTMLInputElement
   >;
 }
@@ -72,39 +76,59 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
         );
 
       case "dropdown":
-        return (
-          <Autocomplete
-            disablePortal
-            options={itemsArray && itemsArray}
-            fullWidth={width ? true : false}
-            {...inputParams}
-            value={{ label: summaryState[name] }}
-            onChange={(
-              event: any,
-              newValue: { label: string | number } | null
-            ) => {
-              if (newValue !== null) handleChange(name, newValue.label);
-            }}
-            renderInput={(params) => (
-              <TextField {...params} size={"small"} label={""} name={name} />
-            )}
-          />
-        );
+        if (itemsArray && itemsArray.length >= 1) {
+          return (
+            <Autocomplete
+              disablePortal
+              options={itemsArray && itemsArray}
+              fullWidth={width ? true : false}
+              {...inputParams}
+              value={{ label: summaryState[name] }}
+              onChange={(
+                event: any,
+                newValue: { label: string | number } | null
+              ) => {
+                if (newValue !== null) handleChange(name, newValue.label);
+              }}
+              renderInput={(params) => (
+                <TextField {...params} size={"small"} label={""} name={name} />
+              )}
+            />
+          );
+        } else {
+          return <></>;
+        }
       case "date":
         return (
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <DatePicker
               label="Basic example"
-              // value={value}
-              // onChange={(newValue) => {
-              //   setValue(newValue);
-
+              value={summaryState[name]}
+              onChange={(newValue) => {
+                const month = newValue.getUTCMonth() + 1;
+                const day = newValue.getUTCDate();
+                const year = newValue.getUTCFullYear();
+                handleChange(name, `${day}/${month}/${year}`);
+                // const value = newValue
+                //   .toISOString()
+                //   .replace("-", "/")
+                //   .split("T")[0]
+                //   .replace("-", "/");
+                // handleChange(name, value);
+              }}
               renderInput={(params) => <TextField {...params} />}
             />
           </LocalizationProvider>
         );
       case "checkBox":
-        return <Checkbox />;
+        return (
+          <>
+            <Checkbox
+              checked={summaryState[name]}
+              onChange={(event) => handleChange(name, event.target.checked)}
+            />
+          </>
+        );
       default:
         return (
           <TextField
@@ -119,6 +143,24 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
             {...inputParams}
           />
         );
+    }
+  };
+
+  const TextComponent = () => {
+    switch (type) {
+      case "checkBox":
+        return (
+          <Typography
+            mt={0.8}
+            style={checkBox?.type == "green" ? { color: "green" } : {}}
+          >
+            {summaryState[name]
+              ? checkBox?.textVariants.trueVariant
+              : checkBox?.textVariants.falseVariant}
+          </Typography>
+        );
+      default:
+        return <Typography mt={0.8}>{summaryState[name]}</Typography>;
     }
   };
 
@@ -139,12 +181,7 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
           )}
         </Grid>
         <Grid item width={width && `${width}%`}>
-          {editStateBoolean ? (
-            // type === "dropdown" && itemsArray && itemsArray.length >= 1 ? (
-            <Component />
-          ) : (
-            <Typography mt={0.8}>{summaryState[name]}</Typography>
-          )}
+          {editStateBoolean ? <Component /> : <TextComponent />}
         </Grid>
       </Grid>
       {validate && (
@@ -163,7 +200,7 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
           </Button>
         </Box>
       )}
-      {checkBox && (
+      {checkBox && type !== "checkBox" && (
         <Box sx={{ display: "flex" }}>
           <FormControlLabel
             value="start"
