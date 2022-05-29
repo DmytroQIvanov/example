@@ -14,36 +14,110 @@ const rows: IRowsPersonEmploymentTable[] = [
   {
     id: "1",
 
-    researchComments: "string",
-    date: "string",
-    createdBy: "string",
+    personId: "1Smth",
+    personType: "Smth",
+    firstName: "Smth",
+    superArea: "Smth",
+    locations: "Smth",
+    phones: "Smth",
+    department: "Smth",
+    pi: "Smth",
+    area: "SMTH",
+    card: "Smth",
+    activeUnit: "Smth",
+    leftUC: "Smth",
+    campus: "Smth",
+  },
+  {
+    id: "2",
+    personId: "Smth2",
+    personType: "Smth",
+    firstName: "Smth",
+    lastName: "SMTH",
+    area: "SMTH",
+    superArea: "Smth",
+    locations: "Smth",
+    phones: "Smth",
+    department: "Smth",
+    pi: "Smth",
+    card: "Smth",
+    activeUnit: "Smth",
+    leftUC: "Smth",
+    campus: "Smth",
   },
 ];
 
 const headCells: readonly HeadCell<IColumnsPersonEmploymentTable>[] = [
   {
-    id: "researchComments",
-    label: "Research Comments",
+    id: "personId",
+    label: "Person Id",
   },
   {
-    id: "date",
-    label: "Date",
+    id: "personType",
+    label: "Person Type",
   },
   {
-    id: "createdBy",
-    label: "Created By",
+    id: "firstName",
+    label: "First Name",
   },
 
   {
-    id: "options",
-    label: "Options",
+    id: "lastName",
+    label: "lastName",
+  },
+
+  {
+    id: "superArea",
+    label: "Super Area",
+  },
+
+  {
+    id: "area",
+    label: "Area",
+  },
+
+  {
+    id: "locations",
+    label: "Locations",
+  },
+
+  {
+    id: "phones",
+    label: "Phones",
+  },
+  {
+    id: "department",
+    label: "Department",
+  },
+  {
+    id: "pi",
+    label: "PI",
+  },
+  {
+    id: "card",
+    label: "Card",
+  },
+
+  {
+    id: "activeUnit",
+    label: "Active",
+    secondLabel: "Unit",
+  },
+
+  {
+    id: "leftUC",
+    label: "Left UC",
+  },
+  {
+    id: "campus",
+    label: "Campus",
   },
 ];
 
 const Index = () => {
   const [order, setOrder] = React.useState<Order>("asc");
   const [orderBy, setOrderBy] =
-    React.useState<keyof IRowsPersonEmploymentTable>("options");
+    React.useState<keyof IRowsPersonEmploymentTable>("personId");
 
   const handleRequestSort = (
     _: any,

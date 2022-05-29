@@ -13,30 +13,55 @@ import { Order } from "../TablesComponents/Interfaces/Order";
 const rows: IRowsPersonEmploymentTable[] = [
   {
     id: "1",
-
-    researchComments: "string",
-    date: "string",
-    createdBy: "string",
+    campus: "string",
+    location1: "string",
+    location2: "string",
+    informationSource: "string",
+    propagate: "string",
+    comments: "string",
+    dfkv: "string",
+    dlkv: "string",
+    dmi: "string",
   },
 ];
 
 const headCells: readonly HeadCell<IColumnsPersonEmploymentTable>[] = [
   {
-    id: "researchComments",
-    label: "Research Comments",
+    id: "campus",
+    label: "Campus",
   },
   {
-    id: "date",
-    label: "Date",
+    id: "location",
+    label: "Location",
   },
   {
-    id: "createdBy",
-    label: "Created By",
+    id: "informationSource",
+    label: "Information Source",
   },
 
   {
-    id: "options",
-    label: "Options",
+    id: "propagate",
+    label: "Propagate",
+  },
+
+  {
+    id: "comments",
+    label: "Comments",
+  },
+
+  {
+    id: "dfkv",
+    label: "DFKV",
+  },
+
+  {
+    id: "dlkv",
+    label: "DLKV",
+  },
+
+  {
+    id: "dmi",
+    label: "DMI",
   },
 ];
 
