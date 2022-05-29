@@ -17,9 +17,15 @@ interface tableWrapperProps {
     stableSort: any;
     EnhancedTableHead: React.FC;
   }) => React.ReactNode;
+  locationDataEntryBtn?: boolean;
+  customText?: { label: string };
 }
 
-const Index: React.FC<tableWrapperProps> = ({ children }) => {
+const Index: React.FC<tableWrapperProps> = ({
+  children,
+  locationDataEntryBtn,
+  customText,
+}) => {
   function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
     if (b[orderBy] < a[orderBy]) {
       return -1;
@@ -113,13 +119,34 @@ const Index: React.FC<tableWrapperProps> = ({ children }) => {
         }}
       >
         <Box sx={{ position: "fixed", right: "0px", top: "10px" }}>
-          <Button
-            sx={{ m: "auto 20px auto auto" }}
-            color={"success"}
-            variant={"contained"}
-          >
-            Add
-          </Button>
+          {customText ? (
+            <Button
+              sx={{ m: "auto 20px auto auto" }}
+              color={"success"}
+              variant={"contained"}
+            >
+              {customText.label}
+            </Button>
+          ) : (
+            <>
+              {locationDataEntryBtn && (
+                <Button
+                  sx={{ m: "auto 20px auto auto" }}
+                  color={"success"}
+                  variant={"contained"}
+                >
+                  Location Data Entry
+                </Button>
+              )}
+              <Button
+                sx={{ m: "auto 20px auto auto" }}
+                color={"success"}
+                variant={"contained"}
+              >
+                Add
+              </Button>
+            </>
+          )}
         </Box>
         <TableContainer
           component={Paper}
