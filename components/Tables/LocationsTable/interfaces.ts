@@ -1,9 +1,11 @@
 interface IRowsPersonEmploymentTable {
   id: string;
-  electronicAddress: string;
-  electronicType: string;
-  source: string;
-  emailOptions: boolean;
+  campus: string;
+  location1: string;
+  location2: string;
+  informationSource: string;
+  primary: boolean;
+  comments: string;
   dfkv: string;
   dlkv: string;
   dmi: string;
@@ -11,10 +13,12 @@ interface IRowsPersonEmploymentTable {
 }
 interface IColumnsPersonEmploymentTable {
   id: string;
-  electronicAddress: string;
-  electronicType: string;
-  source: string;
-  emailOptions: string;
+
+  campus: string;
+  location: string;
+  informationSource: string;
+  primary: boolean;
+  comments: string;
   dfkv: string;
   dlkv: string;
   dmi: string;

@@ -13,55 +13,41 @@ import { Order } from "../TablesComponents/Interfaces/Order";
 const rows: IRowsPersonEmploymentTable[] = [
   {
     id: "1",
-    electronicAddress: "msalvador@school.edu",
-    electronicType: "University Email",
-    source: "U.List",
-    emailOptions: true,
-    dfkv: "01/01/2021",
-    dlkv: "01/01/2022",
-    dmi: "01/01/2022",
+    date: "string",
+    type: "string",
+    oldValue: "string",
+    newValue: "string",
+    createdBy: "string",
   },
 ];
 
 const headCells: readonly HeadCell<IColumnsPersonEmploymentTable>[] = [
   {
-    id: "electronicAddress",
-    label: "Electronic Address",
+    id: "date",
+    label: "Date",
   },
   {
-    id: "electronicType",
-    label: "Electronic Type",
+    id: "type",
+    label: "Type",
   },
   {
-    id: "source",
-    label: "Source",
+    id: "oldValue",
+    label: "Old Value",
   },
   {
-    id: "emailOptions",
-    label: "Email Options",
+    id: "newValue",
+    label: "New Value",
   },
   {
-    id: "dfkv",
-    label: "DFKV",
-  },
-  {
-    id: "dlvk",
-    label: "DLVK",
-  },
-  {
-    id: "dmi",
-    label: "DMI",
-  },
-  {
-    id: "options",
-    label: "Options",
+    id: "createdBy",
+    label: "Created By",
   },
 ];
 
 const Index = () => {
   const [order, setOrder] = React.useState<Order>("asc");
   const [orderBy, setOrderBy] =
-    React.useState<keyof IRowsPersonEmploymentTable>("electronicAddress");
+    React.useState<keyof IRowsPersonEmploymentTable>("createdBy");
 
   const handleRequestSort = (
     _: any,

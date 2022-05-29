@@ -13,10 +13,13 @@ import { Order } from "../TablesComponents/Interfaces/Order";
 const rows: IRowsPersonEmploymentTable[] = [
   {
     id: "1",
-    electronicAddress: "msalvador@school.edu",
-    electronicType: "University Email",
-    source: "U.List",
-    emailOptions: true,
+    nameSourceType: "Departament Directory",
+    nameSourceSubType: "W298167",
+    firstName: "Christopfer",
+    middleNames: "Kennetch",
+    lastName: "Sugasree",
+    nickName: "May",
+    suffix: "smth",
     dfkv: "01/01/2021",
     dlkv: "01/01/2022",
     dmi: "01/01/2022",
@@ -25,21 +28,27 @@ const rows: IRowsPersonEmploymentTable[] = [
 
 const headCells: readonly HeadCell<IColumnsPersonEmploymentTable>[] = [
   {
-    id: "electronicAddress",
-    label: "Electronic Address",
+    id: "nameSource",
+    label: "Name Source",
   },
   {
-    id: "electronicType",
-    label: "Electronic Type",
+    id: "firstName",
+    label: "First Name",
   },
   {
-    id: "source",
-    label: "Source",
+    id: "middleNames",
+    label: "Middle Names",
   },
   {
-    id: "emailOptions",
-    label: "Email Options",
+    id: "lastName",
+    label: "Last Name",
   },
+  {
+    id: "nickName",
+    label: "Nick Name",
+    secondLabel: "Suffix",
+  },
+
   {
     id: "dfkv",
     label: "DFKV",

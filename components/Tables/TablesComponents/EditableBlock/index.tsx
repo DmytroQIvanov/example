@@ -165,7 +165,7 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
   };
 
   return (
-    <Box>
+    <Box sx={{ m: "7px 0" }}>
       <Grid container direction="column" position="relative">
         <Grid item>
           {title && (
@@ -191,7 +191,9 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
               backgroundColor: "#2121c5",
               color: "white",
               width: "95%",
-              m: "auto",
+              // m: "auto",
+              p: "3px",
+              // ml: "-2px",
               mt: "5px",
             }}
             onClick={validate.onClick && validate.onClick}
@@ -207,7 +209,7 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
             control={<Checkbox />}
             label={checkBox.label}
             labelPlacement="start"
-            // sx={{ ml: "auto" }}
+            sx={{ ml: "0" }}
           />
         </Box>
       )}

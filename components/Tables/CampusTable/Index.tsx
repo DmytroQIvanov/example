@@ -215,17 +215,27 @@ const CampusTable = () => {
 
   return (
     <div>
-      <Box sx={{ display: "flex", mt: "10px", mb: "10px" }}>
-        <Button
-          sx={{ m: "auto 20px auto auto" }}
-          color={"success"}
-          variant={"contained"}
+      <div
+        style={{
+          overflow: "auto",
+          width: "max-content",
+          maxWidth: "100vw",
+          position: "relative",
+        }}
+      >
+        <Box sx={{ position: "fixed", right: "0px" }}>
+          <Button
+            sx={{ m: "auto 20px auto auto" }}
+            color={"success"}
+            variant={"contained"}
+          >
+            Add
+          </Button>
+        </Box>
+        <TableContainer
+          component={Paper}
+          style={{ width: "max-content", marginTop: "45px" }}
         >
-          Add
-        </Button>
-      </Box>
-      <div style={{ overflow: "auto", width: "100%" }}>
-        <TableContainer component={Paper} style={{ width: "max-content" }}>
           <Table aria-label="customized table">
             <EnhancedTableHead
               order={order}

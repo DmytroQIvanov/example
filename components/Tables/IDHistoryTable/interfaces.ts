@@ -1,23 +1,19 @@
 interface IRowsPersonEmploymentTable {
   id: string;
-  electronicAddress: string;
-  electronicType: string;
-  source: string;
-  emailOptions: boolean;
+  campus: string;
+  employeeID: string;
   dfkv: string;
   dlkv: string;
-  dmi: string;
+  createdBy: string;
   options?: string;
 }
 interface IColumnsPersonEmploymentTable {
   id: string;
-  electronicAddress: string;
-  electronicType: string;
-  source: string;
-  emailOptions: string;
+  campus: string;
+  employeeID: string;
   dfkv: string;
   dlkv: string;
-  dmi: string;
+  createdBy: string;
   options: string;
 }
 

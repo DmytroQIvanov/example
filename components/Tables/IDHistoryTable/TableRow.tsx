@@ -24,8 +24,9 @@ import EditSharpIcon from "@mui/icons-material/EditSharp";
 import SaveIcon from "@mui/icons-material/Save";
 import CancelIcon from "@mui/icons-material/Cancel";
 import DeleteIcon from "@mui/icons-material/Delete";
-import EditableBlock from "../Tables/TablesComponents/EditableBlock/index";
-import { UseEditableTable } from "../../hooks/UseEditableTable";
+import EditableBlock from "../TablesComponents/EditableBlock";
+import { UseEditableTable } from "../../../hooks/UseEditableTable";
+import OptionsBlock from "../TablesComponents/OptionsBlock";
 
 const dropArray = [
   {
@@ -48,6 +49,8 @@ const TableRowComponent: React.FC<{
     handleEditableState,
     onSave,
     editState,
+    onChangeValidateState,
+    validateState,
   } = UseEditableTable(row);
 
   const SummaryObject = {
@@ -58,20 +61,11 @@ const TableRowComponent: React.FC<{
     titleVisibly: false,
   };
   return (
-    <TableRow>
-      <TableCell component="th" scope="row" width={"300px"}>
-        <Box>
-          {EditableBlock({
-            ...SummaryObject,
-            name: "electronicAddress",
-            title: "Electronic Address",
-          })}
-        </Box>
-      </TableCell>
-      <TableCell width={"150px"}>
+    <TableRow style={!validateState ? { backgroundColor: "#ececec" } : {}}>
+      <TableCell component="th" scope="row" width={"100px"}>
         {EditableBlock({
           ...SummaryObject,
-          name: "electronicType",
+          name: "campus",
           type: "dropdown",
           itemsArray: dropArray,
         })}
@@ -80,58 +74,38 @@ const TableRowComponent: React.FC<{
       <TableCell width={"130px"}>
         {EditableBlock({
           ...SummaryObject,
-          name: "source",
-          type: "dropdown",
-          itemsArray: dropArray,
+          name: "employeeID",
         })}
       </TableCell>
       <TableCell width={"130px"}>
         {EditableBlock({
           ...SummaryObject,
-          name: "emailOptions",
-          type: "checkBox",
-          checkBox: {
-            type: "green",
-            textVariants: {
-              falseVariant: "No",
-              trueVariant: "Preffered",
-            },
-          },
+          name: "dfkv",
         })}
-      </TableCell>
-      <TableCell width={"130px"}>
-        {EditableBlock({ ...SummaryObject, name: "dfkv" })}
-      </TableCell>
-      <TableCell width={"130px"}>
-        {EditableBlock({ ...SummaryObject, name: "dlkv" })}
       </TableCell>
       <TableCell width={"130px"}>
         {EditableBlock({
           ...SummaryObject,
-          name: "dmi",
-          checkBox: { label: "Invalidate" },
+          name: "dlkv",
+          validate: { label: "Validate", onClick: onChangeValidateState },
+        })}
+      </TableCell>
+      <TableCell width={"230px"}>
+        {EditableBlock({
+          ...SummaryObject,
+          name: "createdBy",
         })}
       </TableCell>
       <TableCell width={"130px"}>
-        {editStateBoolean ? (
-          <Box sx={{ mt: "20px" }}>
-            <SaveIcon onClick={onSave} sx={{ cursor: "pointer", mr: "10px" }} />
-            <CancelIcon onClick={onCancel} sx={{ cursor: "pointer" }} />
-          </Box>
-        ) : (
-          <>
-            <EditSharpIcon
-              onClick={handleEditableState}
-              sx={{ cursor: "pointer", mr: "10px" }}
-            />
-            <DeleteIcon
-              onClick={() => {
-                onDelete(row.id);
-              }}
-              sx={{ cursor: "pointer" }}
-            />
-          </>
-        )}
+        <OptionsBlock
+          editStateBoolean={editStateBoolean}
+          onSave={onSave}
+          onCancel={onCancel}
+          handleEditableState={handleEditableState}
+          onDelete={onDelete}
+          id={row.id}
+          validateState={validateState}
+        />
       </TableCell>
     </TableRow>
   );
