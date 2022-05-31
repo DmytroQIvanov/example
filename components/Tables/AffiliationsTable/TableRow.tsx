@@ -69,7 +69,7 @@ const TableRowComponent: React.FC<{
         <Box sx={{ mt: "20px" }}>
           {EditableBlock({
             ...SummaryObject,
-            name: "organization1",
+            name: "organization2",
             type: "dropdown",
             itemsArray: dropArray,
           })}

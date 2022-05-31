@@ -184,7 +184,6 @@ const AffiliationTable = () => {
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
   };
-  // const { tableElements, onDelete, onChangeAddState } = UseWrapper2(rows);
   return (
     <TableWrapper rows={rows}>
       {({

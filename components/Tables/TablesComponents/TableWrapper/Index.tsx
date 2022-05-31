@@ -31,11 +31,8 @@ interface tableWrapperProps {
 
 const Index: React.FC<tableWrapperProps> = ({
   children,
-  // onChangeAddState,
   buttonsList,
-  // onDelete,
   rows,
-  // tableElements,
 }) => {
   const { tableElements, onDelete, onChangeAddState, onSave, onCancel } =
     useTableWrapper(rows);
@@ -141,12 +138,13 @@ const Index: React.FC<tableWrapperProps> = ({
         }}
       >
         <Box sx={{ position: "fixed", right: "0px", top: "10px" }}>
-          {buttonsListState.map((elem) => (
+          {buttonsListState.map((elem, index) => (
             <Button
               sx={{ m: "auto 20px auto auto" }}
               color={"success"}
               variant={"contained"}
               onClick={elem.function}
+              key={index}
             >
               {elem.label}
             </Button>
