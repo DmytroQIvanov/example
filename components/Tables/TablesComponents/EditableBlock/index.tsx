@@ -1,4 +1,4 @@
-import React, { CSSProperties } from "react";
+import React, { CSSProperties, useEffect } from "react";
 import {
   Autocomplete,
   Box,
@@ -21,7 +21,7 @@ interface propsBlockWithState {
   itemsArray?: { label: string }[];
   type?: "textField" | "dropdown" | "date" | "checkBox";
   multiline?: number;
-  editStateBoolean: boolean;
+  editStateBoolean: "default" | "change" | "add";
   summaryState: { [index: string]: any };
   titleVisibly?: boolean;
   handleChange: Function;
@@ -31,8 +31,12 @@ interface propsBlockWithState {
     label?: string;
     textVariants?: { trueVariant: string; falseVariant: string };
     type?: "green" | "default";
+    onClick?: () => void;
+    value?: boolean;
+    disabled?: boolean;
   };
   validate?: {
+    disabled?: boolean;
     onClick?: React.MouseEventHandler<HTMLAnchorElement>;
     label?: string;
   };
@@ -58,6 +62,12 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
 
   ...inputParams
 }) => {
+  const disableEditableArray = ["campus"];
+
+  let disabledState = false;
+  if (editStateBoolean === "change")
+    disabledState = disableEditableArray.includes(name);
+
   const Component = () => {
     switch (type) {
       case "textField":
@@ -67,10 +77,11 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
             onChange={handleChangeEvent}
             name={name}
             variant="outlined"
-            value={summaryState[name]}
+            value={summaryState[name] || null}
             multiline={multiline ? true : false}
             rows={multiline}
             size={"small"}
+            disabled={disabledState}
             {...inputParams}
           />
         );
@@ -83,7 +94,8 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
               options={itemsArray && itemsArray}
               fullWidth={width ? true : false}
               {...inputParams}
-              value={{ label: summaryState[name] }}
+              disabled={disabledState}
+              value={{ label: summaryState[name] || "" }}
               onChange={(
                 event: any,
                 newValue: { label: string | number } | null
@@ -104,17 +116,12 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
             <DatePicker
               label="Basic example"
               value={summaryState[name]}
+              disabled={disabledState}
               onChange={(newValue) => {
                 const month = newValue.getUTCMonth() + 1;
                 const day = newValue.getUTCDate();
                 const year = newValue.getUTCFullYear();
                 handleChange(name, `${day}/${month}/${year}`);
-                // const value = newValue
-                //   .toISOString()
-                //   .replace("-", "/")
-                //   .split("T")[0]
-                //   .replace("-", "/");
-                // handleChange(name, value);
               }}
               renderInput={(params) => <TextField {...params} />}
             />
@@ -124,6 +131,7 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
         return (
           <>
             <Checkbox
+              disabled={disabledState}
               checked={summaryState[name]}
               onChange={(event) => handleChange(name, event.target.checked)}
             />
@@ -136,6 +144,7 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
             onChange={handleChangeEvent}
             name={name}
             variant="outlined"
+            disabled={disabledState}
             value={summaryState[name]}
             multiline={multiline ? true : false}
             rows={multiline}
@@ -175,7 +184,7 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
           {title && (
             <>
               {!titleVisibly ? (
-                editStateBoolean && (
+                editStateBoolean !== "default" && (
                   <Typography color={"gray"}>{title}</Typography>
                 )
               ) : (
@@ -185,10 +194,10 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
           )}
         </Grid>
         <Grid item width={width && `${width}%`}>
-          {editStateBoolean ? <Component /> : <TextComponent />}
+          {editStateBoolean !== "default" ? <Component /> : <TextComponent />}
         </Grid>
       </Grid>
-      {validate && (
+      {validate && validate?.disabled && (
         <Box sx={{ display: "flex" }}>
           <Button
             sx={{
@@ -210,7 +219,13 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
         <Box sx={{ display: "flex" }}>
           <FormControlLabel
             value="start"
-            control={<Checkbox />}
+            control={
+              <Checkbox
+                onChange={checkBox.onClick && checkBox.onClick}
+                checked={checkBox.value && checkBox.value}
+                disabled={checkBox?.disabled}
+              />
+            }
             label={checkBox.label}
             labelPlacement="start"
             sx={{ ml: "0" }}

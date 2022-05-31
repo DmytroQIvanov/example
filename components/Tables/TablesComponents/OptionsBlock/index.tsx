@@ -6,7 +6,7 @@ import EditSharpIcon from "@mui/icons-material/EditSharp";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 interface optionsBlock {
-  editStateBoolean: Boolean;
+  editStateBoolean: "default" | "change" | "add";
   onSave: Function;
   onCancel: Function;
   handleEditableState: Function;
@@ -26,7 +26,7 @@ const Index: React.FC<optionsBlock> = ({
   return (
     <div>
       {validateState &&
-        (editStateBoolean ? (
+        (editStateBoolean == "add" || editStateBoolean == "change" ? (
           <Box sx={{ mt: "20px" }}>
             <SaveIcon onClick={onSave} sx={{ cursor: "pointer", mr: "10px" }} />
             <CancelIcon onClick={onCancel} sx={{ cursor: "pointer" }} />

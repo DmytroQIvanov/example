@@ -2,14 +2,22 @@ import React, { useEffect, useState } from "react";
 
 export const UseEditableTable = (row: any) => {
   //STATES
-  const [editStateBoolean, setEditStateBoolean] = useState(false);
+  const [stateValue, setStateValue] = useState<"default" | "change" | "add">(
+    row.addStateBoolean ? "add" : "default"
+  );
   const [rowState, setRowState] = useState(row);
   const [editState, setEditState] = useState<typeof row>(row);
   const [validateState, setValidateState] = useState(true);
 
   //HANDLERS
   const handleEditableState = () => {
-    setEditStateBoolean((prevState) => !prevState);
+    setStateValue((prevState) => {
+      if (prevState == "default") {
+        return "change";
+      } else {
+        return "default";
+      }
+    });
   };
   const handleChangeEvent = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -39,11 +47,11 @@ export const UseEditableTable = (row: any) => {
   };
   const onSave = () => {
     setRowState(editState);
-    setEditStateBoolean(false);
+    setStateValue("default");
   };
   const onCancel = () => {
     setEditState(rowState);
-    setEditStateBoolean(false);
+    setStateValue("default");
   };
 
   //USE-EFFECTS
@@ -53,7 +61,7 @@ export const UseEditableTable = (row: any) => {
 
   useEffect(() => {
     setEditState(rowState);
-  }, [editStateBoolean]);
+  }, [stateValue]);
 
   return {
     handleEditableState,
@@ -62,7 +70,7 @@ export const UseEditableTable = (row: any) => {
     onSave,
     onCancel,
     editState,
-    editStateBoolean,
+    editStateBoolean: stateValue,
     onChangeValidateState,
     validateState,
   };

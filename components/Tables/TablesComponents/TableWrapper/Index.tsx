@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Button } from "@mui/material";
 import Paper from "@material-ui/core/Paper";
 import TableContainer from "@material-ui/core/TableContainer";
@@ -9,6 +9,7 @@ import TableCell from "@material-ui/core/TableCell";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import { visuallyHidden } from "@mui/utils";
 import { Order } from "../Interfaces/Order";
+import { useTableWrapper } from "../../../../hooks/UseTableWrapper";
 
 interface tableWrapperProps {
   children: (props: {
@@ -16,16 +17,39 @@ interface tableWrapperProps {
     getComparator: any;
     stableSort: any;
     EnhancedTableHead: React.FC;
+    tableElements: any;
+    onDelete: Function;
+    onSave: Function;
+    onCancel: Function;
   }) => React.ReactNode;
-  locationDataEntryBtn?: boolean;
-  customText?: { label: string };
+  buttonsList?: [{ label: string; function: Function }];
+  rows: any[];
+  // tableElements: any[];
+  // onDelete: Function;
+  // onChangeAddState: Function;
 }
 
 const Index: React.FC<tableWrapperProps> = ({
   children,
-  locationDataEntryBtn,
-  customText,
+  // onChangeAddState,
+  buttonsList,
+  // onDelete,
+  rows,
+  // tableElements,
 }) => {
+  const { tableElements, onDelete, onChangeAddState, onSave, onCancel } =
+    useTableWrapper(rows);
+
+  const buttonsListState =
+    buttonsList == undefined
+      ? [
+          {
+            label: "Add",
+            function: onChangeAddState,
+          },
+        ]
+      : buttonsList;
+  //SORT FUNCTIONS
   function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
     if (b[orderBy] < a[orderBy]) {
       return -1;
@@ -61,6 +85,7 @@ const Index: React.FC<tableWrapperProps> = ({
     return stabilizedThis.map((el) => el[0]);
   }
 
+  //TABLE HEAD
   function EnhancedTableHead(props: any) {
     const { order, orderBy, onRequestSort } = props;
     const createSortHandler =
@@ -111,51 +136,28 @@ const Index: React.FC<tableWrapperProps> = ({
       <div
         style={{
           overflow: "auto",
-          // width: "max-content",
           width: "100%",
-          // minWidth: "100vw",
-
           position: "relative",
         }}
       >
         <Box sx={{ position: "fixed", right: "0px", top: "10px" }}>
-          {customText ? (
+          {buttonsListState.map((elem) => (
             <Button
               sx={{ m: "auto 20px auto auto" }}
               color={"success"}
               variant={"contained"}
+              onClick={elem.function}
             >
-              {customText.label}
+              {elem.label}
             </Button>
-          ) : (
-            <>
-              {locationDataEntryBtn && (
-                <Button
-                  sx={{ m: "auto 20px auto auto" }}
-                  color={"success"}
-                  variant={"contained"}
-                >
-                  Location Data Entry
-                </Button>
-              )}
-              <Button
-                sx={{ m: "auto 20px auto auto" }}
-                color={"success"}
-                variant={"contained"}
-              >
-                Add
-              </Button>
-            </>
-          )}
+          ))}
         </Box>
         <TableContainer
           component={Paper}
           style={{
             marginTop: "60px",
-            // maxWidth: "max-content",
             minWidth: "100%",
             width: "max-content",
-
             position: "relative",
           }}
         >
@@ -165,6 +167,10 @@ const Index: React.FC<tableWrapperProps> = ({
               stableSort,
               getComparator,
               descendingComparator,
+              tableElements,
+              onDelete,
+              onSave,
+              onCancel,
             })}
           </Table>
         </TableContainer>
