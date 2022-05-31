@@ -27,6 +27,7 @@ interface propsBlockWithState {
   handleChange: Function;
   style?: CSSProperties;
   className?: string;
+  availableStateBoolean?: boolean;
   checkBox?: {
     label?: string;
     textVariants?: { trueVariant: string; falseVariant: string };
@@ -59,6 +60,7 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
   titleVisibly = true,
   checkBox,
   validate,
+  availableStateBoolean,
 
   ...inputParams
 }) => {
@@ -70,7 +72,7 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
   ];
 
   let disabledState = false;
-  if (editStateBoolean === "change")
+  if (editStateBoolean === "change" && !availableStateBoolean)
     disabledState = disableEditableArray.includes(name);
 
   const Component = () => {

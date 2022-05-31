@@ -52,6 +52,7 @@ const TableRowComponent: React.FC<{
               ...SummaryObject,
               name: "campus",
               type: "dropdown",
+              availableStateBoolean: true,
               itemsArray: dropArray,
             })
           : editState["campus"] &&
@@ -59,6 +60,7 @@ const TableRowComponent: React.FC<{
               ...SummaryObject,
               name: "campus",
               type: "dropdown",
+              availableStateBoolean: true,
               itemsArray: dropArray,
             })}
       </TableCell>
