@@ -22,7 +22,7 @@ interface tableWrapperProps {
     onSave: Function;
     onCancel: Function;
   }) => React.ReactNode;
-  buttonsList?: [{ label: string; function?: Function }];
+  buttonsList?: [{ label: string; buttonFunction?: Function }];
   rows: any[];
   disableAddBtn?: boolean;
 }
@@ -146,7 +146,7 @@ const Index: React.FC<tableWrapperProps> = ({
               sx={{ m: "auto 20px auto auto" }}
               color={"success"}
               variant={"contained"}
-              onClick={elem.function}
+              onClick={elem.buttonFunction}
               key={index}
             >
               {elem.label}

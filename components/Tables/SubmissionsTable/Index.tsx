@@ -43,10 +43,10 @@ const headCells: readonly HeadCell<IColumnsPersonEmploymentTable>[] = [
     label: "Created By",
   },
 
-  {
-    id: "options",
-    label: "Options",
-  },
+  // {
+  //   id: "options",
+  //   label: "Options",
+  // },
 ];
 
 const Index = () => {

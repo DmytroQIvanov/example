@@ -69,11 +69,14 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
     "createdBy",
     "location1",
     "location2",
+    "date",
   ];
 
   let disabledState = false;
   if (editStateBoolean === "change" && !availableStateBoolean)
     disabledState = disableEditableArray.includes(name);
+
+  const styles = disabledState ? { backgroundColor: "#C3DBFF" } : {};
 
   const Component = () => {
     switch (type) {
@@ -83,6 +86,7 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
             fullWidth={width ? true : false}
             onChange={handleChangeEvent}
             name={name}
+            style={styles}
             variant="outlined"
             value={summaryState[name] || null}
             multiline={multiline ? true : false}
@@ -110,7 +114,13 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
                 if (newValue !== null) handleChange(name, newValue.label);
               }}
               renderInput={(params) => (
-                <TextField {...params} size={"small"} label={""} name={name} />
+                <TextField
+                  {...params}
+                  style={styles}
+                  size={"small"}
+                  label={""}
+                  name={name}
+                />
               )}
             />
           );
@@ -130,7 +140,7 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
                 const year = newValue.getUTCFullYear();
                 handleChange(name, `${day}/${month}/${year}`);
               }}
-              renderInput={(params) => <TextField {...params} />}
+              renderInput={(params) => <TextField {...params} style={styles} />}
             />
           </LocalizationProvider>
         );
@@ -139,6 +149,7 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
           <>
             <Checkbox
               disabled={disabledState}
+              style={styles}
               checked={summaryState[name]}
               onChange={(event) => handleChange(name, event.target.checked)}
             />
@@ -150,6 +161,7 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
             fullWidth={width ? true : false}
             onChange={handleChangeEvent}
             name={name}
+            style={styles}
             variant="outlined"
             disabled={disabledState}
             value={summaryState[name]}

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 
-export const UseEditableTable = (row: any) => {
+export const UseEditableTable = (row?: any) => {
   //STATES
   const [stateValue, setStateValue] = useState<"default" | "change" | "add">(
-    row.addStateBoolean ? "add" : "default"
+    row?.addStateBoolean ? "add" : "default"
   );
   const [rowState, setRowState] = useState(row);
   const [editState, setEditState] = useState<typeof row>(row);

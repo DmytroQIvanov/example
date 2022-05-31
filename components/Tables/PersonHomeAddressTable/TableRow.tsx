@@ -8,13 +8,25 @@ import { IRowsPersonEmploymentTable } from "./interfaces";
 import EditableBlock from "../TablesComponents/EditableBlock";
 import { UseEditableTable } from "../../../hooks/UseEditableTable";
 import OptionsBlock from "../TablesComponents/OptionsBlock";
+import AddressEditModal from "../../Table/RowCells/AddressEditModal";
 
 const TableRowComponent: React.FC<{
   row: IRowsPersonEmploymentTable;
   onDelete: (id: string | undefined) => void;
   onAddSave: Function;
   onAddCancel: Function;
-}> = ({ row, onDelete, onAddSave, onAddCancel }) => {
+  stateModal: boolean;
+  onHandleOpen: () => void;
+  onHandleClose: () => void;
+}> = ({
+  row,
+  onDelete,
+  onAddSave,
+  onAddCancel,
+  onHandleOpen,
+  onHandleClose,
+  stateModal,
+}) => {
   const {
     onCancel,
     handleChange,
@@ -34,36 +46,59 @@ const TableRowComponent: React.FC<{
     editStateBoolean,
     titleVisibly: false,
   };
+
+  const [state2, useState2] = useState<any>({
+    street_number: "",
+    street: "",
+    city: "",
+    state: "",
+    country: "",
+    full: "",
+    source: "",
+    comments: "",
+  });
+  useEffect(() => {
+    console.log(state2);
+  }, [state2]);
   return (
     <TableRow style={!validateState ? { backgroundColor: "#ececec" } : {}}>
       <TableCell component="th" scope="row" width={"200px"}>
-        {EditableBlock({
-          ...SummaryObject,
-          name: "homeAddress",
-        })}
+        {/*{EditableBlock({*/}
+        {/*  ...SummaryObject,*/}
+        {/*  name: "homeAddress",*/}
+        {/*})}*/}
+
+        {/*{state2["street_number"]}*/}
+        {/*{state2["street"]}*/}
+
+        {state2["full"]}
       </TableCell>
 
       <TableCell component="th" scope="row" width={"200px"}>
-        {EditableBlock({
-          ...SummaryObject,
-          name: "locationAccuracy",
-        })}
+        {/*{EditableBlock({*/}
+        {/*  ...SummaryObject,*/}
+        {/*  name: "locationAccuracy",*/}
+        {/*})}*/}
+        {state2["city"]} {state2["state"]}
+        {state2["country"]}
       </TableCell>
 
       <TableCell component="th" scope="row" width={"200px"}>
-        {EditableBlock({
-          ...SummaryObject,
-          name: "source",
-        })}
+        {/*{EditableBlock({*/}
+        {/*  ...SummaryObject,*/}
+        {/*  name: "source",*/}
+        {/*})}*/}
+        {state2["source"]}
       </TableCell>
 
       <TableCell component="th" scope="row" width={"340px"}>
-        {EditableBlock({
-          ...SummaryObject,
-          name: "comments",
-          multiline: 6,
-          width: 100,
-        })}
+        {/*{EditableBlock({*/}
+        {/*  ...SummaryObject,*/}
+        {/*  name: "comments",*/}
+        {/*  multiline: 6,*/}
+        {/*  width: 100,*/}
+        {/*})}*/}
+        {state2["comments"]}
       </TableCell>
       <TableCell component="th" scope="row" width={"200px"}>
         {EditableBlock({
@@ -111,8 +146,15 @@ const TableRowComponent: React.FC<{
           onDelete={onDelete}
           id={row.id}
           validateState={validateState}
+          documentElement
         />
       </TableCell>
+      <AddressEditModal
+        data={row}
+        open={stateModal}
+        handleClose={onHandleClose}
+        onChangeAddress={useState2}
+      />
     </TableRow>
   );
 };

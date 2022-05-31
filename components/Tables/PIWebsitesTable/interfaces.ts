@@ -2,7 +2,7 @@ interface IRowsPersonEmploymentTable {
   id: string;
   url: string;
   comments: string;
-  crawl: string;
+  crawl: boolean;
   dfkv: string;
   dlkv: string;
   dmi: string;
@@ -11,7 +11,7 @@ interface IRowsPersonEmploymentTable {
 interface IColumnsPersonEmploymentTable {
   id: string;
   url: string;
-  crawl: string;
+  crawl: boolean;
   dfkv: string;
   dlkv: string;
   dmi: string;

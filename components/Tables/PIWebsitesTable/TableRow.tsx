@@ -65,6 +65,7 @@ const TableRowComponent: React.FC<{
         {EditableBlock({
           ...SummaryObject,
           name: "crawl",
+          type: "checkBox",
         })}
       </TableCell>
       <TableCell width={"230px"}>

@@ -16,7 +16,7 @@ const rows: IRowsPersonEmploymentTable[] = [
 
     url: "string",
     comments: "string",
-    crawl: "string",
+    crawl: false,
     dfkv: "string",
     dlkv: "string",
     dmi: "string",

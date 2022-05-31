@@ -1,13 +1,15 @@
 import React, { CSSProperties, useEffect, useState } from "react";
 import TableCell from "@material-ui/core/TableCell";
 import TableRow from "@material-ui/core/TableRow";
+
 //INTERFACES
 import { IRowsPersonEmploymentTable } from "./interfaces";
 
-//ICONS
 import EditableBlock from "../TablesComponents/EditableBlock";
 import { UseEditableTable } from "../../../hooks/UseEditableTable";
 import OptionsBlock from "../TablesComponents/OptionsBlock";
+
+//ICONS
 
 const dropArray = [
   {
@@ -56,6 +58,7 @@ const TableRowComponent: React.FC<{
         {EditableBlock({
           ...SummaryObject,
           name: "date",
+          type: "date",
         })}
       </TableCell>
       <TableCell width={"230px"}>

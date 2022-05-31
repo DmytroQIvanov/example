@@ -138,7 +138,7 @@ const Index = () => {
     setTableElements(tableElements.filter((elem) => elem.id !== id));
   };
   return (
-    <TableWrapper rows={rows}>
+    <TableWrapper rows={rows} disableAddBtn>
       {({
         EnhancedTableHead,
         stableSort,

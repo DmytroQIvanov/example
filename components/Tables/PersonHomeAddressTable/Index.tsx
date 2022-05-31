@@ -14,13 +14,17 @@ const rows: IRowsPersonEmploymentTable[] = [
   {
     id: "1",
 
-    homeAddress: "SMth",
-    locationAccuracy: "SMth",
-    source: "SMth",
-    comments: "SMth",
-    dfkv: "SMth",
-    dlkv: "SMth",
-    marketInvalid: "SMth",
+    streetNumber: "321",
+    streetName: "Addanki Bustand Road ",
+    source: "On The Ground",
+    apt: "smth",
+    city: "Ongole",
+    state: "Andhra Pradesh",
+    postalCode: "523001",
+    country: "India",
+    comments: "Any text",
+    dlkv: "smth",
+    marketInvalid: "smth",
   },
 ];
 
@@ -74,13 +78,20 @@ const Index = () => {
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
   };
-  const [tableElements, setTableElements] = useState(rows);
-  const onDelete = (id: string | undefined) => {
-    if (!id) return;
-    setTableElements(tableElements.filter((elem) => elem.id !== id));
+
+  const [stateModal, setStateModal] = useState(false);
+  const onHandleClose = () => {
+    setStateModal(false);
+  };
+  const onHandleOpen = () => {
+    setStateModal(true);
   };
   return (
-    <TableWrapper rows={rows}>
+    <TableWrapper
+      buttonsList={[{ label: "Add", buttonFunction: onHandleOpen }]}
+      rows={rows}
+      disableAddBtn
+    >
       {({
         EnhancedTableHead,
         stableSort,
@@ -107,6 +118,9 @@ const Index = () => {
                   onDelete={onDelete}
                   onAddSave={onSave}
                   onAddCancel={onCancel}
+                  stateModal={stateModal}
+                  onHandleOpen={onHandleOpen}
+                  onHandleClose={onHandleClose}
                 />
               )
             )}

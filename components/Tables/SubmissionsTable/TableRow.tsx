@@ -74,20 +74,20 @@ const TableRowComponent: React.FC<{
       <TableCell width={"130px"}>
         {EditableBlock({ ...SummaryObject, name: "createdBy" })}
       </TableCell>
-      <TableCell width={"130px"}>
-        <OptionsBlock
-          editStateBoolean={editStateBoolean}
-          onSave={() => {
-            editStateBoolean === "add" && onAddSave();
-            onSave();
-          }}
-          onCancel={editStateBoolean === "add" ? onAddCancel : onCancel}
-          handleEditableState={handleEditableState}
-          onDelete={onDelete}
-          id={row.id}
-          validateState={validateState}
-        />
-      </TableCell>
+      {/*<TableCell width={"130px"}>*/}
+      {/*  <OptionsBlock*/}
+      {/*    editStateBoolean={editStateBoolean}*/}
+      {/*    onSave={() => {*/}
+      {/*      editStateBoolean === "add" && onAddSave();*/}
+      {/*      onSave();*/}
+      {/*    }}*/}
+      {/*    onCancel={editStateBoolean === "add" ? onAddCancel : onCancel}*/}
+      {/*    handleEditableState={handleEditableState}*/}
+      {/*    onDelete={onDelete}*/}
+      {/*    id={row.id}*/}
+      {/*    validateState={validateState}*/}
+      {/*  />*/}
+      {/*</TableCell>*/}
     </TableRow>
   );
 };
