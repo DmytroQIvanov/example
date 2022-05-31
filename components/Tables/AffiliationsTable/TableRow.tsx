@@ -76,28 +76,26 @@ const TableRowComponent: React.FC<{
         </Box>
       </TableCell>
       <TableCell width={"150px"}>
-        {EditableBlock({
-          ...SummaryObject,
-          name: "informationSource",
-        })}
+        <EditableBlock {...SummaryObject} name={"informationSource"} />
       </TableCell>
       <TableCell width={"100px"}>
-        {EditableBlock({
-          ...SummaryObject,
-          name: "primary",
-          type: "checkBox",
-          checkBox: {
-            type: "green",
-            textVariants: { trueVariant: "YES", falseVariant: "NO" },
-          },
-        })}
+        <EditableBlock
+          {...SummaryObject}
+          {...{
+            name: "primary",
+            type: "checkBox",
+            checkBox: {
+              type: "green",
+              textVariants: { trueVariant: "YES", falseVariant: "NO" },
+            },
+          }}
+        />
       </TableCell>
       <TableCell width={"400px"}>
         {EditableBlock({
           ...SummaryObject,
           name: "comments",
           multiline: 6,
-          // title: "Comments",
           width: 100,
         })}
       </TableCell>

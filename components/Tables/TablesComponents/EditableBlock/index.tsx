@@ -194,7 +194,7 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
           )}
         </Grid>
         <Grid item width={width && `${width}%`}>
-          {editStateBoolean !== "default" ? <Component /> : <TextComponent />}
+          {editStateBoolean !== "default" ? Component() : <TextComponent />}
         </Grid>
       </Grid>
       {validate && validate?.disabled && (
@@ -204,9 +204,7 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
               backgroundColor: "#2121c5",
               color: "white",
               width: "95%",
-              // m: "auto",
               p: "3px",
-              // ml: "-2px",
               mt: "5px",
             }}
             onClick={validate.onClick ? validate.onClick : console.log}
