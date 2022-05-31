@@ -44,7 +44,7 @@ const arrowNavigation = [
     text: "Home Address",
   },
   {
-    link: "/persondataentry/employment",
+    link: "/persondataentry/employment.tsx",
     icon: <FaSuitcase className="react-icon" />,
     text: "Employment",
   },
@@ -54,22 +54,22 @@ const arrowNavigation = [
     text: "Employment Id History",
   },
   {
-    link: "/persondataentry/employment",
+    link: "/persondataentry/employment.tsx",
     icon: <FaSuitcase className="react-icon" />,
     text: "Submissions",
   },
   {
-    link: "/persondataentry/employment",
+    link: "/persondataentry/employment.tsx",
     icon: <FaSuitcase className="react-icon" />,
     text: "Deductions",
   },
   {
-    link: "/persondataentry/employment",
+    link: "/persondataentry/employment.tsx",
     icon: <FaSuitcase className="react-icon" />,
     text: "Research",
   },
   {
-    link: "/persondataentry/employment",
+    link: "/persondataentry/employment.tsx",
     icon: <FaSuitcase className="react-icon" />,
     text: "Campuses",
   },
