@@ -1,29 +1,11 @@
 import React, { CSSProperties, useEffect, useState } from "react";
 import TableCell from "@material-ui/core/TableCell";
-import {
-  Autocomplete,
-  Box,
-  Button,
-  Checkbox,
-  Chip,
-  FormControlLabel,
-  Grid,
-  TextField,
-  Typography,
-} from "@mui/material";
 import TableRow from "@material-ui/core/TableRow";
-
-//STYLES
-import styles from "./PersonEmpoymentTable.module.css";
 
 //INTERFACES
 import { IRowsPersonEmploymentTable } from "./interfaces";
 
 //ICONS
-import EditSharpIcon from "@mui/icons-material/EditSharp";
-import SaveIcon from "@mui/icons-material/Save";
-import CancelIcon from "@mui/icons-material/Cancel";
-import DeleteIcon from "@mui/icons-material/Delete";
 import EditableBlock from "../TablesComponents/EditableBlock";
 import { UseEditableTable } from "../../../hooks/UseEditableTable";
 import OptionsBlock from "../TablesComponents/OptionsBlock";
@@ -40,7 +22,9 @@ const dropArray = [
 const TableRowComponent: React.FC<{
   row: IRowsPersonEmploymentTable;
   onDelete: (id: string | undefined) => void;
-}> = ({ row, onDelete }) => {
+  onAddSave: Function;
+  onAddCancel: Function;
+}> = ({ row, onDelete, onAddSave, onAddCancel }) => {
   const {
     onCancel,
     handleChange,
@@ -49,8 +33,8 @@ const TableRowComponent: React.FC<{
     handleEditableState,
     onSave,
     editState,
-    onChangeValidateState,
     validateState,
+    onChangeValidateState,
   } = UseEditableTable(row);
 
   const SummaryObject = {
@@ -107,21 +91,34 @@ const TableRowComponent: React.FC<{
         {EditableBlock({
           ...SummaryObject,
           name: "dlkv",
-          validate: { label: "Validate", onClick: onChangeValidateState },
+          validate: {
+            disabled: !validateState,
+            label: "validate",
+            onClick: () => onChangeValidateState(true),
+          },
         })}
       </TableCell>
       <TableCell width={"130px"}>
         {EditableBlock({
           ...SummaryObject,
           name: "dmi",
-          checkBox: { label: "Invalidate" },
+          type: "date",
+          checkBox: {
+            label: "Invalidate",
+            onClick: () => onChangeValidateState(!validateState),
+            value: !validateState,
+            disabled: !validateState,
+          },
         })}
       </TableCell>
       <TableCell width={"130px"}>
         <OptionsBlock
           editStateBoolean={editStateBoolean}
-          onSave={onSave}
-          onCancel={onCancel}
+          onSave={() => {
+            editStateBoolean === "add" && onAddSave();
+            onSave();
+          }}
+          onCancel={editStateBoolean === "add" ? onAddCancel : onCancel}
           handleEditableState={handleEditableState}
           onDelete={onDelete}
           id={row.id}

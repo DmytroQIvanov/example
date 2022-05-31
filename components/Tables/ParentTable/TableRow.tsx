@@ -70,8 +70,11 @@ const TableRowComponent: React.FC<{
         {EditableBlock({
           ...SummaryObject,
           name: "dlkv",
-          type: "date",
-          validate: { label: "Validate", onClick: onChangeValidateState },
+          validate: {
+            disabled: !validateState,
+            label: "validate",
+            onClick: () => onChangeValidateState(true),
+          },
         })}
       </TableCell>
       <TableCell width={"330px"}>
@@ -79,7 +82,12 @@ const TableRowComponent: React.FC<{
           ...SummaryObject,
           name: "dmi",
           type: "date",
-          checkBox: { label: "Invalidate" },
+          checkBox: {
+            label: "Invalidate",
+            onClick: () => onChangeValidateState(!validateState),
+            value: !validateState,
+            disabled: !validateState,
+          },
         })}
       </TableCell>
 
@@ -92,8 +100,11 @@ const TableRowComponent: React.FC<{
       <TableCell width={"130px"}>
         <OptionsBlock
           editStateBoolean={editStateBoolean}
-          onSave={onSave}
-          onCancel={onCancel}
+          onSave={() => {
+            editStateBoolean === "add" && onAddSave();
+            onSave();
+          }}
+          onCancel={editStateBoolean === "add" ? onAddCancel : onCancel}
           handleEditableState={handleEditableState}
           onDelete={onDelete}
           id={row.id}

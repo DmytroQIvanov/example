@@ -21,7 +21,9 @@ const dropArray = [
 const TableRowComponent: React.FC<{
   row: IRowsPersonEmploymentTable;
   onDelete: (id: string | undefined) => void;
-}> = ({ row, onDelete }) => {
+  onAddSave: Function;
+  onAddCancel: Function;
+}> = ({ row, onDelete, onAddSave, onAddCancel }) => {
   const {
     onCancel,
     handleChange,
@@ -30,8 +32,8 @@ const TableRowComponent: React.FC<{
     handleEditableState,
     onSave,
     editState,
-    onChangeValidateState,
     validateState,
+    onChangeValidateState,
   } = UseEditableTable(row);
 
   const SummaryObject = {

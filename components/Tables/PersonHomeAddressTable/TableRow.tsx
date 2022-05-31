@@ -9,19 +9,12 @@ import EditableBlock from "../TablesComponents/EditableBlock";
 import { UseEditableTable } from "../../../hooks/UseEditableTable";
 import OptionsBlock from "../TablesComponents/OptionsBlock";
 
-const dropArray = [
-  {
-    label: "Something",
-  },
-  {
-    label: "Lorem",
-  },
-];
-
 const TableRowComponent: React.FC<{
   row: IRowsPersonEmploymentTable;
   onDelete: (id: string | undefined) => void;
-}> = ({ row, onDelete }) => {
+  onAddSave: Function;
+  onAddCancel: Function;
+}> = ({ row, onDelete, onAddSave, onAddCancel }) => {
   const {
     onCancel,
     handleChange,
@@ -30,8 +23,8 @@ const TableRowComponent: React.FC<{
     handleEditableState,
     onSave,
     editState,
-    onChangeValidateState,
     validateState,
+    onChangeValidateState,
   } = UseEditableTable(row);
 
   const SummaryObject = {
@@ -106,10 +99,12 @@ const TableRowComponent: React.FC<{
 
       <TableCell width={"130px"}>
         <OptionsBlock
-          documentElement
           editStateBoolean={editStateBoolean}
-          onSave={onSave}
-          onCancel={onCancel}
+          onSave={() => {
+            editStateBoolean === "add" && onAddSave();
+            onSave();
+          }}
+          onCancel={editStateBoolean === "add" ? onAddCancel : onCancel}
           handleEditableState={handleEditableState}
           onDelete={onDelete}
           id={row.id}

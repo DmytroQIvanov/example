@@ -52,8 +52,14 @@ const Index: React.FC<optionsBlock> = ({
       {validateState &&
         (editStateBoolean == "add" || editStateBoolean == "change" ? (
           <Box sx={{ mt: "20px" }}>
-            <SaveIcon onClick={onSave} sx={{ cursor: "pointer", mr: "10px" }} />
-            <CancelIcon onClick={onCancel} sx={{ cursor: "pointer" }} />
+            <SaveIcon
+              onClick={() => onSave(id)}
+              sx={{ cursor: "pointer", mr: "10px" }}
+            />
+            <CancelIcon
+              onClick={() => onCancel(id)}
+              sx={{ cursor: "pointer" }}
+            />
           </Box>
         ) : (
           <>

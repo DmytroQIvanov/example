@@ -24,9 +24,6 @@ interface tableWrapperProps {
   }) => React.ReactNode;
   buttonsList?: [{ label: string; function: Function }];
   rows: any[];
-  // tableElements: any[];
-  // onDelete: Function;
-  // onChangeAddState: Function;
 }
 
 const Index: React.FC<tableWrapperProps> = ({

@@ -136,7 +136,11 @@ const TableRowComponent: React.FC<{
         {EditableBlock({
           ...SummaryObject,
           name: "dlkv",
-          validate: { label: "validate", onClick: onChangeValidateState },
+          validate: {
+            disabled: !validateState,
+            label: "validate",
+            onClick: () => onChangeValidateState(true),
+          },
         })}
       </TableCell>
       <TableCell width={"220px"}>
@@ -144,7 +148,12 @@ const TableRowComponent: React.FC<{
           ...SummaryObject,
           name: "dmi",
           type: "date",
-          checkBox: { label: "Invalidate" },
+          checkBox: {
+            label: "Invalidate",
+            onClick: () => onChangeValidateState(!validateState),
+            value: !validateState,
+            disabled: !validateState,
+          },
         })}
       </TableCell>
     </TableRow>

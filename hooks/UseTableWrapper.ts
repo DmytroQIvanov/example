@@ -12,9 +12,8 @@ export const useTableWrapper = (rows: any[]) => {
       setTemporallyTableElements([
         ...tableElements,
         {
-          id: tableElements[tableElements.length - 1].id + 1 || 0,
+          id: tableElements[tableElements.length - 1]?.id + 1 || 0,
           addStateBoolean: true,
-          //TODO
         },
       ]);
       setAddStateBoolean(true);
@@ -27,8 +26,12 @@ export const useTableWrapper = (rows: any[]) => {
     setAddStateBoolean(false);
     setAlreadyAdded(false);
   };
-  const onCancel = () => {
+  const onCancel = (id: string | undefined) => {
     setAlreadyAdded(false);
+    setTemporallyTableElements(tableElements);
+    setTableElements(tableElements.filter((elem) => elem.id !== id));
+    setTemporallyTableElements(tableElements.filter((elem) => elem.id !== id));
+    setAddStateBoolean(false);
   };
 
   const onDelete = (id: string | undefined) => {

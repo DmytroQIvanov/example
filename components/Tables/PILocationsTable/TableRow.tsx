@@ -21,7 +21,9 @@ const dropArray = [
 const TableRowComponent: React.FC<{
   row: IRowsPersonEmploymentTable;
   onDelete: (id: string | undefined) => void;
-}> = ({ row, onDelete }) => {
+  onAddSave: Function;
+  onAddCancel: Function;
+}> = ({ row, onDelete, onAddSave, onAddCancel }) => {
   const {
     onCancel,
     handleChange,
@@ -30,8 +32,8 @@ const TableRowComponent: React.FC<{
     handleEditableState,
     onSave,
     editState,
-    onChangeValidateState,
     validateState,
+    onChangeValidateState,
   } = UseEditableTable(row);
 
   const SummaryObject = {
@@ -101,8 +103,11 @@ const TableRowComponent: React.FC<{
         {EditableBlock({
           ...SummaryObject,
           name: "dlkv",
-          type: "date",
-          validate: { label: "Validate", onClick: onChangeValidateState },
+          validate: {
+            disabled: !validateState,
+            label: "validate",
+            onClick: () => onChangeValidateState(true),
+          },
         })}
       </TableCell>
 
@@ -111,20 +116,28 @@ const TableRowComponent: React.FC<{
           ...SummaryObject,
           name: "dmi",
           type: "date",
-          checkBox: { label: "Invalidate" },
+          checkBox: {
+            label: "Invalidate",
+            onClick: () => onChangeValidateState(!validateState),
+            value: !validateState,
+            disabled: !validateState,
+          },
         })}
       </TableCell>
-      <TableCell width={"130px"}>
-        <OptionsBlock
-          editStateBoolean={editStateBoolean}
-          onSave={onSave}
-          onCancel={onCancel}
-          handleEditableState={handleEditableState}
-          onDelete={onDelete}
-          id={row.id}
-          validateState={validateState}
-        />
-      </TableCell>
+      {/*<TableCell width={"130px"}>*/}
+      {/*<OptionsBlock*/}
+      {/*  editStateBoolean={editStateBoolean}*/}
+      {/*  onSave={() => {*/}
+      {/*    editStateBoolean === "add" && onAddSave();*/}
+      {/*    onSave();*/}
+      {/*  }}*/}
+      {/*  onCancel={editStateBoolean === "add" ? onAddCancel : onCancel}*/}
+      {/*  handleEditableState={handleEditableState}*/}
+      {/*  onDelete={onDelete}*/}
+      {/*  id={row.id}*/}
+      {/*  validateState={validateState}*/}
+      {/*/>*/}
+      {/*</TableCell>*/}
     </TableRow>
   );
 };
