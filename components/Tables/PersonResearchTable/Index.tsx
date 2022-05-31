@@ -1,11 +1,8 @@
 import React, { useState } from "react";
-import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import Paper from "@material-ui/core/Paper";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import { Box, Button } from "@mui/material";
 import { visuallyHidden } from "@mui/utils";
@@ -16,6 +13,7 @@ import {
 } from "./interfaces";
 import TableRowComponent from "./TableRow";
 import TableWrapper from "../TablesComponents/TableWrapper";
+import { HeadCell } from "../TablesComponents/Interfaces/HeadCell";
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -66,22 +64,10 @@ const rows: IRowsPersonEmploymentTable[] = [
   },
 ];
 
-interface HeadCell {
-  id: keyof IColumnsPersonEmploymentTable;
-  label: string;
-  numeric: boolean;
-  width?: string;
-}
 const headCells: readonly HeadCell[] = [
   {
     id: "date",
-    numeric: true,
     label: "Date",
-  },
-  {
-    id: "comments",
-    numeric: false,
-    label: "Comments",
   },
   {
     id: "comments",
@@ -90,8 +76,11 @@ const headCells: readonly HeadCell[] = [
     width: "400px",
   },
   {
+    id: "createdBy",
+    label: "Created By",
+  },
+  {
     id: "options",
-    numeric: false,
     label: "Options",
   },
 ];

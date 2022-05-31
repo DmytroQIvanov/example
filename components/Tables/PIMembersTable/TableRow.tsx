@@ -133,6 +133,20 @@ const TableRowComponent: React.FC<{
           name: "campus",
         })}
       </TableCell>
+      <TableCell width={"130px"}>
+        <OptionsBlock
+          editStateBoolean={editStateBoolean}
+          onSave={() => {
+            editStateBoolean === "add" && onAddSave();
+            onSave();
+          }}
+          onCancel={editStateBoolean === "add" ? onAddCancel : onCancel}
+          handleEditableState={handleEditableState}
+          onDelete={onDelete}
+          id={row.id}
+          validateState={validateState}
+        />
+      </TableCell>
     </TableRow>
   );
 };

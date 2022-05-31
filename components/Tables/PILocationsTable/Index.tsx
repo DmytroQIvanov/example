@@ -63,6 +63,11 @@ const headCells: readonly HeadCell<IColumnsPersonEmploymentTable>[] = [
     id: "dmi",
     label: "DMI",
   },
+
+  {
+    id: "options",
+    label: "Options",
+  },
 ];
 
 const Index = () => {

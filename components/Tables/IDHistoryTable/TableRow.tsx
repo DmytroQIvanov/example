@@ -47,12 +47,20 @@ const TableRowComponent: React.FC<{
   return (
     <TableRow style={!validateState ? { backgroundColor: "#ececec" } : {}}>
       <TableCell component="th" scope="row" width={"100px"}>
-        {EditableBlock({
-          ...SummaryObject,
-          name: "campus",
-          type: "dropdown",
-          itemsArray: dropArray,
-        })}
+        {editState.addStateBoolean
+          ? EditableBlock({
+              ...SummaryObject,
+              name: "campus",
+              type: "dropdown",
+              itemsArray: dropArray,
+            })
+          : editState["campus"] &&
+            EditableBlock({
+              ...SummaryObject,
+              name: "campus",
+              type: "dropdown",
+              itemsArray: dropArray,
+            })}
       </TableCell>
 
       <TableCell width={"130px"}>

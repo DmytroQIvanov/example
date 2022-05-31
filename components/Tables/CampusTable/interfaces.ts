@@ -11,6 +11,7 @@ interface IRowsPersonEmploymentTable {
   dfkv: string;
   dlkv: string;
   dmi: string;
+  options?: string;
 }
 interface IColumnsPersonEmploymentTable {
   id: string;
@@ -24,6 +25,7 @@ interface IColumnsPersonEmploymentTable {
   dfkv: string;
   dlkv: string;
   dmi: string;
+  options?: string;
 }
 
 export type { IRowsPersonEmploymentTable, IColumnsPersonEmploymentTable };

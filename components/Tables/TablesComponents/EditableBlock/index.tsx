@@ -62,7 +62,12 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
 
   ...inputParams
 }) => {
-  const disableEditableArray = ["campus"];
+  const disableEditableArray = [
+    "campus",
+    "createdBy",
+    "location1",
+    "location2",
+  ];
 
   let disabledState = false;
   if (editStateBoolean === "change")

@@ -81,56 +81,50 @@ interface HeadCell {
 const headCells: readonly HeadCell[] = [
   {
     id: "campus",
-    numeric: true,
     label: "Campus",
   },
   {
     id: "superAreaArea",
-    numeric: false,
     label: "Super Area",
     secondLabel: "Area",
   },
   {
     id: "turf",
-    numeric: false,
     label: "Turf",
   },
   {
     id: "informationSource",
-    numeric: false,
     label: "Information Source",
   },
   {
     id: "suppress",
-    numeric: false,
     label: "Suppress",
   },
-
   {
     id: "pi",
-    numeric: false,
     label: "PI",
   },
 
   {
     id: "comments",
-    numeric: false,
     label: "Comments",
   },
   {
     id: "dfkv",
-    numeric: false,
     label: "DFKV",
   },
   {
     id: "dlkv",
-    numeric: false,
     label: "DLKV",
   },
   {
     id: "dmi",
-    numeric: false,
     label: "DMI",
+  },
+
+  {
+    id: "options",
+    label: "Options",
   },
 ];
 

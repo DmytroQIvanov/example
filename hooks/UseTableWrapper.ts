@@ -7,7 +7,6 @@ export const useTableWrapper = (rows: any[]) => {
   const [alreadyAdded, setAlreadyAdded] = useState(false);
 
   const onChangeAddState = () => {
-    console.log(alreadyAdded);
     if (!alreadyAdded) {
       setTemporallyTableElements([
         ...tableElements,
@@ -22,6 +21,7 @@ export const useTableWrapper = (rows: any[]) => {
   };
 
   const onSave = () => {
+    // setTemporallyTableElements([...temporallyTableElements])
     setTableElements(temporallyTableElements);
     setAddStateBoolean(false);
     setAlreadyAdded(false);

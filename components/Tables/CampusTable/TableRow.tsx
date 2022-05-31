@@ -22,6 +22,7 @@ import { IRowsPersonEmploymentTable } from "./interfaces";
 //ICONS
 import EditableBlock from "../TablesComponents/EditableBlock";
 import { UseEditableTable } from "../../../hooks/UseEditableTable";
+import OptionsBlock from "../TablesComponents/OptionsBlock";
 
 const dropArray = [
   {
@@ -35,7 +36,9 @@ const dropArray = [
 const TableRowComponent: React.FC<{
   row: IRowsPersonEmploymentTable;
   onDelete: (id: string | undefined) => void;
-}> = ({ row, onDelete }) => {
+  onAddSave: Function;
+  onAddCancel: Function;
+}> = ({ row, onDelete, onAddSave, onAddCancel }) => {
   const {
     onCancel,
     handleChange,
@@ -157,6 +160,21 @@ const TableRowComponent: React.FC<{
             disabled: !validateState,
           },
         })}
+      </TableCell>
+
+      <TableCell width={"130px"}>
+        <OptionsBlock
+          editStateBoolean={editStateBoolean}
+          onSave={() => {
+            editStateBoolean === "add" && onAddSave();
+            onSave();
+          }}
+          onCancel={editStateBoolean === "add" ? onAddCancel : onCancel}
+          handleEditableState={handleEditableState}
+          onDelete={onDelete}
+          id={row.id}
+          validateState={validateState}
+        />
       </TableCell>
     </TableRow>
   );

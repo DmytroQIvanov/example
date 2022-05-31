@@ -19,6 +19,14 @@ const rows: IRowsPersonEmploymentTable[] = [
     dlkv: "04/12/2022",
     createdBy: "John",
   },
+  {
+    id: "2",
+    campus: "",
+    employeeID: "4147637",
+    dfkv: "01/02/2021",
+    dlkv: "04/12/2022",
+    createdBy: "John",
+  },
 ];
 
 const headCells: readonly HeadCell<IColumnsPersonEmploymentTable>[] = [

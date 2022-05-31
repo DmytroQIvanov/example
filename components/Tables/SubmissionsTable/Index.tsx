@@ -42,6 +42,11 @@ const headCells: readonly HeadCell<IColumnsPersonEmploymentTable>[] = [
     id: "createdBy",
     label: "Created By",
   },
+
+  {
+    id: "options",
+    label: "Options",
+  },
 ];
 
 const Index = () => {
@@ -63,7 +68,7 @@ const Index = () => {
     setTableElements(tableElements.filter((elem) => elem.id !== id));
   };
   return (
-    <TableWrapper rows={rows}>
+    <TableWrapper rows={rows} disableAddBtn>
       {({
         EnhancedTableHead,
         stableSort,

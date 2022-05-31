@@ -12,6 +12,7 @@ interface IRowsPersonEmploymentTable {
   activeUnit: string;
   leftUC: string;
   campus: string;
+  options?: string;
 }
 interface IColumnsPersonEmploymentTable {
   id: string;
@@ -27,6 +28,7 @@ interface IColumnsPersonEmploymentTable {
   activeUnit: string;
   leftUC: string;
   campus: string;
+  options?: string;
 }
 
 export type { IRowsPersonEmploymentTable, IColumnsPersonEmploymentTable };
