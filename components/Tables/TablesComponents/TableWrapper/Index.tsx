@@ -22,19 +22,21 @@ interface tableWrapperProps {
     onSave: Function;
     onCancel: Function;
   }) => React.ReactNode;
-  buttonsList?: [{ label: string; function: Function }];
+  buttonsList?: [{ label: string; function?: Function }];
   rows: any[];
+  disableAddBtn?: boolean;
 }
 
 const Index: React.FC<tableWrapperProps> = ({
   children,
   buttonsList,
   rows,
+  addButton,
 }) => {
   const { tableElements, onDelete, onChangeAddState, onSave, onCancel } =
     useTableWrapper(rows);
 
-  const buttonsListState =
+  const [buttonsListState, setButtonsListState] = useState(
     buttonsList == undefined
       ? [
           {
@@ -42,7 +44,18 @@ const Index: React.FC<tableWrapperProps> = ({
             function: onChangeAddState,
           },
         ]
-      : buttonsList;
+      : buttonsList
+  );
+  // let buttonsListState =
+  //   buttonsList == undefined
+  //     ? [
+  //         {
+  //           label: "Add",
+  //           function: onChangeAddState,
+  //         },
+  //       ]
+  //     : buttonsList;
+
   //SORT FUNCTIONS
   function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
     if (b[orderBy] < a[orderBy]) {
@@ -135,6 +148,16 @@ const Index: React.FC<tableWrapperProps> = ({
         }}
       >
         <Box sx={{ position: "fixed", right: "0px", top: "10px" }}>
+          {!disableAddBtn && (
+            <Button
+              sx={{ m: "auto 20px auto auto" }}
+              color={"success"}
+              variant={"contained"}
+              onClick={onChangeAddState}
+            >
+              Add
+            </Button>
+          )}
           {buttonsListState.map((elem, index) => (
             <Button
               sx={{ m: "auto 20px auto auto" }}

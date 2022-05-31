@@ -84,7 +84,7 @@ const Index = () => {
     setTableElements(tableElements.filter((elem) => elem.id !== id));
   };
   return (
-    <TableWrapper rows={rows}>
+    <TableWrapper rows={rows} buttonsList={[{ label: "Location Data Entry" }]}>
       {({
         EnhancedTableHead,
         stableSort,

@@ -66,7 +66,11 @@ const Index = () => {
   };
 
   return (
-    <TableWrapper rows={rows}>
+    <TableWrapper
+      rows={rows}
+      disableAddBtn
+      buttonsList={[{ label: "Add New Website" }]}
+    >
       {({
         EnhancedTableHead,
         stableSort,

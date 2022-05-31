@@ -183,7 +183,10 @@ const AffiliationTable = () => {
     setOrderBy(property);
   };
   return (
-    <TableWrapper rows={rows}>
+    <TableWrapper
+      rows={rows}
+      buttonsList={[{ label: "Organization Data Entry" }]}
+    >
       {({
         EnhancedTableHead,
         stableSort,
