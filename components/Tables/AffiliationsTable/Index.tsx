@@ -13,8 +13,6 @@ import {
   IColumnsPersonEmploymentTable,
 } from "./interfaces";
 import TableRowComponent from "./TableRow";
-import { UseWrapper2 } from "../../../hooks/UseWrapper2";
-import { useTableWrapper } from "../../../hooks/UseTableWrapper";
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {

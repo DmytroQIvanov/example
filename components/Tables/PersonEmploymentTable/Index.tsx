@@ -15,6 +15,7 @@ import {
   IColumnsPersonEmploymentTable,
 } from "./interfaces";
 import TableRowComponent from "./TableRow";
+import TableWrapper from "../TablesComponents/TableWrapper";
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -210,52 +211,40 @@ const PersonEmploymentTable = () => {
   };
 
   return (
-    <div>
-      <div
-        style={{
-          overflow: "auto",
-          width: "max-content",
-          maxWidth: "100vw",
-          position: "relative",
-        }}
-      >
-        <Box sx={{ position: "fixed", right: "0px" }}>
-          <Button
-            sx={{ m: "auto 20px auto auto" }}
-            color={"success"}
-            variant={"contained"}
-          >
-            Add
-          </Button>
-        </Box>
-        <TableContainer
-          component={Paper}
-          style={{ width: "max-content", marginTop: "45px" }}
-        >
-          {" "}
-          <Table aria-label="customized table">
-            <EnhancedTableHead
-              order={order}
-              orderBy={orderBy}
-              onRequestSort={handleRequestSort}
-              headCells={headCells}
-            />
-            <TableBody>
-              {/*@ts-ignore*/}
-              {stableSort(tableElements, getComparator(order, orderBy)).map(
-                (row: IRowsPersonEmploymentTable) => (
-                  <TableRowComponent
-                    row={row}
-                    key={`${row.id}`}
-                    onDelete={onDelete}
-                  />
-                )
-              )}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </div>
-    </div>
+    <TableWrapper rows={rows}>
+      {({
+        EnhancedTableHead,
+        stableSort,
+        getComparator,
+        tableElements,
+        onDelete,
+        onCancel,
+        onSave,
+      }) => (
+        <>
+          <EnhancedTableHead
+            order={order}
+            orderBy={orderBy}
+            onRequestSort={handleRequestSort}
+            headCells={headCells}
+          />
+          <TableBody>
+            {/*@ts-ignore*/}
+            {stableSort(tableElements, getComparator(order, orderBy)).map(
+              (row: IRowsPersonEmploymentTable) => (
+                <TableRowComponent
+                  row={row}
+                  key={`${row.id}`}
+                  onDelete={onDelete}
+                  onAddSave={onSave}
+                  onAddCancel={onCancel}
+                />
+              )
+            )}
+          </TableBody>
+        </>
+      )}
+    </TableWrapper>
   );
 };
 

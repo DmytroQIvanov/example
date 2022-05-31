@@ -54,7 +54,7 @@ const headCells: readonly HeadCell<IColumnsPersonEmploymentTable>[] = [
 const Index = () => {
   const [order, setOrder] = React.useState<Order>("asc");
   const [orderBy, setOrderBy] =
-    React.useState<keyof IRowsPersonEmploymentTable>("electronicAddress");
+    React.useState<keyof IRowsPersonEmploymentTable>("dmi");
 
   const handleRequestSort = (
     _: any,
@@ -64,14 +64,18 @@ const Index = () => {
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
   };
-  const [tableElements, setTableElements] = useState(rows);
-  const onDelete = (id: string | undefined) => {
-    if (!id) return;
-    setTableElements(tableElements.filter((elem) => elem.id !== id));
-  };
+
   return (
-    <TableWrapper customText={{ label: "Add New Website" }}>
-      {({ EnhancedTableHead, stableSort, getComparator }) => (
+    <TableWrapper rows={rows}>
+      {({
+        EnhancedTableHead,
+        stableSort,
+        getComparator,
+        tableElements,
+        onDelete,
+        onCancel,
+        onSave,
+      }) => (
         <>
           <EnhancedTableHead
             order={order}
@@ -87,6 +91,8 @@ const Index = () => {
                   row={row}
                   key={`${row.id}`}
                   onDelete={onDelete}
+                  onAddSave={onSave}
+                  onAddCancel={onCancel}
                 />
               )
             )}

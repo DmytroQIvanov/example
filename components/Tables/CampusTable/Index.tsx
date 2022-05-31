@@ -1,14 +1,12 @@
 import React, { useState } from "react";
-import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import Paper from "@material-ui/core/Paper";
 import TableSortLabel from "@mui/material/TableSortLabel";
-import { Box, Button } from "@mui/material";
+import { Box } from "@mui/material";
 import { visuallyHidden } from "@mui/utils";
+import TableWrapper from "../TablesComponents/TableWrapper/Index";
 
 import {
   IRowsPersonEmploymentTable,
@@ -214,51 +212,40 @@ const CampusTable = () => {
   };
 
   return (
-    <div>
-      <div
-        style={{
-          overflow: "auto",
-          width: "max-content",
-          maxWidth: "100vw",
-          position: "relative",
-        }}
-      >
-        <Box sx={{ position: "fixed", right: "0px" }}>
-          <Button
-            sx={{ m: "auto 20px auto auto" }}
-            color={"success"}
-            variant={"contained"}
-          >
-            Add
-          </Button>
-        </Box>
-        <TableContainer
-          component={Paper}
-          style={{ width: "max-content", marginTop: "45px" }}
-        >
-          <Table aria-label="customized table">
-            <EnhancedTableHead
-              order={order}
-              orderBy={orderBy}
-              onRequestSort={handleRequestSort}
-              headCells={headCells}
-            />
-            <TableBody>
-              {/*@ts-ignore*/}
-              {stableSort(tableElements, getComparator(order, orderBy)).map(
-                (row: IRowsPersonEmploymentTable) => (
-                  <TableRowComponent
-                    row={row}
-                    key={`${row.id}`}
-                    onDelete={onDelete}
-                  />
-                )
-              )}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </div>
-    </div>
+    <TableWrapper rows={rows}>
+      {({
+        EnhancedTableHead,
+        stableSort,
+        getComparator,
+        tableElements,
+        onDelete,
+        onCancel,
+        onSave,
+      }) => (
+        <>
+          <EnhancedTableHead
+            order={order}
+            orderBy={orderBy}
+            onRequestSort={handleRequestSort}
+            headCells={headCells}
+          />
+          <TableBody>
+            {/*@ts-ignore*/}
+            {stableSort(tableElements, getComparator(order, orderBy)).map(
+              (row: IRowsPersonEmploymentTable) => (
+                <TableRowComponent
+                  row={row}
+                  key={`${row.id}`}
+                  onDelete={onDelete}
+                  onAddSave={onSave}
+                  onAddCancel={onCancel}
+                />
+              )
+            )}
+          </TableBody>
+        </>
+      )}
+    </TableWrapper>
   );
 };
 

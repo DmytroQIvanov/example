@@ -59,8 +59,16 @@ const Index = () => {
     setTableElements(tableElements.filter((elem) => elem.id !== id));
   };
   return (
-    <TableWrapper>
-      {({ EnhancedTableHead, stableSort, getComparator }) => (
+    <TableWrapper rows={rows}>
+      {({
+        EnhancedTableHead,
+        stableSort,
+        getComparator,
+        tableElements,
+        onDelete,
+        onCancel,
+        onSave,
+      }) => (
         <>
           <EnhancedTableHead
             order={order}
@@ -76,6 +84,8 @@ const Index = () => {
                   row={row}
                   key={`${row.id}`}
                   onDelete={onDelete}
+                  onAddSave={onSave}
+                  onAddCancel={onCancel}
                 />
               )
             )}

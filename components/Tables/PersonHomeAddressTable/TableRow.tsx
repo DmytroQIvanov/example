@@ -83,21 +83,30 @@ const TableRowComponent: React.FC<{
         {EditableBlock({
           ...SummaryObject,
           name: "dlkv",
-          validate: { label: "Validate", onClick: onChangeValidateState },
+          validate: {
+            disabled: !validateState,
+            label: "validate",
+            onClick: () => onChangeValidateState(true),
+          },
         })}
       </TableCell>
       <TableCell width={"230px"}>
         {EditableBlock({
           ...SummaryObject,
           name: "marketInvalid",
+          type: "date",
           checkBox: {
             label: "Invalidate",
+            onClick: () => onChangeValidateState(!validateState),
+            value: !validateState,
+            disabled: !validateState,
           },
         })}
       </TableCell>
 
       <TableCell width={"130px"}>
         <OptionsBlock
+          documentElement
           editStateBoolean={editStateBoolean}
           onSave={onSave}
           onCancel={onCancel}
