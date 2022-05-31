@@ -31,7 +31,7 @@ const Index: React.FC<tableWrapperProps> = ({
   children,
   buttonsList,
   rows,
-  addButton,
+  disableAddBtn,
 }) => {
   const { tableElements, onDelete, onChangeAddState, onSave, onCancel } =
     useTableWrapper(rows);
