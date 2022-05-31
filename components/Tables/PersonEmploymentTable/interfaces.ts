@@ -23,7 +23,7 @@ interface IColumnsPersonEmploymentTable {
   comments: string;
   dfkv: string;
   dlkv: string;
-  dlvk: string;
+  dlkv: string;
   dmi: string;
   options: string;
 }

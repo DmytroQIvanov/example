@@ -54,8 +54,8 @@ const headCells: readonly HeadCell<IColumnsPersonEmploymentTable>[] = [
     label: "DFKV",
   },
   {
-    id: "dlvk",
-    label: "DLVK",
+    id: "dlkv",
+    label: "DLKV",
   },
   {
     id: "dmi",

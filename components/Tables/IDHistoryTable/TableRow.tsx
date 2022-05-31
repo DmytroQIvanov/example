@@ -71,6 +71,7 @@ const TableRowComponent: React.FC<{
         {EditableBlock({
           ...SummaryObject,
           name: "dlkv",
+          type: "date",
           validate: { label: "Validate", onClick: onChangeValidateState },
         })}
       </TableCell>

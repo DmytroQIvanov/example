@@ -91,6 +91,8 @@ const TableRowComponent: React.FC<{
         {EditableBlock({
           ...SummaryObject,
           name: "dlkv",
+          type: "date",
+
           validate: {
             disabled: !validateState,
             label: "validate",

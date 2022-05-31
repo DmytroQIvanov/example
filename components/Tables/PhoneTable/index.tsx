@@ -110,9 +110,9 @@ const headCells: readonly HeadCell[] = [
     label: "DFKV",
   },
   {
-    id: "dlvk",
+    id: "dlkv",
     numeric: false,
-    label: "DLVK",
+    label: "DLKV",
   },
   {
     id: "dmi",

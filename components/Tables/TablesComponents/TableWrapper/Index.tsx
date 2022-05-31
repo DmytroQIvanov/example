@@ -35,26 +35,9 @@ const Index: React.FC<tableWrapperProps> = ({
 }) => {
   const { tableElements, onDelete, onChangeAddState, onSave, onCancel } =
     useTableWrapper(rows);
-
   const [buttonsListState, setButtonsListState] = useState(
-    buttonsList == undefined
-      ? [
-          {
-            label: "Add",
-            function: onChangeAddState,
-          },
-        ]
-      : buttonsList
+    buttonsList !== undefined ? buttonsList : []
   );
-  // let buttonsListState =
-  //   buttonsList == undefined
-  //     ? [
-  //         {
-  //           label: "Add",
-  //           function: onChangeAddState,
-  //         },
-  //       ]
-  //     : buttonsList;
 
   //SORT FUNCTIONS
   function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
