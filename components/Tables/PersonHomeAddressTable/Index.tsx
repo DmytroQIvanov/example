@@ -117,7 +117,7 @@ const Index = () => {
               (row: IRowsPersonEmploymentTable) => (
                 <TableRowComponent
                   row={row}
-                  key={`${row.id}`}
+                  key={`${row?.id} `}
                   onDelete={onDelete}
                   onAddSave={onSave}
                   onAddCancel={onCancel}

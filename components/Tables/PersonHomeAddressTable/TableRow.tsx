@@ -19,16 +19,7 @@ const TableRowComponent: React.FC<{
   // onHandleOpen: () => void;
   // onHandleClose: () => void;
   onSaveWithProvidedState: (state: any) => void;
-}> = ({
-  row,
-  onDelete,
-  onAddSave,
-  onAddCancel,
-  // onHandleOpen,
-  // onHandleClose,
-  // stateModal,
-  onSaveWithProvidedState,
-}) => {
+}> = ({ row, onDelete, onAddSave, onAddCancel, onSaveWithProvidedState }) => {
   const {
     onCancel,
     handleChange,
@@ -60,41 +51,19 @@ const TableRowComponent: React.FC<{
   return (
     <TableRow style={!validateState ? { backgroundColor: "#ececec" } : {}}>
       <TableCell component="th" scope="row" width={"200px"}>
-        {/*{EditableBlock({*/}
-        {/*  ...SummaryObject,*/}
-        {/*  name: "homeAddress",*/}
-        {/*})}*/}
-
-        {/*{editState["street_number"]}*/}
-        {/*{editState["street"]}*/}
-
         {editState["full"]}
       </TableCell>
 
       <TableCell component="th" scope="row" width={"200px"}>
-        {/*{EditableBlock({*/}
-        {/*  ...SummaryObject,*/}
-        {/*  name: "locationAccuracy",*/}
-        {/*})}*/}
         {editState["city"]} {editState["state"]}
         {editState["country"]}
       </TableCell>
 
       <TableCell component="th" scope="row" width={"200px"}>
-        {/*{EditableBlock({*/}
-        {/*  ...SummaryObject,*/}
-        {/*  name: "source",*/}
-        {/*})}*/}
         {editState["source"]}
       </TableCell>
 
       <TableCell component="th" scope="row" width={"340px"}>
-        {/*{EditableBlock({*/}
-        {/*  ...SummaryObject,*/}
-        {/*  name: "comments",*/}
-        {/*  multiline: 6,*/}
-        {/*  width: 100,*/}
-        {/*})}*/}
         {editState["comments"]}
       </TableCell>
       <TableCell component="th" scope="row" width={"200px"}>

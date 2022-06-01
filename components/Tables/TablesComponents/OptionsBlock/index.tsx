@@ -7,6 +7,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import ArticleIcon from "@mui/icons-material/Article";
 import AddressReport from "../../../AddressReport/AddressReport";
 import Modal from "@mui/material/Modal";
+import ModalDelete from "../ModalDelete";
 
 interface optionsBlock {
   editStateBoolean?: "default" | "change" | "add";
@@ -24,7 +25,6 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  // width: 400,
   maxHeight: "94%",
   bgcolor: "background.paper",
   boxShadow: 24,
@@ -43,6 +43,15 @@ const Index: React.FC<optionsBlock> = ({
 }) => {
   const [modal, setOpenModal] = useState(false);
 
+  const [deleteModal, setDeleteModal] = useState(false);
+
+  const handleOpenDeleteModal = () => {
+    setDeleteModal(true);
+  };
+
+  const handleCloseDeleteModal = () => {
+    setDeleteModal(false);
+  };
   const handleModal = (state?: boolean) => {
     setOpenModal(state || !modal);
   };
@@ -75,7 +84,7 @@ const Index: React.FC<optionsBlock> = ({
             />
             <DeleteIcon
               onClick={() => {
-                onDelete(id);
+                handleOpenDeleteModal();
               }}
               sx={{ cursor: "pointer" }}
             />
@@ -92,6 +101,16 @@ const Index: React.FC<optionsBlock> = ({
             <AddressReport onClose={() => handleModal(false)} />
           </Box>
         </Modal>
+      )}
+      {deleteModal && (
+        <ModalDelete
+          handleClose={handleCloseDeleteModal}
+          state={deleteModal}
+          onDelete={() => {
+            onDelete(id);
+            handleCloseDeleteModal();
+          }}
+        />
       )}
     </div>
   );
