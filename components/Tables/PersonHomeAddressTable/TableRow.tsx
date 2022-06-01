@@ -15,9 +15,6 @@ const TableRowComponent: React.FC<{
   onDelete: (id: string | undefined) => void;
   onAddSave: Function;
   onAddCancel: Function;
-  // stateModal: boolean;
-  // onHandleOpen: () => void;
-  // onHandleClose: () => void;
   onSaveWithProvidedState: (state: any) => void;
 }> = ({ row, onDelete, onAddSave, onAddCancel, onSaveWithProvidedState }) => {
   const {
@@ -30,7 +27,7 @@ const TableRowComponent: React.FC<{
     editState,
     validateState,
     onChangeValidateState,
-    onChangeWithProvidedState,
+    // onChangeWithProvidedState,
   } = UseEditableTable(row);
 
   const SummaryObject = {
@@ -115,7 +112,7 @@ const TableRowComponent: React.FC<{
         data={{ address: editState }}
         open={stateModal}
         handleClose={onHandleClose}
-        onChangeAddress={onChangeWithProvidedState}
+        onChangeAddress={onSaveWithProvidedState}
       />
     </TableRow>
   );

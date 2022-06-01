@@ -43,6 +43,7 @@ export const UseEditableTable = (row?: any) => {
   const onChangeWithProvidedState = (state: any) => {
     console.log(state);
     setEditState(state);
+    setRowState(state);
 
     console.log(rowState);
   };
@@ -66,6 +67,7 @@ export const UseEditableTable = (row?: any) => {
   //USE-EFFECTS
   useEffect(() => {
     setRowState(row);
+    setEditState(rowState);
   }, [row]);
 
   useEffect(() => {

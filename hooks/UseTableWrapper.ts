@@ -28,7 +28,10 @@ export const useTableWrapper = (rows: any[]) => {
   };
   const onSaveWithProvidedState = (state: any) => {
     console.log(state);
-    setTableElements((prevState) => [...prevState, state]);
+    setTableElements((prevState) => [
+      ...prevState,
+      { ...state, id: prevState.length + 1 },
+    ]);
     console.log(tableElements);
   };
   const onCancel = (id: string | undefined) => {

@@ -196,7 +196,11 @@ const AddressEditModal = ({
                 className={classes.fullWidth}
               >
                 {Sources.map((item, itemIndex) => {
-                  return <MenuItem value={item.value}>{item.label}</MenuItem>;
+                  return (
+                    <MenuItem value={item.value} key={itemIndex}>
+                      {item.label}
+                    </MenuItem>
+                  );
                 })}
               </Select>
             </FormControl>

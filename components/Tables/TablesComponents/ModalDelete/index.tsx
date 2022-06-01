@@ -37,15 +37,17 @@ const Index: React.FC<modalDeleteProps> = ({
         <Typography id="modal-modal-title" variant="h6" component="h2">
           Do you confirm the deletion?
         </Typography>
-        {/*<Typography id="modal-modal-description" sx={{ mt: 2 }}>*/}
-        {/*  Duis mollis, est non commodo luctus, nisi erat porttitor ligula.*/}
-        {/*</Typography>*/}
-
-        <Box sx={{ mt: "20px" }}>
-          <Button onClick={onDelete} variant={"contained"} sx={{ mr: "25px" }}>
+        <Box
+          sx={{
+            width: "max-content",
+            m: "10px 0px auto auto",
+            display: "flex",
+          }}
+        >
+          <Button onClick={onDelete} variant={"contained"} sx={{ mr: "15px" }}>
             Confirm
           </Button>
-          <Button color={"error"} variant={"contained"}>
+          <Button color={"error"} variant={"contained"} onClick={handleClose}>
             Cancel
           </Button>
         </Box>
