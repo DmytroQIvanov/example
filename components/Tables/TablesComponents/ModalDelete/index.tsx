@@ -35,7 +35,7 @@ const Index: React.FC<modalDeleteProps> = ({
     >
       <Box sx={style}>
         <Typography id="modal-modal-title" variant="h6" component="h2">
-          Do you confirm the deletion?
+          Are you sure you want to delete this record?
         </Typography>
         <Box
           sx={{
