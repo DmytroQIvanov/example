@@ -15,7 +15,6 @@ interface IColumnsPersonEmploymentTable {
   id: string;
   campus: string;
   location: string;
-  location: string;
   informationSource: string;
   propagate: string;
   comments: string;

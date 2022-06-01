@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import TableBody from "@material-ui/core/TableBody";
 import TableWrapper from "../TablesComponents/TableWrapper/Index";
 
+// @ts-ignore
 import {
   IRowsPersonEmploymentTable,
   IColumnsPersonEmploymentTable,

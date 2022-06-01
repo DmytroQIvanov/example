@@ -77,7 +77,7 @@ const TableRowComponent: React.FC<{
           checkBox: {
             textVariants: {
               trueVariant: "Yes",
-              falseVaruant: "No",
+              falseVariant: "No",
             },
           },
         })}

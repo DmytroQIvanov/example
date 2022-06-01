@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { MouseEventHandler, useState } from "react";
 import { Box } from "@mui/material";
 import SaveIcon from "@mui/icons-material/Save";
 import CancelIcon from "@mui/icons-material/Cancel";
@@ -13,7 +13,7 @@ interface optionsBlock {
   editStateBoolean?: "default" | "change" | "add";
   onSave: Function;
   onCancel: Function;
-  handleEditableState: Function;
+  handleEditableState: MouseEventHandler<SVGSVGElement>;
   onDelete: Function;
   id: string;
   validateState: boolean;

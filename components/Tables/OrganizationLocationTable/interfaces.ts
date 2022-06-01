@@ -5,6 +5,7 @@ interface IRowsPersonEmploymentTable {
   location2: string;
   informationSource: string;
   propagate: boolean;
+  primary: boolean;
   comments: string;
   dfkv: string;
   dlkv: string;
@@ -13,7 +14,7 @@ interface IRowsPersonEmploymentTable {
 }
 interface IColumnsPersonEmploymentTable {
   id: string;
-
+  primary: string;
   campus: string;
   location: string;
   informationSource: string;

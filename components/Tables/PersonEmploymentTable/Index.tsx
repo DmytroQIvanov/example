@@ -1,11 +1,8 @@
 import React, { useState } from "react";
-import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import Paper from "@material-ui/core/Paper";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import { Box, Button } from "@mui/material";
 import { visuallyHidden } from "@mui/utils";
@@ -15,7 +12,7 @@ import {
   IColumnsPersonEmploymentTable,
 } from "./interfaces";
 import TableRowComponent from "./TableRow";
-import TableWrapper from "../TablesComponents/TableWrapper";
+import TableWrapper from "../TablesComponents/TableWrapper/Index";
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -146,51 +143,6 @@ const headCells: readonly HeadCell[] = [
   },
 ];
 
-interface EnhancedTableProps {
-  onRequestSort: (
-    event: React.MouseEvent<unknown>,
-    property: keyof IRowsPersonEmploymentTable
-  ) => void;
-  order: Order;
-  orderBy: string;
-  headCells: readonly HeadCell[];
-}
-export function EnhancedTableHead(props: EnhancedTableProps) {
-  const { order, orderBy, onRequestSort } = props;
-  const createSortHandler =
-    (property: keyof IRowsPersonEmploymentTable) =>
-    (event: React.MouseEvent<unknown>) => {
-      onRequestSort(event, property);
-    };
-
-  return (
-    <TableHead>
-      <TableRow>
-        {props.headCells.map((headCell) => (
-          <TableCell
-            key={headCell.label}
-            className="whitespace-nowrap"
-            sortDirection={orderBy === headCell.id ? order : false}
-            width={headCell.width && headCell.width}
-          >
-            <TableSortLabel
-              active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : "asc"}
-              onClick={createSortHandler(headCell.id)}
-            >
-              {headCell.label}
-              {orderBy === headCell.id ? (
-                <Box component="span" sx={visuallyHidden}>
-                  {order === "desc" ? "sorted descending" : "sorted ascending"}
-                </Box>
-              ) : null}
-            </TableSortLabel>
-          </TableCell>
-        ))}
-      </TableRow>
-    </TableHead>
-  );
-}
 const PersonEmploymentTable = () => {
   const [order, setOrder] = React.useState<Order>("asc");
   const [orderBy, setOrderBy] =
@@ -205,10 +157,6 @@ const PersonEmploymentTable = () => {
     setOrderBy(property);
   };
   const [tableElements, setTableElements] = useState(rows);
-  const onDelete = (id: string | undefined) => {
-    if (!id) return;
-    setTableElements(tableElements.filter((elem) => elem.id !== id));
-  };
 
   return (
     <TableWrapper rows={rows}>
@@ -229,7 +177,6 @@ const PersonEmploymentTable = () => {
             headCells={headCells}
           />
           <TableBody>
-            {/*@ts-ignore*/}
             {stableSort(tableElements, getComparator(order, orderBy)).map(
               (row: IRowsPersonEmploymentTable) => (
                 <TableRowComponent

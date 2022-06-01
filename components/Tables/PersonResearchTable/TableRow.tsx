@@ -47,7 +47,7 @@ const TableRowComponent: React.FC<{
         {EditableBlock({
           ...SummaryObject,
           name: "comments",
-          width: "100",
+          width: 100,
         })}
       </TableCell>
       <TableCell width={"200px"}>

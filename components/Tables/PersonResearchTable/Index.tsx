@@ -12,7 +12,7 @@ import {
   IColumnsPersonEmploymentTable,
 } from "./interfaces";
 import TableRowComponent from "./TableRow";
-import TableWrapper from "../TablesComponents/TableWrapper";
+import TableWrapper from "../TablesComponents/TableWrapper/Index";
 import { HeadCell } from "../TablesComponents/Interfaces/HeadCell";
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
@@ -64,7 +64,7 @@ const rows: IRowsPersonEmploymentTable[] = [
   },
 ];
 
-const headCells: readonly HeadCell[] = [
+const headCells: readonly HeadCell<IColumnsPersonEmploymentTable>[] = [
   {
     id: "date",
     label: "Date",
@@ -92,7 +92,7 @@ interface EnhancedTableProps {
   ) => void;
   order: Order;
   orderBy: string;
-  headCells: readonly HeadCell[];
+  headCells: readonly HeadCell<IColumnsPersonEmploymentTable>[];
 }
 export function EnhancedTableHead(props: EnhancedTableProps) {
   const { order, orderBy, onRequestSort } = props;

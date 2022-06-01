@@ -1,11 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
 import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import TableSortLabel from "@mui/material/TableSortLabel";
-import { Box } from "@mui/material";
-import { visuallyHidden } from "@mui/utils";
 import TableWrapper from "../TablesComponents/TableWrapper/Index";
 
 import {
@@ -13,6 +7,7 @@ import {
   IColumnsPersonEmploymentTable,
 } from "./interfaces";
 import TableRowComponent from "./TableRow";
+import { HeadCell } from "../TablesComponents/Interfaces/HeadCell";
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -71,14 +66,7 @@ const rows: IRowsPersonEmploymentTable[] = [
   },
 ];
 
-interface HeadCell {
-  id: keyof IColumnsPersonEmploymentTable;
-  label: string;
-  numeric: boolean;
-  secondLabel?: string;
-  width?: string;
-}
-const headCells: readonly HeadCell[] = [
+const headCells: readonly HeadCell<IColumnsPersonEmploymentTable>[] = [
   {
     id: "campus",
     label: "Campus",
@@ -128,64 +116,6 @@ const headCells: readonly HeadCell[] = [
   },
 ];
 
-interface EnhancedTableProps {
-  onRequestSort: (
-    event: React.MouseEvent<unknown>,
-    property: keyof IRowsPersonEmploymentTable
-  ) => void;
-  order: Order;
-  orderBy: string;
-  headCells: readonly HeadCell[];
-}
-export function EnhancedTableHead(props: EnhancedTableProps) {
-  const { order, orderBy, onRequestSort } = props;
-  const createSortHandler =
-    (property: keyof IRowsPersonEmploymentTable) =>
-    (event: React.MouseEvent<unknown>) => {
-      onRequestSort(event, property);
-    };
-
-  return (
-    <TableHead>
-      <TableRow>
-        {props.headCells.map((headCell) => (
-          <TableCell
-            key={headCell.label}
-            className="whitespace-nowrap"
-            sortDirection={orderBy === headCell.id ? order : false}
-            width={headCell.width && headCell.width}
-          >
-            <TableSortLabel
-              active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : "asc"}
-              onClick={createSortHandler(headCell.id)}
-              sx={{
-                flexDirection: "column",
-                alignContent: "flex-start",
-                ml: "0px",
-              }}
-            >
-              <Box>
-                {headCell.label}
-                {headCell.secondLabel && (
-                  <>
-                    <br /> {headCell.secondLabel}
-                  </>
-                )}
-              </Box>
-
-              {orderBy === headCell.id ? (
-                <Box component="span" sx={visuallyHidden}>
-                  {order === "desc" ? "sorted descending" : "sorted ascending"}
-                </Box>
-              ) : null}
-            </TableSortLabel>
-          </TableCell>
-        ))}
-      </TableRow>
-    </TableHead>
-  );
-}
 const CampusTable = () => {
   const [order, setOrder] = React.useState<Order>("asc");
   const [orderBy, setOrderBy] =
@@ -198,11 +128,6 @@ const CampusTable = () => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
-  };
-  const [tableElements, setTableElements] = useState(rows);
-  const onDelete = (id: string | undefined) => {
-    if (!id) return;
-    setTableElements(tableElements.filter((elem) => elem.id !== id));
   };
 
   return (

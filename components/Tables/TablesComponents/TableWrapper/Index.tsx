@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { MouseEventHandler, useEffect, useState } from "react";
 import { Box, Button } from "@mui/material";
 import Paper from "@material-ui/core/Paper";
 import TableContainer from "@material-ui/core/TableContainer";
@@ -16,14 +16,21 @@ interface tableWrapperProps {
     descendingComparator: any;
     getComparator: any;
     stableSort: any;
-    EnhancedTableHead: React.FC;
+    EnhancedTableHead: React.FC<{
+      order: Order;
+      orderBy: any;
+      onRequestSort: any;
+      headCells: any;
+    }>;
     tableElements: any;
-    onDelete: Function;
+    onDelete: (id: string | undefined) => void;
     onSave: Function;
     onCancel: Function;
     onSaveWithProvidedState: (state: any) => void;
   }) => React.ReactNode;
-  buttonsList?: [{ label: string; buttonFunction?: Function }];
+  buttonsList?: [
+    { label: string; buttonFunction?: MouseEventHandler<HTMLButtonElement> }
+  ];
   rows: any[];
   disableAddBtn?: boolean;
 }
@@ -93,7 +100,7 @@ const Index: React.FC<tableWrapperProps> = ({
     return (
       <TableHead>
         <TableRow>
-          {props.headCells.map((headCell) => (
+          {props.headCells.map((headCell: any) => (
             <TableCell
               key={headCell.label}
               className="whitespace-nowrap"

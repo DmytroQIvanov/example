@@ -121,9 +121,6 @@ const Index = () => {
                   onDelete={onDelete}
                   onAddSave={onSave}
                   onAddCancel={onCancel}
-                  // stateModal={stateModal}
-                  // onHandleOpen={onHandleOpen}
-                  // onHandleClose={onHandleClose}
                   onSaveWithProvidedState={onSaveWithProvidedState}
                 />
               )

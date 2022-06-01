@@ -18,6 +18,7 @@ const rows: IRowsPersonEmploymentTable[] = [
     location2: "string",
     informationSource: "string",
     primary: true,
+    propagate: true,
     comments: "string",
     dfkv: "string",
     dlkv: "string",
@@ -67,7 +68,7 @@ const headCells: readonly HeadCell<IColumnsPersonEmploymentTable>[] = [
 const Index = () => {
   const [order, setOrder] = React.useState<Order>("asc");
   const [orderBy, setOrderBy] =
-    React.useState<keyof IRowsPersonEmploymentTable>("electronicAddress");
+    React.useState<keyof IRowsPersonEmploymentTable>("propagate");
 
   const handleRequestSort = (
     _: any,
