@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import TableBody from "@material-ui/core/TableBody";
 import TableWrapper from "../TablesComponents/TableWrapper/Index";
 
@@ -7,7 +7,6 @@ import {
   IColumnsPersonEmploymentTable,
   // @ts-ignore
 } from "./interfaces";
-
 // @ts-ignore
 import TableRowComponent from "./TableRow";
 import { HeadCell } from "../TablesComponents/Interfaces/HeadCell";
@@ -17,104 +16,35 @@ const rows: IRowsPersonEmploymentTable[] = [
   {
     id: "1",
 
-    personId: "1Smth",
-    personType: "Smth",
-    firstName: "Smth",
-    superArea: "Smth",
-    locations: "Smth",
-    phones: "Smth",
-    department: "Smth",
-    pi: "Smth",
-    area: "SMTH",
-    card: "Smth",
-    activeUnit: "Smth",
-    lastName: "SMTH",
-    leftUC: "Smth",
-    campus: "Smth",
-  },
-  {
-    id: "2",
-    personId: "Smth2",
-    personType: "Smth",
-    firstName: "Smth",
-    lastName: "SMTH",
-    area: "SMTH",
-    superArea: "Smth",
-    locations: "Smth",
-    phones: "Smth",
-    department: "Smth",
-    pi: "Smth",
-    card: "Smth",
-    activeUnit: "Smth",
-    leftUC: "Smth",
-    campus: "Smth",
+    url: "string",
+    comments: "string",
+    crawl: false,
+    dfkv: "string",
+    dlkv: "string",
+    dmi: "string",
   },
 ];
 
 const headCells: readonly HeadCell<IColumnsPersonEmploymentTable>[] = [
   {
-    id: "personId",
-    label: "Person Id",
+    id: "url",
+    label: "URL/Comments",
   },
   {
-    id: "personType",
-    label: "Person Type",
+    id: "crawl",
+    label: "Crawl",
   },
   {
-    id: "firstName",
-    label: "First Name",
-  },
-
-  {
-    id: "lastName",
-    label: "lastName",
-  },
-
-  {
-    id: "superArea",
-    label: "Super Area",
-  },
-
-  {
-    id: "area",
-    label: "Area",
-  },
-
-  {
-    id: "locations",
-    label: "Locations",
-  },
-
-  {
-    id: "phones",
-    label: "Phones",
+    id: "dfkv",
+    label: "DFKV",
   },
   {
-    id: "department",
-    label: "Department",
+    id: "dlkv",
+    label: "DLKV",
   },
   {
-    id: "pi",
-    label: "PI",
-  },
-  {
-    id: "card",
-    label: "Card",
-  },
-
-  {
-    id: "activeUnit",
-    label: "Active",
-    secondLabel: "Unit",
-  },
-
-  {
-    id: "leftUC",
-    label: "Left UC",
-  },
-  {
-    id: "campus",
-    label: "Campus",
+    id: "dmi",
+    label: "DMI",
   },
 
   {
@@ -126,7 +56,7 @@ const headCells: readonly HeadCell<IColumnsPersonEmploymentTable>[] = [
 const Index = () => {
   const [order, setOrder] = React.useState<Order>("asc");
   const [orderBy, setOrderBy] =
-    React.useState<keyof IRowsPersonEmploymentTable>("personId");
+    React.useState<keyof IRowsPersonEmploymentTable>("dmi");
 
   const handleRequestSort = (
     _: any,
@@ -136,13 +66,13 @@ const Index = () => {
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
   };
-  const [tableElements, setTableElements] = useState(rows);
-  const onDelete = (id: string | undefined) => {
-    if (!id) return;
-    setTableElements(tableElements.filter((elem) => elem.id !== id));
-  };
+
   return (
-    <TableWrapper rows={rows} disableAddBtn>
+    <TableWrapper
+      rows={rows}
+      disableAddBtn
+      buttonsList={[{ label: "Add New Website" }]}
+    >
       {({
         EnhancedTableHead,
         stableSort,
