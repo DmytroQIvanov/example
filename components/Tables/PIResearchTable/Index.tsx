@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import TableBody from "@material-ui/core/TableBody";
 import TableWrapper from "../TablesComponents/TableWrapper/Index";
 
-// @ts-ignore
 import {
   IRowsPersonEmploymentTable,
   IColumnsPersonEmploymentTable,
+  // @ts-ignore
 } from "./interfaces";
+// @ts-ignore
 import TableRowComponent from "./TableRow";
 import { HeadCell } from "../TablesComponents/Interfaces/HeadCell";
 import { Order } from "../TablesComponents/Interfaces/Order";

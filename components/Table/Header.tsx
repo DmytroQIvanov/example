@@ -1,30 +1,30 @@
-import FilterListIcon from '@mui/icons-material/FilterList';
+import FilterListIcon from "@mui/icons-material/FilterList";
 import {
   Grid,
   IconButton,
   TableCell,
   TableHead,
   TableRow,
-} from '@mui/material';
-import * as React from 'react';
+} from "@mui/material";
+import * as React from "react";
 
-import useAnchorState from './Hooks/useAnchorState';
-import SieveMenu from './SieveMenu';
-import { HeaderCellData, Order } from './Type';
+import useAnchorState from "./Hooks/useAnchorState";
+import SieveMenu from "./SieveMenu";
+import { HeaderCellData, Order } from "./Type";
 
 interface HeaderProps {
   data: Array<HeaderCellData>;
   order: Order;
   orderBy: string;
-  filter: string;
-  filterBy: string;
+  filter: string | null;
+  filterBy: string | null;
   onClickSort: (order: Order, orderBy: string) => void;
   onClickFilter: (filter: string, filterBy: string) => void;
 }
 
 const Header: React.FC<HeaderProps> = (props: HeaderProps) => {
   const { data, onClickSort, onClickFilter } = props;
-  const [selectedKey, setSelectedKey] = React.useState<string>('id');
+  const [selectedKey, setSelectedKey] = React.useState<string>("id");
   const {
     anchorEl,
     toggle: toggleSieveMenu,
@@ -62,7 +62,7 @@ const Header: React.FC<HeaderProps> = (props: HeaderProps) => {
               </Grid>
               <Grid item>
                 <IconButton onClick={handleOnClickSieve(headerCell.id)}>
-                  <FilterListIcon sx={{ fontSize: '12px' }} />
+                  <FilterListIcon sx={{ fontSize: "12px" }} />
                 </IconButton>
               </Grid>
             </Grid>

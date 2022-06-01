@@ -38,7 +38,16 @@ const AddressEditModal = ({
   onChangeAddress,
   modalProps,
 }: any) => {
-  const [address, setAddress] = React.useState({ source: "", comments: "" });
+  const [address, setAddress] = React.useState({
+    source: "",
+    comments: "",
+    street_number: "",
+    street: "",
+    country: "",
+    postal: "",
+    formatted_address: "",
+    google_formatted: "",
+  });
 
   const { isLoaded, loadError } = useLoadScript(scriptOptions);
   const [autocomplete, setAutocomplete] = useState(null);
@@ -51,7 +60,7 @@ const AddressEditModal = ({
   }, [data]);
 
   // Handle the keypress for input
-  const onKeypress = (e) => {
+  const onKeypress = (e: KeyboardEvent) => {
     // On enter pressed
     if (e.key === "Enter") {
       e.preventDefault();
@@ -70,11 +79,12 @@ const AddressEditModal = ({
   const handleChange = (e: any) => {
     let update = { ...address };
 
+    // @ts-ignore
     update[e.target.name] = e.target.value;
     setAddress(update);
   };
 
-  const onPlaceChanged = (e) => {
+  const onPlaceChanged = (e: any) => {
     let autoAddress = {
       ...address,
       street_number: "",
@@ -87,9 +97,9 @@ const AddressEditModal = ({
     };
     if (autocomplete) {
       const place = autocomplete.getPlace();
-      let fullAddress: array = [];
+      let fullAddress: any[] = [];
       if ("address_components" in place) {
-        place["address_components"].forEach((item) => {
+        place["address_components"].forEach((item: any) => {
           if (item["types"][0] == "street_number" && item["long_name"]) {
             autoAddress = { ...autoAddress, street_number: item["long_name"] };
             fullAddress.push(item["long_name"]);
@@ -162,7 +172,7 @@ const AddressEditModal = ({
                           aria-hidden="true"
                           className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
                         >
-                          <legend class="css-1ftyaf0">
+                          <legend className="css-1ftyaf0">
                             <span>Address</span>
                           </legend>
                         </fieldset>
