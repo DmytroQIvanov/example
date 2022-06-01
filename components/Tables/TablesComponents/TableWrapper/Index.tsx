@@ -21,6 +21,7 @@ interface tableWrapperProps {
     onDelete: Function;
     onSave: Function;
     onCancel: Function;
+    onSaveWithProvidedState: (state: any) => void;
   }) => React.ReactNode;
   buttonsList?: [{ label: string; buttonFunction?: Function }];
   rows: any[];
@@ -33,8 +34,14 @@ const Index: React.FC<tableWrapperProps> = ({
   rows,
   disableAddBtn,
 }) => {
-  const { tableElements, onDelete, onChangeAddState, onSave, onCancel } =
-    useTableWrapper(rows);
+  const {
+    tableElements,
+    onDelete,
+    onChangeAddState,
+    onSave,
+    onCancel,
+    onSaveWithProvidedState,
+  } = useTableWrapper(rows);
   const [buttonsListState, setButtonsListState] = useState(
     buttonsList !== undefined ? buttonsList : []
   );
@@ -172,6 +179,7 @@ const Index: React.FC<tableWrapperProps> = ({
               onDelete,
               onSave,
               onCancel,
+              onSaveWithProvidedState,
             })}
           </Table>
         </TableContainer>

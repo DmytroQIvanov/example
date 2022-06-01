@@ -39,6 +39,13 @@ export const UseEditableTable = (row?: any) => {
       };
     });
   };
+
+  const onChangeWithProvidedState = (state: any) => {
+    console.log(state);
+    setEditState(state);
+
+    console.log(rowState);
+  };
   const onChangeValidateState = (state?: boolean) => {
     setValidateState((prevState) => {
       if (state && typeof state === "boolean") return state;
@@ -73,5 +80,6 @@ export const UseEditableTable = (row?: any) => {
     editStateBoolean: stateValue,
     onChangeValidateState,
     validateState,
+    onChangeWithProvidedState,
   };
 };

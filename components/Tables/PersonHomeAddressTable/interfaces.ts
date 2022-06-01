@@ -22,9 +22,12 @@
 // }
 interface IRowsPersonEmploymentTable {
   id: string;
+
   street_number: string;
   street: string;
   source: string;
+  full: string;
+
   apt: string;
   city: string;
   state: string;
