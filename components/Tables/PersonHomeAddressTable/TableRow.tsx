@@ -15,17 +15,19 @@ const TableRowComponent: React.FC<{
   onDelete: (id: string | undefined) => void;
   onAddSave: Function;
   onAddCancel: Function;
-  stateModal: boolean;
-  onHandleOpen: () => void;
-  onHandleClose: () => void;
+  // stateModal: boolean;
+  // onHandleOpen: () => void;
+  // onHandleClose: () => void;
+  onSaveWithProvidedState: (state: any) => void;
 }> = ({
   row,
   onDelete,
   onAddSave,
   onAddCancel,
-  onHandleOpen,
-  onHandleClose,
-  stateModal,
+  // onHandleOpen,
+  // onHandleClose,
+  // stateModal,
+  onSaveWithProvidedState,
 }) => {
   const {
     onCancel,
@@ -37,6 +39,7 @@ const TableRowComponent: React.FC<{
     editState,
     validateState,
     onChangeValidateState,
+    onChangeWithProvidedState,
   } = UseEditableTable(row);
 
   const SummaryObject = {
@@ -47,19 +50,13 @@ const TableRowComponent: React.FC<{
     titleVisibly: false,
   };
 
-  const [state2, useState2] = useState<any>({
-    street_number: "",
-    street: "",
-    city: "",
-    state: "",
-    country: "",
-    full: "",
-    source: "",
-    comments: "",
-  });
-  useEffect(() => {
-    console.log(state2);
-  }, [state2]);
+  const [stateModal, setStateModal] = useState(false);
+  const onHandleClose = () => {
+    setStateModal(false);
+  };
+  const onHandleOpen = () => {
+    setStateModal(true);
+  };
   return (
     <TableRow style={!validateState ? { backgroundColor: "#ececec" } : {}}>
       <TableCell component="th" scope="row" width={"200px"}>
@@ -68,10 +65,10 @@ const TableRowComponent: React.FC<{
         {/*  name: "homeAddress",*/}
         {/*})}*/}
 
-        {/*{state2["street_number"]}*/}
-        {/*{state2["street"]}*/}
+        {/*{editState["street_number"]}*/}
+        {/*{editState["street"]}*/}
 
-        {state2["full"]}
+        {editState["full"]}
       </TableCell>
 
       <TableCell component="th" scope="row" width={"200px"}>
@@ -79,8 +76,8 @@ const TableRowComponent: React.FC<{
         {/*  ...SummaryObject,*/}
         {/*  name: "locationAccuracy",*/}
         {/*})}*/}
-        {state2["city"]} {state2["state"]}
-        {state2["country"]}
+        {editState["city"]} {editState["state"]}
+        {editState["country"]}
       </TableCell>
 
       <TableCell component="th" scope="row" width={"200px"}>
@@ -88,7 +85,7 @@ const TableRowComponent: React.FC<{
         {/*  ...SummaryObject,*/}
         {/*  name: "source",*/}
         {/*})}*/}
-        {state2["source"]}
+        {editState["source"]}
       </TableCell>
 
       <TableCell component="th" scope="row" width={"340px"}>
@@ -98,7 +95,7 @@ const TableRowComponent: React.FC<{
         {/*  multiline: 6,*/}
         {/*  width: 100,*/}
         {/*})}*/}
-        {state2["comments"]}
+        {editState["comments"]}
       </TableCell>
       <TableCell component="th" scope="row" width={"200px"}>
         {EditableBlock({
@@ -136,13 +133,9 @@ const TableRowComponent: React.FC<{
 
       <TableCell width={"130px"}>
         <OptionsBlock
-          editStateBoolean={editStateBoolean}
-          onSave={() => {
-            editStateBoolean === "add" && onAddSave();
-            onSave();
-          }}
+          onSave={() => {}}
           onCancel={editStateBoolean === "add" ? onAddCancel : onCancel}
-          handleEditableState={handleEditableState}
+          handleEditableState={onHandleOpen}
           onDelete={onDelete}
           id={row.id}
           validateState={validateState}
@@ -150,10 +143,10 @@ const TableRowComponent: React.FC<{
         />
       </TableCell>
       <AddressEditModal
-        data={row}
+        data={{ address: editState }}
         open={stateModal}
         handleClose={onHandleClose}
-        onChangeAddress={useState2}
+        onChangeAddress={onChangeWithProvidedState}
       />
     </TableRow>
   );

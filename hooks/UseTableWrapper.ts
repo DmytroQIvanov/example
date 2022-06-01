@@ -26,6 +26,11 @@ export const useTableWrapper = (rows: any[]) => {
     setAddStateBoolean(false);
     setAlreadyAdded(false);
   };
+  const onSaveWithProvidedState = (state: any) => {
+    console.log(state);
+    setTableElements((prevState) => [...prevState, state]);
+    console.log(tableElements);
+  };
   const onCancel = (id: string | undefined) => {
     setAlreadyAdded(false);
     setTemporallyTableElements(tableElements);
@@ -40,6 +45,7 @@ export const useTableWrapper = (rows: any[]) => {
     console.log(tableElements);
   };
   return {
+    onSaveWithProvidedState,
     onSave,
     onCancel,
     tableElements: addStateBoolean ? temporallyTableElements : tableElements,

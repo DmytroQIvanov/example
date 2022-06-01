@@ -47,7 +47,7 @@ const AddressEditModal = ({
   const classes = useStyles();
 
   useEffect(() => {
-    setAddress(data.address);
+    setAddress(data?.address);
   }, [data]);
 
   // Handle the keypress for input

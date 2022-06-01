@@ -9,7 +9,7 @@ import AddressReport from "../../../AddressReport/AddressReport";
 import Modal from "@mui/material/Modal";
 
 interface optionsBlock {
-  editStateBoolean: "default" | "change" | "add";
+  editStateBoolean?: "default" | "change" | "add";
   onSave: Function;
   onCancel: Function;
   handleEditableState: Function;
@@ -32,7 +32,7 @@ const style = {
 };
 
 const Index: React.FC<optionsBlock> = ({
-  editStateBoolean,
+  editStateBoolean = "default",
   onSave,
   onCancel,
   handleEditableState,
