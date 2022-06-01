@@ -1,5 +1,5 @@
 import React from "react";
-import PersonEmploymentTable from "../../components/Tables/PersonEmploymentTable";
+import PersonEmploymentTable from "../../components/Tables/PersonEmploymentTable/Index";
 
 export default function Index() {
   return (

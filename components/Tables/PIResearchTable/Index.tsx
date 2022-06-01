@@ -5,7 +5,9 @@ import TableWrapper from "../TablesComponents/TableWrapper/Index";
 import {
   IRowsPersonEmploymentTable,
   IColumnsPersonEmploymentTable,
+  // @ts-ignore
 } from "./interfaces";
+// @ts-ignore
 import TableRowComponent from "./TableRow";
 import { HeadCell } from "../TablesComponents/Interfaces/HeadCell";
 import { Order } from "../TablesComponents/Interfaces/Order";

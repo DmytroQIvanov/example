@@ -38,7 +38,7 @@ interface propsBlockWithState {
   };
   validate?: {
     disabled?: boolean;
-    onClick?: React.MouseEventHandler<HTMLAnchorElement>;
+    onClick?: Function;
     label?: string;
   };
   handleChangeEvent?: React.ChangeEventHandler<
@@ -226,7 +226,11 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
               p: "3px",
               mt: "5px",
             }}
-            onClick={validate.onClick ? validate.onClick : console.log}
+            onClick={
+              validate && validate.onClick
+                ? () => validate.onClick && validate.onClick()
+                : console.log
+            }
           >
             {validate.label ? validate.label : "Validate"}
           </Button>

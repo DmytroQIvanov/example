@@ -15,7 +15,7 @@ import {
   IColumnsPersonEmploymentTable,
 } from "./interfaces";
 import TableRowComponent from "./TableRow";
-import TableWrapper from "../TablesComponents/TableWrapper";
+import TableWrapper from "../TablesComponents/TableWrapper/Index";
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -146,46 +146,11 @@ interface EnhancedTableProps {
   orderBy: string;
   headCells: readonly HeadCell[];
 }
-export function EnhancedTableHead(props: EnhancedTableProps) {
-  const { order, orderBy, onRequestSort } = props;
-  const createSortHandler =
-    (property: keyof IRowsPersonEmploymentTable) =>
-    (event: React.MouseEvent<unknown>) => {
-      onRequestSort(event, property);
-    };
 
-  return (
-    <TableHead>
-      <TableRow>
-        {props.headCells.map((headCell) => (
-          <TableCell
-            key={headCell.label}
-            className="whitespace-nowrap"
-            sortDirection={orderBy === headCell.id ? order : false}
-            width={headCell.width && headCell.width}
-          >
-            <TableSortLabel
-              active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : "asc"}
-              onClick={createSortHandler(headCell.id)}
-            >
-              {headCell.label}
-              {orderBy === headCell.id ? (
-                <Box component="span" sx={visuallyHidden}>
-                  {order === "desc" ? "sorted descending" : "sorted ascending"}
-                </Box>
-              ) : null}
-            </TableSortLabel>
-          </TableCell>
-        ))}
-      </TableRow>
-    </TableHead>
-  );
-}
 const PhoneTable = () => {
   const [order, setOrder] = React.useState<Order>("asc");
   const [orderBy, setOrderBy] =
-    React.useState<keyof IRowsPersonEmploymentTable>("jobTitle");
+    React.useState<keyof IRowsPersonEmploymentTable>("phoneNumber");
 
   const handleRequestSort = (
     _: any,

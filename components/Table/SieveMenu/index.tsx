@@ -1,10 +1,10 @@
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import { Menu, MenuItem } from '@mui/material';
-import { NestedMenuItem } from 'mui-nested-menu/components';
-import * as React from 'react';
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import { Menu, MenuItem } from "@mui/material";
+import { NestedMenuItem } from "mui-nested-menu/components";
+import * as React from "react";
 
-import { Order } from '../Type';
-import useStyles from './styles';
+import { Order } from "../Type";
+import useStyles from "./styles";
 
 interface SieveMenuProps {
   anchorEl: any;
@@ -12,8 +12,8 @@ interface SieveMenuProps {
   open: boolean;
   order: Order;
   orderBy: string;
-  filter: string;
-  filterBy: string;
+  filter?: string | undefined | null;
+  filterBy?: string | undefined | null;
   onClose: () => void;
   onClickSort: (order: Order) => void;
   onClickFilter: (filter: string) => void;
@@ -27,8 +27,8 @@ const SieveMenu: React.FC<SieveMenuProps> = (props: SieveMenuProps) => {
     <Menu
       anchorEl={props.anchorEl}
       anchorOrigin={{
-        vertical: 'bottom',
-        horizontal: 'left',
+        vertical: "bottom",
+        horizontal: "left",
       }}
       open={props.open}
       onClose={props.onClose}
@@ -53,13 +53,13 @@ const SieveMenu: React.FC<SieveMenuProps> = (props: SieveMenuProps) => {
       >
         <MenuItem
           className={classes.menuItem}
-          onClick={() => onClickFilter('filter1')}
+          onClick={() => onClickFilter("filter1")}
         >
           filter 1
         </MenuItem>
         <MenuItem
           className={classes.menuItem}
-          onClick={() => onClickFilter('filter2')}
+          onClick={() => onClickFilter("filter2")}
         >
           filter 2
         </MenuItem>

@@ -21,7 +21,7 @@ export const UseEditableTable = (row?: any) => {
   };
   const handleChangeEvent = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    setEditState((prevState) => {
+    setEditState((prevState: any) => {
       return {
         ...prevState,
         [name]: value,
@@ -32,14 +32,24 @@ export const UseEditableTable = (row?: any) => {
     name: string,
     text: string | number | boolean | Date
   ) => {
-    setEditState((prevState) => {
+    setEditState((prevState: any) => {
       return {
         ...prevState,
         [name]: text,
       };
     });
   };
-  const onChangeValidateState = (state?: boolean) => {
+
+  const onChangeWithProvidedState = (state: any) => {
+    console.log(state);
+    setEditState(state);
+    setRowState(state);
+
+    console.log(rowState);
+  };
+  const onChangeValidateState: (state?: boolean) => void = (
+    state?: boolean
+  ) => {
     setValidateState((prevState) => {
       if (state && typeof state === "boolean") return state;
       return !prevState;
@@ -57,6 +67,7 @@ export const UseEditableTable = (row?: any) => {
   //USE-EFFECTS
   useEffect(() => {
     setRowState(row);
+    setEditState(rowState);
   }, [row]);
 
   useEffect(() => {
@@ -73,5 +84,6 @@ export const UseEditableTable = (row?: any) => {
     editStateBoolean: stateValue,
     onChangeValidateState,
     validateState,
+    onChangeWithProvidedState,
   };
 };

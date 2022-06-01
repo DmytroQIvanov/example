@@ -3,6 +3,7 @@ interface IRowsPersonEmploymentTable {
   personId: string;
   personType: string;
   firstName: string;
+  area: string;
   superArea: string;
   locations: string;
   phones: string;
@@ -12,11 +13,14 @@ interface IRowsPersonEmploymentTable {
   activeUnit: string;
   leftUC: string;
   campus: string;
+  lastName: string;
   options?: string;
 }
 interface IColumnsPersonEmploymentTable {
   id: string;
   personId: string;
+  lastName: string;
+  area: string;
   personType: string;
   firstName: string;
   superArea: string;

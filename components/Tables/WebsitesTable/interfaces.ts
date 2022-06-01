@@ -1,12 +1,8 @@
 interface IRowsPersonEmploymentTable {
   id: string;
-  campus: string;
-  location1: string;
-  location2: string;
-  informationSource: string;
-  propagate: boolean;
-  primary: boolean;
+  url: string;
   comments: string;
+  crawl: boolean;
   dfkv: string;
   dlkv: string;
   dmi: string;
@@ -14,12 +10,8 @@ interface IRowsPersonEmploymentTable {
 }
 interface IColumnsPersonEmploymentTable {
   id: string;
-  primary: string;
-  campus: string;
-  location: string;
-  informationSource: string;
-  propagate: boolean;
-  comments: string;
+  url: string;
+  crawl: boolean;
   dfkv: string;
   dlkv: string;
   dmi: string;

@@ -9,20 +9,22 @@ import {
 import TableRowComponent from "./TableRow";
 import { HeadCell } from "../TablesComponents/Interfaces/HeadCell";
 import { Order } from "../TablesComponents/Interfaces/Order";
+import AddressEditModal from "../../Table/RowCells/AddressEditModal";
 
 const rows: IRowsPersonEmploymentTable[] = [
   {
     id: "1",
 
-    streetNumber: "321",
-    streetName: "Addanki Bustand Road ",
-    source: "On The Ground",
+    street_number: "33",
+    street: "Smaf",
+    full: "",
+    city: "Izmail",
+    state: "Example",
+    country: "Example2",
+    source: "Example3",
+    comments: "Example Example",
+    postal: "",
     apt: "smth",
-    city: "Ongole",
-    state: "Andhra Pradesh",
-    postalCode: "523001",
-    country: "India",
-    comments: "Any text",
     dlkv: "smth",
     marketInvalid: "smth",
   },
@@ -100,6 +102,7 @@ const Index = () => {
         onDelete,
         onCancel,
         onSave,
+        onSaveWithProvidedState,
       }) => (
         <>
           <EnhancedTableHead
@@ -114,16 +117,19 @@ const Index = () => {
               (row: IRowsPersonEmploymentTable) => (
                 <TableRowComponent
                   row={row}
-                  key={`${row.id}`}
+                  key={`${row?.id} `}
                   onDelete={onDelete}
                   onAddSave={onSave}
                   onAddCancel={onCancel}
-                  stateModal={stateModal}
-                  onHandleOpen={onHandleOpen}
-                  onHandleClose={onHandleClose}
+                  onSaveWithProvidedState={onSaveWithProvidedState}
                 />
               )
             )}
+            <AddressEditModal
+              open={stateModal}
+              handleClose={onHandleClose}
+              onChangeAddress={onSaveWithProvidedState}
+            />
           </TableBody>
         </>
       )}

@@ -8,15 +8,22 @@ import { IRowsPersonEmploymentTable } from "./interfaces";
 import EditableBlock from "../TablesComponents/EditableBlock";
 import { UseEditableTable } from "../../../hooks/UseEditableTable";
 import OptionsBlock from "../TablesComponents/OptionsBlock";
-import AddressEditModal from "../../Table/RowCells/AddressEditModal";
+
+const dropArray = [
+  {
+    label: "Something",
+  },
+  {
+    label: "Lorem",
+  },
+];
 
 const TableRowComponent: React.FC<{
   row: IRowsPersonEmploymentTable;
   onDelete: (id: string | undefined) => void;
   onAddSave: Function;
   onAddCancel: Function;
-  onSaveWithProvidedState: (state: any) => void;
-}> = ({ row, onDelete, onAddSave, onAddCancel, onSaveWithProvidedState }) => {
+}> = ({ row, onDelete, onAddSave, onAddCancel }) => {
   const {
     onCancel,
     handleChange,
@@ -27,7 +34,6 @@ const TableRowComponent: React.FC<{
     editState,
     validateState,
     onChangeValidateState,
-    // onChangeWithProvidedState,
   } = UseEditableTable(row);
 
   const SummaryObject = {
@@ -37,40 +43,40 @@ const TableRowComponent: React.FC<{
     editStateBoolean,
     titleVisibly: false,
   };
-
-  const [stateModal, setStateModal] = useState(false);
-  const onHandleClose = () => {
-    setStateModal(false);
-  };
-  const onHandleOpen = () => {
-    setStateModal(true);
-  };
   return (
     <TableRow style={!validateState ? { backgroundColor: "#ececec" } : {}}>
-      <TableCell component="th" scope="row" width={"200px"}>
-        {editState["full"]}
-      </TableCell>
-
-      <TableCell component="th" scope="row" width={"200px"}>
-        {editState["city"]} {editState["state"]}
-        {editState["country"]}
-      </TableCell>
-
-      <TableCell component="th" scope="row" width={"200px"}>
-        {editState["source"]}
-      </TableCell>
-
-      <TableCell component="th" scope="row" width={"340px"}>
-        {editState["comments"]}
-      </TableCell>
-      <TableCell component="th" scope="row" width={"200px"}>
+      <TableCell component="th" scope="row" width={"450px"}>
         {EditableBlock({
           ...SummaryObject,
-          name: "dfkv",
+          name: "url",
+          type: "dropdown",
+          itemsArray: dropArray,
+        })}
+
+        {EditableBlock({
+          ...SummaryObject,
+          name: "comments",
+          type: "dropdown",
+          itemsArray: dropArray,
         })}
       </TableCell>
 
       <TableCell width={"220px"}>
+        {EditableBlock({
+          ...SummaryObject,
+          name: "crawl",
+          type: "checkBox",
+        })}
+      </TableCell>
+      <TableCell width={"230px"}>
+        {EditableBlock({
+          ...SummaryObject,
+          name: "dfkv",
+          type: "date",
+        })}
+      </TableCell>
+
+      <TableCell width={"230px"}>
         {EditableBlock({
           ...SummaryObject,
           name: "dlkv",
@@ -83,10 +89,10 @@ const TableRowComponent: React.FC<{
           },
         })}
       </TableCell>
-      <TableCell width={"230px"}>
+      <TableCell width={"330px"}>
         {EditableBlock({
           ...SummaryObject,
-          name: "marketInvalid",
+          name: "dmi",
           type: "date",
           checkBox: {
             label: "Invalidate",
@@ -99,21 +105,18 @@ const TableRowComponent: React.FC<{
 
       <TableCell width={"130px"}>
         <OptionsBlock
-          onSave={() => {}}
+          editStateBoolean={editStateBoolean}
+          onSave={() => {
+            editStateBoolean === "add" && onAddSave();
+            onSave();
+          }}
           onCancel={editStateBoolean === "add" ? onAddCancel : onCancel}
-          handleEditableState={onHandleOpen}
+          handleEditableState={handleEditableState}
           onDelete={onDelete}
           id={row.id}
           validateState={validateState}
-          documentElement
         />
       </TableCell>
-      <AddressEditModal
-        data={{ address: editState }}
-        open={stateModal}
-        handleClose={onHandleClose}
-        onChangeAddress={onSaveWithProvidedState}
-      />
     </TableRow>
   );
 };

@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 import TableBody from "@material-ui/core/TableBody";
 import TableWrapper from "../TablesComponents/TableWrapper/Index";
 
 import {
   IRowsPersonEmploymentTable,
   IColumnsPersonEmploymentTable,
+  // @ts-ignore
 } from "./interfaces";
+// @ts-ignore
 import TableRowComponent from "./TableRow";
 import { HeadCell } from "../TablesComponents/Interfaces/HeadCell";
 import { Order } from "../TablesComponents/Interfaces/Order";
@@ -13,30 +15,24 @@ import { Order } from "../TablesComponents/Interfaces/Order";
 const rows: IRowsPersonEmploymentTable[] = [
   {
     id: "1",
-    campus: "Los Angeles",
-    employeeID: "4147637",
-    dfkv: "01/02/2021",
-    dlkv: "04/12/2022",
-    createdBy: "John",
-  },
-  {
-    id: "2",
-    campus: "",
-    employeeID: "4147637",
-    dfkv: "01/02/2021",
-    dlkv: "04/12/2022",
-    createdBy: "John",
+
+    url: "string",
+    comments: "string",
+    crawl: false,
+    dfkv: "string",
+    dlkv: "string",
+    dmi: "string",
   },
 ];
 
 const headCells: readonly HeadCell<IColumnsPersonEmploymentTable>[] = [
   {
-    id: "campus",
-    label: "Campus",
+    id: "url",
+    label: "URL/Comments",
   },
   {
-    id: "employeeID",
-    label: "Employee ID",
+    id: "crawl",
+    label: "Crawl",
   },
   {
     id: "dfkv",
@@ -47,9 +43,10 @@ const headCells: readonly HeadCell<IColumnsPersonEmploymentTable>[] = [
     label: "DLKV",
   },
   {
-    id: "createdBy",
-    label: "Created By",
+    id: "dmi",
+    label: "DMI",
   },
+
   {
     id: "options",
     label: "Options",
@@ -59,7 +56,7 @@ const headCells: readonly HeadCell<IColumnsPersonEmploymentTable>[] = [
 const Index = () => {
   const [order, setOrder] = React.useState<Order>("asc");
   const [orderBy, setOrderBy] =
-    React.useState<keyof IRowsPersonEmploymentTable>("dlkv");
+    React.useState<keyof IRowsPersonEmploymentTable>("dmi");
 
   const handleRequestSort = (
     _: any,
@@ -69,13 +66,13 @@ const Index = () => {
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
   };
-  const [tableElements, setTableElements] = useState(rows);
-  const onDelete = (id: string | undefined) => {
-    if (!id) return;
-    setTableElements(tableElements.filter((elem) => elem.id !== id));
-  };
+
   return (
-    <TableWrapper rows={rows}>
+    <TableWrapper
+      rows={rows}
+      disableAddBtn
+      buttonsList={[{ label: "Add New Website" }]}
+    >
       {({
         EnhancedTableHead,
         stableSort,
