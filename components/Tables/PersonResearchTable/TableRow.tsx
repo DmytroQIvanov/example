@@ -16,58 +16,48 @@ const TableRowComponent: React.FC<{
   onAddSave: Function;
   onAddCancel: Function;
 }> = ({ row, onDelete, onAddSave, onAddCancel }) => {
-  const {
-    onCancel,
-    handleChange,
-    editStateBoolean,
-    handleChangeEvent,
-    handleEditableState,
-    onSave,
-    editState,
-    validateState,
-    onChangeValidateState,
-  } = UseEditableTable(row);
+  const { onCancel, onSave, changeRowState, summaryObject } =
+    UseEditableTable(row);
 
-  const SummaryObject = {
-    handleChangeEvent,
-    handleChange,
-    summaryState: editState,
-    editStateBoolean,
-    titleVisibly: false,
-  };
   return (
-    <TableRow style={!validateState ? { backgroundColor: "#ececec" } : {}}>
+    <TableRow
+      style={
+        !summaryObject.rowValues.validateState
+          ? { backgroundColor: "#ececec" }
+          : {}
+      }
+    >
       <TableCell component="th" scope="row" width={"300px"}>
         {EditableBlock({
-          ...SummaryObject,
+          ...summaryObject,
           name: "date",
         })}
       </TableCell>
       <TableCell component="th" scope="row" width={"600px"}>
         {EditableBlock({
-          ...SummaryObject,
+          ...summaryObject,
           name: "comments",
           width: 100,
         })}
       </TableCell>
       <TableCell width={"200px"}>
         {EditableBlock({
-          ...SummaryObject,
+          ...summaryObject,
           name: "createdBy",
         })}
       </TableCell>
       <TableCell width={"130px"}>
         <OptionsBlock
-          editStateBoolean={editStateBoolean}
+          editStateBoolean={summaryObject.rowState}
           onSave={() => {
-            editStateBoolean === "add" && onAddSave();
+            summaryObject.rowState === "add" && onAddSave();
             onSave();
           }}
-          onCancel={editStateBoolean === "add" ? onAddCancel : onCancel}
-          handleEditableState={handleEditableState}
+          onCancel={summaryObject.rowState === "add" ? onAddCancel : onCancel}
+          handleEditableState={changeRowState}
           onDelete={onDelete}
           id={row.id}
-          validateState={validateState}
+          validateState={summaryObject.rowValues.validateState}
         />
       </TableCell>
     </TableRow>

@@ -30,6 +30,17 @@ const scriptOptions = {
   libraries: ["places"],
 };
 
+const initialAddress = {
+  source: "",
+  comments: "",
+  street_number: "",
+  street: "",
+  country: "",
+  postal: "",
+  formatted_address: "",
+  google_formatted: "",
+};
+
 const AddressEditModal = ({
   open,
   data,
@@ -38,16 +49,7 @@ const AddressEditModal = ({
   onChangeAddress,
   modalProps,
 }: any) => {
-  const [address, setAddress] = React.useState({
-    source: "",
-    comments: "",
-    street_number: "",
-    street: "",
-    country: "",
-    postal: "",
-    formatted_address: "",
-    google_formatted: "",
-  });
+  const [address, setAddress] = React.useState(initialAddress);
 
   const { isLoaded, loadError } = useLoadScript(scriptOptions);
   const [autocomplete, setAutocomplete] = useState(null);
@@ -138,9 +140,11 @@ const AddressEditModal = ({
   const onSave = () => {
     onChangeAddress(address);
     handleClose();
+    setAddress(initialAddress);
   };
   const onCancel = () => {
     handleClose();
+    setAddress(initialAddress);
   };
 
   return (

@@ -25,54 +25,44 @@ const TableRowComponent: React.FC<{
   onAddSave: Function;
   onAddCancel: Function;
 }> = ({ row, onDelete, onAddSave, onAddCancel }) => {
-  const {
-    onCancel,
-    handleChange,
-    editStateBoolean,
-    handleChangeEvent,
-    handleEditableState,
-    onSave,
-    editState,
-    validateState,
-    onChangeValidateState,
-  } = UseEditableTable(row);
+  const { onCancel, onSave, changeRowState, summaryObject } =
+    UseEditableTable(row);
 
-  const SummaryObject = {
-    handleChangeEvent,
-    handleChange,
-    summaryState: editState,
-    editStateBoolean,
-    titleVisibly: false,
-  };
   return (
-    <TableRow style={!validateState ? { backgroundColor: "#ececec" } : {}}>
+    <TableRow
+      style={
+        !summaryObject.rowValues.validateState
+          ? { backgroundColor: "#ececec" }
+          : {}
+      }
+    >
       <TableCell component="th" scope="row" width={"200px"}>
         {EditableBlock({
-          ...SummaryObject,
+          ...summaryObject,
           name: "date",
         })}
       </TableCell>
 
       <TableCell component="th" scope="row" width={"200px"}>
         {EditableBlock({
-          ...SummaryObject,
+          ...summaryObject,
           name: "type",
         })}
       </TableCell>
       <TableCell width={"130px"}>
         {EditableBlock({
-          ...SummaryObject,
+          ...summaryObject,
           name: "oldValue",
         })}
       </TableCell>
       <TableCell width={"130px"}>
         {EditableBlock({
-          ...SummaryObject,
+          ...summaryObject,
           name: "newValue",
         })}
       </TableCell>
       <TableCell width={"130px"}>
-        {EditableBlock({ ...SummaryObject, name: "createdBy" })}
+        {EditableBlock({ ...summaryObject, name: "createdBy" })}
       </TableCell>
       {/*<TableCell width={"130px"}>*/}
       {/*  <OptionsBlock*/}
