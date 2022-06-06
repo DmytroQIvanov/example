@@ -13,6 +13,7 @@ export const useTableWrapper = (rows: any[]) => {
         {
           id: tableElements[tableElements.length - 1]?.id + 1 || 0,
           addStateBoolean: true,
+          validateState: true,
         },
       ]);
       setAddStateBoolean(true);
