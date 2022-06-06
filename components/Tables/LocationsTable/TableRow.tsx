@@ -100,7 +100,11 @@ const TableRowComponent: React.FC<{
           name: "dlkv",
           type: "date",
         })}
-        {EditableBlock({ ...summaryObject, type: "validate" })}
+        {EditableBlock({
+          ...summaryObject,
+          name: "validate",
+          type: "validate",
+        })}
       </TableCell>
       <TableCell width={"330px"}>
         {EditableBlock({
@@ -111,6 +115,7 @@ const TableRowComponent: React.FC<{
 
         {EditableBlock({
           ...summaryObject,
+          name: "validate",
           type: "invalidate",
         })}
       </TableCell>
