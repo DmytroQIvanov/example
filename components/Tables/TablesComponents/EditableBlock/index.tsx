@@ -198,6 +198,10 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
                 width: "95%",
                 p: "3px",
                 mt: "5px",
+                "&:hover": {
+                  color: "white",
+                  backgroundColor: "#1616a1",
+                },
               }}
               onClick={() => changeValidateState(true)}
             >
@@ -255,6 +259,10 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
                 width: "95%",
                 p: "3px",
                 mt: "5px",
+                "&:hover": {
+                  color: "white",
+                  backgroundColor: "#1616a1",
+                },
               }}
               onClick={() => changeValidateState(true)}
             >
