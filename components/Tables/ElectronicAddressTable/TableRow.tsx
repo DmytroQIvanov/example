@@ -75,13 +75,28 @@ const TableRowComponent: React.FC<{
               falseVariant: "No",
               trueVariant: "Preffered",
             },
+            label: "Preffered",
+          },
+        })}
+
+        {EditableBlock({
+          ...summaryObject,
+          name: "supress",
+          type: "checkBox",
+          checkBox: {
+            type: "green",
+            textVariants: {
+              falseVariant: "",
+              trueVariant: "",
+            },
+            label: "Supress",
           },
         })}
       </TableCell>
       <TableCell width={"130px"}>
         {EditableBlock({ ...summaryObject, name: "dfkv" })}
       </TableCell>
-      <TableCell width={"130px"}>
+      <TableCell width={"230px"}>
         {EditableBlock({
           ...summaryObject,
           name: "dlkv",
@@ -89,7 +104,7 @@ const TableRowComponent: React.FC<{
         })}
         {EditableBlock({ ...summaryObject, type: "validate" })}
       </TableCell>
-      <TableCell width={"130px"}>
+      <TableCell width={"230px"}>
         {EditableBlock({
           ...summaryObject,
           name: "dmi",

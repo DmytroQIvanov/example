@@ -55,6 +55,7 @@ const TableRowComponent: React.FC<{
           ...summaryObject,
           name: "location2",
           type: "dropdown",
+          editable: true,
           itemsArray: dropArray,
         })}
       </TableCell>

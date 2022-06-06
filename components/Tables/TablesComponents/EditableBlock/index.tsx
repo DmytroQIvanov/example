@@ -25,9 +25,10 @@ interface ICheckBox {
 
 interface propsBlockWithState extends ISummaryObject {
   title?: string;
-  name?: string;
+  name: string;
   disabled?: boolean;
   width?: number;
+  editable?: boolean;
   itemsArray?: { label: string }[];
   type?:
     | "textField"
@@ -42,7 +43,7 @@ interface propsBlockWithState extends ISummaryObject {
   style?: CSSProperties;
   className?: string;
   availableStateBoolean?: boolean;
-  checkBox?: ICheckBox | ICheckBox[];
+  checkBox?: ICheckBox;
 }
 
 const EditableBlock: React.FC<propsBlockWithState> = ({
@@ -58,7 +59,7 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
   handleChangeEvent,
   titleVisibly = true,
   checkBox,
-  validate,
+  editable,
   availableStateBoolean,
 
   disabled,
@@ -72,7 +73,7 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
     "campus",
     "createdBy",
     "location1",
-    "location2",
+    // "location2",
     "date",
     "dmi",
   ];
@@ -80,8 +81,12 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
   let disabledState = false;
   if (rowState === "change" && !availableStateBoolean)
     disabledState = disableEditableArray.includes(name);
-
-  const styles = disabledState ? { backgroundColor: "#C3DBFF" } : {};
+  if (editable) {
+    disabledState = false;
+  }
+  let styles = disabledState ? { backgroundColor: "#C3DBFF" } : {};
+  // styles =
+  //   validateState === false ? { ...styles, color: "red" } : { ...styles };
 
   const Component = () => {
     switch (type) {
@@ -152,6 +157,7 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
       case "checkBox":
         return (
           <>
+            {checkBox && checkBox.label && `${checkBox.label} :`}
             <Checkbox
               disabled={disabledState}
               style={styles}
@@ -219,6 +225,7 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
   };
 
   const TextComponent = () => {
+    let styles = validateState ? {} : { color: "grey", cursor: "default" };
     switch (type) {
       case "invalidate":
         return (
@@ -256,28 +263,17 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
           </Box>
         );
       case "checkBox":
-        // if (typeof checkBox === "Array")
-        //   return checkBox.map((elem, index) => (
-        //     <Typography
-        //       mt={0.8}
-        //       key={index}
-        //       style={checkBox?.type == "green" ? { color: "green" } : {}}
-        // style={summaryState[name] ? { color: "green" } : { color: "red" }}
-        // >
-        //   {checkBox?.textVariants
-        //     ? summaryState[name]
-        //       ? checkBox?.textVariants.trueVariant
-        //       : checkBox?.textVariants.falseVariant
-        //     : summaryState[name]
-        //     ? "Yes"
-        //     : "N/A"}
-        // </Typography>
-        // ));
         return (
           <Typography
             mt={0.8}
             // style={checkBox?.type == "green" ? { color: "green" } : {}}
-            style={rowValues[name] ? { color: "green" } : { color: "red" }}
+            style={
+              validateState
+                ? rowValues[name]
+                  ? { color: "green" }
+                  : { color: "red" }
+                : { color: "grey" }
+            }
           >
             {checkBox?.textVariants
               ? rowValues[name]
@@ -289,7 +285,11 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
           </Typography>
         );
       default:
-        return <Typography mt={0.8}>{rowValues[name]}</Typography>;
+        return (
+          <Typography mt={0.8} style={styles}>
+            {rowValues[name]}
+          </Typography>
+        );
     }
   };
 
