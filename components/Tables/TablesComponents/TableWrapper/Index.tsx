@@ -160,7 +160,9 @@ const Index: React.FC<tableWrapperProps> = ({
               sx={{ m: "auto 20px auto auto" }}
               color={"success"}
               variant={"contained"}
-              onClick={elem.buttonFunction}
+              onClick={
+                elem.buttonFunction ? elem.buttonFunction : onChangeAddState
+              }
               key={index}
             >
               {elem.label}

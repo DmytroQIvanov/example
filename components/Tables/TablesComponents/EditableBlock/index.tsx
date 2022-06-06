@@ -12,38 +12,38 @@ import {
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { ISummaryObject } from "../../../../hooks/UseEditableTable";
 
-interface propsBlockWithState {
+interface ICheckBox {
+  label?: string;
+  textVariants?: { trueVariant: string; falseVariant: string };
+  type?: "green" | "default";
+  onClick?: () => void;
+  value?: boolean;
+  disabled?: boolean;
+}
+
+interface propsBlockWithState extends ISummaryObject {
   title?: string;
   name: string;
   disabled?: boolean;
   width?: number;
+  editable?: boolean;
   itemsArray?: { label: string }[];
-  type?: "textField" | "dropdown" | "date" | "checkBox";
+  type?:
+    | "textField"
+    | "dropdown"
+    | "date"
+    | "checkBox"
+    | "invalidate"
+    | "validate";
   multiline?: number;
-  editStateBoolean: "default" | "change" | "add";
-  summaryState: { [index: string]: any };
+  // rowValues: { [index: string]: any };
   titleVisibly?: boolean;
-  handleChange: Function;
   style?: CSSProperties;
   className?: string;
   availableStateBoolean?: boolean;
-  checkBox?: {
-    label?: string;
-    textVariants?: { trueVariant: string; falseVariant: string };
-    type?: "green" | "default";
-    onClick?: () => void;
-    value?: boolean;
-    disabled?: boolean;
-  };
-  validate?: {
-    disabled?: boolean;
-    onClick?: Function;
-    label?: string;
-  };
-  handleChangeEvent?: React.ChangeEventHandler<
-    HTMLTextAreaElement | HTMLInputElement
-  >;
+  checkBox?: ICheckBox;
 }
 
 const EditableBlock: React.FC<propsBlockWithState> = ({
@@ -53,14 +53,19 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
   type = "textField",
   multiline,
   itemsArray,
-  summaryState,
-  editStateBoolean,
+  rowValues,
+  rowState,
   handleChange,
   handleChangeEvent,
   titleVisibly = true,
   checkBox,
-  validate,
+  editable,
   availableStateBoolean,
+
+  disabled,
+  validateState,
+  changeValidateState,
+  changeRowState,
 
   ...inputParams
 }) => {
@@ -68,15 +73,20 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
     "campus",
     "createdBy",
     "location1",
-    "location2",
+    // "location2",
     "date",
+    "dmi",
   ];
 
   let disabledState = false;
-  if (editStateBoolean === "change" && !availableStateBoolean)
+  if (rowState === "change" && !availableStateBoolean)
     disabledState = disableEditableArray.includes(name);
-
-  const styles = disabledState ? { backgroundColor: "#C3DBFF" } : {};
+  if (editable) {
+    disabledState = false;
+  }
+  let styles = disabledState ? { backgroundColor: "#C3DBFF" } : {};
+  // styles =
+  //   validateState === false ? { ...styles, color: "red" } : { ...styles };
 
   const Component = () => {
     switch (type) {
@@ -88,7 +98,7 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
             name={name}
             style={styles}
             variant="outlined"
-            value={summaryState[name] || null}
+            value={rowValues[name] || null}
             multiline={multiline ? true : false}
             rows={multiline}
             size={"small"}
@@ -106,7 +116,7 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
               fullWidth={width ? true : false}
               {...inputParams}
               disabled={disabledState}
-              value={{ label: summaryState[name] || "" }}
+              value={{ label: rowValues[name] || "" }}
               onChange={(
                 event: any,
                 newValue: { label: string | number } | null
@@ -132,7 +142,7 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <DatePicker
               label="Basic example"
-              value={summaryState[name]}
+              value={rowValues[name]}
               disabled={disabledState}
               onChange={(newValue) => {
                 const month = newValue.getUTCMonth() + 1;
@@ -147,13 +157,53 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
       case "checkBox":
         return (
           <>
+            {checkBox && checkBox.label && `${checkBox.label} :`}
             <Checkbox
               disabled={disabledState}
               style={styles}
-              checked={summaryState[name]}
+              checked={rowValues[name]}
               onChange={(event) => handleChange(name, event.target.checked)}
             />
           </>
+        );
+      case "invalidate":
+        return (
+          <Box sx={{ display: "flex" }}>
+            <FormControlLabel
+              value="start"
+              control={
+                <Checkbox
+                  onChange={() => changeValidateState()}
+                  checked={
+                    rowState === "default"
+                      ? rowValues.validateState
+                      : !validateState
+                  }
+                  disabled={rowState === "default" && rowValues.validateState}
+                />
+              }
+              label={"Invalidate"}
+              labelPlacement="start"
+              sx={{ ml: "0" }}
+            />
+          </Box>
+        );
+      case "validate":
+        return (
+          <Box sx={{ display: "flex" }}>
+            <Button
+              sx={{
+                backgroundColor: "#2121c5",
+                color: "white",
+                width: "95%",
+                p: "3px",
+                mt: "5px",
+              }}
+              onClick={() => changeValidateState(true)}
+            >
+              Validate
+            </Button>
+          </Box>
         );
       default:
         return (
@@ -164,7 +214,7 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
             style={styles}
             variant="outlined"
             disabled={disabledState}
-            value={summaryState[name]}
+            value={rowValues[name]}
             multiline={multiline ? true : false}
             rows={multiline}
             size={"small"}
@@ -175,24 +225,71 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
   };
 
   const TextComponent = () => {
+    let styles = validateState ? {} : { color: "grey", cursor: "default" };
     switch (type) {
+      case "invalidate":
+        return (
+          <Box sx={{ display: "flex" }}>
+            <FormControlLabel
+              value="start"
+              control={
+                <Checkbox
+                  onChange={() => changeValidateState()}
+                  checked={!validateState}
+                  disabled={!validateState}
+                />
+              }
+              label={"Invalidate"}
+              labelPlacement="start"
+              sx={{ ml: "0" }}
+            />
+          </Box>
+        );
+      case "validate":
+        return (
+          <Box sx={{ display: "flex" }}>
+            <Button
+              sx={{
+                backgroundColor: "#2121c5",
+                color: "white",
+                width: "95%",
+                p: "3px",
+                mt: "5px",
+              }}
+              onClick={() => changeValidateState(true)}
+            >
+              Validate
+            </Button>
+          </Box>
+        );
       case "checkBox":
         return (
           <Typography
             mt={0.8}
-            style={checkBox?.type == "green" ? { color: "green" } : {}}
+            // style={checkBox?.type == "green" ? { color: "green" } : {}}
+            style={
+              validateState
+                ? rowValues[name]
+                  ? { color: "green" }
+                  : { color: "red" }
+                : { color: "grey" }
+            }
           >
             {checkBox?.textVariants
-              ? summaryState[name]
+              ? rowValues[name]
                 ? checkBox?.textVariants.trueVariant
                 : checkBox?.textVariants.falseVariant
-              : summaryState[name]
+              : rowValues[name]
               ? "Yes"
               : "N/A"}
           </Typography>
         );
       default:
-        return <Typography mt={0.8}>{summaryState[name]}</Typography>;
+        return (
+          <Typography mt={0.8} style={styles}>
+            {rowValues[name]}
+          </Typography>
+        );
     }
   };
 
@@ -203,7 +300,7 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
           {title && (
             <>
               {!titleVisibly ? (
-                editStateBoolean !== "default" && (
+                rowState !== "default" && (
                   <Typography color={"gray"}>{title}</Typography>
                 )
               ) : (
@@ -213,29 +310,29 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
           )}
         </Grid>
         <Grid item width={width && `${width}%`}>
-          {editStateBoolean !== "default" ? Component() : <TextComponent />}
+          {rowState !== "default" ? Component() : <TextComponent />}
         </Grid>
       </Grid>
-      {validate && validate?.disabled && (
-        <Box sx={{ display: "flex" }}>
-          <Button
-            sx={{
-              backgroundColor: "#2121c5",
-              color: "white",
-              width: "95%",
-              p: "3px",
-              mt: "5px",
-            }}
-            onClick={
-              validate && validate.onClick
-                ? () => validate.onClick && validate.onClick()
-                : console.log
-            }
-          >
-            {validate.label ? validate.label : "Validate"}
-          </Button>
-        </Box>
-      )}
+      {/*{validate && validate?.disabled && (*/}
+      {/*  <Box sx={{ display: "flex" }}>*/}
+      {/*    <Button*/}
+      {/*      sx={{*/}
+      {/*        backgroundColor: "#2121c5",*/}
+      {/*        color: "white",*/}
+      {/*        width: "95%",*/}
+      {/*        p: "3px",*/}
+      {/*        mt: "5px",*/}
+      {/*      }}*/}
+      {/*      onClick={*/}
+      {/*        validate && validate.onClick*/}
+      {/*          ? () => validate.onClick && validate.onClick()*/}
+      {/*          : console.log*/}
+      {/*      }*/}
+      {/*    >*/}
+      {/*      {validate.label ? validate.label : "Validate"}*/}
+      {/*    </Button>*/}
+      {/*  </Box>*/}
+      {/*)}*/}
       {checkBox && type !== "checkBox" && (
         <Box sx={{ display: "flex" }}>
           <FormControlLabel

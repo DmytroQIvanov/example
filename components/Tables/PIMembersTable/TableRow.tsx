@@ -24,127 +24,117 @@ const TableRowComponent: React.FC<{
   onAddSave: Function;
   onAddCancel: Function;
 }> = ({ row, onDelete, onAddSave, onAddCancel }) => {
-  const {
-    onCancel,
-    handleChange,
-    editStateBoolean,
-    handleChangeEvent,
-    handleEditableState,
-    onSave,
-    editState,
-    validateState,
-    onChangeValidateState,
-  } = UseEditableTable(row);
+  const { onCancel, onSave, changeRowState, summaryObject } =
+    UseEditableTable(row);
 
-  const SummaryObject = {
-    handleChangeEvent,
-    handleChange,
-    summaryState: editState,
-    editStateBoolean,
-    titleVisibly: false,
-  };
   return (
-    <TableRow style={!validateState ? { backgroundColor: "#ececec" } : {}}>
+    <TableRow
+      style={
+        !summaryObject.rowValues.validateState
+          ? { backgroundColor: "#ececec" }
+          : {}
+      }
+    >
       <TableCell component="th" scope="row" width={"150px"}>
         {EditableBlock({
-          ...SummaryObject,
+          ...summaryObject,
           name: "personId",
         })}
       </TableCell>
       <TableCell component="th" scope="row" width={"150px"}>
         {EditableBlock({
-          ...SummaryObject,
+          ...summaryObject,
           name: "personType",
         })}
       </TableCell>
       <TableCell component="th" scope="row" width={"150px"}>
         {EditableBlock({
-          ...SummaryObject,
+          ...summaryObject,
           name: "firstName",
         })}
       </TableCell>
       <TableCell component="th" scope="row" width={"150px"}>
         {EditableBlock({
-          ...SummaryObject,
+          ...summaryObject,
           name: "lastName",
         })}
       </TableCell>
       <TableCell component="th" scope="row" width={"150px"}>
         {EditableBlock({
-          ...SummaryObject,
+          ...summaryObject,
           name: "superArea",
         })}
       </TableCell>
       <TableCell component="th" scope="row" width={"150px"}>
         {EditableBlock({
-          ...SummaryObject,
+          ...summaryObject,
           name: "area",
         })}
       </TableCell>
       <TableCell component="th" scope="row" width={"150px"}>
         {EditableBlock({
-          ...SummaryObject,
+          ...summaryObject,
           name: "locations",
         })}
       </TableCell>
       <TableCell component="th" scope="row" width={"150px"}>
         {EditableBlock({
-          ...SummaryObject,
+          ...summaryObject,
           name: "phones",
         })}
       </TableCell>
       <TableCell component="th" scope="row" width={"150px"}>
         {EditableBlock({
-          ...SummaryObject,
+          ...summaryObject,
           name: "department",
         })}
       </TableCell>
       <TableCell component="th" scope="row" width={"150px"}>
         {EditableBlock({
-          ...SummaryObject,
+          ...summaryObject,
           name: "pi",
         })}
       </TableCell>
 
       <TableCell component="th" scope="row" width={"150px"}>
         {EditableBlock({
-          ...SummaryObject,
+          ...summaryObject,
           name: "card",
         })}
       </TableCell>
 
       <TableCell component="th" scope="row" width={"150px"}>
         {EditableBlock({
-          ...SummaryObject,
+          ...summaryObject,
           name: "activeUnit",
         })}
       </TableCell>
 
       <TableCell component="th" scope="row" width={"150px"}>
         {EditableBlock({
-          ...SummaryObject,
+          ...summaryObject,
           name: "leftUC",
         })}
       </TableCell>
 
       <TableCell component="th" scope="row" width={"150px"}>
         {EditableBlock({
-          ...SummaryObject,
+          ...summaryObject,
           name: "campus",
         })}
       </TableCell>
       <TableCell width={"130px"}>
         <OptionsBlock
-          editStateBoolean={editStateBoolean}
+          editStateBoolean={summaryObject.rowState}
           onSave={() => {
-            editStateBoolean === "add" && onAddSave();
+            summaryObject.rowState === "add" && onAddSave();
             onSave();
           }}
-          onCancel={editStateBoolean === "add" ? onAddCancel : onCancel}
-          handleEditableState={handleEditableState}
+          onCancel={summaryObject.rowState === "add" ? onAddCancel : onCancel}
+          handleEditableState={changeRowState}
           onDelete={onDelete}
           id={row.id}
-          validateState={validateState}
+          validateState={summaryObject.rowValues.validateState}
         />
       </TableCell>
     </TableRow>

@@ -25,39 +25,29 @@ const TableRowComponent: React.FC<{
   onAddSave: Function;
   onAddCancel: Function;
 }> = ({ row, onDelete, onAddSave, onAddCancel }) => {
-  const {
-    onCancel,
-    handleChange,
-    editStateBoolean,
-    handleChangeEvent,
-    handleEditableState,
-    onSave,
-    editState,
-    onChangeValidateState,
-    validateState,
-  } = UseEditableTable(row);
+  const { onCancel, onSave, changeRowState, summaryObject } =
+    UseEditableTable(row);
 
-  const SummaryObject = {
-    handleChangeEvent,
-    handleChange,
-    summaryState: editState,
-    editStateBoolean,
-    titleVisibly: false,
-  };
   return (
-    <TableRow style={!validateState ? { backgroundColor: "#ececec" } : {}}>
+    <TableRow
+      style={
+        !summaryObject.rowValues.validateState
+          ? { backgroundColor: "#ececec" }
+          : {}
+      }
+    >
       <TableCell component="th" scope="row" width={"100px"}>
-        {editState.addStateBoolean
+        {summaryObject.rowValues.addStateBoolean
           ? EditableBlock({
-              ...SummaryObject,
+              ...summaryObject,
               name: "campus",
               type: "dropdown",
               availableStateBoolean: true,
               itemsArray: dropArray,
             })
-          : editState["campus"] &&
+          : summaryObject.rowValues["campus"] &&
             EditableBlock({
-              ...SummaryObject,
+              ...summaryObject,
               name: "campus",
               type: "dropdown",
               availableStateBoolean: true,
@@ -67,42 +57,43 @@ const TableRowComponent: React.FC<{
 
       <TableCell width={"130px"}>
         {EditableBlock({
-          ...SummaryObject,
+          ...summaryObject,
           name: "employeeID",
         })}
       </TableCell>
       <TableCell width={"130px"}>
         {EditableBlock({
-          ...SummaryObject,
+          ...summaryObject,
           name: "dfkv",
+          type: "date",
         })}
       </TableCell>
       <TableCell width={"130px"}>
         {EditableBlock({
-          ...SummaryObject,
+          ...summaryObject,
           name: "dlkv",
           type: "date",
-          validate: { label: "Validate", onClick: onChangeValidateState },
         })}
+        {EditableBlock({ ...summaryObject, type: "validate" })}
       </TableCell>
       <TableCell width={"230px"}>
         {EditableBlock({
-          ...SummaryObject,
+          ...summaryObject,
           name: "createdBy",
         })}
       </TableCell>
       <TableCell width={"130px"}>
         <OptionsBlock
-          editStateBoolean={editStateBoolean}
+          editStateBoolean={summaryObject.rowState}
           onSave={() => {
-            editStateBoolean === "add" && onAddSave();
+            summaryObject.rowState === "add" && onAddSave();
             onSave();
           }}
-          onCancel={editStateBoolean === "add" ? onAddCancel : onCancel}
-          handleEditableState={handleEditableState}
+          onCancel={summaryObject.rowState === "add" ? onAddCancel : onCancel}
+          handleEditableState={changeRowState}
           onDelete={onDelete}
           id={row.id}
-          validateState={validateState}
+          validateState={summaryObject.rowValues.validateState}
         />
       </TableCell>
     </TableRow>
