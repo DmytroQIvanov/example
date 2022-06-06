@@ -1,5 +1,5 @@
 import React from "react";
-import ElectronicAddressTable from "../../components/Tables/ElectronicAddressTable";
+import ElectronicAddressTable from "../../components/Tables/ElectronicAddressTable/Index"
 
 export default function Index() {
   return (
