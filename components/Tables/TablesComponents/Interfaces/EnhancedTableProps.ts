@@ -1,4 +1,3 @@
-import { IRowsPersonEmploymentTable } from "../../PersonEmploymentTable/interfaces";
 import { Order } from "./Order";
 
 export interface EnhancedTableProps<IRowsPersonEmploymentTable, HeadCell> {

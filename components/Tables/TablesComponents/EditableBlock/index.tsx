@@ -85,8 +85,6 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
     disabledState = false;
   }
   let styles = disabledState ? { backgroundColor: "#C3DBFF" } : {};
-  // styles =
-  //   validateState === false ? { ...styles, color: "red" } : { ...styles };
 
   const Component = () => {
     switch (type) {
@@ -274,7 +272,6 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
         return (
           <Typography
             mt={0.8}
-            // style={checkBox?.type == "green" ? { color: "green" } : {}}
             style={
               validateState
                 ? rowValues[name]
@@ -321,26 +318,6 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
           {rowState !== "default" ? Component() : <TextComponent />}
         </Grid>
       </Grid>
-      {/*{validate && validate?.disabled && (*/}
-      {/*  <Box sx={{ display: "flex" }}>*/}
-      {/*    <Button*/}
-      {/*      sx={{*/}
-      {/*        backgroundColor: "#2121c5",*/}
-      {/*        color: "white",*/}
-      {/*        width: "95%",*/}
-      {/*        p: "3px",*/}
-      {/*        mt: "5px",*/}
-      {/*      }}*/}
-      {/*      onClick={*/}
-      {/*        validate && validate.onClick*/}
-      {/*          ? () => validate.onClick && validate.onClick()*/}
-      {/*          : console.log*/}
-      {/*      }*/}
-      {/*    >*/}
-      {/*      {validate.label ? validate.label : "Validate"}*/}
-      {/*    </Button>*/}
-      {/*  </Box>*/}
-      {/*)}*/}
       {checkBox && type !== "checkBox" && (
         <Box sx={{ display: "flex" }}>
           <FormControlLabel
