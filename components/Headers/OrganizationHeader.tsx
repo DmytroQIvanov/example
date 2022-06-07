@@ -28,9 +28,7 @@ export function OrganizationHeader() {
                 <FormControl sx={{ m: 1, width: '90%' }} variant="standard">
                   <NativeSelect
                     id="campus-id"
-                    label="Campus"
                     name="campus"
-                    InputLabelProps={{'shrink': true}}
                     size="small"
                     input={<BootstrapInput />}
                   >
@@ -51,9 +49,7 @@ export function OrganizationHeader() {
                 <FormControl sx={{ m: 1, width: '90%' }} variant="standard">
                   <NativeSelect
                     id="org_name-id"
-                    label="Organization Name"
                     name="org_name"
-                    InputLabelProps={{'shrink': true}}
                     size="small"
                     input={<BootstrapInput />}
                   >
@@ -65,7 +61,6 @@ export function OrganizationHeader() {
                 <FormControl sx={{ m: 1, width: '90%' }} variant="standard">
                   <NativeSelect
                     id="org_type-id"
-                    label="Organization Type"
                     name="org_type"
                     size="small"
                     input={<BootstrapInput />}

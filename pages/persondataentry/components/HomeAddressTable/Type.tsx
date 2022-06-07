@@ -75,7 +75,16 @@ const generateTableData = () => {
   };
   return Array(2).fill(rowData);
 };
+export interface tableObj {
+  current: {
+    scrollHeight: number;
+    clientHeight: number;
+    scrollTop: number;
+  },
+  addEventListener: any;
+  removeEventListener: any;
+}
 
-const TableData: readonly RowData[] = generateTableData();
+const TableData: readonly RowData[] = [];
 
 export default TableData;

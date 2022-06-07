@@ -18,16 +18,17 @@ export interface RowCellProps {
   data: RowCellData;
   isEditing: boolean;
   variant: number;
-  rows: number;
+  rows?: number;
   options: { [key: string]: string[] };
-  isValue1EditDisabled: boolean;
-  isValue2EditDisabled: boolean;
-  isValue3EditDisabled: boolean;
+  isValue1EditDisabled?: boolean;
+  isValue2EditDisabled?: boolean;
+  isValue3EditDisabled?: boolean;
   disabled?: boolean;
 
   isEditDisabled: (key: string) => boolean;
-  onChangeCellValue1: (event: React.ChangeEvent<HTMLSelectElement>) => void;
-  onChangeCellValue2: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+  onChangeCellValue1?: (event: any) => void;
+  onChangeCellValue2?: (event: any) => void;
+  onChangeCellValue3?: (event: any) => void;
 
   ctaType?: string;
   ctaLabel?: string;
@@ -37,21 +38,12 @@ export interface RowCellProps {
   onClickDelete: () => void;
   onClickSave: () => void;
   onClickCancel: () => void;
-  changeRowValue: (arg0: RowCellData, arg1: any) => void;
-  changeAddress?: (address: any) => void;
+  changeRowValue: (key: string, value: RowCellData) => void;
+  changeAddress: (address: any) => void;
 }
 
-// @ts-ignore
-const RowCell: React.FC = (props: RowCellProps) => {
-  const rowCells = [
-    RowCell1,
-    RowCell2,
-    RowCell3,
-    RowCell4,
-    RowCell5,
-    RowCell6,
-    RowCell7,
-  ];
+const RowCell = (props: RowCellProps) => {
+  const rowCells = [RowCell1, RowCell2, RowCell3, RowCell4, RowCell5, RowCell6, RowCell7];
   const Cell = rowCells[props.type - 1];
 
   const onChangeCellValue = (
@@ -81,14 +73,11 @@ const RowCell: React.FC = (props: RowCellProps) => {
   return (
     <Cell
       {...props}
-      // @ts-ignore
-      onChangeCellValue1={(event: any) => onChangeCellValue("value1", event)}
-      onChangeCellValue2={(event: any) => onChangeCellValue("value2", event)}
-      onChangeCellValue3={(event: any) => onChangeCellValue("value3", event)}
-      onChangeAddress={(address: any) => {
-        props.changeAddress
-          ? props.changeAddress(address)
-          : onAddressCellValue("address", address);
+      onChangeCellValue1={(event) => onChangeCellValue('value1', event)}
+      onChangeCellValue2={(event) => onChangeCellValue('value2', event)}
+      onChangeCellValue3={(event) => onChangeCellValue('value3', event)}
+      changeAddress={(address: any) => {
+        props.changeAddress ? props.changeAddress(address): onAddressCellValue('address', address)
       }}
       isValue1EditDisabled={props.isEditDisabled("value1")}
       isValue2EditDisabled={props.isEditDisabled("value2")}

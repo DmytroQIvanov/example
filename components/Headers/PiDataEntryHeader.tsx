@@ -28,9 +28,7 @@ export function PiDataEntryHeader() {
                 <FormControl sx={{ m: 1, width: '90%' }} variant="standard">
                   <NativeSelect
                     id="campus-id"
-                    label="Campus"
                     name="campus"
-                    InputLabelProps={{'shrink': true}}
                     size="small"
                     input={<BootstrapInput />}
                   >
@@ -51,13 +49,12 @@ export function PiDataEntryHeader() {
                 <FormControl sx={{ m: 1, width: '90%' }} variant="standard">
                   <NativeSelect
                     id="fullname-id"
-                    label="Fullname"
                     name="fullname"
                     size="small"
                     input={<BootstrapInput />}
                   >
                     <option className="default-option" value="">Last, First</option>
-                    {ConfTemplate.campus.map((item, itemIndex) => {
+                    {ConfTemplate.campus && ConfTemplate.campus.map((item, itemIndex) => {
                       return <option value={item}>{item}</option>;
                     })}
                   </NativeSelect>

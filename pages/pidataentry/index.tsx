@@ -12,7 +12,7 @@ export default function Index() {
 
 Index.getLayout = function getLayout(page: ReactElement) {
   return (
-    <Layout>
+    <Layout breadcrumb={''}>
       {page}
     </Layout>
   )

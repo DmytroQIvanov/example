@@ -1,43 +1,53 @@
 import { HeaderCellData } from './Type';
 
-export const getType: number = (HeaderData: HeaderCellData[], key: string) => {
-  if (Array.isArray(HeaderData)) {
-    return HeaderData.find((data) => data.id === key).type;
+export const getType = function(HeaderData: HeaderCellData[], key: string): number {
+  if (Array.isArray(HeaderData) && key) {
+    let res = HeaderData.find((data) => data.id === key);
+    if (res) {
+      return res.type;
+    }
   }
+  return 0;
 };
 
-export const getOptions: (key: string) => { [p: string]: string[] } = (
-  HeaderData: HeaderCellData[], key: string
-) => {
-  if (Array.isArray(HeaderData)) {
-    return HeaderData.find((data) => data.id === key).options;
+export const getOptions = function (HeaderData: HeaderCellData[], key: string): any {
+  let res = HeaderData.find((data) => data.id === key);
+  if (Array.isArray(HeaderData) && res) {
+    return res.options;
   }
+  return {};
 };
 
-export const getVariant: (key: string) => any = (HeaderData: HeaderCellData[], key: string) => {
-  if (Array.isArray(HeaderData)) {
-    return HeaderData.find((data) => data.id === key).variant;
+export const getVariant = function(HeaderData: HeaderCellData[], key: string): any {
+  let res = HeaderData.find((data) => data.id === key);
+  if (Array.isArray(HeaderData) && res) {
+    return res.variant;
   }
+  return {};
 };
 
-export const getEditDisabledValues: (key: string) => string[] = (
-  HeaderData: HeaderCellData[], key: string
-) => {
-  if (Array.isArray(HeaderData)) {
-    return HeaderData.find((data) => data.id === key).editDisabledValues;
+export const getEditDisabledValues = function(HeaderData: HeaderCellData[], key: string): string[] {
+  let res = HeaderData.find((data) => data.id === key);
+  if (Array.isArray(HeaderData) && res && res.editDisabledValues) {
+    return res.editDisabledValues;
   }
+  return [];
 };
 
-export const getCtaType: string[] = (HeaderData: HeaderCellData[], key: string) => {
-  if (Array.isArray(HeaderData)) {
-    return HeaderData.find((data) => data.id === key).ctaType;
+export const getCtaType = function(HeaderData: HeaderCellData[], key: string): string {
+  let res = HeaderData.find((data) => data.id === key);
+  if (Array.isArray(HeaderData) && res && res.ctaType) {
+    return res.ctaType;
   }
+  return '';
 };
 
-export const getCtaLabel: string[] = (HeaderData: HeaderCellData[], key: string) => {
-  if (Array.isArray(HeaderData)) {
-    return HeaderData.find((data) => data.id === key).ctaLabel;
+export const getCtaLabel = function(HeaderData: HeaderCellData[], key: string): string {
+  let res = HeaderData.find((data) => data.id === key);
+  if (Array.isArray(HeaderData) && res && res.ctaLabel) {
+    return res.ctaLabel;
   }
+  return '';
 };
 
 export const deepCopy: any = (obj: any) => {
@@ -64,9 +74,11 @@ export const deepCopy: any = (obj: any) => {
 
   // Handle Object
   if (obj instanceof Object) {
-    copy = {};
+    let copy : any = {};
     for (const attr in obj) {
-      if (obj.hasOwnProperty(attr)) copy[attr] = deepCopy(obj[attr]);
+      if (obj.hasOwnProperty(attr)) {
+        copy[attr] = deepCopy(obj[attr]);
+      }
     }
     return copy;
   }

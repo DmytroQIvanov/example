@@ -1,6 +1,6 @@
 import TableRow from '@mui/material/TableRow';
 import * as React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import RowCell from './RowCell';
 import { RowCellData, RowData } from './Type';
@@ -15,24 +15,42 @@ import {
 import { HeaderData } from './Type';
 
 interface RowProps {
+  id: string,
   data: RowData;
+  headers: any;
+  saveRow ?: (data: any) => void;
+  updateData ?: (data: any) => void;
+  deleteRow ?: (data: any) => void;
 }
 
-const Row: React.FC = (props: RowProps) => {
-  const [data, setData] = useState<RowData>(props.data);
+const Row = (props: RowProps) => {
+  const [data, setData] = useState<any>(props.data);
   const [initialData, setInitialData] = useState<RowData>(props.data);
   const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [headers, setHeaders] = useState(props.headers);
+
+  useEffect(() => {
+    setData(props.data);
+  }, [props.data]);
 
   const onClickEdit = () => {
     setIsEditing(true);
   };
 
-  const onClickDelete = () => {};
+  const onClickDelete = () => {
+    if (props.deleteRow) {
+      props.deleteRow(data);
+    }
+  };
 
   const onClickSave = () => {
     setIsEditing(false);
 
     setInitialData(data);
+
+    if (props.saveRow) {
+      props.saveRow(data);
+    }
   };
 
   const onClickCancel = () => {
@@ -50,8 +68,22 @@ const Row: React.FC = (props: RowProps) => {
     setData(newData);
   };
 
-  const isEditDisabled: boolean = (headerKey: string, valueKey: string) => {
-    return getEditDisabledValues(headerKey)?.includes(valueKey);
+  const changeAddress = (address: any) => {
+    const newData = {
+      ...data,
+      'home-address': {value1: address.full},
+      'source': {value1: address.source},
+      'comments': {value1: address.comments},
+    };
+    newData.options = { ...newData.options, address: address };
+    setData(newData);
+    if (props.updateData) {
+      props.updateData(newData);
+    }
+  }
+
+  const isEditDisabled = (headerKey: string, valueKey: string) => {
+    return getEditDisabledValues(headers, headerKey)?.includes(valueKey);
   };
 
   const onCtaClick = (headerKey: string, ctaType: string, event: any) => {
@@ -77,20 +109,21 @@ const Row: React.FC = (props: RowProps) => {
           <RowCell
             id={key}
             key={key}
-            type={getType(HeaderData, key)}
-            variant={getVariant(HeaderData, key)}
-            options={getOptions(HeaderData, key)}
+            type={getType(headers, key)}
+            variant={getVariant(headers, key)}
+            options={getOptions(headers, key)}
             isEditDisabled={(valueKey) => isEditDisabled(key, valueKey)}
             data={data[key]}
-            isEditing={isEditing}
-            ctaType={getCtaType(HeaderData, key)}
-            ctaLabel={getCtaLabel(HeaderData, key)}
-            onCtaClick={(event) => onCtaClick(key, getCtaType(key), event)}
+            isEditing={data['id'] ? isEditing : true}
+            ctaType={getCtaType(headers, key)}
+            ctaLabel={getCtaLabel(headers, key)}
+            onCtaClick={(event) => onCtaClick(key, getCtaType(headers, key), event)}
             onClickEdit={onClickEdit}
             onClickDelete={onClickDelete}
             onClickSave={onClickSave}
             onClickCancel={onClickCancel}
             changeRowValue={changeRowValue}
+            changeAddress={changeAddress}
           />
         );
       })}

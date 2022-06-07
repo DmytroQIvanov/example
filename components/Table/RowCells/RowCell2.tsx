@@ -29,7 +29,7 @@ const RowCell2EditDefault: (props: RowCellProps) => JSX.Element = (props: RowCel
   );
 };
 
-const RowCell2EditVariant1: React.FC = (props: RowCellProps) => {
+const RowCell2EditVariant1 = (props: RowCellProps) => {
   return (
     <>
       <div>
@@ -55,7 +55,7 @@ const RowCell2EditVariant1: React.FC = (props: RowCellProps) => {
   );
 };
 
-const RowCell2EditVariant2: React.FC = (props: RowCellProps) => {
+const RowCell2EditVariant2 = (props: RowCellProps) => {
   return (
     <>
       <div>
@@ -81,7 +81,7 @@ const RowCell2EditVariant2: React.FC = (props: RowCellProps) => {
   );
 };
 
-const RowCell2EditVariant3: React.FC = (props: RowCellProps) => {
+const RowCell2EditVariant3 = (props: RowCellProps) => {
   return (
     <>
       <div>
@@ -110,7 +110,7 @@ const RowCell2EditVariant3: React.FC = (props: RowCellProps) => {
   );
 };
 
-const RowCell2Edit: React.FC = (props: RowCellProps) => {
+const RowCell2Edit = (props: RowCellProps) => {
   switch (props.variant) {
     case 1:
       return <RowCell2EditVariant1 {...props} />;
@@ -123,7 +123,7 @@ const RowCell2Edit: React.FC = (props: RowCellProps) => {
   }
 };
 
-const RowCell2: React.FC = (props: RowCellProps) => {
+const RowCell2 = (props: RowCellProps) => {
   return (
     <TableCell>
       {props.isEditing ? (

@@ -40,18 +40,22 @@ const initialAddress = {
   google_formatted: "",
 };
 
-const AddressEditModal = ({
-  open,
-  data,
-  title,
-  handleClose,
-  onChangeAddress,
-  modalProps,
-}: any) => {
-  const [address, setAddress] = React.useState(initialAddress);
+const AddressEditModal = ({open, data, title, handleClose, onChangeAddress, modalProps}: any) => {
+  const [address, setAddress] = React.useState({source: '',
+    comments: '',
+    street_number:'',
+    street:'',
+    city:'',
+    state:'',
+    postal:'',
+    country:'',
+    full: '',
+    google_formatted: '',
+    formatted_address: ''
+  });
 
   const { isLoaded, loadError } = useLoadScript(scriptOptions);
-  const [autocomplete, setAutocomplete] = useState(null);
+  const [autocomplete, setAutocomplete] = useState<any>(null);
   const inputEl = useRef(null);
 
   const classes = useStyles();
@@ -69,7 +73,7 @@ const AddressEditModal = ({
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: any) => {
     e.preventDefault();
   };
 
@@ -78,7 +82,7 @@ const AddressEditModal = ({
   };
 
   const handleChange = (e: any) => {
-    let update = { ...address };
+    let update : any = { ...address };
 
     // @ts-ignore
     update[e.target.name] = e.target.value;

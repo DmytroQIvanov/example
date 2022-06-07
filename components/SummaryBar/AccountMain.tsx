@@ -447,7 +447,20 @@ const AccountMain = () => {
                         )}
                       </TableCell>
                       <TableCell>
-                        {data?.sample_person[index].typeByType?.typename}
+                        {data?.sample_person[index].user_accounts.map(
+                            (
+                                { account_location }: { account_location?: Number },
+                                key: number
+                            ) => (
+                                <>
+                                  {account_location}
+                                  {index <
+                                  data?.sample_person[index].user_accounts?.length - 1
+                                      ? ', '
+                                      : ''}
+                                </>
+                            )
+                        )}
                       </TableCell>
                     </TableRow>
                   </TableBody>

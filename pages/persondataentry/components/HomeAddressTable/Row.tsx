@@ -1,5 +1,6 @@
 import TableRow from "@mui/material/TableRow";
 import * as React from "react";
+import { Key } from "react";
 import { useState } from "react";
 
 import RowCell from "../../../../components/Table/RowCell";
@@ -21,7 +22,7 @@ interface RowProps {
   id?: string;
 }
 
-const Row: React.FC<RowProps> = (props) => {
+const Row: React.FC<RowProps> = (props: { data: any; updateData: (arg0: any) => any; id: Key | null | undefined; rowDelete: any; }) => {
   const [data, setData] = useState<RowData>(props.data);
   const [initialData, setInitialData] = useState<RowData>(props.data);
   const [isEditing, setIsEditing] = useState<boolean>(false);
@@ -71,6 +72,7 @@ const Row: React.FC<RowProps> = (props) => {
       case "switch":
       case "checkbox": {
         const newData = { ...data };
+        
         newData[headerKey].ctaChecked = event.target.checked;
 
         console.log(newData);
@@ -100,7 +102,7 @@ const Row: React.FC<RowProps> = (props) => {
               type={getType(HeaderData, key)}
               variant={getVariant(HeaderData, key)}
               options={getOptions(HeaderData, key)}
-              isEditDisabled={(valueKey) => isEditDisabled(key, valueKey)}
+              isEditDisabled={(valueKey: string) => isEditDisabled(key, valueKey)}
               data={data[key]}
               isEditing={isEditing}
               ctaType={getCtaType(HeaderData, key)}

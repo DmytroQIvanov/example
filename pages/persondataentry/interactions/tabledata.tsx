@@ -1,4 +1,4 @@
-import { HeaderCellData } from "../../../components/Table/Type";
+import { HeaderCellData, RowData } from "../../../components/Table/Type"
 
 export const HeaderData: readonly HeaderCellData[] = [
   {

@@ -8,10 +8,11 @@ export interface CallToActionProps {
   type: string;
   label: string;
   checked?: boolean;
+  disabled?: boolean;
   onClick: (event: any) => void;
 }
 
-const CallToAction: React.FC = (props: CallToActionProps) => {
+const CallToAction = (props: CallToActionProps) => {
   switch (props.type) {
     case 'switch':
       return (
@@ -20,7 +21,6 @@ const CallToAction: React.FC = (props: CallToActionProps) => {
             <Switch
               checked={props.checked}
               onClick={props.onClick}
-              label={'label'}
             />
           }
           label={props.label}
@@ -33,7 +33,6 @@ const CallToAction: React.FC = (props: CallToActionProps) => {
             <Checkbox
               checked={props.checked}
               onClick={props.onClick}
-              label={'label'}
             />
           }
           label={props.label}

@@ -5,9 +5,9 @@ import SaveIcon from '@mui/icons-material/Save';
 import TableCell from '@mui/material/TableCell';
 import * as React from 'react';
 
-import { RowCellInfo } from '../Type';
+import { RowCellProps } from '../RowCell';
 
-const RowCell6: React.FC = (props: RowCellInfo) => {
+const RowCell6 = (props: RowCellProps) => {
   return (
     <TableCell>
       {props.isEditing ? (

@@ -13,6 +13,7 @@ import SieveMenu from "./SieveMenu";
 import { HeaderCellData, Order } from "./Type";
 
 interface HeaderProps {
+  numSelected: number;
   data: Array<HeaderCellData>;
   order: Order;
   orderBy: string;

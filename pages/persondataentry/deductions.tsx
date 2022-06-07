@@ -27,7 +27,7 @@ export default function Deductions() {
 
 Deductions.getLayout = function getLayout(page: ReactElement) {
   return (
-    <Layout breadcrumb="Deductions">
+    <Layout key="deductions" breadcrumb="Deductions">
       {page}
     </Layout>
   )

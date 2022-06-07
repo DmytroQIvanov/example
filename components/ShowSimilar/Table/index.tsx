@@ -391,13 +391,13 @@ function stableSort<T>(
   return stabilizedThis.map((el) => el[0]);
 }
 
-interface HeadCell {
+export interface HeadCell {
   id: keyof Data;
   label: string;
   numeric: boolean;
 }
 
-const headCells: readonly HeadCell[] = [
+const headCells: HeadCell[] = [
   {
     id: "id",
     numeric: true,
@@ -471,20 +471,22 @@ const headCells: readonly HeadCell[] = [
 ];
 
 interface EnhancedTableProps {
-  onRequestSort: (
+  onRequestSort?: (
     event: React.MouseEvent<unknown>,
     property: keyof Data
   ) => void;
   order: Order;
   orderBy: string;
-  headCells: readonly HeadCell[];
+  headCells: HeadCell[];
 }
 
 export function EnhancedTableHead(props: EnhancedTableProps) {
   const { order, orderBy, onRequestSort } = props;
   const createSortHandler =
     (property: keyof Data) => (event: React.MouseEvent<unknown>) => {
-      onRequestSort(event, property);
+      if (onRequestSort) {
+        onRequestSort(event, property);
+      }
     };
 
   return (

@@ -10,13 +10,13 @@ import AssignmentIcon from '@mui/icons-material/Assignment';
 import { RowCellProps } from '../RowCell';
 import AddressEditModal from './AddressEditModal';
 
-const RowCell7: React.FC = (props: RowCellProps) => {
+const RowCell7 = (props: RowCellProps) => {
   const [open, setOpen] = React.useState(false);
   const [datemarkedinvalid, setDatemarkedinvalid] = React.useState(false);
 
-  const onEditAddress = () => {
+  const onEditAddress = (e: any) => {
     setOpen(true);
-    props.onCtaClick();
+    props.onCtaClick(e);
   }
 
   return (
@@ -27,14 +27,14 @@ const RowCell7: React.FC = (props: RowCellProps) => {
           data={props.data}
           title={`Address Record`}
           handleClose={() => setOpen(false)}
-          onChangeAddress={(address) => props.onChangeAddress(address)}
+          onChangeAddress={(address: any) => props.changeAddress(address)}
         />
       </div>
       <div>
         <>
           {datemarkedinvalid &&
             <AssignmentIcon /> }
-          <EditIcon onClick={onEditAddress} />
+          <EditIcon onClick={(e) => onEditAddress(e)} />
           <DeleteIcon onClick={props.onClickDelete} />
         </>
       </div>

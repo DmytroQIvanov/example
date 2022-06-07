@@ -12,10 +12,15 @@ import Toolbar from '@mui/material/Toolbar';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import React, { useCallback, useLayoutEffect, useRef, useState, useEffect } from 'react';
+import Grid from '@mui/material/Grid';
+import {
+  Button
+} from '@mui/material';
 
 import Header from './Header';
 import Row from './Row';
 import TableData, { HeaderData, Order, RowData, HeaderCellData } from './Type';
+import useStyles from '../../pages/styles';
 
 const generateItems = (amount: number) => {
   return TableData.slice(0, amount);
@@ -78,36 +83,52 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
   );
 };
 
-export default function EnhancedTable({headerData, tableData}: {headerData: HeaderCellData[], tableData: RowData[]}) {
-  const tableEl = useRef();
-  const [rows, setRows] = useState([]);
-  const [headers, setHeaders] = useState([]);
+interface TableProps {
+  headerData?: HeaderCellData[];
+  tableData?: RowData[];
+  saveRow?: any;
+  deleteRow?: any;
+  addRow?: any;
+}
+
+export default function EnhancedTable(props: TableProps) {
+  const tableEl = useRef<HTMLDivElement>(null);
+  const [rows, setRows] = useState<RowData[]>([]);
+  const [headers, setHeaders] = useState<HeaderCellData[]>([]);
   const [loading, setLoading] = useState(false);
   const [distanceBottom, setDistanceBottom] = useState(0);
   const [hasMore] = useState(true);
-  const [order, setOrder] = useState('asc');
+  const [order, setOrder] = useState<Order>(Order.asc);
   const [orderBy, setOrderBy] = useState('');
-  const [filter, setFilter] = useState(null);
-  const [filterBy, setFilterBy] = useState(null);
+  const [filter, setFilter] = useState('');
+  const [filterBy, setFilterBy] = useState('');
   const [selected, setSelected] = React.useState<readonly string[]>([]);
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
+  const classes = useStyles();
 
   useEffect(() => {
-    if (!tableData) {
+    if (props.tableData) {
+      setRows(props.tableData);
+    } else {
       setRows(generateItems(10));
     }
-    if (!headerData) {
+
+    let headerData = props.headerData;
+    console.log([headerData, headerData?.length])
+    if (headerData && headerData.length > 0) {
+      setHeaders(headerData)
+    } else {
       setHeaders(HeaderData);
     }
-  }, []);
+  }, [props.tableData]);
 
   const loadMore = useCallback(() => {
     const loadItems = async () => {
       await new Promise<void>((resolve) => {
         setTimeout(() => {
-          const amount = rows.length + 10;
-          setRows(generateItems(amount));
+          // const amount = rows.length + 10;
+          // setRows(generateItems(amount));
           setLoading(false);
           resolve();
         }, 500);
@@ -118,31 +139,49 @@ export default function EnhancedTable({headerData, tableData}: {headerData: Head
   }, [rows]);
 
   const scrollListener = useCallback(() => {
-    const bottom = tableEl.current.scrollHeight - tableEl.current.clientHeight;
-    if (!distanceBottom) {
-      setDistanceBottom(Math.round((bottom / 100) * 20));
-    }
-    if (
-      tableEl.current.scrollTop > bottom - distanceBottom &&
-      hasMore &&
-      !loading
-    ) {
-      loadMore();
+    console.log('ppppppppp')
+    if (tableEl && tableEl.current) {
+      const bottom = tableEl.current.scrollHeight - tableEl.current.clientHeight;
+      if (!distanceBottom) {
+        setDistanceBottom(Math.round((bottom / 100) * 20));
+      }
+      if (
+        tableEl.current.scrollTop > bottom - distanceBottom &&
+        hasMore &&
+        !loading
+      ) {
+        loadMore();
+      }
     }
   }, [hasMore, loadMore, loading, distanceBottom]);
 
   useLayoutEffect(() => {
     const tableRef = tableEl.current;
-    tableRef.addEventListener('scroll', scrollListener);
-    return () => {
-      tableRef.removeEventListener('scroll', scrollListener);
-    };
+
+    if (tableRef) {
+      tableRef.addEventListener('scroll', scrollListener);
+      return () => {
+        tableRef.removeEventListener('scroll', scrollListener);
+      };
+    }
   }, [scrollListener]);
 
   const handleOnClickSort = (_order: Order, _orderBy: string) => {
     setOrder(_order);
     setOrderBy(_orderBy);
-    console.log('----------handle on click sort-----------', order, orderBy);
+    let newRows = rows.map(row => row).sort((a, b) => {
+      if (a[_orderBy].value1 && b[_orderBy].value1) {
+        if (_order == 0) {
+          if(a[_orderBy].value1 < b[_orderBy].value1) { return -1; }
+          if(a[_orderBy].value1 > b[_orderBy].value1) { return 1; }
+        } else {
+          if(a[_orderBy].value1 > b[_orderBy].value1) { return -1; }
+          if(a[_orderBy].value1 < b[_orderBy].value1) { return 1; }
+        }
+      }
+      return 0;
+    })
+    setRows(newRows);
   };
 
   const handleOnClickFilter = (_filter: string, _filterBy: string) => {
@@ -158,7 +197,7 @@ export default function EnhancedTable({headerData, tableData}: {headerData: Head
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
       const newSelecteds = rows.map((n) => n.name);
-      setSelected(newSelecteds);
+      setSelected([]);
       return;
     }
     setSelected([]);
@@ -192,7 +231,11 @@ export default function EnhancedTable({headerData, tableData}: {headerData: Head
 
   return (
     <>
-      <EnhancedTableToolbar numSelected={selected.length} />
+      <Grid className={classes.actions}>
+        <Button variant="contained" color="success" onClick={props.addRow}>
+          Add
+        </Button>
+      </Grid>
       <TableContainer style={{ maxHeight: 'calc(100vh - 350px)' }} ref={tableEl}>
         {loading && <CircularProgress style={{ position: 'absolute', top: '50%', left: '50%' }} />}
         <Table stickyHeader
@@ -211,8 +254,10 @@ export default function EnhancedTable({headerData, tableData}: {headerData: Head
             onClickFilter={handleOnClickFilter}
           />
           <TableBody>
-            {rows.map((rowData, rowIndex) => {
-              return <Row key={rowIndex} data={rowData} />;
+            {rows.map((rowData : any, rowIndex : number) => {
+              return <Row id={rowData.id} data={rowData} headers={headers}
+                saveRow={(data: any) => props.saveRow(data)}
+                deleteRow={(data: any) => props.deleteRow(data)} />;
             })}
           </TableBody>
         </Table>

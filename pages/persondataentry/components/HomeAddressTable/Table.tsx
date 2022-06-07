@@ -108,7 +108,10 @@ export default function EnhancedTable({
   const handleOnClickSort = (_order: Order, _orderBy: string) => {
     setOrder(_order);
     setOrderBy(_orderBy);
-    let newRows = rows.sort((a, b) => {
+    console.log(rows)
+    let newRows = rows.map(row => row)
+    newRows = newRows.sort((a, b) => {
+      console.log([_order, a[_orderBy].value1, b[_orderBy].value1])
       if (a[_orderBy].value1 && b[_orderBy].value1) {
         if (_order == 0) {
           if (a[_orderBy].value1 < b[_orderBy].value1) {
@@ -143,8 +146,7 @@ export default function EnhancedTable({
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-      const newSelecteds = rows.map((n) => n.name);
-      setSelected(newSelecteds);
+      setSelected([]);
       return;
     }
     setSelected([]);
@@ -236,6 +238,7 @@ export default function EnhancedTable({
       };
     });
 
+    console.log(res)
     return res;
   };
 

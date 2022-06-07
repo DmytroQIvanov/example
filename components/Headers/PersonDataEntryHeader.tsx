@@ -45,14 +45,12 @@ export function PersonDataEntryHeader() {
                   <FormControl sx={{ m: 1, width: '90%' }} variant="standard">
                     <NativeSelect
                         id="campus-id"
-                        label="Campus"
                         name="campus"
-                        InputLabelProps={{'shrink': true}}
                         size="small"
                         input={<BootstrapInput />}
                     >
                       <option className="default-option" value="">Campus</option>
-                      {ConfTemplate.campus.map((item, itemIndex) => {
+                      {ConfTemplate.campus && ConfTemplate.campus.map((item, itemIndex) => {
                         return <option value={item}>{item}</option>;
                       })}
                     </NativeSelect>
@@ -75,13 +73,12 @@ export function PersonDataEntryHeader() {
                   <FormControl sx={{ m: 1, width: '90%' }} variant="standard">
                     <NativeSelect
                         id="fullname-id"
-                        label="Fullname"
                         name="fullname"
                         size="small"
                         input={<BootstrapInput />}
                     >
                       <option className="default-option" value="">Last, First</option>
-                      {ConfTemplate.campus.map((item, itemIndex) => {
+                      {ConfTemplate.campus && ConfTemplate.campus.map((item, itemIndex) => {
                         return <option value={item}>{item}</option>;
                       })}
                     </NativeSelect>
@@ -91,14 +88,12 @@ export function PersonDataEntryHeader() {
                   <FormControl sx={{ m: 1, width: '90%' }} variant="standard">
                     <NativeSelect
                         id="person-id"
-                        labelId="person"
-                        label="Person"
                         name="person"
                         size="small"
                         input={<BootstrapInput />}
                     >
                       <option className="default-option" value="">Person Category</option>
-                      {ConfTemplate.campus.map((item, itemIndex) => {
+                      {ConfTemplate.campus && ConfTemplate.campus.map((item, itemIndex) => {
                         return <option value={item}>{item}</option>;
                       })}
                     </NativeSelect>

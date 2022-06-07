@@ -51,6 +51,54 @@ main {
   -moz-user-select: none;
   -ms-user-select: none;
 }
+.sidebar{
+  top: 0;
+  left: 0;
+  background: #134A90;
+  z-index: 100;
+  transition: all 0.5s ease;
+}
+.sidebar.open {
+  min-width: 260px;
+}
+.sidebar.close{
+  max-width: 78px;
+}
+
+.sidebar.close  .iocn-link .react-icon  {
+  padding-left: 20px;
+}
+
+.iocn-link a {
+  border-bottom: 0px !important;
+}
+
+.sidebar .logo-details{
+  height: 60px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.sidebar .logo-details i{
+  font-size: 16px;
+  color: #fff;
+  height: 50px;
+  min-width: 78px;
+  text-align: center;
+  line-height: 50px;
+}
+
+.sidebar .react-icon {
+  height: 22px;
+  min-width: 45px;
+  text-align: center;
+  line-height: 50px;
+  color: #fff;
+  font-size: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
 
 .menulist-container::-webkit-scrollbar {
   width: 0;
@@ -180,4 +228,8 @@ main {
 }
 .disabled .table-cell-text {
   color: gray !important;
+}
+
+tbody td {
+  text-align: center !important;
 }

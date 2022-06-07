@@ -11,7 +11,12 @@ const RowCell5Edit: (props: RowCellProps) => JSX.Element = (props: RowCellProps)
       <div>
         <Select
           value={props.data.value1}
-          onChange={props.onChangeCellValue1}
+          onChange={(e) => {
+              if (props.onChangeCellValue1) {
+                props.onChangeCellValue1(e);
+              }
+            }
+          }
           disabled={props.isValue1EditDisabled}
         >
           {props.options.value1.map((option) => {
@@ -23,7 +28,11 @@ const RowCell5Edit: (props: RowCellProps) => JSX.Element = (props: RowCellProps)
         <span>
           <Select
             value={props.data.value2}
-            onChange={props.onChangeCellValue2}
+            onChange={(e) => {
+              if (props.onChangeCellValue2) {
+                props.onChangeCellValue2(e);
+              }
+            }}
             disabled={props.isValue2EditDisabled}
           >
             {props.options.value2.map((option) => {
@@ -47,7 +56,7 @@ const RowCell5Edit: (props: RowCellProps) => JSX.Element = (props: RowCellProps)
   );
 };
 
-const RowCell5: React.FC = (props: RowCellProps) => {
+const RowCell5 = (props: RowCellProps) => {
   return (
     <TableCell>
       {props.isEditing ? (

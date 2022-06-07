@@ -27,7 +27,7 @@ export default function LocationsDataEntry() {
 
 LocationsDataEntry.getLayout = function getLayout(page: ReactElement) {
   return (
-    <Layout breadcrumb="Locations Data Entry">
+    <Layout key="locations-data-entry" breadcrumb="Locations Data Entry">
       {page}
     </Layout>
   )

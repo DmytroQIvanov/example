@@ -11,12 +11,7 @@ import {
   AiOutlinePlus,
   AiOutlineRight,
 } from "react-icons/ai";
-import { EnhancedTableHead } from "../ShowSimilar/Table";
-interface HeadCell {
-  id: keyof Data;
-  label: string;
-  numeric: boolean;
-}
+import { EnhancedTableHead, HeadCell } from "../ShowSimilar/Table";
 
 type Order = "asc" | "desc";
 interface Data {
@@ -169,14 +164,14 @@ const rows: ItemType[] = [
     other: "Football7",
   },
 ];
-const headCells: readonly HeadCell[] = [
+const headCells: HeadCell[] = [
   {
     id: "id",
     numeric: true,
     label: "Person ID",
   },
   {
-    id: "personType",
+    id: "type",
     numeric: false,
     label: "Type",
   },
@@ -201,7 +196,7 @@ const headCells: readonly HeadCell[] = [
     label: "Area",
   },
   {
-    id: "location",
+    id: "locations",
     numeric: false,
     label: "Location",
   },
@@ -267,7 +262,6 @@ function ModalTable() {
           <EnhancedTableHead
             order={order}
             orderBy={orderBy}
-            onRequestSort={handleRequestSort}
             headCells={headCells}
           />
           <TableBody>
