@@ -1,6 +1,6 @@
 import React from "react";
-// @ts-ignore
-import PiMembersTable from "../../components/Tables/PiMembersTable/Index";
+
+import PiMembersTable from "../../components/Tables/PIMembersTable/Index"
 
 export default function Index() {
   return (

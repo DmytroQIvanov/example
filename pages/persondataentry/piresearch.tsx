@@ -1,6 +1,7 @@
 import React from "react";
-// @ts-ignore
-import PiResearchTable from "../../components/Tables/PiResearchTable/Index";
+
+import PiResearchTable from "../../components/Tables/PIResearchTable/Index"
+
 
 export default function Index() {
   return (
