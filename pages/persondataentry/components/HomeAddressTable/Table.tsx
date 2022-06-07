@@ -208,8 +208,8 @@ export default function EnhancedTable({
         postal: address.zip,
         source: "",
         state: address.state,
-        street: address.streetname,
-        street_number: address.streetnumber,
+        streetname: address.streetname,
+        streetnumber: address.streetnumber,
         full: "",
       };
       tempAddress.full = [

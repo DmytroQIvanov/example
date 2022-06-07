@@ -1,7 +1,7 @@
 import type { ReactElement } from "react";
 import React, { useEffect, useState } from "react";
 
-import HomeAddressTable from "./components/HomeAddressTable/Table";
+// import HomeAddressTable from "./components/HomeAddressTable/Table";
 import PersonHomeAddressTable from "../../components/Tables/PersonHomeAddressTable/Index";
 import { Layout } from "./layout";
 import useStyles from "../styles";
@@ -59,7 +59,7 @@ export default function HomeAddress() {
 
   return (
     <>
-      <HomeAddressTable tableData={data} headerData={[]} />
+      <PersonHomeAddressTable tableData={data} />
     </>
   );
 }

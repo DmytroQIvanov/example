@@ -32,8 +32,8 @@ const scriptOptions = {
 const initialAddress = {
   source: "",
   comments: "",
-  street_number: "",
-  street: "",
+  streetnumber: "",
+  streetname: "",
   country: "",
   postal: "",
   formatted_address: "",
@@ -88,8 +88,8 @@ const AddressEditModal = ({
   const onPlaceChanged = (e: any) => {
     let autoAddress = {
       ...address,
-      street_number: "",
-      street: "",
+      streetnumber: "",
+      streetname: "",
       city: "",
       state: "",
       postal: "",
@@ -102,11 +102,11 @@ const AddressEditModal = ({
       if ("address_components" in place) {
         place["address_components"].forEach((item: any) => {
           if (item["types"][0] == "street_number" && item["long_name"]) {
-            autoAddress = { ...autoAddress, street_number: item["long_name"] };
+            autoAddress = { ...autoAddress, streetnumber: item["long_name"] };
             fullAddress.push(item["long_name"]);
           }
           if (item["types"][0] == "route" && item["long_name"]) {
-            autoAddress = { ...autoAddress, street: item["long_name"] };
+            autoAddress = { ...autoAddress, streetname: item["long_name"] };
             fullAddress.push(item["long_name"]);
           }
           if (item["types"][0] == "locality" && item["long_name"]) {
@@ -212,7 +212,7 @@ const AddressEditModal = ({
             <TextField
               label="Street Number"
               variant="outlined"
-              value={address?.street_number}
+              value={address?.streetnumber}
               InputLabelProps={{ shrink: true }}
               name="street_number"
               onChange={(e) => handleChange(e)}
@@ -223,7 +223,7 @@ const AddressEditModal = ({
             <TextField
               label="Street Name"
               variant="outlined"
-              value={address?.street}
+              value={address?.streetname}
               name="street"
               InputLabelProps={{ shrink: true }}
               onChange={(e) => handleChange(e)}

@@ -11,24 +11,24 @@ import { HeadCell } from "../TablesComponents/Interfaces/HeadCell";
 import { Order } from "../TablesComponents/Interfaces/Order";
 import AddressEditModal from "../../Table/RowCells/AddressEditModal";
 
-const rows: IRowsPersonEmploymentTable[] = [
-  {
-    id: "1",
-
-    street_number: "33",
-    street: "Smaf",
-    full: "",
-    city: "Izmail",
-    state: "Example",
-    country: "Example2",
-    source: "Example3",
-    comments: "Example Example",
-    postal: "",
-    apt: "smth",
-    dlkv: "smth",
-    marketInvalid: "smth",
-  },
-];
+// const rows: IRowsPersonEmploymentTable[] = [
+//   {
+//     id: "1",
+//
+//     street_number: "33",
+//     street: "Smaf",
+//     full: "",
+//     city: "Izmail",
+//     state: "Example",
+//     country: "Example2",
+//     source: "Example3",
+//     comments: "Example Example",
+//     postal: "",
+//     apt: "smth",
+//     dlkv: "smth",
+//     marketInvalid: "smth",
+//   },
+// ];
 
 const headCells: readonly HeadCell<IColumnsPersonEmploymentTable>[] = [
   {
@@ -67,7 +67,9 @@ const headCells: readonly HeadCell<IColumnsPersonEmploymentTable>[] = [
   },
 ];
 
-const Index = () => {
+const Index:React.FC<{tableData:IRowsPersonEmploymentTable[]}> = ({tableData}) => {
+
+  console.log(tableData,'tableData')
   const [order, setOrder] = React.useState<Order>("asc");
   const [orderBy, setOrderBy] =
     React.useState<keyof IRowsPersonEmploymentTable>("options");
@@ -91,7 +93,7 @@ const Index = () => {
   return (
     <TableWrapper
       buttonsList={[{ label: "Add", buttonFunction: onHandleOpen }]}
-      rows={rows}
+      rows={tableData}
       disableAddBtn
     >
       {({

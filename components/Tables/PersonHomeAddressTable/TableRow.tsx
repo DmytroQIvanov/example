@@ -21,6 +21,8 @@ const TableRowComponent: React.FC<{
   const { onCancel, onSave, changeRowState, summaryObject, } =
     UseEditableTable(row);
 
+  console.log(row)
+
   const [stateModal, setStateModal] = useState(false);
   const onHandleClose = () => {
     setStateModal(false);
@@ -39,13 +41,13 @@ const TableRowComponent: React.FC<{
       <TableCell component="th" scope="row" width={"200px"}>
         <Box sx={{mr:'2px',display:'flex',gap:'2px'}}>
           <Box sx={{mr:'2px'}}>
-            {summaryObject.rowValues["street_number"]}
+            {summaryObject.rowValues["streetnumber"]}
           </Box>
           <Box sx={{mr:'2px'}}>
-            {summaryObject.rowValues["street"]}
+            {summaryObject.rowValues["streetname"]}
           </Box>
           <Box sx={{mr:'2px'}}>
-            {summaryObject.rowValues["apt"]}
+            {summaryObject.rowValues["apartment"]}
           </Box>
         </Box>
       </TableCell>
@@ -62,7 +64,7 @@ const TableRowComponent: React.FC<{
       </TableCell>
 
       <TableCell component="th" scope="row" width={"200px"}>
-        {summaryObject.rowValues["source"]}
+        {summaryObject.rowValues["information_source_type"]?.informationsourcetype}
       </TableCell>
 
       <TableCell component="th" scope="row" width={"340px"}>
@@ -71,14 +73,14 @@ const TableRowComponent: React.FC<{
       <TableCell component="th" scope="row" width={"200px"}>
         {EditableBlock({
           ...summaryObject,
-          name: "dfkv",
+          name: "datefirstknownvalid",
         })}
       </TableCell>
 
       <TableCell width={"220px"}>
         {EditableBlock({
           ...summaryObject,
-          name: "dlkv",
+          name: "datelastknownvalid",
           type: "date",
         })}
         {EditableBlock({ ...summaryObject, type: "validate" })}
@@ -86,7 +88,7 @@ const TableRowComponent: React.FC<{
       <TableCell width={"230px"}>
         {EditableBlock({
           ...summaryObject,
-          name: "marketInvalid",
+          name: "datemarkedinvalid",
           type: "date",
         })}
 

@@ -23,19 +23,23 @@
 interface IRowsPersonEmploymentTable {
   id: string;
 
-  street_number: string;
-  street: string;
+  streetnumber: string;
+  streetname: string;
   source: string;
   full: string;
 
-  apt: string;
+  apartment: string;
+  zip:string;
   city: string;
   state: string;
   postal: string;
   country: string;
+  location_accuracy:string;
+  information_source_type?:{informationsourcetypeid:number,informationsourcetype:string}
   comments: string;
-  dlkv: string;
-  marketInvalid: string;
+  datefirstknownvalid:string;
+  datelastknownvalid:string;
+  datemarkedinvalid:string;
   options?: string;
 }
 interface IColumnsPersonEmploymentTable {

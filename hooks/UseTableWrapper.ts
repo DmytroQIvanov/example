@@ -1,4 +1,4 @@
-import { useState } from "react";
+import {useEffect, useState} from "react";
 
 export const useTableWrapper = (rows: any[]) => {
   const [tableElements, setTableElements] = useState(rows);
@@ -20,6 +20,10 @@ export const useTableWrapper = (rows: any[]) => {
       setAlreadyAdded(true);
     }
   };
+
+  useEffect(()=>{
+    setTableElements(rows)
+  },[rows])
 
   const onSave = () => {
     // setTemporallyTableElements([...temporallyTableElements])

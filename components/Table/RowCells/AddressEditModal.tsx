@@ -32,8 +32,8 @@ const scriptOptions = {
 const initialAddress = {
   source: "",
   comments: "",
-  street_number: "",
-  street: "",
+  streetnumber: "",
+  streetname: "",
   country: "",
   postal: "",
   formatted_address: "",
@@ -43,15 +43,27 @@ const initialAddress = {
 const AddressEditModal = ({open, data, title, handleClose, onChangeAddress, modalProps}: any) => {
   const [address, setAddress] = React.useState({source: '',
     comments: '',
-    street_number:'',
-    street:'',
+    streetnumber:'',
+    streetname:'',
     city:'',
     state:'',
     postal:'',
     country:'',
+    apartment:'',
     full: '',
     google_formatted: '',
-    formatted_address: ''
+    formatted_address: '',
+    zip: "",
+
+    location_accuracy: '',
+    // "information_source_type": {
+    //   "informationsourcetypeid": 5,
+    //   "informationsourcetype": "U. List"
+    // },
+    // "comments": null,
+    // "datefirstknownvalid": "2018-01-09T00:00:00",
+    // "datelastknownvalid": "2018-03-06T00:00:00",
+    // "datemarkedinvalid": null
   });
 
   const { isLoaded, loadError } = useLoadScript(scriptOptions);
@@ -92,8 +104,8 @@ const AddressEditModal = ({open, data, title, handleClose, onChangeAddress, moda
   const onPlaceChanged = (e: any) => {
     let autoAddress = {
       ...address,
-      street_number: "",
-      street: "",
+      streetnumber: "",
+      streetname: "",
       city: "",
       state: "",
       postal: "",
@@ -105,12 +117,12 @@ const AddressEditModal = ({open, data, title, handleClose, onChangeAddress, moda
       let fullAddress: any[] = [];
       if ("address_components" in place) {
         place["address_components"].forEach((item: any) => {
-          if (item["types"][0] == "street_number" && item["long_name"]) {
-            autoAddress = { ...autoAddress, street_number: item["long_name"] };
+          if (item["types"][0] == "streetnumber" && item["long_name"]) {
+            autoAddress = { ...autoAddress, streetnumber: item["long_name"] };
             fullAddress.push(item["long_name"]);
           }
           if (item["types"][0] == "route" && item["long_name"]) {
-            autoAddress = { ...autoAddress, street: item["long_name"] };
+            autoAddress = { ...autoAddress, streetname: item["long_name"] };
             fullAddress.push(item["long_name"]);
           }
           if (item["types"][0] == "locality" && item["long_name"]) {
@@ -216,9 +228,9 @@ const AddressEditModal = ({open, data, title, handleClose, onChangeAddress, moda
             <TextField
               label="Street Number"
               variant="outlined"
-              value={address?.street_number}
+              value={address?.streetnumber}
               InputLabelProps={{ shrink: true }}
-              name="street_number"
+              name="streetnumber"
               onChange={(e) => handleChange(e)}
               className={classes.fullWidth}
             />
@@ -227,8 +239,8 @@ const AddressEditModal = ({open, data, title, handleClose, onChangeAddress, moda
             <TextField
               label="Street Name"
               variant="outlined"
-              value={address?.street}
-              name="street"
+              value={address?.streetname}
+              name="streetname"
               InputLabelProps={{ shrink: true }}
               onChange={(e) => handleChange(e)}
               className={classes.fullWidth}
@@ -236,10 +248,10 @@ const AddressEditModal = ({open, data, title, handleClose, onChangeAddress, moda
           </Grid>
           <Grid item xs={4}>
             <TextField
-              label="Apt"
+              label="Apartment"
               variant="outlined"
-              name="apt"
-              value={address?.apt}
+              name="apartment"
+              value={address?.apartment}
 
               InputLabelProps={{ shrink: true }}
               className={classes.fullWidth}
