@@ -17,6 +17,7 @@ export interface ISummaryObject {
   rowState: rowStateEnum;
   changeRowState: () => void;
   rowValues: { [index: string]: any };
+  saveWithProvidedState:(state:any) => void;
 }
 
 interface IUseEditableTableReturns {
@@ -155,6 +156,7 @@ export const UseEditableTable = (row?: any): IUseEditableTableReturns => {
       handleChangeEvent,
       validateState,
       changeValidateState,
+      saveWithProvidedState
     },
   };
 };

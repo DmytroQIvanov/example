@@ -234,8 +234,13 @@ const AddressEditModal = ({
             <TextField
               label="Apt"
               variant="outlined"
+              name="apt"
+              value={address?.apt}
+
               InputLabelProps={{ shrink: true }}
               className={classes.fullWidth}
+              onChange={(e) => handleChange(e)}
+
             />
           </Grid>
 

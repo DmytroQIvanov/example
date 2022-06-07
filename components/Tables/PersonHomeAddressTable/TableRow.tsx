@@ -9,6 +9,7 @@ import EditableBlock from "../TablesComponents/EditableBlock";
 import { UseEditableTable } from "../../../hooks/UseEditableTable";
 import OptionsBlock from "../TablesComponents/OptionsBlock";
 import AddressEditModal from "../../Table/RowCells/AddressEditModal";
+import { Box } from "@mui/material";
 
 const TableRowComponent: React.FC<{
   row: IRowsPersonEmploymentTable;
@@ -17,7 +18,7 @@ const TableRowComponent: React.FC<{
   onAddCancel: Function;
   onSaveWithProvidedState: (state: any) => void;
 }> = ({ row, onDelete, onAddSave, onAddCancel, onSaveWithProvidedState }) => {
-  const { onCancel, onSave, changeRowState, summaryObject } =
+  const { onCancel, onSave, changeRowState, summaryObject, } =
     UseEditableTable(row);
 
   const [stateModal, setStateModal] = useState(false);
@@ -36,12 +37,28 @@ const TableRowComponent: React.FC<{
       }
     >
       <TableCell component="th" scope="row" width={"200px"}>
-        {summaryObject.rowValues["full"]}
+        <Box sx={{mr:'2px',display:'flex',gap:'2px'}}>
+          <Box sx={{mr:'2px'}}>
+            {summaryObject.rowValues["street_number"]}
+          </Box>
+          <Box sx={{mr:'2px'}}>
+            {summaryObject.rowValues["street"]}
+          </Box>
+          <Box sx={{mr:'2px'}}>
+            {summaryObject.rowValues["apt"]}
+          </Box>
+        </Box>
       </TableCell>
 
       <TableCell component="th" scope="row" width={"200px"}>
-        {summaryObject.rowValues["city"]} {summaryObject.rowValues["state"]}
-        {summaryObject.rowValues["country"]}
+        <Box sx={{mr:'2px',display:'flex',gap:'2px'}}>
+
+        <Box sx={{mr:'2px'}}>
+          {summaryObject.rowValues["city"]}  </Box>
+      <Box sx={{mr:'2px'}}>{summaryObject.rowValues["state"]} </Box>
+      <Box sx={{mr:'2px'}}>
+        {summaryObject.rowValues["country"]} </Box>
+        </Box>
       </TableCell>
 
       <TableCell component="th" scope="row" width={"200px"}>
@@ -89,6 +106,7 @@ const TableRowComponent: React.FC<{
           onCancel={summaryObject.rowState === "add" ? onAddCancel : onCancel}
           handleEditableState={onHandleOpen}
           onDelete={onDelete}
+          documentElement
           id={row.id}
           validateState={summaryObject.rowValues.validateState}
         />
@@ -97,7 +115,7 @@ const TableRowComponent: React.FC<{
         data={{ address: summaryObject.rowValues }}
         open={stateModal}
         handleClose={onHandleClose}
-        onChangeAddress={onSaveWithProvidedState}
+        onChangeAddress={summaryObject.rowState === "add"? onSaveWithProvidedState: summaryObject.saveWithProvidedState }
       />
     </TableRow>
   );
