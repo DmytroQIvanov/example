@@ -8,6 +8,7 @@ import ArticleIcon from "@mui/icons-material/Article";
 import AddressReport from "../../../AddressReport/AddressReport";
 import Modal from "@mui/material/Modal";
 import ModalDelete from "../ModalDelete";
+import AddSharpIcon from '@mui/icons-material/AddSharp';
 
 interface optionsBlock {
   editStateBoolean?: "default" | "change" | "add";
@@ -18,6 +19,7 @@ interface optionsBlock {
   id: string;
   validateState: boolean;
   documentElement?: boolean;
+  addIcon?:boolean;
 }
 
 const style = {
@@ -40,6 +42,7 @@ const Index: React.FC<optionsBlock> = ({
   id,
   validateState,
   documentElement,
+                                         addIcon
 }) => {
   const [modal, setOpenModal] = useState(false);
 
@@ -60,7 +63,7 @@ const Index: React.FC<optionsBlock> = ({
     <div>
       {validateState &&
         (editStateBoolean == "add" || editStateBoolean == "change" ? (
-          <Box sx={{ mt: "20px" }}>
+          <Box >
             <SaveIcon
               onClick={() => onSave(id)}
               sx={{ cursor: "pointer", mr: "10px" }}
@@ -73,10 +76,17 @@ const Index: React.FC<optionsBlock> = ({
         ) : (
           <>
             {documentElement && (
-              <ArticleIcon
-                sx={{ cursor: "pointer", mr: "10px" }}
-                onClick={() => handleModal(true)}
-              />
+                <ArticleIcon
+                    sx={{ cursor: "pointer", mr: "10px" }}
+                    onClick={() => handleModal(true)}
+                />
+            )}
+
+            {addIcon && (
+                <AddSharpIcon
+                    sx={{ cursor: "pointer", mr: "10px" }}
+                    onClick={() => handleModal(true)}
+                />
             )}
             <EditSharpIcon
               onClick={handleEditableState}

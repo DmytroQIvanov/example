@@ -1,4 +1,4 @@
-import PersonInteractionTable from "../../components/PersonInteractionTable";
+import PersonInteractionTable from "../../components/Tables/PersonInteractionTable";
 
 
 export default function Index() {

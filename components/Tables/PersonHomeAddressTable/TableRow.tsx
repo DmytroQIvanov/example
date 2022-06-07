@@ -87,7 +87,7 @@ const TableRowComponent: React.FC<{
             onSave();
           }}
           onCancel={summaryObject.rowState === "add" ? onAddCancel : onCancel}
-          handleEditableState={changeRowState}
+          handleEditableState={onHandleOpen}
           onDelete={onDelete}
           id={row.id}
           validateState={summaryObject.rowValues.validateState}

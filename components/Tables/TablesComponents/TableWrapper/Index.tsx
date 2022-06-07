@@ -136,15 +136,15 @@ const Index: React.FC<tableWrapperProps> = ({
   }
 
   return (
-    <div>
-      <div
+    <div
         style={{
-          overflow: "auto",
           width: "100%",
           position: "relative",
-        }}
+        }}>
+      <div
+          style={{overflow: "auto",}}
       >
-        <Box sx={{ position: "fixed", right: "0px", top: "10px" }}>
+        <Box sx={{ position: "absolute", right: "0px", top: "10px" }}>
           {!disableAddBtn && (
             <Button
               sx={{ m: "auto 20px auto auto" }}
