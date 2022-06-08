@@ -66,7 +66,7 @@ export default function HomeAddress() {
 
 HomeAddress.getLayout = function getLayout(page: ReactElement) {
   return (
-    <Layout key="home-address" breadcrumb="Home Address">
+      <Layout key="home-address" breadcrumb="Home Address">
       {page}
     </Layout>
   )

@@ -1,17 +1,15 @@
-import { LocationDataEntrySideBar } from "../../components/SideBars/LocationDataEntrySideBar";
-import { LocationDataEntryHeader } from "../../components/Headers/LocationDataEntryHeader";
-import Table from "../../components/Table/Table";
-import useStyles from "../styles";
-import BreadCrumb from "../../components/BreadCrumb";
-import PiSummary from "../../components/PiSummary/PiSummary";
-import BuildingSummary from "../../components/BuildingSummary/BuildingSummary";
-import SideBar from '../components/SideBar'
+import Grid from '@mui/material/Grid';
+
+import {LocationDataEntryHeader} from "../../../components/Headers/LocationDataEntryHeader";
+import Table from "../../../components/Table/Table"
+import useStyles from '../../styles';
+import Configuration from "../../../components/Configuration/Configuration"
+import BreadCrumb from "../../../components/BreadCrumb"
+import SideBar from "../../components/SideBar";
 import {BsFillPersonFill, BsPhoneFill} from "react-icons/bs";
 import {HiOutlineMailOpen} from "react-icons/hi";
 import {IoMdShare} from "react-icons/io";
 import {FaClipboardList, FaHome, FaMap, FaSuitcase} from "react-icons/fa";
-
-
 const arrowNavigation = [
     {
         link: "/persondataentry/interactions",
@@ -80,21 +78,18 @@ const arrowNavigation = [
     },
 ];
 
-export function Layout({ children, breadcrumb }: any) {
+export function Layout({ children, breadcrumb }: {children: any, breadcrumb: string}) {
   const classes = useStyles();
-
 
   return (
     <div className={classes.layout}>
-      {/*<LocationDataEntrySideBar />*/}
-        <SideBar options={arrowNavigation}/>
+      <SideBar options={arrowNavigation} title={'Organization Data Entry'}/>
       <div className={classes.content}>
         <LocationDataEntryHeader />
-        {/*<PiSummary/>*/}
-        <BuildingSummary />
-        <BreadCrumb breadcrumbs={["Person Data Entry", breadcrumb]} />
-        <main>{children}</main>
+        <Grid sx={{padding: '20px 100px'}}><Configuration /></Grid>
+        {/*<BreadCrumb breadcrumbs={['Organization Data Entry', breadcrumb]} />*/}
+        <main>{ children }</main>
       </div>
     </div>
-  );
+  )
 }
