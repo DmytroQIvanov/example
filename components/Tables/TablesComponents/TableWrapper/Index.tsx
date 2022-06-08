@@ -143,13 +143,16 @@ const Index: React.FC<tableWrapperProps> = ({
           position: "relative",
         }}>
       <div
-          style={{overflow: "auto",}}
+          style={{overflow: "auto"}}
       >
 
-        <Box sx={{ position: "absolute", right: "0px", top: "10px" }}>
+        <Box sx={{ position: "absolute", right: "0px", top: "10px", display:'flex',justifyContent:'flex-end',
+          alignItems:'flex-start',
+          width:'max-content',
+          height:'min-content'}}>
           {!disableAddBtn && (
             <Button
-              sx={{ m: "auto 20px auto auto",width:'100%'}}
+              sx={{ m: "auto auto auto 20px"}}
               // size={'large'}
               color={"success"}
               variant={"contained"}
