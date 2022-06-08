@@ -149,7 +149,8 @@ const Index: React.FC<tableWrapperProps> = ({
         <Box sx={{ position: "absolute", right: "0px", top: "10px" }}>
           {!disableAddBtn && (
             <Button
-              sx={{ m: "auto 20px auto auto" }}
+              sx={{ m: "auto 20px auto auto",width:'100%'}}
+              // size={'large'}
               color={"success"}
               variant={"contained"}
               onClick={onChangeAddState}
@@ -159,7 +160,7 @@ const Index: React.FC<tableWrapperProps> = ({
           )}
           {buttonsListState.map((elem, index) => (
             <Button
-              sx={{ m: "auto 20px auto auto" }}
+              sx={{ m: "auto 20px auto auto" ,width:'100%'}}
               color={"success"}
               variant={"contained"}
               onClick={
