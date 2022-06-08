@@ -5,8 +5,9 @@ const useStyles = makeStyles(() => ({
     display: 'flex'
   },
   content: {
-    overflow: 'hidden',
-    width: '100%'
+    overflow: 'auto',
+    width: '100%',
+    height: '100vh'
   },
   actions: {
     position: 'absolute',
