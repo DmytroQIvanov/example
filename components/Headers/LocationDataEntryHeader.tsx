@@ -127,7 +127,7 @@ export function LocationDataEntryHeader() {
               </Grid>
               <Grid item sm={3}>
                 <FormControl sx={{ m: 1, width: '90%' }} variant="standard">
-                  <Button variant="contained" color="success">Add New Person</Button>
+                  <Button variant="contained" color="success">Add New Organization</Button>
                 </FormControl>
               </Grid>
             </Grid>

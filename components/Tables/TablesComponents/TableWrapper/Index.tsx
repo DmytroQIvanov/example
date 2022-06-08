@@ -160,7 +160,7 @@ const Index: React.FC<tableWrapperProps> = ({
           )}
           {buttonsListState.map((elem, index) => (
             <Button
-              sx={{ m: "auto 20px auto auto" ,width:'100%'}}
+              sx={{ m: "auto auto auto 20px" }}
               color={"success"}
               variant={"contained"}
               onClick={
