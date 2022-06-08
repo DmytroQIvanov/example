@@ -234,6 +234,7 @@
 } */
 .sidebar.close .menulist-container {
     overflow-x: visible;
+    height: calc(100vh - 8rem);
 }
 
 .sidebar .profile-details{
