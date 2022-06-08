@@ -89,7 +89,7 @@ export function PersonDataEntrySideBar() {
   return (
     <div className={collapsed ? "sidebar close" : "sidebar open"}>
       <div className="logo-details">
-        <span className="logo_name">Person Data Entry</span>
+        <span className="logo_name">PI Data Entry</span>
       </div>
       <div className="menulist-container">
         <ul className="nav-links disable-scrollbar">
