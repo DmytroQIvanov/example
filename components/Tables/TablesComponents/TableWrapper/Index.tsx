@@ -145,7 +145,6 @@ const Index: React.FC<tableWrapperProps> = ({
       <div
           style={{overflow: "auto",}}
       >
-        <BreadCrumb breadcrumbs={['Organization Data Entry','Location Data Entry']} />
 
         <Box sx={{ position: "absolute", right: "0px", top: "10px" }}>
           {!disableAddBtn && (

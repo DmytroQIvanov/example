@@ -29,7 +29,7 @@ const rows: IRowsPersonEmploymentTable[] = [
 const headCells: readonly HeadCell<IColumnsPersonEmploymentTable>[] = [
   {
     id: "campus",
-    label: "Campus",
+    label: "Casmpus",
   },
   {
     id: "location",

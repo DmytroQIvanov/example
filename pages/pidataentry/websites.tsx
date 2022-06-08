@@ -1,7 +1,7 @@
 import type { ReactElement } from 'react'
 
 import { Layout } from './layout';
-import Table from '../../components/Tables/LocationsTable/Index'
+import Table from '../../components/Tables/PIWebsitesTable/Index'
 
 
 
@@ -15,8 +15,8 @@ export default function Index() {
 
 Index.getLayout = function getLayout(page: ReactElement) {
     return (
-        <Layout breadcrumb={'Locations'}>
+        <Layout breadcrumb={'Websites'}>
             {page}
-            </Layout>
+        </Layout>
     )
 }
