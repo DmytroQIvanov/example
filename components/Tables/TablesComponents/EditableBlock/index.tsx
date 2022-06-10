@@ -44,7 +44,31 @@ interface propsBlockWithState extends ISummaryObject {
   availableStateBoolean?: boolean;
   checkBox?: ICheckBox;
 }
-
+const InvalidateComponent =({rowValues}:{rowValues:any})=>{
+    return <Box sx={{ display: "flex" }}>
+        <FormControlLabel
+            value="start"
+            control={
+                <Checkbox
+                    // onChange={() => changeValidateState()}
+                    // checked={
+                    //   rowState === "default"
+                    //     ? rowValues.validateState
+                    //     : !validateState
+                    // }
+                    // value={false}
+                    checked={rowValues['datemarkedinvalid']}
+                    // checked={false}
+                    disabled
+                    // disabled={rowState === "default" && rowValues.validateState}
+                />
+            }
+            label={"Invalidate"}
+            labelPlacement="start"
+            sx={{ ml: "0" }}
+        />
+    </Box>
+}
 const EditableBlock: React.FC<propsBlockWithState> = ({
   title,
   name,
@@ -165,25 +189,7 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
         );
       case "invalidate":
         return (
-          <Box sx={{ display: "flex" }}>
-            <FormControlLabel
-              value="start"
-              control={
-                <Checkbox
-                  // onChange={() => changeValidateState()}
-                  checked={
-                    rowState === "default"
-                      ? rowValues.validateState
-                      : !validateState
-                  }
-                  disabled={rowState === "default" && rowValues.validateState}
-                />
-              }
-              label={"Invalidate"}
-              labelPlacement="start"
-              sx={{ ml: "0" }}
-            />
-          </Box>
+            <InvalidateComponent rowValues={rowValues}/>
         );
       case "validate":
         return (
@@ -230,21 +236,22 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
     switch (type) {
       case "invalidate":
         return (
-          <Box sx={{ display: "flex" }}>
-            <FormControlLabel
-              value="start"
-              control={
-                <Checkbox
-                  onChange={() => changeValidateState()}
-                  checked={!validateState}
-                  disabled={!validateState}
-                />
-              }
-              label={"Invalidate"}
-              labelPlacement="start"
-              sx={{ ml: "0" }}
-            />
-          </Box>
+            <InvalidateComponent rowValues={rowValues}/>
+            // <Box sx={{ display: "flex" }}>
+          //   <FormControlLabel
+          //     value="start"
+          //     control={
+          //       <Checkbox
+          //         onChange={() => changeValidateState()}
+          //         checked={!validateState}
+          //         disabled={!validateState}
+          //       />
+          //     }
+          //     label={"Invalidate"}
+          //     labelPlacement="start"
+          //     sx={{ ml: "0" }}
+          //   />
+          // </Box>
         );
       case "validate":
         return (
