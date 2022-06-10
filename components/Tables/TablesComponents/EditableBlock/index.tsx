@@ -12,7 +12,7 @@ import {
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { ISummaryObject } from "../../../../hooks/UseEditableTable";
+import {ISummaryObject, rowStateEnum} from "../../../../hooks/UseEditableTable";
 
 interface ICheckBox {
   label?: string;
@@ -44,23 +44,24 @@ interface propsBlockWithState extends ISummaryObject {
   availableStateBoolean?: boolean;
   checkBox?: ICheckBox;
 }
-const InvalidateComponent =({rowValues}:{rowValues:any})=>{
+const InvalidateComponent =({rowValues,rowState,validateState,changeValidateState}:{rowValues:any,rowState:rowStateEnum,validateState:boolean,changeValidateState:()=>void})=>{
     return <Box sx={{ display: "flex" }}>
         <FormControlLabel
             value="start"
             control={
                 <Checkbox
-                    // onChange={() => changeValidateState()}
-                    // checked={
-                    //   rowState === "default"
-                    //     ? rowValues.validateState
-                    //     : !validateState
-                    // }
+                    onChange={() => changeValidateState()}
+                    checked={
+                      rowState === "default"
+                        ? rowValues['datemarkedinvalid']
+                        : !validateState
+                    }
                     // value={false}
-                    checked={!rowValues['datemarkedinvalid']}
+                    // checked={rowValues['datemarkedinvalid']}
                     // checked={false}
-                    disabled
+                    // disabled
                     // disabled={rowState === "default" && rowValues.validateState}
+                    disabled={rowValues['datemarkedinvalid']}
                 />
             }
             label={"Invalidate"}
@@ -187,9 +188,9 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
             />
           </>
         );
-      case "invalidate":
+        case "invalidate":
         return (
-            <InvalidateComponent rowValues={rowValues}/>
+            <InvalidateComponent rowValues={rowValues} rowState={rowState} validateState={validateState} changeValidateState={changeValidateState}/>
         );
       case "validate":
         return (
@@ -206,7 +207,7 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
                   backgroundColor: "#1616a1",
                 },
               }}
-              onClick={() => changeValidateState(true)}
+              onClick={() => changeValidateState(false)}
             >
               Validate
             </Button>
@@ -236,8 +237,9 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
     switch (type) {
       case "invalidate":
         return (
-            <InvalidateComponent rowValues={rowValues}/>
-            // <Box sx={{ display: "flex" }}>
+          <InvalidateComponent rowValues={rowValues} rowState={rowState} validateState={validateState} changeValidateState={changeValidateState}/>
+
+          // <Box sx={{ display: "flex" }}>
           //   <FormControlLabel
           //     value="start"
           //     control={
@@ -268,7 +270,7 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
                   backgroundColor: "#1616a1",
                 },
               }}
-              onClick={() => changeValidateState(true)}
+              onClick={() => changeValidateState(false)}
             >
               Validate
             </Button>
