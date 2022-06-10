@@ -61,7 +61,8 @@ const Index: React.FC<optionsBlock> = ({
 
   return (
     <div>
-      {validateState &&
+
+      {
         (editStateBoolean == "add" || editStateBoolean == "change" ? (
           <Box >
             <SaveIcon

@@ -75,13 +75,11 @@ const Row: React.FC<RowProps> = (props: { data: any; updateData: (arg0: any) => 
         
         newData[headerKey].ctaChecked = event.target.checked;
 
-        console.log(newData);
 
         setData(newData);
         break;
       }
       default:
-        console.log("-------button clicked-------", headerKey);
         break;
     }
   };

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-enum rowStateEnum {
+export enum rowStateEnum {
   default = "default",
   change = "change",
   add = "add",
@@ -62,7 +62,7 @@ export const UseEditableTable = (row?: any): IUseEditableTableReturns => {
   // CHANGE VALIDATE STATE
   const changeValidateState: (state?: boolean) => void = (state?: boolean) => {
     setValidateState((prevState) => {
-      if (state && typeof state === "boolean") return state;
+      if (state!=undefined) return state;
       return !prevState;
     });
   };

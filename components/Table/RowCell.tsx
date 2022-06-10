@@ -60,7 +60,6 @@ const RowCell = (props: RowCellProps) => {
   };
 
   const onAddressCellValue = (key: string, address: any) => {
-    console.log([props.data, address]);
     const newValue = {
       ...props.data,
       [key]: address,

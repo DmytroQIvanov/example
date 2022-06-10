@@ -97,7 +97,6 @@ const Row = (props: RowProps) => {
         break;
       }
       default:
-        console.log('-------button clicked-------', headerKey);
         break;
     }
   };

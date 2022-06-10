@@ -14,7 +14,7 @@ const colorTypes = [
 
 export function ColorLabel({ type, text }: { type: number; text?: string }) {
     return (
-        <Box sx={{ marginRight: '5px' }}>
+        <Box sx={{ marginRight: '5px',fontSize:'0.75rem' }}>
             {text}
             <Box
                 sx={{
