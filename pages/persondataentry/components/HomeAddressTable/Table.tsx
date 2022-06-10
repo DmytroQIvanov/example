@@ -108,10 +108,8 @@ export default function EnhancedTable({
   const handleOnClickSort = (_order: Order, _orderBy: string) => {
     setOrder(_order);
     setOrderBy(_orderBy);
-    console.log(rows)
     let newRows = rows.map(row => row)
     newRows = newRows.sort((a, b) => {
-      console.log([_order, a[_orderBy].value1, b[_orderBy].value1])
       if (a[_orderBy].value1 && b[_orderBy].value1) {
         if (_order == 0) {
           if (a[_orderBy].value1 < b[_orderBy].value1) {
@@ -137,11 +135,7 @@ export default function EnhancedTable({
   const handleOnClickFilter = (_filter: string, _filterBy: string) => {
     setFilter(_filter);
     setFilterBy(_filterBy);
-    console.log(
-      "----------handle on click filter-----------",
-      filter,
-      filterBy
-    );
+
   };
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -238,7 +232,6 @@ export default function EnhancedTable({
       };
     });
 
-    console.log(res)
     return res;
   };
 

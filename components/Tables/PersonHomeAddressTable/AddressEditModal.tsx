@@ -22,7 +22,6 @@ const Sources = [
   { value: "UC List", label: "UC List" },
 ];
 
-console.log(process.env.NEXT_PUBLIC_API_KEY);
 const scriptOptions = {
   googleMapsApiKey: process.env.NEXT_PUBLIC_API_KEY,
   libraries: ["places"],

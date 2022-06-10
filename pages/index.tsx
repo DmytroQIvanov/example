@@ -55,9 +55,7 @@ const Home = () => {
       setHasuraToken(hasuraToken);
     }
     if (hasuraToken) {
-      console.log("hasura token exists");
     } else {
-      console.log("hasura token does not exist creating it");
       getHasuraToken();
     }
   }, [hasuraToken]);

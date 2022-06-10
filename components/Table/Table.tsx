@@ -115,7 +115,6 @@ export default function EnhancedTable(props: TableProps) {
     }
 
     let headerData = props.headerData;
-    console.log([headerData, headerData?.length])
     if (headerData && headerData.length > 0) {
       setHeaders(headerData)
     } else {
@@ -139,7 +138,6 @@ export default function EnhancedTable(props: TableProps) {
   }, [rows]);
 
   const scrollListener = useCallback(() => {
-    console.log('ppppppppp')
     if (tableEl && tableEl.current) {
       const bottom = tableEl.current.scrollHeight - tableEl.current.clientHeight;
       if (!distanceBottom) {
@@ -187,11 +185,7 @@ export default function EnhancedTable(props: TableProps) {
   const handleOnClickFilter = (_filter: string, _filterBy: string) => {
     setFilter(_filter);
     setFilterBy(_filterBy);
-    console.log(
-      '----------handle on click filter-----------',
-      filter,
-      filterBy
-    );
+
   };
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {

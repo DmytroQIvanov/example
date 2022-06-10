@@ -50,7 +50,6 @@ const headCells: readonly HeadCell<IColumnsPersonEmploymentTable>[] = [
 
 const Index:React.FC<{tableData:IRowsPersonEmploymentTable[]}> = ({tableData}) => {
 
-  console.log(tableData,'tableData')
   const [order, setOrder] = React.useState<Order>("asc");
   const [orderBy, setOrderBy] =
     React.useState<keyof IRowsPersonEmploymentTable>("options");

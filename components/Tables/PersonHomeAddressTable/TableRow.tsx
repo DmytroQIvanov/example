@@ -21,8 +21,6 @@ const TableRowComponent: React.FC<{
   const { onCancel, onSave, changeRowState, summaryObject, } =
     UseEditableTable(row);
 
-  console.log(row)
-
   const [stateModal, setStateModal] = useState(false);
   const onHandleClose = () => {
     setStateModal(false);

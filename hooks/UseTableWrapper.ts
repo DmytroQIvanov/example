@@ -32,12 +32,10 @@ export const useTableWrapper = (rows: any[]) => {
     setAlreadyAdded(false);
   };
   const onSaveWithProvidedState = (state: any) => {
-    console.log(state);
     setTableElements((prevState) => [
       ...prevState,
       { ...state, id: prevState.length + 1 },
     ]);
-    console.log(tableElements);
   };
   const onCancel = (id: string | undefined) => {
     setAlreadyAdded(false);
@@ -50,7 +48,6 @@ export const useTableWrapper = (rows: any[]) => {
   const onDelete = (id: string | undefined) => {
     if (!id) return;
     setTableElements(tableElements.filter((elem) => elem.id !== id));
-    console.log(tableElements);
   };
   return {
     onSaveWithProvidedState,
