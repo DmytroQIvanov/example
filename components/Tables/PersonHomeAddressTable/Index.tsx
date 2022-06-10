@@ -11,25 +11,6 @@ import { HeadCell } from "../TablesComponents/Interfaces/HeadCell";
 import { Order } from "../TablesComponents/Interfaces/Order";
 import AddressEditModal from "../../Table/RowCells/AddressEditModal";
 
-// const rows: IRowsPersonEmploymentTable[] = [
-//   {
-//     id: "1",
-//
-//     street_number: "33",
-//     street: "Smaf",
-//     full: "",
-//     city: "Izmail",
-//     state: "Example",
-//     country: "Example2",
-//     source: "Example3",
-//     comments: "Example Example",
-//     postal: "",
-//     apt: "smth",
-//     dlkv: "smth",
-//     marketInvalid: "smth",
-//   },
-// ];
-
 const headCells: readonly HeadCell<IColumnsPersonEmploymentTable>[] = [
   {
     id: "homeAddress",

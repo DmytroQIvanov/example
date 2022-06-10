@@ -21,6 +21,7 @@ import * as React from "react";
 import { ColorLabel } from "./ColorLabel";
 import Autocomplete from "@mui/material/Autocomplete";
 import { useEffect, useState } from "react";
+import styles from './styles.module.css'
 
 const PERSON_DATA = gql`
   query sample_query {
@@ -258,11 +259,11 @@ const AccountMain = () => {
               marginTop: "35px",
             }}
           >
-            <ColorLabel type={1} />
-            <ColorLabel type={2} />
-            <ColorLabel type={3} />
-            <ColorLabel type={4} />
-            <ColorLabel type={5} />
+            {textOnLabels.map((elem, key) => (
+                <Box sx={{fontSize:'13px', p:'0 1px'}}>
+                <ColorLabel type={key} text={elem} key={key} />
+                </Box>
+            ))}
           </Box>
         </Box>
       ) : (
@@ -292,7 +293,7 @@ const AccountMain = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                <TableRow>
+                <TableRow className={styles.tableRow}>
                   <TableCell>
                     {editStatus ? (
                       <TextField
@@ -393,7 +394,7 @@ const AccountMain = () => {
               <TableContainer>
                 <Table>
                   <TableHead>
-                    <TableRow>
+                    <TableRow className={styles.tableRow}>
                       <TableCell>
                         <strong>{row2Title.aid}</strong>
                       </TableCell>
@@ -406,7 +407,7 @@ const AccountMain = () => {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    <TableRow>
+                    <TableRow className={styles.tableRow}>
                       <TableCell>
                         {editStatus ? (
                           <Autocomplete
@@ -469,7 +470,7 @@ const AccountMain = () => {
               <TableContainer>
                 <Table>
                   <TableHead>
-                    <TableRow>
+                    <TableRow className={styles.tableRow}>
                       <TableCell>
                         <strong>{row3Title.dateCreated}</strong>
                       </TableCell>
@@ -488,7 +489,7 @@ const AccountMain = () => {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    <TableRow>
+                    <TableRow className={styles.tableRow}>
                       <TableCell>
                         {data?.sample_person[index].date_created}
                       </TableCell>
@@ -533,7 +534,7 @@ const AccountMain = () => {
                 <TableContainer>
                   <Table>
                     <TableBody>
-                      <TableRow>
+                      <TableRow className={styles.tableRow}>
                         <TableCell
                           style={{ paddingTop: 10, paddingBottom: 10 }}
                         >
@@ -544,7 +545,7 @@ const AccountMain = () => {
                           }
                         </TableCell>
                       </TableRow>
-                      <TableRow>
+                      <TableRow className={styles.tableRow}>
                         <TableCell
                           style={{ paddingTop: 10, paddingBottom: 10 }}
                         >
@@ -555,7 +556,7 @@ const AccountMain = () => {
                           }
                         </TableCell>
                       </TableRow>
-                      <TableRow>
+                      <TableRow className={styles.tableRow}>
                         <TableCell
                           style={{ paddingTop: 10, paddingBottom: 10 }}
                         >
@@ -566,7 +567,7 @@ const AccountMain = () => {
                           }
                         </TableCell>
                       </TableRow>
-                      <TableRow>
+                      <TableRow className={styles.tableRow}>
                         <TableCell
                           style={{ paddingTop: 10, paddingBottom: 10 }}
                         >
@@ -577,7 +578,7 @@ const AccountMain = () => {
                           }
                         </TableCell>
                       </TableRow>
-                      <TableRow>
+                      <TableRow className={styles.tableRow}>
                         <TableCell
                           style={{ paddingTop: 10, paddingBottom: 10 }}
                         >
@@ -588,7 +589,7 @@ const AccountMain = () => {
                             : "No"}
                         </TableCell>
                       </TableRow>
-                      <TableRow>
+                      <TableRow className={styles.tableRow}>
                         <TableCell
                           style={{ paddingTop: 10, paddingBottom: 10 }}
                         >

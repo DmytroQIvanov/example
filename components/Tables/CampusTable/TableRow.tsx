@@ -1,20 +1,9 @@
-import React, { CSSProperties, useEffect, useState } from "react";
+import React from "react";
 import TableCell from "@material-ui/core/TableCell";
 import {
-  Autocomplete,
   Box,
-  Button,
-  Checkbox,
-  Chip,
-  FormControlLabel,
-  Grid,
-  TextField,
-  Typography,
 } from "@mui/material";
 import TableRow from "@material-ui/core/TableRow";
-
-//STYLES
-import styles from "./PersonEmpoymentTable.module.css";
 
 //INTERFACES
 import { IRowsPersonEmploymentTable } from "./interfaces";

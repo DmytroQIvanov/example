@@ -9,14 +9,6 @@ import EditableBlock from "../TablesComponents/EditableBlock";
 import { UseEditableTable } from "../../../hooks/UseEditableTable";
 import OptionsBlock from "../TablesComponents/OptionsBlock";
 
-const dropArray = [
-  {
-    label: "Something",
-  },
-  {
-    label: "Lorem",
-  },
-];
 
 const TableRowComponent: React.FC<{
   row: IRowsPersonEmploymentTable;

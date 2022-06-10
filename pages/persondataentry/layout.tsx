@@ -1,6 +1,5 @@
 import { PersonDataEntrySideBar } from "../../components/SideBars/PersonDataEntrySideBar";
 import { PersonDataEntryHeader } from "../../components/Headers/PersonDataEntryHeader";
-import Table from "../../components/Table/Table";
 import AccountMain from "../../components/SummaryBar/AccountMain";
 import BreadCrumb from "../../components/BreadCrumb";
 import useStyles from "../styles";
@@ -88,7 +87,6 @@ export function Layout({
 
   return (
     <div className={classes.layout}>
-      {/*<PersonDataEntrySideBar />*/}
         <SideBar options={arrowNavigation} title={'Person Data Entry'}/>
 
         <div className={classes.content}>

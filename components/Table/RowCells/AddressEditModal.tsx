@@ -7,7 +7,6 @@ import useStyles from "./styles";
 import { useLoadScript, Autocomplete } from "@react-google-maps/api";
 
 import {
-  Input,
   TextField,
   Select,
   MenuItem,
@@ -28,6 +27,7 @@ const scriptOptions = {
   googleMapsApiKey: process.env.NEXT_PUBLIC_API_KEY,
   libraries: ["places"],
 };
+
 
 const initialAddress = {
   source: "",
@@ -68,7 +68,20 @@ const AddressEditModal = ({open, data, title, handleClose, onChangeAddress, moda
 
   const { isLoaded, loadError } = useLoadScript(scriptOptions);
   const [autocomplete, setAutocomplete] = useState<any>(null);
+  const [autocompleteBoolean, setAutocompleteBoolean] = useState<any>(null);
   const inputEl = useRef(null);
+
+
+
+  const apartmentInputReference = useRef(null);
+
+  useEffect(() => {
+    if(autocompleteBoolean) {
+      apartmentInputReference && apartmentInputReference.current && apartmentInputReference.current.focus();
+      setAutocompleteBoolean(false)
+    }
+      }, [autocompleteBoolean]);
+
 
   const classes = useStyles();
 
@@ -114,10 +127,12 @@ const AddressEditModal = ({open, data, title, handleClose, onChangeAddress, moda
     };
     if (autocomplete) {
       const place = autocomplete.getPlace();
+      setAutocompleteBoolean(true)
+
       let fullAddress: any[] = [];
       if ("address_components" in place) {
         place["address_components"].forEach((item: any) => {
-          if (item["types"][0] == "streetnumber" && item["long_name"]) {
+          if (item["types"][0] == "street_number" && item["long_name"]) {
             autoAddress = { ...autoAddress, streetnumber: item["long_name"] };
             fullAddress.push(item["long_name"]);
           }
@@ -252,6 +267,8 @@ const AddressEditModal = ({open, data, title, handleClose, onChangeAddress, moda
               variant="outlined"
               name="apartment"
               value={address?.apartment}
+              // ref={apartmentInputReference}
+              inputRef={apartmentInputReference}
 
               InputLabelProps={{ shrink: true }}
               className={classes.fullWidth}

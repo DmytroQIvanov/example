@@ -93,6 +93,10 @@
 .sidebar.close .list-element{
 
 }
+
+.list-element_selected{
+    background: rgb(7, 57, 119);
+}
 .sidebar .nav-links::-webkit-scrollbar{
     display: none;
 }

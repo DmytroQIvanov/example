@@ -1,11 +1,5 @@
 import React from "react";
 import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import TableSortLabel from "@mui/material/TableSortLabel";
-import { Box } from "@mui/material";
-import { visuallyHidden } from "@mui/utils";
 import TableWrapper from "../TablesComponents/TableWrapper/Index";
 
 import {

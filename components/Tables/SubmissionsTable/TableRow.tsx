@@ -8,24 +8,15 @@ import { IRowsPersonEmploymentTable } from "./interfaces";
 //ICONS
 import EditableBlock from "../TablesComponents/EditableBlock";
 import { UseEditableTable } from "../../../hooks/UseEditableTable";
-import OptionsBlock from "../TablesComponents/OptionsBlock";
 
-const dropArray = [
-  {
-    label: "Something",
-  },
-  {
-    label: "Lorem",
-  },
-];
 
 const TableRowComponent: React.FC<{
   row: IRowsPersonEmploymentTable;
   onDelete: (id: string | undefined) => void;
   onAddSave: Function;
   onAddCancel: Function;
-}> = ({ row, onDelete, onAddSave, onAddCancel }) => {
-  const { onCancel, onSave, changeRowState, summaryObject } =
+}> = ({ row }) => {
+  const {  summaryObject } =
     UseEditableTable(row);
 
   return (
@@ -64,20 +55,6 @@ const TableRowComponent: React.FC<{
       <TableCell width={"130px"}>
         {EditableBlock({ ...summaryObject, name: "createdBy" })}
       </TableCell>
-      {/*<TableCell width={"130px"}>*/}
-      {/*  <OptionsBlock*/}
-      {/*    editStateBoolean={editStateBoolean}*/}
-      {/*    onSave={() => {*/}
-      {/*      editStateBoolean === "add" && onAddSave();*/}
-      {/*      onSave();*/}
-      {/*    }}*/}
-      {/*    onCancel={editStateBoolean === "add" ? onAddCancel : onCancel}*/}
-      {/*    handleEditableState={handleEditableState}*/}
-      {/*    onDelete={onDelete}*/}
-      {/*    id={row.id}*/}
-      {/*    validateState={validateState}*/}
-      {/*  />*/}
-      {/*</TableCell>*/}
     </TableRow>
   );
 };

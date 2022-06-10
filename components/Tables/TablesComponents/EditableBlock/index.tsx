@@ -1,4 +1,4 @@
-import React, { CSSProperties, useEffect } from "react";
+import React, { CSSProperties,  } from "react";
 import {
   Autocomplete,
   Box,
@@ -38,7 +38,6 @@ interface propsBlockWithState extends ISummaryObject {
     | "invalidate"
     | "validate";
   multiline?: number;
-  // rowValues: { [index: string]: any };
   titleVisibly?: boolean;
   style?: CSSProperties;
   className?: string;

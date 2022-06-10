@@ -1,4 +1,4 @@
-import React, { CSSProperties, useEffect, useState } from "react";
+import React from "react";
 import TableCell from "@material-ui/core/TableCell";
 import TableRow from "@material-ui/core/TableRow";
 
@@ -9,16 +9,6 @@ import EditableBlock from "../TablesComponents/EditableBlock";
 import { UseEditableTable } from "../../../hooks/UseEditableTable";
 import OptionsBlock from "../TablesComponents/OptionsBlock";
 
-//ICONS
-
-const dropArray = [
-  {
-    label: "Something",
-  },
-  {
-    label: "Lorem",
-  },
-];
 
 const TableRowComponent: React.FC<{
   row: IRowsPersonEmploymentTable;

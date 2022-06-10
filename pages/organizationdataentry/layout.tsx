@@ -1,7 +1,6 @@
 import Grid from '@mui/material/Grid';
 
 import {LocationDataEntryHeader} from "../../components/Headers/LocationDataEntryHeader";
-import Table from "../../../components/Table/Table"
 import useStyles from '../styles';
 import Configuration from "../../components/Configuration/Configuration"
 import BreadCrumb from "../../components/BreadCrumb"
@@ -10,6 +9,7 @@ import {BsFillPersonFill, BsPhoneFill} from "react-icons/bs";
 import {HiOutlineMailOpen} from "react-icons/hi";
 import {IoMdShare} from "react-icons/io";
 import {FaClipboardList, FaHome, FaMap, FaSuitcase} from "react-icons/fa";
+import {OrganizationHeader} from "../../components/Headers/OrganizationHeader";
 const arrowNavigation = [
     {
         link: "/persondataentry/interactions",
@@ -85,7 +85,8 @@ export function Layout({ children, breadcrumb }: {children: any, breadcrumb: str
         <div className={classes.layout}>
             <SideBar options={arrowNavigation} title={'Organization Data Entry'}/>
             <div className={classes.content}>
-                <LocationDataEntryHeader />
+                {/*<LocationDataEntryHeader />*/}
+                <OrganizationHeader />
                 <Grid sx={{padding: '20px 100px'}}><Configuration /></Grid>
                 <BreadCrumb breadcrumbs={['Organization Data Entry', breadcrumb]} />
                 <main>{ children }</main>
