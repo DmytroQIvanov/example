@@ -42,7 +42,7 @@ const SideBar:React.FC<{options:{link:string,icon:JSX.Element,text:string}[],tit
                         </div>
                     </li>
                     {options.map((elem, index) => (
-                        <li className={"disable-select list-element"} key={index}>
+                        <li className={`disable-select list-element ${router.pathname ===elem.link?'list-element_selected':''}` } key={index}>
                             <div className="iocn-link">
                                 <a onClick={(e) => goTo(e, elem.link)}>
                                     <div className={"disable-select"}>{elem.icon}</div>

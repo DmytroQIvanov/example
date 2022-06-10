@@ -6,6 +6,7 @@ import PersonHomeAddressTable from "../../components/Tables/PersonHomeAddressTab
 import { Layout } from "./layout";
 import useStyles from "../styles";
 
+
 export default function HomeAddress() {
   const classes = useStyles();
   const [data, setData] = useState<any[]>([]);

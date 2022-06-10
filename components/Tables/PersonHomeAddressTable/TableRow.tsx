@@ -1,4 +1,4 @@
-import React, { CSSProperties, useEffect, useState } from "react";
+import React, { useState } from "react";
 import TableCell from "@material-ui/core/TableCell";
 import TableRow from "@material-ui/core/TableRow";
 //INTERFACES
@@ -33,12 +33,12 @@ const TableRowComponent: React.FC<{
   return (
     <TableRow
       style={
-        !summaryObject.rowValues.validateState
+        !summaryObject.rowValues.datemarkedinvalid
           ? { backgroundColor: "#ececec" }
           : {}
       }
     >
-      <TableCell component="th" scope="row" width={"200px"}>
+      <TableCell component="th" scope="row" width={"450px"}>
         <Box sx={{mr:'2px',display:'flex',gap:'2px'}}>
           <Box sx={{mr:'2px'}}>
             {summaryObject.rowValues["streetnumber"]}
@@ -49,17 +49,18 @@ const TableRowComponent: React.FC<{
           <Box sx={{mr:'2px'}}>
             {summaryObject.rowValues["apartment"]}
           </Box>
+
+          <Box sx={{mr:'2px'}}>
+            {summaryObject.rowValues["city"]}  </Box>
+          <Box sx={{mr:'2px'}}>{summaryObject.rowValues["state"]} </Box>
+          <Box sx={{mr:'2px'}}>
+            {summaryObject.rowValues["country"]} </Box>
         </Box>
       </TableCell>
 
       <TableCell component="th" scope="row" width={"200px"}>
         <Box sx={{mr:'2px',display:'flex',gap:'2px'}}>
 
-        <Box sx={{mr:'2px'}}>
-          {summaryObject.rowValues["city"]}  </Box>
-      <Box sx={{mr:'2px'}}>{summaryObject.rowValues["state"]} </Box>
-      <Box sx={{mr:'2px'}}>
-        {summaryObject.rowValues["country"]} </Box>
         </Box>
       </TableCell>
 

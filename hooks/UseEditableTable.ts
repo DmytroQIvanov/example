@@ -41,7 +41,7 @@ export const UseEditableTable = (row?: any): IUseEditableTableReturns => {
   );
 
   // IS ROW VALIDATED
-  const [validateState, setValidateState] = useState(true);
+  const [validateState, setValidateState] = useState(row?.datemarkedinvalid?true:false);
 
   // ---FUNCTIONS---
 
@@ -68,7 +68,7 @@ export const UseEditableTable = (row?: any): IUseEditableTableReturns => {
   };
 
   const onSave = () => {
-    setRowValues({ ...editableRowValues, rowState, validateState });
+    setRowValues({ ...editableRowValues, rowState, datemarkedinvalid:validateState });
     setRowState(rowStateEnum.default);
   };
 
@@ -124,23 +124,12 @@ export const UseEditableTable = (row?: any): IUseEditableTableReturns => {
       setRowValues((prevValues: any) => {
         return {
           ...prevValues,
-          validateState,
+          datemarkedinvalid:validateState,
         };
       });
     }
   }, [validateState]);
 
-  // ROW STATE
-  useEffect(() => {
-    if (rowState === rowStateEnum.default) {
-      setRowValues((prevValues: any) => {
-        return {
-          ...prevValues,
-          validateState,
-        };
-      });
-    }
-  }, [validateState]);
 
   return {
     onSave,

@@ -93,12 +93,6 @@ function ModalSearchPanel() {
               <MenuItem value={30}>Thirty</MenuItem>
             </Select>
           </FormControl>
-          {/* <FormGroup className="absolute left-32 -top-9">
-            <Checkbox />
-          </FormGroup>
-          <span className="absolute left-0 -top-6 whitespace-nowrap text-xs text-slate-700">
-            Search Organizers Only
-          </span> */}
         </div>
         <Button
           className="w-full overflow-hidden text-ellipsis whitespace-nowrap bg-green-700 px-3 text-white lg:w-52"

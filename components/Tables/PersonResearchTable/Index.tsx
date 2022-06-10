@@ -4,7 +4,7 @@ import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import TableSortLabel from "@mui/material/TableSortLabel";
-import { Box, Button } from "@mui/material";
+import { Box } from "@mui/material";
 import { visuallyHidden } from "@mui/utils";
 
 import {

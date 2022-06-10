@@ -1,9 +1,6 @@
-import { LocationDataEntrySideBar } from "../../components/SideBars/LocationDataEntrySideBar";
 import { LocationDataEntryHeader } from "../../components/Headers/LocationDataEntryHeader";
-import Table from "../../components/Table/Table";
 import useStyles from "../styles";
 import BreadCrumb from "../../components/BreadCrumb";
-import PiSummary from "../../components/PiSummary/PiSummary";
 import BuildingSummary from "../../components/BuildingSummary/BuildingSummary";
 import SideBar from '../components/SideBar'
 import {BsFillPersonFill, BsPhoneFill} from "react-icons/bs";
@@ -87,7 +84,7 @@ export function Layout({ children, breadcrumb }: any) {
   return (
     <div className={classes.layout}>
       {/*<LocationDataEntrySideBar />*/}
-        <SideBar options={arrowNavigation}/>
+        <SideBar options={arrowNavigation} title={'Location Data Entry'}/>
       <div className={classes.content}>
         <LocationDataEntryHeader />
         {/*<PiSummary/>*/}

@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import TableBody from "@material-ui/core/TableBody";
-import {Box, Button} from "@mui/material";
+import {Box} from "@mui/material";
 import ModalBody from "./PersonInteractionModal";
 
 //ICONS
@@ -147,37 +147,6 @@ const style = {
 };
 
 
-  // <AddSharpIcon onClick={()=>{}} sx={{cursor:"pointer",mr:'2px'}}/>
-  //               <EditSharpIcon onClick={handleOpenPersonInteractionModal} sx={{cursor:"pointer",mr:'2px'}}/>
-  //               <DeleteIcon onClick={handleOpenDeleteModal} sx={{cursor:"pointer"}}/>
-  //
-  //       <Modal
-  //           open={deleteModal}
-  //           onClose={handleCloseDeleteModal}
-  //           aria-labelledby="modal-modal-title"
-  //           aria-describedby="modal-modal-description"
-  //       >
-  //         <Box sx={{...style, width:'550px'}} className={'disable-scrollbar'}>
-  //           <CloseIcon sx={{position:'absolute', right:'15px', top:'15px',cursor:'pointer'}} onClick={handleCloseDeleteModal}/>
-  //           <Typography id="modal-modal-title" variant="h6" component="h2">
-  //             Confirm deletion?
-  //           </Typography>
-  //
-  //           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-  //             Do you really want to delete all the data?
-  //           </Typography>
-  //           <Box sx={{mt:3,display:'flex',
-  //             justifyContent: 'right'}}>
-  //           <Button color={"success"} variant={"contained"} sx={{mr:3}} onClick={handleCloseDeleteModal}>Confirm</Button>
-  //           <Button color={'error'} variant={"contained"} onClick={handleCloseDeleteModal}>Cancel</Button>
-  //           </Box>
-  //         </Box>
-  //       </Modal>
-  //
-
-
-
-
 const Index = () => {
   const [order, setOrder] = React.useState<Order>("asc");
   const [orderBy, setOrderBy] =
@@ -198,15 +167,6 @@ const Index = () => {
   };
 
 
-  // const [deleteModal,setDeleteModal] = useState(false);
-  //
-  // const handleCloseDeleteModal =()=>{
-  //   setDeleteModal(false);
-  // }
-  //
-  // const handleOpenDeleteModal =()=>{
-  //   setDeleteModal(true);
-  // }
   const [personInteractionModal,setPersonInteractionModal] = useState(false);
 
   const handleClosePersonInteractionModal =()=>{

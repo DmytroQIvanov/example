@@ -1,4 +1,4 @@
-import React, { CSSProperties, useEffect, useState } from "react";
+import React from "react";
 import TableCell from "@material-ui/core/TableCell";
 import TableRow from "@material-ui/core/TableRow";
 //INTERFACES
@@ -30,7 +30,7 @@ const TableRowComponent: React.FC<{
   return (
     <TableRow
       style={
-        !summaryObject.rowValues.validateState
+        !summaryObject.rowValues.datemarkedinvalid
           ? { backgroundColor: "#ececec" }
           : {}
       }
