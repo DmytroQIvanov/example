@@ -170,7 +170,7 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
               value="start"
               control={
                 <Checkbox
-                  onChange={() => changeValidateState()}
+                  // onChange={() => changeValidateState()}
                   checked={
                     rowState === "default"
                       ? rowValues.validateState
