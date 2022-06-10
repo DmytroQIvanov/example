@@ -57,7 +57,7 @@ const InvalidateComponent =({rowValues}:{rowValues:any})=>{
                     //     : !validateState
                     // }
                     // value={false}
-                    checked={rowValues['datemarkedinvalid']}
+                    checked={!rowValues['datemarkedinvalid']}
                     // checked={false}
                     disabled
                     // disabled={rowState === "default" && rowValues.validateState}
