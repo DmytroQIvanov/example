@@ -10,32 +10,12 @@ import TableSortLabel from "@mui/material/TableSortLabel";
 import { visuallyHidden } from "@mui/utils";
 import { Order } from "../Interfaces/Order";
 import { useTableWrapper } from "../../../../hooks/UseTableWrapper";
+import {
+  IActiveRowObject,
+  ITableWrapperProps,
+} from "../Interfaces/TableWrapperInterfaces";
 
-interface tableWrapperProps {
-  children: (props: {
-    descendingComparator: any;
-    getComparator: any;
-    stableSort: any;
-    EnhancedTableHead: React.FC<{
-      order: Order;
-      orderBy: any;
-      onRequestSort: any;
-      headCells: any;
-    }>;
-    tableElements: any;
-    onDelete: (id: string | undefined) => void;
-    onSave: Function;
-    onCancel: Function;
-    onSaveWithProvidedState: (state: any) => void;
-  }) => React.ReactNode;
-  buttonsList?: [
-    { label: string; buttonFunction?: MouseEventHandler<HTMLButtonElement> }
-  ];
-  rows: any[];
-  disableAddBtn?: boolean;
-}
-
-const Index: React.FC<tableWrapperProps> = ({
+const Index: React.FC<ITableWrapperProps> = ({
   children,
   buttonsList,
   rows,
@@ -48,6 +28,7 @@ const Index: React.FC<tableWrapperProps> = ({
     onSave,
     onCancel,
     onSaveWithProvidedState,
+    activeRowObject,
   } = useTableWrapper(rows);
   const [buttonsListState, setButtonsListState] = useState(
     buttonsList !== undefined ? buttonsList : []
@@ -137,22 +118,27 @@ const Index: React.FC<tableWrapperProps> = ({
 
   return (
     <div
-        style={{
-          width: "100%",
-          position: "relative",
-        }}>
-      <div
-          style={{overflow: "auto"}}
-      >
-
-        <Box sx={{ position: "absolute", right: "0px", top: "10px", display:'flex',justifyContent:'flex-end',
-          alignItems:'flex-start',
-          width:'max-content',
-          height:'min-content'}}>
+      style={{
+        width: "100%",
+        position: "relative",
+      }}
+    >
+      <div style={{ overflow: "auto" }}>
+        <Box
+          sx={{
+            position: "absolute",
+            right: "0px",
+            top: "10px",
+            display: "flex",
+            justifyContent: "flex-end",
+            alignItems: "flex-start",
+            width: "max-content",
+            height: "min-content",
+          }}
+        >
           {!disableAddBtn && (
             <Button
-              sx={{ m: "auto auto auto 20px"}}
-              // size={'large'}
+              sx={{ m: "auto auto auto 20px" }}
               color={"success"}
               variant={"contained"}
               onClick={onChangeAddState}
@@ -194,6 +180,7 @@ const Index: React.FC<tableWrapperProps> = ({
               onSave,
               onCancel,
               onSaveWithProvidedState,
+              activeRowObject,
             })}
           </Table>
         </TableContainer>

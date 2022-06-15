@@ -117,10 +117,7 @@ const AffiliationTable = () => {
     setOrderBy(property);
   };
   return (
-    <TableWrapper
-      rows={rows}
-      buttonsList={[{ label: "Organization Data Entry" }]}
-    >
+    <TableWrapper rows={rows}>
       {({
         EnhancedTableHead,
         stableSort,
@@ -129,6 +126,7 @@ const AffiliationTable = () => {
         onDelete,
         onCancel,
         onSave,
+        activeRowObject,
       }) => (
         <>
           <EnhancedTableHead
@@ -147,6 +145,7 @@ const AffiliationTable = () => {
                   onDelete={onDelete}
                   onAddSave={onSave}
                   onAddCancel={onCancel}
+                  activeRowObject={activeRowObject}
                 />
               )
             )}

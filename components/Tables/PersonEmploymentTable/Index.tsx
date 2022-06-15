@@ -162,6 +162,7 @@ const PersonEmploymentTable = () => {
         onDelete,
         onCancel,
         onSave,
+        activeRowObject,
       }) => (
         <>
           <EnhancedTableHead
@@ -179,6 +180,7 @@ const PersonEmploymentTable = () => {
                   onDelete={onDelete}
                   onAddSave={onSave}
                   onAddCancel={onCancel}
+                  activeRowObject={activeRowObject}
                 />
               )
             )}

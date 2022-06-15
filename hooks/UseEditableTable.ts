@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from "react";
+import { IActiveRowObject } from "../components/Tables/TablesComponents/Interfaces/TableWrapperInterfaces";
 
-export enum rowStateEnum {
-  default = "default",
-  change = "change",
-  add = "add",
-}
+export type rowStateTypes = "default" | "change" | "add";
 
 export interface ISummaryObject {
   handleChange: (name: string, text: string | number | boolean | Date) => void;
@@ -14,10 +11,11 @@ export interface ISummaryObject {
   ) => void;
   validateState: boolean;
   changeValidateState: (state?: boolean) => void;
-  rowState: rowStateEnum;
+  rowState: rowStateTypes;
   changeRowState: () => void;
   rowValues: { [index: string]: any };
-  saveWithProvidedState:(state:any) => void;
+  saveWithProvidedState: (state: any) => void;
+  activeRowObject: IActiveRowObject;
 }
 
 interface IUseEditableTableReturns {
@@ -26,7 +24,13 @@ interface IUseEditableTableReturns {
   changeRowState: () => void;
   summaryObject: ISummaryObject;
 }
-export const UseEditableTable = (row?: any): IUseEditableTableReturns => {
+export const UseEditableTable = ({
+  activeRowObject,
+  row,
+}: {
+  activeRowObject: IActiveRowObject;
+  row?: any;
+}): IUseEditableTableReturns => {
   // ---STATES---
 
   // SAVED ROW VALUES
@@ -36,21 +40,31 @@ export const UseEditableTable = (row?: any): IUseEditableTableReturns => {
   const [editableRowValues, setEditableRowValues] = useState<typeof row>(row);
 
   // ROW STATE (ADD/CHANGE/DEFAULT)
-  const [rowState, setRowState] = useState<rowStateEnum>(
-    row?.addStateBoolean ? rowStateEnum.add : rowStateEnum.default
+  const [rowState, setRowState] = useState<rowStateTypes>(
+    row?.addStateBoolean ? "add" : "default"
   );
 
+  useEffect(() => {
+    if (activeRowObject.activeRow.number === row.id) {
+      setRowState(activeRowObject.activeRow.state);
+    } else {
+      setRowState("default");
+    }
+  }, [activeRowObject.activeRow]);
+
   // IS ROW VALIDATED
-  const [validateState, setValidateState] = useState(row?.datemarkedinvalid?true:false);
+  const [validateState, setValidateState] = useState(
+    row?.datemarkedinvalid ? true : false
+  );
 
   // ---FUNCTIONS---
 
   // CHANGE ROW STATE (ADD/CHANGE/DEFAULT)
   const changeRowState = () => {
-    setRowState((prevState) => {
-      if (prevState == rowStateEnum.default) return rowStateEnum.change;
-      return rowStateEnum.default;
-    });
+    const result = rowState == "default" ? "change" : "default";
+
+    setRowState(result);
+    activeRowObject.handleRowState(rowValues.id, result);
   };
 
   // SAVE WITH PROVIDED STATE
@@ -62,19 +76,28 @@ export const UseEditableTable = (row?: any): IUseEditableTableReturns => {
   // CHANGE VALIDATE STATE
   const changeValidateState: (state?: boolean) => void = (state?: boolean) => {
     setValidateState((prevState) => {
-      if (state!=undefined) return state;
+      if (state != undefined) return state;
       return !prevState;
     });
   };
 
   const onSave = () => {
-    setRowValues({ ...editableRowValues, rowState, datemarkedinvalid:validateState });
-    setRowState(rowStateEnum.default);
+    setRowValues({
+      ...editableRowValues,
+      rowState,
+      datemarkedinvalid: validateState,
+    });
+
+    setRowState("default");
+
+    activeRowObject.handleRowState(null, "default");
   };
 
   const onCancel = () => {
     setEditableRowValues(rowValues);
-    setRowState(rowStateEnum.default);
+    setRowState("default");
+
+    activeRowObject.handleRowState(null, "default");
   };
 
   // ---HANDLERS---
@@ -84,6 +107,7 @@ export const UseEditableTable = (row?: any): IUseEditableTableReturns => {
     event: React.ChangeEvent<HTMLInputElement>
   ): void => {
     const { name, value } = event.target;
+    console.log(value);
     setEditableRowValues((prevState: any) => {
       return {
         ...prevState,
@@ -95,12 +119,12 @@ export const UseEditableTable = (row?: any): IUseEditableTableReturns => {
   // HANDLE CHANGE EDITABLE ROW VALUES (NAME && TEXT IN PROPS)
   const handleChange = (
     name: string,
-    text: string | number | boolean | Date
+    value: string | number | boolean | Date
   ) => {
     setEditableRowValues((prevState: any) => {
       return {
         ...prevState,
-        [name]: text,
+        [name]: value,
       };
     });
   };
@@ -110,26 +134,28 @@ export const UseEditableTable = (row?: any): IUseEditableTableReturns => {
   // IF GENERAL ROW STATE CHANGES THAN THE STATE CHANGES HERE
   useEffect(() => {
     setRowValues(row);
-    setEditableRowValues(rowValues);
+    setEditableRowValues(row);
   }, [row]);
 
   // IF ROW STATE CHANGES THAN THE EDITABLE ROW VALUES CHANGES TO DEFAULT STATE
   useEffect(() => {
     setEditableRowValues(rowValues);
-  }, [rowState]);
+  }, [activeRowObject.activeRow]);
 
   // ROW STATE
   useEffect(() => {
-    if (rowState === rowStateEnum.default) {
-      setRowValues((prevValues: any) => {
-        return {
-          ...prevValues,
-          datemarkedinvalid:validateState,
-        };
-      });
-    }
+    // if (
+    //   activeRowObject.activeRow.number === rowValues.id &&
+    //   activeRowObject.activeRow.state === "default"
+    // ) {
+    setRowValues((prevValues: any) => {
+      return {
+        ...prevValues,
+        datemarkedinvalid: validateState,
+      };
+    });
+    // }
   }, [validateState]);
-
 
   return {
     onSave,
@@ -138,14 +164,18 @@ export const UseEditableTable = (row?: any): IUseEditableTableReturns => {
 
     summaryObject: {
       rowValues:
-        rowState !== rowStateEnum.default ? editableRowValues : rowValues,
+        activeRowObject.activeRow.number === rowValues.id &&
+        activeRowObject.activeRow.state !== "default"
+          ? editableRowValues
+          : rowValues,
       handleChange,
       rowState,
       changeRowState,
       handleChangeEvent,
       validateState,
       changeValidateState,
-      saveWithProvidedState
+      saveWithProvidedState,
+      activeRowObject,
     },
   };
 };

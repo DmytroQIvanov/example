@@ -158,6 +158,7 @@ const PhoneTable = () => {
         onDelete,
         onCancel,
         onSave,
+        activeRowObject,
       }) => (
         <>
           <EnhancedTableHead
@@ -176,6 +177,7 @@ const PhoneTable = () => {
                   onDelete={onDelete}
                   onAddSave={onSave}
                   onAddCancel={onCancel}
+                  activeRowObject={activeRowObject}
                 />
               )
             )}

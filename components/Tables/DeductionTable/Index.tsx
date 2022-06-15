@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import TableBody from "@material-ui/core/TableBody";
 import TableWrapper from "../TablesComponents/TableWrapper/Index";
 
@@ -8,55 +8,115 @@ import {
 } from "./interfaces";
 import TableRowComponent from "./TableRow";
 import { HeadCell } from "../TablesComponents/Interfaces/HeadCell";
-import { Order } from "../TablesComponents/Interfaces/Order";
+
+function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
+  if (b[orderBy] < a[orderBy]) {
+    return -1;
+  }
+  if (b[orderBy] > a[orderBy]) {
+    return 1;
+  }
+  return 0;
+}
+
+type Order = "asc" | "desc";
+
+export function getComparator<Key extends keyof any>(
+  order: Order,
+  orderBy: Key
+): (
+  a: { [key in Key]: number | string },
+  b: { [key in Key]: number | string }
+) => number {
+  return order === "desc"
+    ? (a, b) => descendingComparator(a, b, orderBy)
+    : (a, b) => -descendingComparator(a, b, orderBy);
+}
 
 const rows: IRowsPersonEmploymentTable[] = [
   {
     id: "1",
-    campus: "string",
-    location1: "string",
-    location2: "string",
-    informationSource: "string",
-    primary: true,
-    comments: "string",
-    dfkv: "string",
-    dlkv: "string",
-    dmi: "string",
+    date: "01/01/2021",
+    type: "Dues",
+    wages: "$1,231",
+    hours: "55",
+    deductions: "184",
+    "%": "5,00",
+    jobCode: "34515",
+    report: "Employee List",
+    transactions: "Cancellation",
+    campus: "Borkaley",
+  },
+  {
+    id: "2",
+    date: "04/11/2011",
+    type: "Sues",
+    wages: "$42,231",
+    hours: "13",
+    deductions: "182",
+    "%": "2,01",
+    jobCode: "34115",
+    report: "Employee List",
+    transactions: "Successing",
+    campus: "Lurkaley",
+  },
+  {
+    id: "3",
+    date: "11/01/2011",
+    type: "Dues",
+    wages: "$3,231",
+    hours: "5",
+    deductions: "144",
+    "%": "5,20",
+    jobCode: "15515",
+    report: "Employee List",
+    transactions: "Cancellation",
+    campus: "Dunkey",
   },
 ];
 
 const headCells: readonly HeadCell<IColumnsPersonEmploymentTable>[] = [
   {
-    id: "campus",
-    label: "Campus",
+    id: "date",
+    label: "Date",
   },
   {
-    id: "location",
-    label: "Location",
+    id: "type",
+    label: "Type",
   },
   {
-    id: "informationSource",
-    label: "Information Source",
+    id: "wages",
+    label: "Wages",
   },
   {
-    id: "primary",
-    label: "Primary",
+    id: "hours",
+    label: "Hours",
   },
   {
-    id: "comments",
-    label: "Comments",
+    id: "deductions",
+    label: "Deductions",
   },
   {
-    id: "dfkv",
-    label: "DFKV",
+    id: "%",
+    label: "%",
   },
   {
-    id: "dlkv",
-    label: "DLKV",
+    id: "jobCode",
+    label: "Job Code",
   },
   {
-    id: "dmi",
-    label: "DMI",
+    id: "report",
+    label: "Report",
+  },
+
+  {
+    id: "transactions",
+    label: "Transactions",
+  },
+
+  {
+    id: "report",
+    label: "Report",
   },
   {
     id: "options",
@@ -64,10 +124,10 @@ const headCells: readonly HeadCell<IColumnsPersonEmploymentTable>[] = [
   },
 ];
 
-const Index = () => {
+const DeductionTable = () => {
   const [order, setOrder] = React.useState<Order>("asc");
   const [orderBy, setOrderBy] =
-    React.useState<keyof IRowsPersonEmploymentTable>("comments");
+    React.useState<keyof IRowsPersonEmploymentTable>("campus");
 
   const handleRequestSort = (
     _: any,
@@ -77,13 +137,8 @@ const Index = () => {
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
   };
-  const [tableElements, setTableElements] = useState(rows);
-  const onDelete = (id: string | undefined) => {
-    if (!id) return;
-    setTableElements(tableElements.filter((elem) => elem.id !== id));
-  };
   return (
-    <TableWrapper rows={rows} buttonsList={[{ label: "Location Data Entry" }]}>
+    <TableWrapper rows={rows}>
       {({
         EnhancedTableHead,
         stableSort,
@@ -122,4 +177,4 @@ const Index = () => {
   );
 };
 
-export default React.memo(Index);
+export default React.memo(DeductionTable);

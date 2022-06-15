@@ -1,6 +1,8 @@
 import React from "react";
 import TableCell from "@material-ui/core/TableCell";
+import { Box } from "@mui/material";
 import TableRow from "@material-ui/core/TableRow";
+
 //INTERFACES
 import { IRowsPersonEmploymentTable } from "./interfaces";
 
@@ -40,81 +42,61 @@ const TableRowComponent: React.FC<{
       }
     >
       <TableCell component="th" scope="row" width={"200px"}>
-        {EditableBlock({
-          ...summaryObject,
-          name: "campus",
-          type: "dropdown",
-          itemsArray: dropArray,
-        })}
+        <Box>
+          {EditableBlock({
+            ...summaryObject,
+            name: "date",
+            type: "date",
+            editable: true,
+          })}
+        </Box>
       </TableCell>
       <TableCell component="th" scope="row" width={"200px"}>
         {EditableBlock({
           ...summaryObject,
-          name: "location1",
-          type: "dropdown",
-          itemsArray: dropArray,
-        })}
-
-        {EditableBlock({
-          ...summaryObject,
-          name: "location2",
+          name: "type",
           type: "dropdown",
           itemsArray: dropArray,
         })}
       </TableCell>
-
-      <TableCell width={"130px"}>
+      <TableCell component="th" scope="row" width={"150px"}>
         {EditableBlock({
           ...summaryObject,
-          name: "informationSource",
-          type: "dropdown",
-          itemsArray: dropArray,
+          name: "wages",
         })}
       </TableCell>
-      <TableCell width={"130px"}>
+      <TableCell width={"150px"}>
+        <EditableBlock {...summaryObject} name={"hours"} />
+      </TableCell>
+      <TableCell width={"100px"}>
+        <EditableBlock {...summaryObject} name={"deductions"} />
+      </TableCell>
+      <TableCell width={"120px"}>
         {EditableBlock({
           ...summaryObject,
-          name: "primary",
-          type: "checkBox",
-          checkBox: {
-            type: "green",
-            textVariants: { falseVariant: "N/A", trueVariant: "Yes" },
-          },
+          name: "%",
         })}
       </TableCell>
-      <TableCell width={"330px"}>
+      <TableCell width={"200px"}>
         {EditableBlock({
           ...summaryObject,
-          name: "comments",
-          multiline: 6,
-          width: 100,
-        })}
-      </TableCell>
-      <TableCell width={"220px"}>
-        {EditableBlock({
-          ...summaryObject,
-          name: "dfkv",
-          type: "date",
+          name: "jobCode",
         })}
       </TableCell>
       <TableCell width={"230px"}>
         {EditableBlock({
           ...summaryObject,
-          name: "dlkv",
-          type: "date",
+          name: "report",
         })}
-        {EditableBlock({ ...summaryObject, type: "validate" })}
       </TableCell>
-      <TableCell width={"330px"}>
+      <TableCell width={"230px"}>
+        {EditableBlock({ ...summaryObject, name: "transactions" })}
+      </TableCell>
+      <TableCell width={"220px"}>
         {EditableBlock({
           ...summaryObject,
-          name: "dmi",
-          type: "date",
-        })}
-
-        {EditableBlock({
-          ...summaryObject,
-          type: "invalidate",
+          name: "campus",
+          editable: true,
         })}
       </TableCell>
       <TableCell width={"130px"}>

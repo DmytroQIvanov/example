@@ -48,8 +48,9 @@ const headCells: readonly HeadCell<IColumnsPersonEmploymentTable>[] = [
   },
 ];
 
-const Index:React.FC<{tableData:IRowsPersonEmploymentTable[]}> = ({tableData}) => {
-
+const Index: React.FC<{ tableData: IRowsPersonEmploymentTable[] }> = ({
+  tableData,
+}) => {
   const [order, setOrder] = React.useState<Order>("asc");
   const [orderBy, setOrderBy] =
     React.useState<keyof IRowsPersonEmploymentTable>("options");
@@ -85,6 +86,7 @@ const Index:React.FC<{tableData:IRowsPersonEmploymentTable[]}> = ({tableData}) =
         onCancel,
         onSave,
         onSaveWithProvidedState,
+        activeRowObject,
       }) => (
         <>
           <EnhancedTableHead
@@ -104,6 +106,7 @@ const Index:React.FC<{tableData:IRowsPersonEmploymentTable[]}> = ({tableData}) =
                   onAddSave={onSave}
                   onAddCancel={onCancel}
                   onSaveWithProvidedState={onSaveWithProvidedState}
+                  activeRowObject={activeRowObject}
                 />
               )
             )}
