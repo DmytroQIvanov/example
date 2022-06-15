@@ -109,8 +109,8 @@ const TableRowComponent: React.FC<{
             activeRowObject.activeRow.state === "add" && onAddCancel();
             onCancel();
           }}
-          handleEditableState={changeRowState}
           onDelete={onDelete}
+          rowValues={summaryObject.rowValues}
           id={summaryObject.rowValues.id}
           activeRowObject={activeRowObject}
         />

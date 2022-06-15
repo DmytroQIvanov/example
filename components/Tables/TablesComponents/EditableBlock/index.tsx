@@ -72,11 +72,7 @@ const InvalidateComponent = ({
                 ? validateState
                 : rowValues["datemarkedinvalid"]
             }
-            disabled={
-              // activeRowObject.activeRow.number != rowValues.id &&
-              // activeRowObject.activeRow.state === "default" &&
-              rowValues["datemarkedinvalid"]
-            }
+            disabled={rowValues["datemarkedinvalid"]}
           />
         }
         label={"Invalidate"}

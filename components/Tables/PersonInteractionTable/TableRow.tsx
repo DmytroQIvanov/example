@@ -8,18 +8,21 @@ import { IRowsPersonEmploymentTable } from "./interfaces";
 import EditableBlock from "../TablesComponents/EditableBlock";
 import { UseEditableTable } from "../../../hooks/UseEditableTable";
 import OptionsBlock from "../TablesComponents/OptionsBlock";
-
+import {IActiveRowObject} from "../TablesComponents/Interfaces/TableWrapperInterfaces";
 
 const TableRowComponent: React.FC<{
   row: IRowsPersonEmploymentTable;
   onDelete: (id: string | undefined) => void;
   onAddSave: Function;
   onAddCancel: Function;
+  activeRowObject: IActiveRowObject;
   handleOpenPersonInteractionModal:()=>void;
+}> = ({ row, onDelete, onAddSave, onAddCancel, activeRowObject,handleOpenPersonInteractionModal }) => {
+  const { onCancel, onSave, changeRowState, summaryObject } = UseEditableTable({
+    row,
+    activeRowObject,
+  });
 
-}> = ({ row, onDelete, onAddSave, onAddCancel,handleOpenPersonInteractionModal }) => {
-  const { onCancel, onSave, changeRowState, summaryObject } =
-    UseEditableTable(row);
 
   return (
     <TableRow
@@ -87,16 +90,24 @@ const TableRowComponent: React.FC<{
 
       <TableCell width={"170px"}>
         <OptionsBlock
-          editStateBoolean={false}
-          onSave={() => {
-          }}
-          addIcon
+            onSave={() => {
+            }}
+            onCancel={()=>{}}
+            addIcon
 
-          onCancel={()=>{}}
-          handleEditableState={handleOpenPersonInteractionModal}
-          onDelete={onDelete}
-          id={row.id}
-          validateState={summaryObject.rowValues.validateState}
+            // onSave={() => {
+            //   activeRowObject.activeRow.state === "add" && onAddSave();
+            //   onSave();
+            // }}
+            {/*onCancel={() => {*/}
+            {/*  activeRowObject.activeRow.state === "add" && onAddCancel();*/}
+            {/*  onCancel();*/}
+            {/*}}*/}
+            onDelete={onDelete}
+            rowValues={summaryObject.rowValues}
+            documentElement
+            id={summaryObject.rowValues.id}
+            activeRowObject={activeRowObject}
         />
       </TableCell>
     </TableRow>

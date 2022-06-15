@@ -1,17 +1,17 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import TableBody from "@material-ui/core/TableBody";
-import {Box} from "@mui/material";
+import { Box } from "@mui/material";
 import ModalBody from "./PersonInteractionModal";
 
 //ICONS
 import Modal from "@mui/material/Modal";
-import {IColumnsPersonEmploymentTable, IRowsPersonEmploymentTable} from "./interfaces";
+import {
+  IColumnsPersonEmploymentTable,
+  IRowsPersonEmploymentTable,
+} from "./interfaces";
 import TableWrapper from "../TablesComponents/TableWrapper";
 import TableRowComponent from "./TableRow";
 import { HeadCell } from "../TablesComponents/Interfaces/HeadCell";
-
-
-
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -39,7 +39,7 @@ export function getComparator<Key extends keyof any>(
 
 const rows: IRowsPersonEmploymentTable[] = [
   {
-    id:'1',
+    id: "1",
     category: "O",
     interaction: "Orientation",
     response: "Yes",
@@ -50,7 +50,7 @@ const rows: IRowsPersonEmploymentTable[] = [
     dateCreated: "01/05/2021",
   },
   {
-    id:'2',
+    id: "2",
 
     category: "M",
     interaction: "Card",
@@ -62,7 +62,7 @@ const rows: IRowsPersonEmploymentTable[] = [
     dateCreated: "01/05/2021",
   },
   {
-    id:'3',
+    id: "3",
 
     category: "O",
     interaction: "Orientation",
@@ -74,7 +74,7 @@ const rows: IRowsPersonEmploymentTable[] = [
     dateCreated: "09/05/2021",
   },
   {
-    id:'4',
+    id: "4",
 
     category: "RA",
     interaction: "Card",
@@ -135,26 +135,25 @@ const headCells: readonly HeadCell<IColumnsPersonEmploymentTable>[] = [
   },
 ];
 const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  maxWidth: '90vw',
-  maxHeight: '90vh',
-  bgcolor: 'background.paper',
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  maxWidth: "90vw",
+  maxHeight: "90vh",
+  bgcolor: "background.paper",
   boxShadow: 24,
   p: 4,
 };
 
-
 const Index = () => {
   const [order, setOrder] = React.useState<Order>("asc");
   const [orderBy, setOrderBy] =
-      React.useState<keyof IRowsPersonEmploymentTable>("options");
+    React.useState<keyof IRowsPersonEmploymentTable>("options");
 
   const handleRequestSort = (
-      _: any,
-      property: keyof IRowsPersonEmploymentTable
+    _: any,
+    property: keyof IRowsPersonEmploymentTable
   ) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
@@ -166,68 +165,74 @@ const Index = () => {
     setTableElements(tableElements.filter((elem) => elem.id !== id));
   };
 
+  const [personInteractionModal, setPersonInteractionModal] = useState(false);
 
-  const [personInteractionModal,setPersonInteractionModal] = useState(false);
-
-  const handleClosePersonInteractionModal =()=>{
+  const handleClosePersonInteractionModal = () => {
     setPersonInteractionModal(false);
-  }
+  };
 
-  const handleOpenPersonInteractionModal =()=>{
+  const handleOpenPersonInteractionModal = () => {
     setPersonInteractionModal(true);
-  }
+  };
   return (
-      <>
-      <TableWrapper rows={rows} disableAddBtn buttonsList={[
-        {label:'Add',buttonFunction:handleOpenPersonInteractionModal}]}>
+    <>
+      <TableWrapper
+        rows={rows}
+        disableAddBtn
+        buttonsList={[
+          { label: "Add", buttonFunction: handleOpenPersonInteractionModal },
+        ]}
+      >
         {({
-            EnhancedTableHead,
-            stableSort,
-            getComparator,
-            tableElements,
-            onDelete,
-            onCancel,
-            onSave,
-          }) => (
-            <>
-              <EnhancedTableHead
-                  order={order}
-                  orderBy={orderBy}
-                  onRequestSort={handleRequestSort}
-                  headCells={headCells}
-              />
-              <TableBody>
-                {/*@ts-ignore*/}
-                {stableSort(tableElements, getComparator(order, orderBy)).map(
-                    (row: IRowsPersonEmploymentTable) => (
-                        <TableRowComponent
-                            row={row}
-                            key={`${row.id}`}
-                            onDelete={onDelete}
-                            onAddSave={onSave}
-                            onAddCancel={onCancel}
-                            handleOpenPersonInteractionModal={handleOpenPersonInteractionModal}
-                        />
-                    )
-                )}
-              </TableBody>
-            </>
+          EnhancedTableHead,
+          stableSort,
+          getComparator,
+          tableElements,
+          onDelete,
+          onCancel,
+          onSave,
+          activeRowObject,
+        }) => (
+          <>
+            <EnhancedTableHead
+              order={order}
+              orderBy={orderBy}
+              onRequestSort={handleRequestSort}
+              headCells={headCells}
+            />
+            <TableBody>
+              {/*@ts-ignore*/}
+              {stableSort(tableElements, getComparator(order, orderBy)).map(
+                (row: IRowsPersonEmploymentTable) => (
+                  <TableRowComponent
+                    row={row}
+                    key={`${row.id}`}
+                    onDelete={onDelete}
+                    onAddSave={onSave}
+                    onAddCancel={onCancel}
+                    handleOpenPersonInteractionModal={
+                      handleOpenPersonInteractionModal
+                    }
+                    activeRowObject={activeRowObject}
+                  />
+                )
+              )}
+            </TableBody>
+          </>
         )}
-
       </TableWrapper>
-        <Modal
-            open={personInteractionModal}
-            onClose={handleClosePersonInteractionModal}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
-        >
-          <Box sx={{...style,overflow:'scroll'}}>
-            <ModalBody onClose={handleClosePersonInteractionModal}/>
-          </Box>
-        </Modal>
-      </>
+      <Modal
+        open={personInteractionModal}
+        onClose={handleClosePersonInteractionModal}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={{ ...style, overflow: "scroll" }}>
+          <ModalBody onClose={handleClosePersonInteractionModal} />
+        </Box>
+      </Modal>
+    </>
   );
 };
 
 export default React.memo(Index);
-

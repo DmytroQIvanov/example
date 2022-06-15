@@ -1,4 +1,4 @@
-import React  from "react";
+import React from "react";
 import TableCell from "@material-ui/core/TableCell";
 import TableRow from "@material-ui/core/TableRow";
 //INTERFACES
@@ -8,6 +8,7 @@ import { IRowsPersonEmploymentTable } from "./interfaces";
 import EditableBlock from "../TablesComponents/EditableBlock";
 import { UseEditableTable } from "../../../hooks/UseEditableTable";
 import OptionsBlock from "../TablesComponents/OptionsBlock";
+import { IActiveRowObject } from "../TablesComponents/Interfaces/TableWrapperInterfaces";
 
 const dropArray = [
   {
@@ -23,10 +24,12 @@ const TableRowComponent: React.FC<{
   onDelete: (id: string | undefined) => void;
   onAddSave: Function;
   onAddCancel: Function;
-}> = ({ row, onDelete, onAddSave, onAddCancel }) => {
-  const { onCancel, onSave, changeRowState, summaryObject } =
-    UseEditableTable(row);
-
+  activeRowObject: IActiveRowObject;
+}> = ({ row, onDelete, onAddSave, onAddCancel, activeRowObject }) => {
+  const { onCancel, onSave, changeRowState, summaryObject } = UseEditableTable({
+    row,
+    activeRowObject,
+  });
   return (
     <TableRow
       style={
@@ -89,16 +92,18 @@ const TableRowComponent: React.FC<{
 
       <TableCell width={"130px"}>
         <OptionsBlock
-          editStateBoolean={summaryObject.rowState}
           onSave={() => {
-            summaryObject.rowState === "add" && onAddSave();
+            activeRowObject.activeRow.state === "add" && onAddSave();
             onSave();
           }}
-          onCancel={summaryObject.rowState === "add" ? onAddCancel : onCancel}
-          handleEditableState={changeRowState}
+          onCancel={() => {
+            activeRowObject.activeRow.state === "add" && onAddCancel();
+            onCancel();
+          }}
           onDelete={onDelete}
-          id={row.id}
-          validateState={summaryObject.rowValues.validateState}
+          rowValues={summaryObject.rowValues}
+          id={summaryObject.rowValues.id}
+          activeRowObject={activeRowObject}
         />
       </TableCell>
     </TableRow>

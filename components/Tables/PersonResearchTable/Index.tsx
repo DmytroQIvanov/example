@@ -85,51 +85,6 @@ const headCells: readonly HeadCell<IColumnsPersonEmploymentTable>[] = [
   },
 ];
 
-interface EnhancedTableProps {
-  onRequestSort: (
-    event: React.MouseEvent<unknown>,
-    property: keyof IRowsPersonEmploymentTable
-  ) => void;
-  order: Order;
-  orderBy: string;
-  headCells: readonly HeadCell<IColumnsPersonEmploymentTable>[];
-}
-export function EnhancedTableHead(props: EnhancedTableProps) {
-  const { order, orderBy, onRequestSort } = props;
-  const createSortHandler =
-    (property: keyof IRowsPersonEmploymentTable) =>
-    (event: React.MouseEvent<unknown>) => {
-      onRequestSort(event, property);
-    };
-
-  return (
-    <TableHead>
-      <TableRow>
-        {props.headCells.map((headCell) => (
-          <TableCell
-            key={headCell.label}
-            className="whitespace-nowrap"
-            sortDirection={orderBy === headCell.id ? order : false}
-            width={headCell.width && headCell.width}
-          >
-            <TableSortLabel
-              active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : "asc"}
-              onClick={createSortHandler(headCell.id)}
-            >
-              {headCell.label}
-              {orderBy === headCell.id ? (
-                <Box component="span" sx={visuallyHidden}>
-                  {order === "desc" ? "sorted descending" : "sorted ascending"}
-                </Box>
-              ) : null}
-            </TableSortLabel>
-          </TableCell>
-        ))}
-      </TableRow>
-    </TableHead>
-  );
-}
 const PersonResearchTable = () => {
   const [order, setOrder] = React.useState<Order>("asc");
   const [orderBy, setOrderBy] =
@@ -159,6 +114,7 @@ const PersonResearchTable = () => {
         onDelete,
         onCancel,
         onSave,
+        activeRowObject,
       }) => (
         <>
           <EnhancedTableHead
@@ -177,6 +133,7 @@ const PersonResearchTable = () => {
                   onDelete={onDelete}
                   onAddSave={onSave}
                   onAddCancel={onCancel}
+                  activeRowObject={activeRowObject}
                 />
               )
             )}
