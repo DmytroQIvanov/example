@@ -177,4 +177,4 @@ const DeductionTable = () => {
   );
 };
 
-export default React.memo(AffiliationTable);
+export default React.memo(DeductionTable);

@@ -29,7 +29,6 @@ export interface ITableWrapperProps {
     onCancel: Function;
     onSaveWithProvidedState: (state: any) => void;
     activeRowObject: IActiveRowObject;
-    handleChangeAddedRow: (name: string, value: any) => void;
   }) => React.ReactNode;
   buttonsList?: [
     { label: string; buttonFunction?: MouseEventHandler<HTMLButtonElement> }

@@ -141,11 +141,16 @@ const Index: React.FC<optionsBlock> = ({
             />
           )}
           <EditSharpIcon
-            onClick={
+            onClick={() => {
               activeRowObject.activeRow.state !== "default"
                 ? () => {}
-                : handleEditableState
-            }
+                : activeRowObject.handleRowState(
+                    id,
+                    activeRowObject.activeRow.state == "default"
+                      ? "change"
+                      : "default"
+                  );
+            }}
             sx={{
               mr: "10px",
               fill:

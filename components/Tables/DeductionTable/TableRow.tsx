@@ -101,29 +101,17 @@ const TableRowComponent: React.FC<{
       </TableCell>
       <TableCell width={"130px"}>
         <OptionsBlock
-          editStateBoolean={summaryObject.rowState}
           onSave={() => {
-            summaryObject.rowState === "add" && onAddSave();
+            activeRowObject.activeRow.state === "add" && onAddSave();
             onSave();
-            activeRowObject.handleRowState(
-              summaryObject.rowValues.id,
-              "default"
-            );
           }}
-          type={"buttons"}
           onCancel={() => {
-            activeRowObject.activeRow.state === "add"
-              ? onAddCancel()
-              : onCancel();
-            activeRowObject.handleRowState(
-              summaryObject.rowValues.id,
-              "default"
-            );
+            activeRowObject.activeRow.state === "add" && onAddCancel();
+            onCancel();
           }}
           handleEditableState={changeRowState}
           onDelete={onDelete}
-          id={row.id}
-          validateState={summaryObject.rowValues.validateState}
+          id={summaryObject.rowValues.id}
           activeRowObject={activeRowObject}
         />
       </TableCell>

@@ -191,8 +191,6 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
         return (
           <>
             {checkBox && checkBox.label && `${checkBox.label} :`}
-            {name}
-            {rowValues[name]}
             <Checkbox
               disabled={disabledState}
               style={styles}

@@ -84,6 +84,7 @@ const Index = () => {
         onDelete,
         onCancel,
         onSave,
+        activeRowObject,
       }) => (
         <>
           <EnhancedTableHead
@@ -102,6 +103,7 @@ const Index = () => {
                   onDelete={onDelete}
                   onAddSave={onSave}
                   onAddCancel={onCancel}
+                  activeRowObject={activeRowObject}
                 />
               )
             )}

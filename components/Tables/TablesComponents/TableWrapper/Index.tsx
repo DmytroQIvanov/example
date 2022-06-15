@@ -29,7 +29,6 @@ const Index: React.FC<ITableWrapperProps> = ({
     onCancel,
     onSaveWithProvidedState,
     activeRowObject,
-    handleChangeAddedRow,
   } = useTableWrapper(rows);
   const [buttonsListState, setButtonsListState] = useState(
     buttonsList !== undefined ? buttonsList : []
@@ -182,7 +181,6 @@ const Index: React.FC<ITableWrapperProps> = ({
               onCancel,
               onSaveWithProvidedState,
               activeRowObject,
-              handleChangeAddedRow,
             })}
           </Table>
         </TableContainer>

@@ -26,16 +26,15 @@ interface IUseEditableTableReturns {
 export const UseEditableTable = ({
   activeRowObject,
   row,
-  handleChangeAddedRow,
 }: {
   activeRowObject: IActiveRowObject;
   row?: any;
-  handleChangeAddedRow: (name: string, value: any) => void;
 }): IUseEditableTableReturns => {
   // ---STATES---
 
   // SAVED ROW VALUES
   const [rowValues, setRowValues] = useState(row);
+
   // NOT SAVED ROW STATE
   const [editableRowValues, setEditableRowValues] = useState<typeof row>(row);
 
@@ -107,6 +106,7 @@ export const UseEditableTable = ({
     event: React.ChangeEvent<HTMLInputElement>
   ): void => {
     const { name, value } = event.target;
+    console.log(value);
     setEditableRowValues((prevState: any) => {
       return {
         ...prevState,
@@ -133,17 +133,20 @@ export const UseEditableTable = ({
   // IF GENERAL ROW STATE CHANGES THAN THE STATE CHANGES HERE
   useEffect(() => {
     setRowValues(row);
-    setEditableRowValues(rowValues);
+    setEditableRowValues(row);
   }, [row]);
 
   // IF ROW STATE CHANGES THAN THE EDITABLE ROW VALUES CHANGES TO DEFAULT STATE
   useEffect(() => {
     setEditableRowValues(rowValues);
-  }, [rowState]);
+  }, [activeRowObject.activeRow]);
 
   // ROW STATE
   useEffect(() => {
-    if (rowState === "default") {
+    if (
+      activeRowObject.activeRow.number === rowValues.id &&
+      activeRowObject.activeRow.state === "default"
+    ) {
       setRowValues((prevValues: any) => {
         return {
           ...prevValues,
@@ -161,14 +164,10 @@ export const UseEditableTable = ({
     summaryObject: {
       rowValues:
         activeRowObject.activeRow.number === rowValues.id &&
-        activeRowObject.activeRow.state === "change"
+        activeRowObject.activeRow.state !== "default"
           ? editableRowValues
           : rowValues,
-      handleChange:
-        // activeRowObject.activeRow.number === rowValues.id &&
-        activeRowObject.activeRow.state === "add"
-          ? handleChangeAddedRow
-          : handleChange,
+      handleChange,
       rowState,
       changeRowState,
       handleChangeEvent,

@@ -30,24 +30,6 @@ export const useTableWrapper = (rows: any[]) => {
     }
   };
 
-  const handleChangeAddedRow = (
-    name: string,
-    value: string | number | boolean | Date
-  ) => {
-    alert("");
-    setTemporallyTableElements((prevState) => {
-      const result = temporallyTableElements.find(
-        (element) => element.id === activeRow.number
-      );
-      result[name] = value;
-      console.log(result);
-      return [
-        ...prevState.filter((elem) => elem.id !== activeRow.number),
-        result,
-      ];
-    });
-  };
-
   useEffect(() => {
     setTableElements(rows);
   }, [rows]);
@@ -84,7 +66,6 @@ export const useTableWrapper = (rows: any[]) => {
       activeRow.state == "add" ? temporallyTableElements : tableElements,
     onChangeAddState,
     onDelete,
-    handleChangeAddedRow,
     activeRowObject: {
       activeRow,
       handleRowState,

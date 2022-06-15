@@ -128,12 +128,12 @@ const TableRowComponent: React.FC<{
       <TableCell width={"130px"}>
         <OptionsBlock
           onSave={() => {
-            summaryObject.rowState === "add" ? onAddSave() : onSave();
+            activeRowObject.activeRow.state === "add" && onAddSave();
+            onSave();
           }}
           onCancel={() => {
-            activeRowObject.activeRow.state === "add"
-              ? onAddCancel()
-              : onCancel();
+            activeRowObject.activeRow.state === "add" && onAddCancel();
+            onCancel();
           }}
           handleEditableState={changeRowState}
           onDelete={onDelete}
