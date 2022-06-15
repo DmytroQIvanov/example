@@ -11,18 +11,6 @@ import ModalDelete from "../ModalDelete";
 import AddSharpIcon from "@mui/icons-material/AddSharp";
 import { IActiveRowObject } from "../Interfaces/TableWrapperInterfaces";
 
-interface optionsBlock {
-  onSave: Function;
-  onCancel: Function;
-  handleEditableState: MouseEventHandler<SVGSVGElement>;
-  onDelete: Function;
-  id: string;
-  documentElement?: boolean;
-  addIcon?: boolean;
-  type?: "default" | "buttons";
-  activeRowObject: IActiveRowObject;
-}
-
 const style = {
   position: "absolute",
   top: "50%",
@@ -34,16 +22,27 @@ const style = {
   overflow: "auto",
 };
 
+interface optionsBlock {
+  onSave: Function;
+  onCancel: Function;
+  onDelete: Function;
+  id: string;
+  documentElement?: boolean;
+  addIcon?: boolean;
+  type?: "default" | "buttons";
+  activeRowObject: IActiveRowObject;
+  rowValues: any;
+}
 const Index: React.FC<optionsBlock> = ({
   onSave,
   onCancel,
-  handleEditableState,
   onDelete,
   id,
   documentElement,
   addIcon,
   type = "default",
   activeRowObject,
+  rowValues,
 }) => {
   const [modal, setOpenModal] = useState(false);
 
@@ -112,75 +111,79 @@ const Index: React.FC<optionsBlock> = ({
       activeRowObject.activeRow.state != "default" ? (
         saveElements()
       ) : (
-        <Box>
-          {documentElement && (
-            <ArticleIcon
-              sx={{ cursor: "pointer", mr: "10px" }}
-              onClick={() => handleModal(true)}
-            />
-          )}
+        <>
+          {!rowValues.datemarkedinvalid && (
+            <Box>
+              {documentElement && (
+                <ArticleIcon
+                  sx={{ cursor: "pointer", mr: "10px" }}
+                  onClick={() => handleModal(true)}
+                />
+              )}
 
-          {addIcon && (
-            <AddSharpIcon
-              sx={{
-                mr: "10px",
-                fill:
+              {addIcon && (
+                <AddSharpIcon
+                  sx={{
+                    mr: "10px",
+                    fill:
+                      activeRowObject.activeRow.state !== "default"
+                        ? "grey"
+                        : "black",
+                    cursor:
+                      activeRowObject.activeRow.state !== "default"
+                        ? "default"
+                        : "pointer",
+                  }}
+                  onClick={() =>
+                    activeRowObject.activeRow.state !== "default"
+                      ? () => {}
+                      : handleModal(true)
+                  }
+                />
+              )}
+              <EditSharpIcon
+                onClick={() => {
                   activeRowObject.activeRow.state !== "default"
-                    ? "grey"
-                    : "black",
-                cursor:
+                    ? () => {}
+                    : activeRowObject.handleRowState(
+                        id,
+                        activeRowObject.activeRow.state == "default"
+                          ? "change"
+                          : "default"
+                      );
+                }}
+                sx={{
+                  mr: "10px",
+                  fill:
+                    activeRowObject.activeRow.state !== "default"
+                      ? "grey"
+                      : "black",
+                  cursor:
+                    activeRowObject.activeRow.state !== "default"
+                      ? "default"
+                      : "pointer",
+                }}
+              />
+              <DeleteIcon
+                onClick={
                   activeRowObject.activeRow.state !== "default"
-                    ? "default"
-                    : "pointer",
-              }}
-              onClick={() =>
-                activeRowObject.activeRow.state !== "default"
-                  ? () => {}
-                  : handleModal(true)
-              }
-            />
+                    ? () => {}
+                    : handleOpenDeleteModal
+                }
+                sx={{
+                  fill:
+                    activeRowObject.activeRow.state !== "default"
+                      ? "grey"
+                      : "black",
+                  cursor:
+                    activeRowObject.activeRow.state !== "default"
+                      ? "default"
+                      : "pointer",
+                }}
+              />
+            </Box>
           )}
-          <EditSharpIcon
-            onClick={() => {
-              activeRowObject.activeRow.state !== "default"
-                ? () => {}
-                : activeRowObject.handleRowState(
-                    id,
-                    activeRowObject.activeRow.state == "default"
-                      ? "change"
-                      : "default"
-                  );
-            }}
-            sx={{
-              mr: "10px",
-              fill:
-                activeRowObject.activeRow.state !== "default"
-                  ? "grey"
-                  : "black",
-              cursor:
-                activeRowObject.activeRow.state !== "default"
-                  ? "default"
-                  : "pointer",
-            }}
-          />
-          <DeleteIcon
-            onClick={
-              activeRowObject.activeRow.state !== "default"
-                ? () => {}
-                : handleOpenDeleteModal
-            }
-            sx={{
-              fill:
-                activeRowObject.activeRow.state !== "default"
-                  ? "grey"
-                  : "black",
-              cursor:
-                activeRowObject.activeRow.state !== "default"
-                  ? "default"
-                  : "pointer",
-            }}
-          />
-        </Box>
+        </>
       )}
 
       {modal && (

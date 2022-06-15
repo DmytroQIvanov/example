@@ -15,6 +15,7 @@ export interface ISummaryObject {
   changeRowState: () => void;
   rowValues: { [index: string]: any };
   saveWithProvidedState: (state: any) => void;
+  activeRowObject: IActiveRowObject;
 }
 
 interface IUseEditableTableReturns {
@@ -143,17 +144,17 @@ export const UseEditableTable = ({
 
   // ROW STATE
   useEffect(() => {
-    if (
-      activeRowObject.activeRow.number === rowValues.id &&
-      activeRowObject.activeRow.state === "default"
-    ) {
-      setRowValues((prevValues: any) => {
-        return {
-          ...prevValues,
-          datemarkedinvalid: validateState,
-        };
-      });
-    }
+    // if (
+    //   activeRowObject.activeRow.number === rowValues.id &&
+    //   activeRowObject.activeRow.state === "default"
+    // ) {
+    setRowValues((prevValues: any) => {
+      return {
+        ...prevValues,
+        datemarkedinvalid: validateState,
+      };
+    });
+    // }
   }, [validateState]);
 
   return {
@@ -174,6 +175,7 @@ export const UseEditableTable = ({
       validateState,
       changeValidateState,
       saveWithProvidedState,
+      activeRowObject,
     },
   };
 };

@@ -16,6 +16,7 @@ import {
   ISummaryObject,
   rowStateTypes,
 } from "../../../../hooks/UseEditableTable";
+import { IActiveRowObject } from "../Interfaces/TableWrapperInterfaces";
 
 interface ICheckBox {
   label?: string;
@@ -49,14 +50,14 @@ interface propsBlockWithState extends ISummaryObject {
 }
 const InvalidateComponent = ({
   rowValues,
-  rowState,
   validateState,
   changeValidateState,
+  activeRowObject,
 }: {
   rowValues: any;
-  rowState: rowStateTypes;
   validateState: boolean;
   changeValidateState: () => void;
+  activeRowObject: IActiveRowObject;
 }) => {
   return (
     <Box sx={{ display: "flex" }}>
@@ -66,11 +67,16 @@ const InvalidateComponent = ({
           <Checkbox
             onChange={() => changeValidateState()}
             checked={
-              rowState === "default"
-                ? rowValues["datemarkedinvalid"]
-                : validateState
+              activeRowObject.activeRow.number == rowValues.id &&
+              activeRowObject.activeRow.state !== "default"
+                ? validateState
+                : rowValues["datemarkedinvalid"]
             }
-            disabled={rowState === "default" && rowValues["datemarkedinvalid"]}
+            disabled={
+              // activeRowObject.activeRow.number != rowValues.id &&
+              // activeRowObject.activeRow.state === "default" &&
+              rowValues["datemarkedinvalid"]
+            }
           />
         }
         label={"Invalidate"}
@@ -80,6 +86,7 @@ const InvalidateComponent = ({
     </Box>
   );
 };
+
 const EditableBlock: React.FC<propsBlockWithState> = ({
   title,
   name = "null",
@@ -101,6 +108,7 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
   changeValidateState,
   changeRowState,
 
+  activeRowObject,
   ...inputParams
 }) => {
   const disableEditableArray = [
@@ -203,7 +211,7 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
         return (
           <InvalidateComponent
             rowValues={rowValues}
-            rowState={rowState}
+            activeRowObject={activeRowObject}
             validateState={validateState}
             changeValidateState={changeValidateState}
           />
@@ -256,6 +264,7 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
           <InvalidateComponent
             rowValues={rowValues}
             rowState={rowState}
+            activeRowObject={activeRowObject}
             validateState={validateState}
             changeValidateState={changeValidateState}
           />
