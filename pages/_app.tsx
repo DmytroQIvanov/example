@@ -80,7 +80,7 @@ function MyApp({ Component, pageProps }: AppProps) {
               </AuthContext.Provider>
             </ApolloProvider>
             <SignedOut>
-              <RedirectToSignIn />
+              <RedirectToSignIn afterSignInUrl={"/appselection"} />
             </SignedOut>
           </>
         )}
