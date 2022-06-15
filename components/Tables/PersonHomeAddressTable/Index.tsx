@@ -9,7 +9,7 @@ import {
 import TableRowComponent from "./TableRow";
 import { HeadCell } from "../TablesComponents/Interfaces/HeadCell";
 import { Order } from "../TablesComponents/Interfaces/Order";
-import AddressEditModal from "../../Table/RowCells/AddressEditModal";
+import AddressEditModal from "./AddressEditModal";
 
 const headCells: readonly HeadCell<IColumnsPersonEmploymentTable>[] = [
   {

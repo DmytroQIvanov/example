@@ -27,7 +27,6 @@ const scriptOptions = {
   libraries: ["places"],
 };
 
-
 const initialAddress = {
   source: "",
   comments: "",
@@ -39,22 +38,30 @@ const initialAddress = {
   google_formatted: "",
 };
 
-const AddressEditModal = ({open, data, title, handleClose, onChangeAddress, modalProps}: any) => {
-  const [address, setAddress] = React.useState({source: '',
-    comments: '',
-    streetnumber:'',
-    streetname:'',
-    city:'',
-    state:'',
-    postal:'',
-    country:'',
-    apartment:'',
-    full: '',
-    google_formatted: '',
-    formatted_address: '',
+const AddressEditModal = ({
+  open,
+  data,
+  title,
+  handleClose,
+  onChangeAddress,
+  modalProps,
+}: any) => {
+  const [address, setAddress] = React.useState({
+    source: "",
+    comments: "",
+    streetnumber: "",
+    streetname: "",
+    city: "",
+    state: "",
+    postal: "",
+    country: "",
+    apartment: "",
+    full: "",
+    google_formatted: "",
+    formatted_address: "",
     zip: "",
 
-    location_accuracy: '',
+    location_accuracy: "",
     // "information_source_type": {
     //   "informationsourcetypeid": 5,
     //   "informationsourcetype": "U. List"
@@ -70,17 +77,16 @@ const AddressEditModal = ({open, data, title, handleClose, onChangeAddress, moda
   const [autocompleteBoolean, setAutocompleteBoolean] = useState<any>(null);
   const inputEl = useRef(null);
 
-
-
   const apartmentInputReference = useRef(null);
 
   useEffect(() => {
-    if(autocompleteBoolean) {
-      apartmentInputReference && apartmentInputReference.current && apartmentInputReference.current.focus();
-      setAutocompleteBoolean(false)
+    if (autocompleteBoolean) {
+      apartmentInputReference &&
+        apartmentInputReference.current &&
+        apartmentInputReference.current.focus();
+      setAutocompleteBoolean(false);
     }
-      }, [autocompleteBoolean]);
-
+  }, [autocompleteBoolean]);
 
   const classes = useStyles();
 
@@ -106,7 +112,7 @@ const AddressEditModal = ({open, data, title, handleClose, onChangeAddress, moda
   };
 
   const handleChange = (e: any) => {
-    let update : any = { ...address };
+    let update: any = { ...address };
 
     // @ts-ignore
     update[e.target.name] = e.target.value;
@@ -126,7 +132,7 @@ const AddressEditModal = ({open, data, title, handleClose, onChangeAddress, moda
     };
     if (autocomplete) {
       const place = autocomplete.getPlace();
-      setAutocompleteBoolean(true)
+      setAutocompleteBoolean(true);
 
       let fullAddress: any[] = [];
       if ("address_components" in place) {
@@ -268,11 +274,9 @@ const AddressEditModal = ({open, data, title, handleClose, onChangeAddress, moda
               value={address?.apartment}
               // ref={apartmentInputReference}
               inputRef={apartmentInputReference}
-
               InputLabelProps={{ shrink: true }}
               className={classes.fullWidth}
               onChange={(e) => handleChange(e)}
-
             />
           </Grid>
 

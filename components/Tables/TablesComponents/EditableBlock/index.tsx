@@ -253,7 +253,7 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
   };
 
   const TextComponent = () => {
-    let styles = validateState ? {} : { color: "grey", cursor: "default" };
+    let styles = !validateState ? {} : { color: "grey", cursor: "default" };
     switch (type) {
       case "invalidate":
         return (

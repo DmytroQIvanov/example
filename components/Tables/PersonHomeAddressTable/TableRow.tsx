@@ -8,9 +8,10 @@ import { IRowsPersonEmploymentTable } from "./interfaces";
 import EditableBlock from "../TablesComponents/EditableBlock";
 import { UseEditableTable } from "../../../hooks/UseEditableTable";
 import OptionsBlock from "../TablesComponents/OptionsBlock";
-import AddressEditModal from "../../Table/RowCells/AddressEditModal";
+import AddressEditModal from "./AddressEditModal";
 import { Box } from "@mui/material";
 import { IActiveRowObject } from "../TablesComponents/Interfaces/TableWrapperInterfaces";
+import Typography from "@mui/material/Typography";
 
 const TableRowComponent: React.FC<{
   row: IRowsPersonEmploymentTable;
@@ -48,16 +49,16 @@ const TableRowComponent: React.FC<{
       }
     >
       <TableCell component="th" scope="row" width={"450px"}>
-        <Box sx={{ mr: "2px", display: "flex", gap: "2px" }}>
-          <Box sx={{ mr: "2px" }}>
-            {summaryObject.rowValues["streetnumber"]}
-          </Box>
-          <Box sx={{ mr: "2px" }}>{summaryObject.rowValues["streetname"]}</Box>
-          <Box sx={{ mr: "2px" }}>{summaryObject.rowValues["apartment"]}</Box>
+        <Box
+          sx={{ mr: "2px", display: "flex", flexWrap: "wrap", gap: "4px 7px" }}
+        >
+          <span>{summaryObject.rowValues["streetnumber"]}</span>
+          <span>{summaryObject.rowValues["streetname"]}</span>
+          <span>{summaryObject.rowValues["apartment"]}</span>
 
-          <Box sx={{ mr: "2px" }}>{summaryObject.rowValues["city"]} </Box>
-          <Box sx={{ mr: "2px" }}>{summaryObject.rowValues["state"]} </Box>
-          <Box sx={{ mr: "2px" }}>{summaryObject.rowValues["country"]} </Box>
+          <span>{summaryObject.rowValues["city"]} </span>
+          <span>{summaryObject.rowValues["state"]} </span>
+          <span>{summaryObject.rowValues["country"]} </span>
         </Box>
       </TableCell>
 
@@ -118,6 +119,7 @@ const TableRowComponent: React.FC<{
           documentElement
           id={summaryObject.rowValues.id}
           activeRowObject={activeRowObject}
+          handleEditableState={onHandleOpen}
         />
       </TableCell>
       <AddressEditModal
