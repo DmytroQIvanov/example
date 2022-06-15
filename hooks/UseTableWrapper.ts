@@ -1,35 +1,61 @@
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
+import {
+  IActiveRow,
+  RowStateTypes,
+} from "../components/Tables/TablesComponents/Interfaces/TableWrapperInterfaces";
 
 export const useTableWrapper = (rows: any[]) => {
   const [tableElements, setTableElements] = useState(rows);
   const [temporallyTableElements, setTemporallyTableElements] = useState(rows);
-  const [addStateBoolean, setAddStateBoolean] = useState(false);
   const [alreadyAdded, setAlreadyAdded] = useState(false);
+  const [activeRow, setActiveRow] = useState<IActiveRow>({
+    state: "default",
+    number: null,
+  });
 
+  const handleRowState = (id: string | null, state: RowStateTypes) => {
+    setActiveRow({ number: id, state: state });
+  };
   const onChangeAddState = () => {
     if (!alreadyAdded) {
+      const id = temporallyTableElements[tableElements.length - 1]?.id + 1 || 0;
       setTemporallyTableElements([
         ...tableElements,
         {
-          id: tableElements[tableElements.length - 1]?.id + 1 || 0,
-          addStateBoolean: true,
-          validateState: true,
+          id,
         },
       ]);
-      setAddStateBoolean(true);
+      setActiveRow({ state: "add", number: id });
       setAlreadyAdded(true);
     }
   };
 
-  useEffect(()=>{
-    setTableElements(rows)
-  },[rows])
+  const handleChangeAddedRow = (
+    name: string,
+    value: string | number | boolean | Date
+  ) => {
+    alert("");
+    setTemporallyTableElements((prevState) => {
+      const result = temporallyTableElements.find(
+        (element) => element.id === activeRow.number
+      );
+      result[name] = value;
+      console.log(result);
+      return [
+        ...prevState.filter((elem) => elem.id !== activeRow.number),
+        result,
+      ];
+    });
+  };
+
+  useEffect(() => {
+    setTableElements(rows);
+  }, [rows]);
 
   const onSave = () => {
-    // setTemporallyTableElements([...temporallyTableElements])
     setTableElements(temporallyTableElements);
-    setAddStateBoolean(false);
     setAlreadyAdded(false);
+    handleRowState(null, "default");
   };
   const onSaveWithProvidedState = (state: any) => {
     setTableElements((prevState) => [
@@ -42,7 +68,8 @@ export const useTableWrapper = (rows: any[]) => {
     setTemporallyTableElements(tableElements);
     setTableElements(tableElements.filter((elem) => elem.id !== id));
     setTemporallyTableElements(tableElements.filter((elem) => elem.id !== id));
-    setAddStateBoolean(false);
+
+    handleRowState(null, "default");
   };
 
   const onDelete = (id: string | undefined) => {
@@ -53,8 +80,14 @@ export const useTableWrapper = (rows: any[]) => {
     onSaveWithProvidedState,
     onSave,
     onCancel,
-    tableElements: addStateBoolean ? temporallyTableElements : tableElements,
+    tableElements:
+      activeRow.state == "add" ? temporallyTableElements : tableElements,
     onChangeAddState,
     onDelete,
+    handleChangeAddedRow,
+    activeRowObject: {
+      activeRow,
+      handleRowState,
+    },
   };
 };

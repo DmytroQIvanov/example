@@ -7,6 +7,7 @@ import {
   IColumnsPersonEmploymentTable,
 } from "./interfaces";
 import TableRowComponent from "./TableRow";
+import { HeadCell } from "../TablesComponents/Interfaces/HeadCell";
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -35,75 +36,95 @@ export function getComparator<Key extends keyof any>(
 const rows: IRowsPersonEmploymentTable[] = [
   {
     id: "1",
-    campus: "Riwerside",
-    organization1: "Departament",
-    organization2: "Molecular and Cellular Biology",
-    informationSource: "Debrief",
-    primary: true,
-    comments:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-    dfkv: "01/02/2021",
-    dlkv: "string1",
-    dmi: "02/03/2013",
+    date: "01/01/2021",
+    type: "Dues",
+    wages: "$1,231",
+    hours: "55",
+    deductions: "184",
+    "%": "5,00",
+    jobCode: "34515",
+    report: "Employee List",
+    transactions: "Cancellation",
+    campus: "Borkaley",
+  },
+  {
+    id: "2",
+    date: "04/11/2011",
+    type: "Sues",
+    wages: "$42,231",
+    hours: "13",
+    deductions: "182",
+    "%": "2,01",
+    jobCode: "34115",
+    report: "Employee List",
+    transactions: "Successing",
+    campus: "Lurkaley",
+  },
+  {
+    id: "3",
+    date: "11/01/2011",
+    type: "Dues",
+    wages: "$3,231",
+    hours: "5",
+    deductions: "144",
+    "%": "5,20",
+    jobCode: "15515",
+    report: "Employee List",
+    transactions: "Cancellation",
+    campus: "Dunkey",
   },
 ];
 
-interface HeadCell {
-  id: keyof IColumnsPersonEmploymentTable;
-  label: string;
-  numeric: boolean;
-  width?: string;
-}
-const headCells: readonly HeadCell[] = [
+const headCells: readonly HeadCell<IColumnsPersonEmploymentTable>[] = [
   {
-    id: "campus",
-    numeric: true,
-    label: "Campus",
+    id: "date",
+    label: "Date",
   },
   {
-    id: "organization",
-    numeric: false,
-    label: "Organization",
+    id: "type",
+    label: "Type",
   },
   {
-    id: "informationSource",
-    numeric: false,
-    label: "Information Source",
+    id: "wages",
+    label: "Wages",
   },
   {
-    id: "primary",
-    numeric: false,
-    label: "Primary",
+    id: "hours",
+    label: "Hours",
   },
   {
-    id: "comments",
-    numeric: false,
-    label: "Comments",
-    width: "400px",
+    id: "deductions",
+    label: "Deductions",
   },
   {
-    id: "dfkv",
-    numeric: false,
-    label: "DFKV",
+    id: "%",
+    label: "%",
   },
   {
-    id: "dlkv",
-    numeric: false,
-    label: "DLKV",
+    id: "jobCode",
+    label: "Job Code",
   },
   {
-    id: "dmi",
-    numeric: false,
-    label: "DMI",
+    id: "report",
+    label: "Report",
+  },
+
+  {
+    id: "transactions",
+    label: "Transactions",
+  },
+
+  {
+    id: "report",
+    label: "Report",
   },
   {
     id: "options",
-    numeric: false,
     label: "Options",
   },
 ];
 
-const AffiliationTable = () => {
+const DeductionTable = () => {
   const [order, setOrder] = React.useState<Order>("asc");
   const [orderBy, setOrderBy] =
     React.useState<keyof IRowsPersonEmploymentTable>("campus");

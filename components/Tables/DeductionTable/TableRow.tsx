@@ -2,13 +2,15 @@ import React from "react";
 import TableCell from "@material-ui/core/TableCell";
 import { Box } from "@mui/material";
 import TableRow from "@material-ui/core/TableRow";
+
+//INTERFACES
+import { IRowsPersonEmploymentTable } from "./interfaces";
+
+//ICONS
 import EditableBlock from "../TablesComponents/EditableBlock";
 import { UseEditableTable } from "../../../hooks/UseEditableTable";
 import OptionsBlock from "../TablesComponents/OptionsBlock";
 import { IActiveRowObject } from "../TablesComponents/Interfaces/TableWrapperInterfaces";
-
-//INTERFACES
-import { IRowsPersonEmploymentTable } from "./interfaces";
 
 const dropArray = [
   {
@@ -25,19 +27,10 @@ const TableRowComponent: React.FC<{
   onAddSave: Function;
   onAddCancel: Function;
   activeRowObject: IActiveRowObject;
-  handleChangeAddedRow: (name: string, value: any) => void;
-}> = ({
-  row,
-  onDelete,
-  onAddSave,
-  onAddCancel,
-  activeRowObject,
-  handleChangeAddedRow,
-}) => {
+}> = ({ row, onDelete, onAddSave, onAddCancel, activeRowObject }) => {
   const { onCancel, onSave, changeRowState, summaryObject } = UseEditableTable({
     row,
     activeRowObject,
-    handleChangeAddedRow,
   });
 
   return (
@@ -48,119 +41,89 @@ const TableRowComponent: React.FC<{
           : {}
       }
     >
-      <TableCell component="th" scope="row" width={"300px"}>
+      <TableCell component="th" scope="row" width={"200px"}>
         <Box>
           {EditableBlock({
             ...summaryObject,
-            name: "campus",
-            type: "dropdown",
-            itemsArray: dropArray,
+            name: "date",
+            type: "date",
+            editable: true,
           })}
         </Box>
       </TableCell>
-      <TableCell component="th" scope="row" width={"300px"}>
+      <TableCell component="th" scope="row" width={"200px"}>
         {EditableBlock({
           ...summaryObject,
-          name: "superArea",
+          name: "type",
           type: "dropdown",
           itemsArray: dropArray,
         })}
-        <Box sx={{ mt: "20px" }}>
-          {EditableBlock({
-            ...summaryObject,
-            name: "area",
-            type: "dropdown",
-            itemsArray: dropArray,
-          })}
-        </Box>
+      </TableCell>
+      <TableCell component="th" scope="row" width={"150px"}>
+        {EditableBlock({
+          ...summaryObject,
+          name: "wages",
+        })}
       </TableCell>
       <TableCell width={"150px"}>
-        {EditableBlock({
-          ...summaryObject,
-          name: "turf",
-        })}
+        <EditableBlock {...summaryObject} name={"hours"} />
       </TableCell>
       <TableCell width={"100px"}>
+        <EditableBlock {...summaryObject} name={"deductions"} />
+      </TableCell>
+      <TableCell width={"120px"}>
         {EditableBlock({
           ...summaryObject,
-          name: "informationSource",
-          type: "dropdown",
-          itemsArray: dropArray,
+          name: "%",
         })}
       </TableCell>
-
-      <TableCell width={"100px"}>
+      <TableCell width={"200px"}>
         {EditableBlock({
           ...summaryObject,
-          name: "suppress",
-          type: "checkBox",
-          checkBox: {
-            textVariants: { trueVariant: "Yes", falseVariant: "No" },
-          },
-        })}
-      </TableCell>
-
-      <TableCell width={"100px"}>
-        {EditableBlock({
-          ...summaryObject,
-          name: "pi",
-          type: "checkBox",
-          checkBox: {
-            textVariants: { trueVariant: "Yes", falseVariant: "No" },
-          },
-        })}
-      </TableCell>
-
-      <TableCell width={"400px"}>
-        {EditableBlock({
-          ...summaryObject,
-          name: "comments",
-          multiline: 6,
-          title: "Comments",
-          width: 100,
+          name: "jobCode",
         })}
       </TableCell>
       <TableCell width={"230px"}>
         {EditableBlock({
           ...summaryObject,
-          name: "dfkv",
-          type: "date",
+          name: "report",
         })}
       </TableCell>
       <TableCell width={"230px"}>
-        {EditableBlock({
-          ...summaryObject,
-          name: "dlkv",
-          type: "date",
-        })}
-        {EditableBlock({ ...summaryObject, type: "validate" })}
+        {EditableBlock({ ...summaryObject, name: "transactions" })}
       </TableCell>
       <TableCell width={"220px"}>
         {EditableBlock({
           ...summaryObject,
-          name: "dmi",
-          type: "date",
-        })}
-
-        {EditableBlock({
-          ...summaryObject,
-          type: "invalidate",
+          name: "campus",
+          editable: true,
         })}
       </TableCell>
-
       <TableCell width={"130px"}>
         <OptionsBlock
+          editStateBoolean={summaryObject.rowState}
           onSave={() => {
-            summaryObject.rowState === "add" ? onAddSave() : onSave();
+            summaryObject.rowState === "add" && onAddSave();
+            onSave();
+            activeRowObject.handleRowState(
+              summaryObject.rowValues.id,
+              "default"
+            );
           }}
+          type={"buttons"}
           onCancel={() => {
             activeRowObject.activeRow.state === "add"
               ? onAddCancel()
               : onCancel();
+            activeRowObject.handleRowState(
+              summaryObject.rowValues.id,
+              "default"
+            );
           }}
           handleEditableState={changeRowState}
           onDelete={onDelete}
-          id={summaryObject.rowValues.id}
+          id={row.id}
+          validateState={summaryObject.rowValues.validateState}
           activeRowObject={activeRowObject}
         />
       </TableCell>

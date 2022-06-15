@@ -140,6 +140,8 @@ const CampusTable = () => {
         onDelete,
         onCancel,
         onSave,
+        activeRowObject,
+        handleChangeAddedRow,
       }) => (
         <>
           <EnhancedTableHead
@@ -158,6 +160,8 @@ const CampusTable = () => {
                   onDelete={onDelete}
                   onAddSave={onSave}
                   onAddCancel={onCancel}
+                  activeRowObject={activeRowObject}
+                  handleChangeAddedRow={handleChangeAddedRow}
                 />
               )
             )}
