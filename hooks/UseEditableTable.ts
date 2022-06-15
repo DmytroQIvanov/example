@@ -36,7 +36,6 @@ export const UseEditableTable = ({
 
   // SAVED ROW VALUES
   const [rowValues, setRowValues] = useState(row);
-
   // NOT SAVED ROW STATE
   const [editableRowValues, setEditableRowValues] = useState<typeof row>(row);
 
