@@ -20,7 +20,7 @@ import {
   RowData,
   HeaderCellData,
 } from "../../../../components/Table/Type";
-import AddressEditModal from "../../../../components/Table/RowCells/AddressEditModal";
+import AddressEditModal from "../../../../components/Tables/PersonHomeAddressTable/AddressEditModal";
 import TableData, { HeaderData } from "./Type";
 import useStyles from "../../../styles";
 
@@ -108,7 +108,7 @@ export default function EnhancedTable({
   const handleOnClickSort = (_order: Order, _orderBy: string) => {
     setOrder(_order);
     setOrderBy(_orderBy);
-    let newRows = rows.map(row => row)
+    let newRows = rows.map((row) => row);
     newRows = newRows.sort((a, b) => {
       if (a[_orderBy].value1 && b[_orderBy].value1) {
         if (_order == 0) {
@@ -135,7 +135,6 @@ export default function EnhancedTable({
   const handleOnClickFilter = (_filter: string, _filterBy: string) => {
     setFilter(_filter);
     setFilterBy(_filterBy);
-
   };
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {

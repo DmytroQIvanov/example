@@ -1,12 +1,12 @@
-import { Box } from '@mui/material';
-import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
-import TableCell from '@mui/material/TableCell';
-import TextField from '@mui/material/TextField';
-import * as React from 'react';
+import { Box } from "@mui/material";
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
+import TableCell from "@mui/material/TableCell";
+import TextField from "@mui/material/TextField";
+import * as React from "react";
 
-import useStyles from './styles';
-import { RowCellProps } from '../RowCell';
+import useStyles from "../../Tables/PersonHomeAddressTable/styles";
+import { RowCellProps } from "../RowCell";
 
 const RowCell1 = (props: RowCellProps) => {
   const classes = useStyles();
@@ -27,13 +27,14 @@ const RowCell1 = (props: RowCellProps) => {
             fullWidth
             rows={props.rows ? props.rows : 1}
           >
-            {props.options.value1 && props.options.value1.map((option) => {
-              return (
-                <MenuItem key={option} value={option}>
-                  {option}
-                </MenuItem>
-              );
-            })}
+            {props.options.value1 &&
+              props.options.value1.map((option) => {
+                return (
+                  <MenuItem key={option} value={option}>
+                    {option}
+                  </MenuItem>
+                );
+              })}
           </Select>
         );
       default:
@@ -58,7 +59,11 @@ const RowCell1 = (props: RowCellProps) => {
   return (
     <TableCell>
       <Box>
-        {props.isEditing ? <>{rowCell1Edit()}</> : <span className="table-cell-text">{props.data.value1}</span>}
+        {props.isEditing ? (
+          <>{rowCell1Edit()}</>
+        ) : (
+          <span className="table-cell-text">{props.data.value1}</span>
+        )}
       </Box>
     </TableCell>
   );

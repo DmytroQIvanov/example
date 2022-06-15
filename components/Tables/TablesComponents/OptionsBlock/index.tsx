@@ -32,6 +32,7 @@ interface optionsBlock {
   type?: "default" | "buttons";
   activeRowObject: IActiveRowObject;
   rowValues: any;
+  handleEditableState: any;
 }
 const Index: React.FC<optionsBlock> = ({
   onSave,
@@ -43,6 +44,7 @@ const Index: React.FC<optionsBlock> = ({
   type = "default",
   activeRowObject,
   rowValues,
+  handleEditableState,
 }) => {
   const [modal, setOpenModal] = useState(false);
 
@@ -145,6 +147,8 @@ const Index: React.FC<optionsBlock> = ({
                 onClick={() => {
                   activeRowObject.activeRow.state !== "default"
                     ? () => {}
+                    : handleEditableState
+                    ? handleEditableState()
                     : activeRowObject.handleRowState(
                         id,
                         activeRowObject.activeRow.state == "default"
