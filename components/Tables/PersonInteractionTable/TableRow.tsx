@@ -8,21 +8,26 @@ import { IRowsPersonEmploymentTable } from "./interfaces";
 import EditableBlock from "../TablesComponents/EditableBlock";
 import { UseEditableTable } from "../../../hooks/UseEditableTable";
 import OptionsBlock from "../TablesComponents/OptionsBlock";
-import {IActiveRowObject} from "../TablesComponents/Interfaces/TableWrapperInterfaces";
+import { IActiveRowObject } from "../TablesComponents/Interfaces/TableWrapperInterfaces";
+import { ITableRowComponent } from "../TablesComponents/Interfaces/ITableRowComponent";
 
-const TableRowComponent: React.FC<{
-  row: IRowsPersonEmploymentTable;
-  onDelete: (id: string | undefined) => void;
-  onAddSave: Function;
-  onAddCancel: Function;
-  activeRowObject: IActiveRowObject;
-  handleOpenPersonInteractionModal:()=>void;
-}> = ({ row, onDelete, onAddSave, onAddCancel, activeRowObject,handleOpenPersonInteractionModal }) => {
-  const { onCancel, onSave, changeRowState, summaryObject } = UseEditableTable({
+// handleOpenPersonInteractionModal: () => void;
+// handleOpenPersonInteractionModal,
+
+const TableRowComponent: React.FC<
+  ITableRowComponent<IRowsPersonEmploymentTable>
+> = ({
+  row,
+  onDelete,
+  onAddCancel,
+  activeRowObject,
+  onSaveWithProvidedState,
+  onChangeWithProvidedState,
+}) => {
+  const { onCancel, summaryObject } = UseEditableTable({
     row,
     activeRowObject,
   });
-
 
   return (
     <TableRow
@@ -47,12 +52,10 @@ const TableRowComponent: React.FC<{
       </TableCell>
 
       <TableCell width={"220px"}>
-
-      {EditableBlock({
-        ...summaryObject,
-        name: "response",
-      })}
-
+        {EditableBlock({
+          ...summaryObject,
+          name: "response",
+        })}
       </TableCell>
       <TableCell width={"230px"}>
         {EditableBlock({
@@ -90,24 +93,14 @@ const TableRowComponent: React.FC<{
 
       <TableCell width={"170px"}>
         <OptionsBlock
-            onSave={() => {
-            }}
-            onCancel={()=>{}}
-            addIcon
-
-            // onSave={() => {
-            //   activeRowObject.activeRow.state === "add" && onAddSave();
-            //   onSave();
-            // }}
-            {/*onCancel={() => {*/}
-            {/*  activeRowObject.activeRow.state === "add" && onAddCancel();*/}
-            {/*  onCancel();*/}
-            {/*}}*/}
-            onDelete={onDelete}
-            rowValues={summaryObject.rowValues}
-            documentElement
-            id={summaryObject.rowValues.id}
-            activeRowObject={activeRowObject}
+          addIcon
+          onSave={() => {}}
+          onCancel={() => {}}
+          onDelete={onDelete}
+          rowValues={summaryObject.rowValues}
+          id={summaryObject.rowValues.id}
+          activeRowObject={activeRowObject}
+          documentElement
         />
       </TableCell>
     </TableRow>

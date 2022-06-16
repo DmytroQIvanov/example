@@ -25,10 +25,13 @@ const Index: React.FC<ITableWrapperProps> = ({
     tableElements,
     onDelete,
     onChangeAddState,
-    onSave,
-    onCancel,
+    onAddSave,
+    onAddCancel,
     onSaveWithProvidedState,
     activeRowObject,
+    handleChangeMainStateEvent,
+    handleChangeMainState,
+    onChangeWithProvidedState,
   } = useTableWrapper(rows);
   const [buttonsListState, setButtonsListState] = useState(
     buttonsList !== undefined ? buttonsList : []
@@ -81,36 +84,40 @@ const Index: React.FC<ITableWrapperProps> = ({
     return (
       <TableHead>
         <TableRow>
-          {props.headCells.map((headCell: any) => (
-            <TableCell
-              key={headCell.label}
-              className="whitespace-nowrap"
-              sortDirection={orderBy === headCell.id ? order : false}
-              width={headCell.width && headCell.width}
-            >
-              <TableSortLabel
-                active={orderBy === headCell.id}
-                direction={orderBy === headCell.id ? order : "asc"}
-                onClick={createSortHandler(headCell.id)}
+          {props.headCells.map((headCell: any) => {
+            let sortingBy = headCell?.sortingBy || headCell.id;
+
+            return (
+              <TableCell
+                key={headCell.label}
+                className="whitespace-nowrap"
+                sortDirection={orderBy === headCell.id ? order : false}
+                width={headCell.width && headCell.width}
               >
-                <Box>
-                  {headCell.label}
-                  {headCell.secondLabel && (
-                    <>
-                      <br /> {headCell.secondLabel}
-                    </>
-                  )}
-                </Box>
-                {orderBy === headCell.id ? (
-                  <Box component="span" sx={visuallyHidden}>
-                    {order === "desc"
-                      ? "sorted descending"
-                      : "sorted ascending"}
+                <TableSortLabel
+                  active={orderBy === sortingBy}
+                  direction={orderBy === sortingBy ? order : "asc"}
+                  onClick={createSortHandler(sortingBy)}
+                >
+                  <Box>
+                    {headCell.label}
+                    {headCell.secondLabel && (
+                      <>
+                        <br /> {headCell.secondLabel}
+                      </>
+                    )}
                   </Box>
-                ) : null}
-              </TableSortLabel>
-            </TableCell>
-          ))}
+                  {orderBy === headCell.id ? (
+                    <Box component="span" sx={visuallyHidden}>
+                      {order === "desc"
+                        ? "sorted descending"
+                        : "sorted ascending"}
+                    </Box>
+                  ) : null}
+                </TableSortLabel>
+              </TableCell>
+            );
+          })}
         </TableRow>
       </TableHead>
     );
@@ -177,9 +184,12 @@ const Index: React.FC<ITableWrapperProps> = ({
               descendingComparator,
               tableElements,
               onDelete,
-              onSave,
-              onCancel,
+              onAddSave,
+              handleChangeMainStateEvent,
+              handleChangeMainState,
+              onAddCancel,
               onSaveWithProvidedState,
+              onChangeWithProvidedState,
               activeRowObject,
             })}
           </Table>

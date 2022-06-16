@@ -33,6 +33,7 @@ const headCells: readonly HeadCell<IColumnsPersonEmploymentTable>[] = [
   {
     id: "location",
     label: "Location",
+    sortingBy: "location1",
   },
   {
     id: "informationSource",
@@ -89,10 +90,12 @@ const Index = () => {
         stableSort,
         getComparator,
         tableElements,
-        onDelete,
-        onCancel,
-        onSave,
+        onSaveWithProvidedState,
+        onChangeWithProvidedState,
+        onAddSave,
+        onAddCancel,
         activeRowObject,
+        onDelete,
       }) => (
         <>
           <EnhancedTableHead
@@ -108,9 +111,11 @@ const Index = () => {
                 <TableRowComponent
                   row={row}
                   key={`${row.id}`}
+                  onChangeWithProvidedState={onChangeWithProvidedState}
+                  onSaveWithProvidedState={onSaveWithProvidedState}
                   onDelete={onDelete}
-                  onAddSave={onSave}
-                  onAddCancel={onCancel}
+                  onAddSave={onAddSave}
+                  onAddCancel={onAddCancel}
                   activeRowObject={activeRowObject}
                 />
               )

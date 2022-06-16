@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   IActiveRow,
   RowStateTypes,
@@ -34,18 +34,71 @@ export const useTableWrapper = (rows: any[]) => {
     setTableElements(rows);
   }, [rows]);
 
-  const onSave = () => {
+  // HANDLE CHANGE EDITABLE ROW VALUES (EVENT IN PROPS)
+  const handleChangeMainStateEvent = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ): void => {
+    if (activeRow.number) {
+      const { name, value } = event.target;
+
+      const result = temporallyTableElements.find(
+        (elem) => elem.id === activeRow.number
+      );
+      result[name] = value;
+      setTemporallyTableElements((prevState: any) => {
+        const newArray = prevState.filter(
+          (elem) => elem.id !== activeRow.number
+        );
+        return [...newArray, result];
+      });
+    }
+    console.log(temporallyTableElements);
+  };
+
+  // HANDLE CHANGE EDITABLE ROW VALUES (NAME && TEXT IN PROPS)
+  const handleChangeMainState = (
+    name: string,
+    value: string | number | boolean | Date
+  ) => {
+    if (activeRow.number) {
+      const result = temporallyTableElements.find(
+        (elem) => elem.id === activeRow.number
+      );
+      result[name] = value;
+
+      setTemporallyTableElements((prevState: any) => {
+        const newArray = prevState.filter(
+          (elem) => elem.id !== activeRow.number
+        );
+        // const newArray = prevState.map((elem) =>
+        //   elem.filter((elem) => elem.id !== activeRow.number)
+        // );
+        return [...newArray, result];
+      });
+    }
+    console.log(temporallyTableElements);
+  };
+
+  const onAddSave = () => {
     setTableElements(temporallyTableElements);
     setAlreadyAdded(false);
     handleRowState(null, "default");
   };
+
   const onSaveWithProvidedState = (state: any) => {
     setTableElements((prevState) => [
       ...prevState,
-      { ...state, id: prevState.length + 1 },
+      { ...state, id: Math.floor(Math.random() * (10000 - 1 + 1) + 1) },
     ]);
+    console.log(tableElements);
   };
-  const onCancel = (id: string | undefined) => {
+  const onChangeWithProvidedState = (state: any) => {
+    setTableElements((prevState) => {
+      const result = prevState.filter((elem) => elem.id !== activeRow.number);
+      return [...result, state];
+    });
+  };
+  const onAddCancel = (id: string | undefined) => {
     setAlreadyAdded(false);
     setTemporallyTableElements(tableElements);
     setTableElements(tableElements.filter((elem) => elem.id !== id));
@@ -60,12 +113,15 @@ export const useTableWrapper = (rows: any[]) => {
   };
   return {
     onSaveWithProvidedState,
-    onSave,
-    onCancel,
+    onChangeWithProvidedState,
+    onAddSave,
+    onAddCancel,
     tableElements:
       activeRow.state == "add" ? temporallyTableElements : tableElements,
     onChangeAddState,
     onDelete,
+    handleChangeMainStateEvent,
+    handleChangeMainState,
     activeRowObject: {
       activeRow,
       handleRowState,

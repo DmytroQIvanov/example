@@ -1,4 +1,4 @@
-import React, { CSSProperties } from "react";
+import React, { CSSProperties, useEffect } from "react";
 import {
   Autocomplete,
   Box,
@@ -117,6 +117,12 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
     "dmi",
   ];
 
+  useEffect(() => {
+    if (!rowValues[name]) {
+      handleChange(name, "");
+    }
+  }, []);
+
   let disabledState = false;
   if (rowState === "change" && !availableStateBoolean)
     disabledState = disableEditableArray.includes(name);
@@ -178,8 +184,8 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
         return (
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <DatePicker
-              label="Basic example"
-              value={rowValues[name]}
+              // label="Basic example"
+              value={rowValues[name] || "11/11/2011"}
               disabled={disabledState}
               onChange={(newValue) => {
                 const month = newValue.getUTCMonth() + 1;

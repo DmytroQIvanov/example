@@ -9,15 +9,19 @@ import EditableBlock from "../TablesComponents/EditableBlock";
 import { UseEditableTable } from "../../../hooks/UseEditableTable";
 import OptionsBlock from "../TablesComponents/OptionsBlock";
 import { IActiveRowObject } from "../TablesComponents/Interfaces/TableWrapperInterfaces";
+import { ITableRowComponent } from "../TablesComponents/Interfaces/ITableRowComponent";
 
-const TableRowComponent: React.FC<{
-  row: IRowsPersonEmploymentTable;
-  onDelete: (id: string | undefined) => void;
-  onAddSave: Function;
-  onAddCancel: Function;
-  activeRowObject: IActiveRowObject;
-}> = ({ row, onDelete, onAddSave, onAddCancel, activeRowObject }) => {
-  const { onCancel, onSave, changeRowState, summaryObject } = UseEditableTable({
+const TableRowComponent: React.FC<
+  ITableRowComponent<IRowsPersonEmploymentTable>
+> = ({
+  row,
+  onDelete,
+  onAddCancel,
+  activeRowObject,
+  onSaveWithProvidedState,
+  onChangeWithProvidedState,
+}) => {
+  const { onCancel, summaryObject } = UseEditableTable({
     row,
     activeRowObject,
   });
@@ -120,8 +124,13 @@ const TableRowComponent: React.FC<{
       <TableCell width={"130px"}>
         <OptionsBlock
           onSave={() => {
-            activeRowObject.activeRow.state === "add" && onAddSave();
-            onSave();
+            if (activeRowObject.activeRow.state === "add") {
+              onAddCancel();
+              onSaveWithProvidedState(summaryObject.rowValues);
+            } else {
+              onChangeWithProvidedState(summaryObject.rowValues);
+            }
+            onCancel();
           }}
           onCancel={() => {
             activeRowObject.activeRow.state === "add" && onAddCancel();

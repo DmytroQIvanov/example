@@ -150,7 +150,6 @@ const PersonEmploymentTable = () => {
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
   };
-  const [tableElements, setTableElements] = useState(rows);
 
   return (
     <TableWrapper rows={rows}>
@@ -159,10 +158,12 @@ const PersonEmploymentTable = () => {
         stableSort,
         getComparator,
         tableElements,
-        onDelete,
-        onCancel,
-        onSave,
+        onSaveWithProvidedState,
+        onChangeWithProvidedState,
+        onAddSave,
+        onAddCancel,
         activeRowObject,
+        onDelete,
       }) => (
         <>
           <EnhancedTableHead
@@ -172,14 +173,17 @@ const PersonEmploymentTable = () => {
             headCells={headCells}
           />
           <TableBody>
+            {/*@ts-ignore*/}
             {stableSort(tableElements, getComparator(order, orderBy)).map(
               (row: IRowsPersonEmploymentTable) => (
                 <TableRowComponent
                   row={row}
                   key={`${row.id}`}
+                  onChangeWithProvidedState={onChangeWithProvidedState}
+                  onSaveWithProvidedState={onSaveWithProvidedState}
                   onDelete={onDelete}
-                  onAddSave={onSave}
-                  onAddCancel={onCancel}
+                  onAddSave={onAddSave}
+                  onAddCancel={onAddCancel}
                   activeRowObject={activeRowObject}
                 />
               )
