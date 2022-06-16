@@ -91,6 +91,12 @@ export const useTableWrapper = (rows: any[]) => {
       { ...state, id: prevState.length + 1 },
     ]);
   };
+  const onChangeWithProvidedState = (state: any) => {
+    setTableElements((prevState) => {
+      const result = prevState.filter((elem) => elem.id !== activeRow.number);
+      return [...result, state];
+    });
+  };
   const onAddCancel = (id: string | undefined) => {
     setAlreadyAdded(false);
     setTemporallyTableElements(tableElements);
@@ -106,6 +112,7 @@ export const useTableWrapper = (rows: any[]) => {
   };
   return {
     onSaveWithProvidedState,
+    onChangeWithProvidedState,
     onAddSave,
     onAddCancel,
     tableElements:

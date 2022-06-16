@@ -31,6 +31,7 @@ const Index: React.FC<ITableWrapperProps> = ({
     activeRowObject,
     handleChangeMainStateEvent,
     handleChangeMainState,
+    onChangeWithProvidedState,
   } = useTableWrapper(rows);
   const [buttonsListState, setButtonsListState] = useState(
     buttonsList !== undefined ? buttonsList : []
@@ -91,8 +92,12 @@ const Index: React.FC<ITableWrapperProps> = ({
               width={headCell.width && headCell.width}
             >
               <TableSortLabel
-                active={orderBy === headCell.id}
-                direction={orderBy === headCell.id ? order : "asc"}
+                active={orderBy === (headCell?.sortingBy || headCell.id)}
+                direction={
+                  orderBy === (headCell?.sortingBy || headCell.id)
+                    ? order
+                    : "asc"
+                }
                 onClick={createSortHandler(headCell?.sortingBy || headCell.id)}
               >
                 <Box>
@@ -184,6 +189,7 @@ const Index: React.FC<ITableWrapperProps> = ({
               handleChangeMainState,
               onAddCancel,
               onSaveWithProvidedState,
+              onChangeWithProvidedState,
               activeRowObject,
             })}
           </Table>
