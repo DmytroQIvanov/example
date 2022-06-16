@@ -93,7 +93,7 @@ const Index: React.FC<ITableWrapperProps> = ({
               <TableSortLabel
                 active={orderBy === headCell.id}
                 direction={orderBy === headCell.id ? order : "asc"}
-                onClick={createSortHandler(headCell.id)}
+                onClick={createSortHandler(headCell?.sortingBy || headCell.id)}
               >
                 <Box>
                   {headCell.label}

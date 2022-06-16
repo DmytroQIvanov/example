@@ -4,4 +4,5 @@ export interface HeadCell<IColumns> {
   secondLabel?: string;
   numeric?: boolean;
   width?: string;
+  sortingBy?: string;
 }

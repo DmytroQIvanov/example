@@ -7,6 +7,7 @@ import {
   IColumnsPersonEmploymentTable,
 } from "./interfaces";
 import TableRowComponent from "./TableRow";
+import { HeadCell } from "../TablesComponents/Interfaces/HeadCell";
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -46,15 +47,22 @@ const rows: IRowsPersonEmploymentTable[] = [
     dlkv: "string1",
     dmi: "02/03/2013",
   },
+  {
+    id: "2",
+    campus: "RSiwerside",
+    organization1: "Deparadtament",
+    organization2: "sMolecular and Cellular Biology",
+    informationSource: "Rued",
+    primary: false,
+    comments:
+      "Lorem ipsum amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+    dfkv: "04/12/2031",
+    dlkv: "string12",
+    dmi: "02/03/2012",
+  },
 ];
 
-interface HeadCell {
-  id: keyof IColumnsPersonEmploymentTable;
-  label: string;
-  numeric: boolean;
-  width?: string;
-}
-const headCells: readonly HeadCell[] = [
+const headCells: readonly HeadCell<IColumnsPersonEmploymentTable>[] = [
   {
     id: "campus",
     numeric: true,
@@ -64,6 +72,7 @@ const headCells: readonly HeadCell[] = [
     id: "organization",
     numeric: false,
     label: "Organization",
+    sortingBy: "organization1",
   },
   {
     id: "informationSource",
