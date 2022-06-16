@@ -29,6 +29,7 @@ const TableRowComponent: React.FC<{
   handleChangeMainStateEvent: any;
   handleChangeMainState: any;
   activeRowObject: IActiveRowObject;
+  onSaveWithProvidedState: (state: any) => void;
 }> = ({
   row,
   onDelete,
@@ -37,6 +38,7 @@ const TableRowComponent: React.FC<{
   activeRowObject,
   handleChangeMainStateEvent,
   handleChangeMainState,
+  onSaveWithProvidedState,
 }) => {
   const { onCancel, onSave, changeRowState, summaryObject } = UseEditableTable({
     row,
@@ -140,8 +142,13 @@ const TableRowComponent: React.FC<{
       <TableCell width={"130px"}>
         <OptionsBlock
           onSave={() => {
-            activeRowObject.activeRow.state === "add" && onAddSave();
-            onSave();
+            if (activeRowObject.activeRow.state === "add") {
+              // onAddSave();
+              onCancel();
+              onSaveWithProvidedState(summaryObject.rowValues);
+            } else {
+              onSave();
+            }
           }}
           onCancel={() => {
             activeRowObject.activeRow.state === "add" && onAddCancel();

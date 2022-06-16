@@ -173,17 +173,19 @@ export const UseEditableTable = ({
         activeRowObject.activeRow.state !== "default"
           ? editableRowValues
           : rowValues,
-      handleChange:
-        activeRowObject.activeRow.number === rowValues.id &&
-        activeRowObject.activeRow.state === "add"
-          ? handleChangeMainState
-          : handleChange,
-
-      handleChangeEvent:
-        activeRowObject.activeRow.number === rowValues.id &&
-        activeRowObject.activeRow.state === "add"
-          ? handleChangeMainStateEvent
-          : handleChangeEvent,
+      // handleChange:
+      //   activeRowObject.activeRow.number === rowValues.id &&
+      //   activeRowObject.activeRow.state === "add"
+      //     ? handleChangeMainState
+      //     : handleChange,
+      //
+      // handleChangeEvent:
+      //   activeRowObject.activeRow.number === rowValues.id &&
+      //   activeRowObject.activeRow.state === "add"
+      //     ? handleChangeMainStateEvent
+      //     : handleChangeEvent,
+      handleChange,
+      handleChangeEvent,
       rowState,
       changeRowState,
       validateState,
