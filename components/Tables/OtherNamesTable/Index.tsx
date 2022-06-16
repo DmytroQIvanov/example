@@ -43,6 +43,7 @@ const headCells: readonly HeadCell<IColumnsPersonEmploymentTable>[] = [
   {
     id: "nameSource",
     label: "Name Source",
+    sortingBy: "nameSourceType",
   },
   {
     id: "firstName",
