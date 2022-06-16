@@ -90,6 +90,7 @@ export const useTableWrapper = (rows: any[]) => {
       ...prevState,
       { ...state, id: prevState.length + 1 },
     ]);
+    console.log(tableElements);
   };
   const onChangeWithProvidedState = (state: any) => {
     setTableElements((prevState) => {

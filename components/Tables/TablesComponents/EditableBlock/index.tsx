@@ -1,4 +1,4 @@
-import React, { CSSProperties } from "react";
+import React, { CSSProperties, useEffect } from "react";
 import {
   Autocomplete,
   Box,
@@ -116,6 +116,12 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
     "date",
     "dmi",
   ];
+
+  useEffect(() => {
+    if (!rowValues[name]) {
+      handleChange(name, "");
+    }
+  }, []);
 
   let disabledState = false;
   if (rowState === "change" && !availableStateBoolean)

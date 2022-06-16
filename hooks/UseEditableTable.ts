@@ -35,7 +35,6 @@ export const UseEditableTable = ({
   handleChangeMainStateEvent: any;
   handleChangeMainState: any;
 }): IUseEditableTableReturns => {
-  console.log(handleChangeMainStateEvent, handleChangeMainState);
   // ---STATES---
 
   // SAVED ROW VALUES

@@ -42,12 +42,13 @@ const TableRowComponent: React.FC<{
   onSaveWithProvidedState,
   onChangeWithProvidedState,
 }) => {
-  const { onCancel, onSave, changeRowState, summaryObject } = UseEditableTable({
-    row,
-    activeRowObject,
-    handleChangeMainStateEvent,
-    handleChangeMainState,
-  });
+  const { onCancel, onSave, changeRowState, summaryObject } =
+    UseEditableTable<IRowsPersonEmploymentTable>({
+      row,
+      activeRowObject,
+      handleChangeMainStateEvent,
+      handleChangeMainState,
+    });
 
   return (
     <TableRow
@@ -86,25 +87,23 @@ const TableRowComponent: React.FC<{
         </Box>
       </TableCell>
       <TableCell width={"150px"}>
-        <EditableBlock
-          {...summaryObject}
-          name={"informationSource"}
-          type="dropdown"
-          itemsArray={dropArray}
-        />
+        {EditableBlock({
+          ...summaryObject,
+          name: "informationSource",
+          type: "dropdown",
+          itemsArray: dropArray,
+        })}
       </TableCell>
       <TableCell width={"100px"}>
-        <EditableBlock
-          {...summaryObject}
-          {...{
-            name: "primary",
-            type: "checkBox",
-            checkBox: {
-              type: "green",
-              textVariants: { trueVariant: "YES", falseVariant: "NO" },
-            },
-          }}
-        />
+        {EditableBlock({
+          ...summaryObject,
+          name: "primary",
+          type: "checkBox",
+          checkBox: {
+            type: "green",
+            textVariants: { trueVariant: "YES", falseVariant: "NO" },
+          },
+        })}
       </TableCell>
       <TableCell width={"400px"}>
         {EditableBlock({
@@ -146,6 +145,8 @@ const TableRowComponent: React.FC<{
           onSave={() => {
             if (activeRowObject.activeRow.state === "add") {
               // onAddSave();
+              onAddCancel();
+
               onCancel();
               onSaveWithProvidedState(summaryObject.rowValues);
             } else {

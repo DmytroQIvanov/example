@@ -72,7 +72,7 @@ const headCells: readonly HeadCell<IColumnsPersonEmploymentTable>[] = [
     id: "organization",
     numeric: false,
     label: "Organization",
-    sortingBy: "organization1",
+    sortingBy: ["organization1", "organization2"],
   },
   {
     id: "informationSource",
@@ -140,6 +140,7 @@ const AffiliationTable = () => {
             orderBy={orderBy}
             onRequestSort={handleRequestSort}
             headCells={headCells}
+            tableElements={tableElements}
           />
           <TableBody>
             {/*@ts-ignore*/}
