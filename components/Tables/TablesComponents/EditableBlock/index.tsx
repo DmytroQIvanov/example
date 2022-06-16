@@ -184,8 +184,8 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
         return (
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <DatePicker
-              label="Basic example"
-              value={rowValues[name]}
+              // label="Basic example"
+              value={rowValues[name] || "11/11/2011"}
               disabled={disabledState}
               onChange={(newValue) => {
                 const month = newValue.getUTCMonth() + 1;
