@@ -123,10 +123,7 @@ const AffiliationTable = () => {
         stableSort,
         getComparator,
         tableElements,
-        onDelete,
-        onCancel,
-        onSave,
-        activeRowObject,
+        ...tableRowObject
       }) => (
         <>
           <EnhancedTableHead
@@ -142,10 +139,7 @@ const AffiliationTable = () => {
                 <TableRowComponent
                   row={row}
                   key={`${row.id}`}
-                  onDelete={onDelete}
-                  onAddSave={onSave}
-                  onAddCancel={onCancel}
-                  activeRowObject={activeRowObject}
+                  {...tableRowObject}
                 />
               )
             )}

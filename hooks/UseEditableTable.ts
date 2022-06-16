@@ -27,10 +27,15 @@ interface IUseEditableTableReturns {
 export const UseEditableTable = ({
   activeRowObject,
   row,
+  handleChangeMainStateEvent,
+  handleChangeMainState,
 }: {
   activeRowObject: IActiveRowObject;
   row?: any;
+  handleChangeMainStateEvent: any;
+  handleChangeMainState: any;
 }): IUseEditableTableReturns => {
+  console.log(handleChangeMainStateEvent, handleChangeMainState);
   // ---STATES---
 
   // SAVED ROW VALUES
@@ -168,10 +173,19 @@ export const UseEditableTable = ({
         activeRowObject.activeRow.state !== "default"
           ? editableRowValues
           : rowValues,
-      handleChange,
+      handleChange:
+        activeRowObject.activeRow.number === rowValues.id &&
+        activeRowObject.activeRow.state === "add"
+          ? handleChangeMainState
+          : handleChange,
+
+      handleChangeEvent:
+        activeRowObject.activeRow.number === rowValues.id &&
+        activeRowObject.activeRow.state === "add"
+          ? handleChangeMainStateEvent
+          : handleChangeEvent,
       rowState,
       changeRowState,
-      handleChangeEvent,
       validateState,
       changeValidateState,
       saveWithProvidedState,

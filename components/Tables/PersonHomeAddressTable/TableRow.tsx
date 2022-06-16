@@ -61,18 +61,15 @@ const TableRowComponent: React.FC<{
           <span>{summaryObject.rowValues["country"]} </span>
         </Box>
       </TableCell>
-
       <TableCell component="th" scope="row" width={"200px"}>
         <Box sx={{ mr: "2px", display: "flex", gap: "2px" }}></Box>
       </TableCell>
-
       <TableCell component="th" scope="row" width={"200px"}>
         {
           summaryObject.rowValues["information_source_type"]
             ?.informationsourcetype
         }
       </TableCell>
-
       <TableCell component="th" scope="row" width={"340px"}>
         {summaryObject.rowValues["comments"]}
       </TableCell>
@@ -82,7 +79,6 @@ const TableRowComponent: React.FC<{
           name: "datefirstknownvalid",
         })}
       </TableCell>
-
       <TableCell width={"220px"}>
         {EditableBlock({
           ...summaryObject,
@@ -103,7 +99,6 @@ const TableRowComponent: React.FC<{
           type: "invalidate",
         })}
       </TableCell>
-
       <TableCell width={"130px"}>
         <OptionsBlock
           onSave={() => {

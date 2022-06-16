@@ -32,7 +32,7 @@ interface optionsBlock {
   type?: "default" | "buttons";
   activeRowObject: IActiveRowObject;
   rowValues: any;
-  handleEditableState: any;
+  handleEditableState?: any;
 }
 const Index: React.FC<optionsBlock> = ({
   onSave,

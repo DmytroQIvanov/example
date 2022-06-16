@@ -24,6 +24,19 @@ const rows: IRowsPersonEmploymentTable[] = [
     dlkv: "01/01/2022",
     dmi: "01/01/2022",
   },
+  {
+    id: "2",
+    nameSourceType: "sDepartament Directory",
+    nameSourceSubType: "4W298167",
+    firstName: "Christop5425fer",
+    middleNames: "Kennetch47",
+    lastName: "Sugasreedad",
+    nickName: "ssss",
+    suffix: "smth555",
+    dfkv: "01/01/2041",
+    dlkv: "01/01/2012",
+    dmi: "01/01/2022",
+  },
 ];
 
 const headCells: readonly HeadCell<IColumnsPersonEmploymentTable>[] = [

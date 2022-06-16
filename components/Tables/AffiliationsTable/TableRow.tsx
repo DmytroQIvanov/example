@@ -26,11 +26,23 @@ const TableRowComponent: React.FC<{
   onDelete: (id: string | undefined) => void;
   onAddSave: Function;
   onAddCancel: Function;
+  handleChangeMainStateEvent: any;
+  handleChangeMainState: any;
   activeRowObject: IActiveRowObject;
-}> = ({ row, onDelete, onAddSave, onAddCancel, activeRowObject }) => {
+}> = ({
+  row,
+  onDelete,
+  onAddSave,
+  onAddCancel,
+  activeRowObject,
+  handleChangeMainStateEvent,
+  handleChangeMainState,
+}) => {
   const { onCancel, onSave, changeRowState, summaryObject } = UseEditableTable({
     row,
     activeRowObject,
+    handleChangeMainStateEvent,
+    handleChangeMainState,
   });
 
   return (

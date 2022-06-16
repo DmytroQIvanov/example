@@ -25,10 +25,12 @@ const Index: React.FC<ITableWrapperProps> = ({
     tableElements,
     onDelete,
     onChangeAddState,
-    onSave,
-    onCancel,
+    onAddSave,
+    onAddCancel,
     onSaveWithProvidedState,
     activeRowObject,
+    handleChangeMainStateEvent,
+    handleChangeMainState,
   } = useTableWrapper(rows);
   const [buttonsListState, setButtonsListState] = useState(
     buttonsList !== undefined ? buttonsList : []
@@ -177,8 +179,10 @@ const Index: React.FC<ITableWrapperProps> = ({
               descendingComparator,
               tableElements,
               onDelete,
-              onSave,
-              onCancel,
+              onAddSave,
+              handleChangeMainStateEvent,
+              handleChangeMainState,
+              onAddCancel,
               onSaveWithProvidedState,
               activeRowObject,
             })}
