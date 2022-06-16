@@ -75,7 +75,7 @@ const Index: React.FC<ITableWrapperProps> = ({
 
   //TABLE HEAD
   function EnhancedTableHead(props: any) {
-    const { order, orderBy, onRequestSort, tableElements } = props;
+    const { order, orderBy, onRequestSort } = props;
     const createSortHandler =
       (property: any) => (event: React.MouseEvent<unknown>) => {
         onRequestSort(event, property);
@@ -84,20 +84,8 @@ const Index: React.FC<ITableWrapperProps> = ({
     return (
       <TableHead>
         <TableRow>
-          {props.headCells.map((headCell: any, index: number) => {
-            let sortingBy =
-              (headCell?.sortingBy && headCell?.sortingBy[0]) || headCell.id;
-            // if (headCell?.sortingBy != undefined) {
-            //   for (let i = 0; i <= headCell.sortingBy.length - 1; i++) {
-            //     if (tableElements[index][headCell.sortingBy[i]] != null) {
-            //       sortingBy = headCell.sortingBy[i];
-            //       i = headCell.sortingBy.length - 1;
-            //       break;
-            //     }
-            //   }
-            // } else {
-            //   sortingBy = headCell.id;
-            // }
+          {props.headCells.map((headCell: any) => {
+            let sortingBy = headCell?.sortingBy || headCell.id;
 
             return (
               <TableCell

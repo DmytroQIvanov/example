@@ -9,15 +9,19 @@ import { IRowsPersonEmploymentTable } from "./interfaces";
 import EditableBlock from "../TablesComponents/EditableBlock";
 import { UseEditableTable } from "../../../hooks/UseEditableTable";
 import { IActiveRowObject } from "../TablesComponents/Interfaces/TableWrapperInterfaces";
+import { ITableRowComponent } from "../TablesComponents/Interfaces/ITableRowComponent";
 
-const TableRowComponent: React.FC<{
-  row: IRowsPersonEmploymentTable;
-  onDelete: (id: string | undefined) => void;
-  onAddSave: Function;
-  onAddCancel: Function;
-  activeRowObject: IActiveRowObject;
-}> = ({ row, onDelete, onAddSave, onAddCancel, activeRowObject }) => {
-  const { onCancel, onSave, changeRowState, summaryObject } = UseEditableTable({
+const TableRowComponent: React.FC<
+  ITableRowComponent<IRowsPersonEmploymentTable>
+> = ({
+  row,
+  onDelete,
+  onAddCancel,
+  activeRowObject,
+  onSaveWithProvidedState,
+  onChangeWithProvidedState,
+}) => {
+  const { onCancel, summaryObject } = UseEditableTable({
     row,
     activeRowObject,
   });

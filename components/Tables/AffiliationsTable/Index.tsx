@@ -72,7 +72,7 @@ const headCells: readonly HeadCell<IColumnsPersonEmploymentTable>[] = [
     id: "organization",
     numeric: false,
     label: "Organization",
-    sortingBy: ["organization1", "organization2"],
+    sortingBy: "organization1",
   },
   {
     id: "informationSource",
@@ -132,7 +132,12 @@ const AffiliationTable = () => {
         stableSort,
         getComparator,
         tableElements,
-        ...tableRowObject
+        onSaveWithProvidedState,
+        onChangeWithProvidedState,
+        onAddSave,
+        onAddCancel,
+        activeRowObject,
+        onDelete,
       }) => (
         <>
           <EnhancedTableHead
@@ -140,7 +145,6 @@ const AffiliationTable = () => {
             orderBy={orderBy}
             onRequestSort={handleRequestSort}
             headCells={headCells}
-            tableElements={tableElements}
           />
           <TableBody>
             {/*@ts-ignore*/}
@@ -149,7 +153,12 @@ const AffiliationTable = () => {
                 <TableRowComponent
                   row={row}
                   key={`${row.id}`}
-                  {...tableRowObject}
+                  onChangeWithProvidedState={onChangeWithProvidedState}
+                  onSaveWithProvidedState={onSaveWithProvidedState}
+                  onDelete={onDelete}
+                  onAddSave={onAddSave}
+                  onAddCancel={onAddCancel}
+                  activeRowObject={activeRowObject}
                 />
               )
             )}

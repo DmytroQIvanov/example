@@ -75,6 +75,7 @@ const headCells: readonly HeadCell<IColumnsPersonEmploymentTable>[] = [
     id: "superAreaArea",
     label: "Super Area",
     secondLabel: "Area",
+    sortingBy: "superArea",
   },
   {
     id: "turf",
@@ -137,10 +138,12 @@ const CampusTable = () => {
         stableSort,
         getComparator,
         tableElements,
-        onDelete,
-        onCancel,
-        onSave,
+        onSaveWithProvidedState,
+        onChangeWithProvidedState,
+        onAddSave,
+        onAddCancel,
         activeRowObject,
+        onDelete,
       }) => (
         <>
           <EnhancedTableHead
@@ -156,9 +159,11 @@ const CampusTable = () => {
                 <TableRowComponent
                   row={row}
                   key={`${row.id}`}
+                  onChangeWithProvidedState={onChangeWithProvidedState}
+                  onSaveWithProvidedState={onSaveWithProvidedState}
                   onDelete={onDelete}
-                  onAddSave={onSave}
-                  onAddCancel={onCancel}
+                  onAddSave={onAddSave}
+                  onAddCancel={onAddCancel}
                   activeRowObject={activeRowObject}
                 />
               )

@@ -27,13 +27,9 @@ interface IUseEditableTableReturns {
 export const UseEditableTable = ({
   activeRowObject,
   row,
-  handleChangeMainStateEvent,
-  handleChangeMainState,
 }: {
   activeRowObject: IActiveRowObject;
   row?: any;
-  handleChangeMainStateEvent: any;
-  handleChangeMainState: any;
 }): IUseEditableTableReturns => {
   // ---STATES---
 

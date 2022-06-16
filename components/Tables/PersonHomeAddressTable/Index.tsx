@@ -15,6 +15,7 @@ const headCells: readonly HeadCell<IColumnsPersonEmploymentTable>[] = [
   {
     id: "homeAddress",
     label: "Home Address",
+    sortingBy: "streetnumber",
   },
   {
     id: "locationAccuracy",
@@ -24,6 +25,7 @@ const headCells: readonly HeadCell<IColumnsPersonEmploymentTable>[] = [
   {
     id: "source",
     label: "Source",
+    sortingBy: "information_source_type",
   },
   {
     id: "comments",
@@ -33,14 +35,17 @@ const headCells: readonly HeadCell<IColumnsPersonEmploymentTable>[] = [
   {
     id: "dfkv",
     label: "DFKV",
+    sortingBy: "datefirstknownvalid",
   },
   {
     id: "dlkv",
     label: "DLKV",
+    sortingBy: "datelastknownvalid",
   },
   {
     id: "marketInvalid",
     label: "Market Invalid",
+    sortingBy: "datemarkedinvalid",
   },
   {
     id: "options",
@@ -82,11 +87,12 @@ const Index: React.FC<{ tableData: IRowsPersonEmploymentTable[] }> = ({
         stableSort,
         getComparator,
         tableElements,
-        onDelete,
-        onCancel,
-        onSave,
         onSaveWithProvidedState,
+        onChangeWithProvidedState,
+        onAddSave,
+        onAddCancel,
         activeRowObject,
+        onDelete,
       }) => (
         <>
           <EnhancedTableHead
@@ -102,10 +108,11 @@ const Index: React.FC<{ tableData: IRowsPersonEmploymentTable[] }> = ({
                 <TableRowComponent
                   row={row}
                   key={`${row.id}`}
-                  onDelete={onDelete}
-                  onAddSave={onSave}
-                  onAddCancel={onCancel}
+                  onChangeWithProvidedState={onChangeWithProvidedState}
                   onSaveWithProvidedState={onSaveWithProvidedState}
+                  onDelete={onDelete}
+                  onAddSave={onAddSave}
+                  onAddCancel={onAddCancel}
                   activeRowObject={activeRowObject}
                 />
               )

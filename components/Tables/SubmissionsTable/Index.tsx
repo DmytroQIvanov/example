@@ -74,10 +74,12 @@ const Index = () => {
         stableSort,
         getComparator,
         tableElements,
-        onDelete,
-        onCancel,
-        onSave,
+        onSaveWithProvidedState,
+        onChangeWithProvidedState,
+        onAddSave,
+        onAddCancel,
         activeRowObject,
+        onDelete,
       }) => (
         <>
           <EnhancedTableHead
@@ -93,9 +95,11 @@ const Index = () => {
                 <TableRowComponent
                   row={row}
                   key={`${row.id}`}
+                  onChangeWithProvidedState={onChangeWithProvidedState}
+                  onSaveWithProvidedState={onSaveWithProvidedState}
                   onDelete={onDelete}
-                  onAddSave={onSave}
-                  onAddCancel={onCancel}
+                  onAddSave={onAddSave}
+                  onAddCancel={onAddCancel}
                   activeRowObject={activeRowObject}
                 />
               )

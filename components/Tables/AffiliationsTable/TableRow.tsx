@@ -10,7 +10,7 @@ import { IRowsPersonEmploymentTable } from "./interfaces";
 import EditableBlock from "../TablesComponents/EditableBlock";
 import { UseEditableTable } from "../../../hooks/UseEditableTable";
 import OptionsBlock from "../TablesComponents/OptionsBlock";
-import { IActiveRowObject } from "../TablesComponents/Interfaces/TableWrapperInterfaces";
+import { ITableRowComponent } from "../TablesComponents/Interfaces/ITableRowComponent";
 
 const dropArray = [
   {
@@ -21,34 +21,20 @@ const dropArray = [
   },
 ];
 
-const TableRowComponent: React.FC<{
-  row: IRowsPersonEmploymentTable;
-  onDelete: (id: string | undefined) => void;
-  onAddSave: Function;
-  onAddCancel: Function;
-  handleChangeMainStateEvent: any;
-  handleChangeMainState: any;
-  activeRowObject: IActiveRowObject;
-  onSaveWithProvidedState: (state: any) => void;
-  onChangeWithProvidedState: (state: any) => void;
-}> = ({
+const TableRowComponent: React.FC<
+  ITableRowComponent<IRowsPersonEmploymentTable>
+> = ({
   row,
   onDelete,
-  onAddSave,
   onAddCancel,
   activeRowObject,
-  handleChangeMainStateEvent,
-  handleChangeMainState,
   onSaveWithProvidedState,
   onChangeWithProvidedState,
 }) => {
-  const { onCancel, onSave, changeRowState, summaryObject } =
-    UseEditableTable<IRowsPersonEmploymentTable>({
-      row,
-      activeRowObject,
-      handleChangeMainStateEvent,
-      handleChangeMainState,
-    });
+  const { onCancel, summaryObject } = UseEditableTable({
+    row,
+    activeRowObject,
+  });
 
   return (
     <TableRow
@@ -144,16 +130,12 @@ const TableRowComponent: React.FC<{
         <OptionsBlock
           onSave={() => {
             if (activeRowObject.activeRow.state === "add") {
-              // onAddSave();
               onAddCancel();
-
-              onCancel();
               onSaveWithProvidedState(summaryObject.rowValues);
             } else {
-              // onSave();
-              onCancel();
               onChangeWithProvidedState(summaryObject.rowValues);
             }
+            onCancel();
           }}
           onCancel={() => {
             activeRowObject.activeRow.state === "add" && onAddCancel();

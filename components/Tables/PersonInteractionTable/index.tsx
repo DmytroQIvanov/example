@@ -188,10 +188,12 @@ const Index = () => {
           stableSort,
           getComparator,
           tableElements,
-          onDelete,
-          onCancel,
-          onSave,
+          onSaveWithProvidedState,
+          onChangeWithProvidedState,
+          onAddSave,
+          onAddCancel,
           activeRowObject,
+          onDelete,
         }) => (
           <>
             <EnhancedTableHead
@@ -205,14 +207,16 @@ const Index = () => {
               {stableSort(tableElements, getComparator(order, orderBy)).map(
                 (row: IRowsPersonEmploymentTable) => (
                   <TableRowComponent
-                    row={row}
-                    key={`${row.id}`}
-                    onDelete={onDelete}
-                    onAddSave={onSave}
-                    onAddCancel={onCancel}
                     handleOpenPersonInteractionModal={
                       handleOpenPersonInteractionModal
                     }
+                    row={row}
+                    key={`${row.id}`}
+                    onChangeWithProvidedState={onChangeWithProvidedState}
+                    onSaveWithProvidedState={onSaveWithProvidedState}
+                    onDelete={onDelete}
+                    onAddSave={onAddSave}
+                    onAddCancel={onAddCancel}
                     activeRowObject={activeRowObject}
                   />
                 )

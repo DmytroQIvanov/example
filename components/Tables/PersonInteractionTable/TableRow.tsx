@@ -9,23 +9,22 @@ import EditableBlock from "../TablesComponents/EditableBlock";
 import { UseEditableTable } from "../../../hooks/UseEditableTable";
 import OptionsBlock from "../TablesComponents/OptionsBlock";
 import { IActiveRowObject } from "../TablesComponents/Interfaces/TableWrapperInterfaces";
+import { ITableRowComponent } from "../TablesComponents/Interfaces/ITableRowComponent";
 
-const TableRowComponent: React.FC<{
-  row: IRowsPersonEmploymentTable;
-  onDelete: (id: string | undefined) => void;
-  onAddSave: Function;
-  onAddCancel: Function;
-  activeRowObject: IActiveRowObject;
-  handleOpenPersonInteractionModal: () => void;
-}> = ({
+// handleOpenPersonInteractionModal: () => void;
+// handleOpenPersonInteractionModal,
+
+const TableRowComponent: React.FC<
+  ITableRowComponent<IRowsPersonEmploymentTable>
+> = ({
   row,
   onDelete,
-  onAddSave,
   onAddCancel,
   activeRowObject,
-  handleOpenPersonInteractionModal,
+  onSaveWithProvidedState,
+  onChangeWithProvidedState,
 }) => {
-  const { onCancel, onSave, changeRowState, summaryObject } = UseEditableTable({
+  const { onCancel, summaryObject } = UseEditableTable({
     row,
     activeRowObject,
   });
@@ -94,14 +93,14 @@ const TableRowComponent: React.FC<{
 
       <TableCell width={"170px"}>
         <OptionsBlock
+          addIcon
           onSave={() => {}}
           onCancel={() => {}}
-          addIcon
           onDelete={onDelete}
           rowValues={summaryObject.rowValues}
-          documentElement
           id={summaryObject.rowValues.id}
           activeRowObject={activeRowObject}
+          documentElement
         />
       </TableCell>
     </TableRow>
