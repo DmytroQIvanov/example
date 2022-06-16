@@ -125,7 +125,7 @@ const TableRowComponent: React.FC<
         onChangeAddress={
           summaryObject.rowState === "add"
             ? onSaveWithProvidedState
-            : summaryObject.saveWithProvidedState
+            : onChangeWithProvidedState
         }
       />
     </TableRow>

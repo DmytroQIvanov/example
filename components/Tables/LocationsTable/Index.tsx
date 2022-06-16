@@ -33,6 +33,7 @@ const headCells: readonly HeadCell<IColumnsPersonEmploymentTable>[] = [
   {
     id: "location",
     label: "Location",
+    sortingBy: "location1",
   },
   {
     id: "informationSource",

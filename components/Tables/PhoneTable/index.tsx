@@ -7,6 +7,7 @@ import {
 } from "./interfaces";
 import TableRowComponent from "./TableRow";
 import TableWrapper from "../TablesComponents/TableWrapper/Index";
+import { HeadCell } from "../TablesComponents/Interfaces/HeadCell";
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -62,13 +63,7 @@ const rows: IRowsPersonEmploymentTable[] = [
   },
 ];
 
-interface HeadCell {
-  id: keyof IColumnsPersonEmploymentTable;
-  label: string;
-  numeric: boolean;
-  width?: string;
-}
-const headCells: readonly HeadCell[] = [
+const headCells: readonly HeadCell<IColumnsPersonEmploymentTable>[] = [
   {
     id: "phoneNumber",
     numeric: true,
@@ -83,6 +78,7 @@ const headCells: readonly HeadCell[] = [
     id: "infoSource",
     numeric: false,
     label: "Info Source",
+    sortingBy: "card",
   },
   {
     id: "doNotCallDate",
@@ -116,19 +112,6 @@ const headCells: readonly HeadCell[] = [
     label: "Options",
   },
 ];
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  maxWidth: "90vw",
-  maxHeight: "90vh",
-  bgcolor: "background.paper",
-  overflow: "scroll",
-  boxShadow: 24,
-  p: 4,
-};
-
 const PhoneTable = () => {
   const [order, setOrder] = React.useState<Order>("asc");
   const [orderBy, setOrderBy] =

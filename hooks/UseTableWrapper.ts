@@ -88,7 +88,7 @@ export const useTableWrapper = (rows: any[]) => {
   const onSaveWithProvidedState = (state: any) => {
     setTableElements((prevState) => [
       ...prevState,
-      { ...state, id: prevState.length + 1 },
+      { ...state, id: Math.floor(Math.random() * (10000 - 1 + 1) + 1) },
     ]);
     console.log(tableElements);
   };

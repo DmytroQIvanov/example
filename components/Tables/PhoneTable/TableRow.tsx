@@ -65,16 +65,12 @@ const TableRowComponent: React.FC<
         })}
       </TableCell>
       <TableCell width={"250px"}>
-        <Box>
-          <Box>
-            {EditableBlock({
-              ...summaryObject,
-              name: "card",
-              type: "dropdown",
-              itemsArray: dropArray,
-            })}
-          </Box>
-        </Box>
+        {EditableBlock({
+          ...summaryObject,
+          name: "card",
+          type: "dropdown",
+          itemsArray: dropArray,
+        })}
       </TableCell>
       <TableCell width={"200px"}>
         <Box sx={{ display: "flex", flexDirection: "row" }}>
