@@ -10,7 +10,6 @@ import { IRowsPersonEmploymentTable } from "./interfaces";
 import EditableBlock from "../TablesComponents/EditableBlock";
 import { UseEditableTable } from "../../../hooks/UseEditableTable";
 import OptionsBlock from "../TablesComponents/OptionsBlock";
-import { IActiveRowObject } from "../TablesComponents/Interfaces/TableWrapperInterfaces";
 import { ITableRowComponent } from "../TablesComponents/Interfaces/ITableRowComponent";
 
 const dropArray = [
@@ -32,9 +31,12 @@ const TableRowComponent: React.FC<
   onSaveWithProvidedState,
   onChangeWithProvidedState,
 }) => {
-  const { onCancel, summaryObject } = UseEditableTable({
+  const { onCancel, summaryObject, onSave } = UseEditableTable({
     row,
     activeRowObject,
+    onSaveWithProvidedState,
+    onChangeWithProvidedState,
+    onAddCancel,
   });
 
   return (
@@ -57,20 +59,23 @@ const TableRowComponent: React.FC<
         </Box>
         <Box sx={{ display: "flex", mt: "25px" }}>
           <Box width={"50%"}>
-            Campus:
+            {/*Campus:*/}
             {EditableBlock({
               ...summaryObject,
               name: "campus",
               type: "dropdown",
+              title: "Campus:",
               itemsArray: dropArray,
             })}
           </Box>
           <Box sx={{ ml: "20px" }} width={"50%"}>
-            Source:
+            {/*Source:*/}
             {EditableBlock({
               ...summaryObject,
               name: "source",
               type: "dropdown",
+              title: "Source:",
+
               itemsArray: dropArray,
             })}
           </Box>
@@ -80,7 +85,6 @@ const TableRowComponent: React.FC<
         {EditableBlock({
           ...summaryObject,
           name: "unit",
-          title: "Unit",
           type: "dropdown",
           itemsArray: dropArray,
         })}
@@ -90,17 +94,19 @@ const TableRowComponent: React.FC<
           <Box>
             {EditableBlock({
               ...summaryObject,
-              name: "dataStart",
+              name: "dateStart",
               title: "Date start",
               titleVisibly: false,
+              type: "date",
             })}
           </Box>
           <Box sx={{ mt: "20px" }}>
             {EditableBlock({
               ...summaryObject,
-              name: "dataEnd",
+              name: "dateEnd",
               titleVisibly: false,
               title: "Date end",
+              type: "date",
             })}
           </Box>
         </Box>
@@ -142,12 +148,11 @@ const TableRowComponent: React.FC<
           ...summaryObject,
           name: "comments",
           multiline: 6,
-          title: "Comments",
           width: 100,
         })}
       </TableCell>
       <TableCell width={"230px"}>
-        {EditableBlock({ ...summaryObject, name: "dfkv", title: "DFKV" })}
+        {EditableBlock({ ...summaryObject, name: "dfkv", type: "date" })}
       </TableCell>
       <TableCell width={"230px"}>
         {EditableBlock({
@@ -171,19 +176,8 @@ const TableRowComponent: React.FC<
       </TableCell>
       <TableCell width={"130px"}>
         <OptionsBlock
-          onSave={() => {
-            if (activeRowObject.activeRow.state === "add") {
-              onAddCancel();
-              onSaveWithProvidedState(summaryObject.rowValues);
-            } else {
-              onChangeWithProvidedState(summaryObject.rowValues);
-            }
-            onCancel();
-          }}
-          onCancel={() => {
-            activeRowObject.activeRow.state === "add" && onAddCancel();
-            onCancel();
-          }}
+          onSave={onSave}
+          onCancel={onCancel}
           onDelete={onDelete}
           rowValues={summaryObject.rowValues}
           id={summaryObject.rowValues.id}

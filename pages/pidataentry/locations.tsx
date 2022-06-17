@@ -1,22 +1,16 @@
-import type { ReactElement } from 'react'
+import type { ReactElement } from "react";
 
-import { Layout } from './layout';
-import Table from '../../components/Tables/LocationsTable/Index'
-
-
+import { Layout } from "./layout";
+import Table from "../../components/Tables/PILocationsTable/Index";
 
 export default function Index() {
-    return (
-        <>
-            <Table/>
-        </>
-    )
+  return (
+    <>
+      <Table />
+    </>
+  );
 }
 
 Index.getLayout = function getLayout(page: ReactElement) {
-    return (
-        <Layout breadcrumb={'Locations'}>
-            {page}
-            </Layout>
-    )
-}
+  return <Layout breadcrumb={"Locations"}>{page}</Layout>;
+};

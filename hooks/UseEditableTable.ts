@@ -16,6 +16,7 @@ export interface ISummaryObject {
   rowValues: { [index: string]: any };
   saveWithProvidedState: (state: any) => void;
   activeRowObject: IActiveRowObject;
+  editableRowValues: any;
 }
 
 interface IUseEditableTableReturns {
@@ -27,9 +28,15 @@ interface IUseEditableTableReturns {
 export const UseEditableTable = ({
   activeRowObject,
   row,
+  onChangeWithProvidedState,
+  onSaveWithProvidedState,
+  onAddCancel,
 }: {
   activeRowObject: IActiveRowObject;
   row?: any;
+  onChangeWithProvidedState: any;
+  onSaveWithProvidedState: any;
+  onAddCancel: any;
 }): IUseEditableTableReturns => {
   // ---STATES---
 
@@ -82,10 +89,27 @@ export const UseEditableTable = ({
   };
 
   const onSave = () => {
-    setRowValues({
-      ...editableRowValues,
-      rowState,
-      datemarkedinvalid: validateState,
+    setRowValues((prevValue) => {
+      if (activeRowObject.activeRow.state === "add") {
+        onAddCancel();
+        onSaveWithProvidedState({
+          ...editableRowValues,
+          rowState,
+          datemarkedinvalid: validateState,
+        });
+      } else {
+        onChangeWithProvidedState({
+          ...editableRowValues,
+          rowState,
+          datemarkedinvalid: validateState,
+        });
+      }
+
+      return {
+        ...editableRowValues,
+        rowState,
+        datemarkedinvalid: validateState,
+      };
     });
 
     setRowState("default");
@@ -96,6 +120,7 @@ export const UseEditableTable = ({
   const onCancel = () => {
     setEditableRowValues(rowValues);
     setRowState("default");
+    activeRowObject.activeRow.state === "add" && onAddCancel();
 
     activeRowObject.handleRowState(null, "default");
   };
@@ -144,17 +169,13 @@ export const UseEditableTable = ({
 
   // ROW STATE
   useEffect(() => {
-    // if (
-    //   activeRowObject.activeRow.number === rowValues.id &&
-    //   activeRowObject.activeRow.state === "default"
-    // ) {
-    setRowValues((prevValues: any) => {
-      return {
-        ...prevValues,
-        datemarkedinvalid: validateState,
-      };
-    });
-    // }
+    if (activeRowObject.activeRow.state == "default")
+      setRowValues((prevValues: any) => {
+        return {
+          ...prevValues,
+          datemarkedinvalid: validateState,
+        };
+      });
   }, [validateState]);
 
   return {
@@ -168,17 +189,7 @@ export const UseEditableTable = ({
         activeRowObject.activeRow.state !== "default"
           ? editableRowValues
           : rowValues,
-      // handleChange:
-      //   activeRowObject.activeRow.number === rowValues.id &&
-      //   activeRowObject.activeRow.state === "add"
-      //     ? handleChangeMainState
-      //     : handleChange,
-      //
-      // handleChangeEvent:
-      //   activeRowObject.activeRow.number === rowValues.id &&
-      //   activeRowObject.activeRow.state === "add"
-      //     ? handleChangeMainStateEvent
-      //     : handleChangeEvent,
+      editableRowValues,
       handleChange,
       handleChangeEvent,
       rowState,

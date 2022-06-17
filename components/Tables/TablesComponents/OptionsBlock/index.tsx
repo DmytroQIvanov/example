@@ -118,8 +118,22 @@ const Index: React.FC<optionsBlock> = ({
             <Box>
               {documentElement && (
                 <ArticleIcon
-                  sx={{ cursor: "pointer", mr: "10px" }}
-                  onClick={() => handleModal(true)}
+                  sx={{
+                    mr: "10px",
+                    fill:
+                      activeRowObject.activeRow.state !== "default"
+                        ? "grey"
+                        : "black",
+                    cursor:
+                      activeRowObject.activeRow.state !== "default"
+                        ? "default"
+                        : "pointer",
+                  }}
+                  onClick={() =>
+                    activeRowObject.activeRow.state !== "default"
+                      ? () => {}
+                      : handleModal(true)
+                  }
                 />
               )}
 
@@ -168,6 +182,7 @@ const Index: React.FC<optionsBlock> = ({
                       : "pointer",
                 }}
               />
+
               <DeleteIcon
                 onClick={
                   activeRowObject.activeRow.state !== "default"

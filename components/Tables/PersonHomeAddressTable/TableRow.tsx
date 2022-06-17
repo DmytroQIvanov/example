@@ -24,9 +24,12 @@ const TableRowComponent: React.FC<
   onSaveWithProvidedState,
   onChangeWithProvidedState,
 }) => {
-  const { onCancel, summaryObject } = UseEditableTable({
+  const { onCancel, summaryObject, onSave } = UseEditableTable({
     row,
     activeRowObject,
+    onSaveWithProvidedState,
+    onChangeWithProvidedState,
+    onAddCancel,
   });
 
   const [stateModal, setStateModal] = useState(false);
@@ -58,7 +61,9 @@ const TableRowComponent: React.FC<
         </Box>
       </TableCell>
       <TableCell component="th" scope="row" width={"200px"}>
-        <Box sx={{ mr: "2px", display: "flex", gap: "2px" }}></Box>
+        <Box sx={{ mr: "2px", display: "flex", gap: "2px" }}>
+          {summaryObject.rowValues["location_accuracy"]}
+        </Box>
       </TableCell>
       <TableCell component="th" scope="row" width={"200px"}>
         {
@@ -97,19 +102,8 @@ const TableRowComponent: React.FC<
       </TableCell>
       <TableCell width={"130px"}>
         <OptionsBlock
-          onSave={() => {
-            if (activeRowObject.activeRow.state === "add") {
-              onAddCancel();
-              onSaveWithProvidedState(summaryObject.rowValues);
-            } else {
-              onChangeWithProvidedState(summaryObject.rowValues);
-            }
-            onCancel();
-          }}
-          onCancel={() => {
-            activeRowObject.activeRow.state === "add" && onAddCancel();
-            onCancel();
-          }}
+          onSave={onSave}
+          onCancel={onCancel}
           onDelete={onDelete}
           rowValues={summaryObject.rowValues}
           documentElement

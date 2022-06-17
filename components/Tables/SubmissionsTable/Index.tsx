@@ -13,11 +13,19 @@ import { Order } from "../TablesComponents/Interfaces/Order";
 const rows: IRowsPersonEmploymentTable[] = [
   {
     id: "1",
-    date: "string",
+    date: "01/20/2002",
     type: "string",
     oldValue: "string",
     newValue: "string",
     createdBy: "string",
+  },
+  {
+    id: "1",
+    date: "01/20/2000",
+    type: "Any",
+    oldValue: "old",
+    newValue: "new",
+    createdBy: "Danic",
   },
 ];
 

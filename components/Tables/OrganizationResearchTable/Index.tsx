@@ -18,6 +18,13 @@ const rows: IRowsPersonEmploymentTable[] = [
     date: "string",
     createdBy: "string",
   },
+  {
+    id: "2",
+
+    researchComments: "researchComments",
+    date: "01/20/2020",
+    createdBy: "Dmytro",
+  },
 ];
 
 const headCells: readonly HeadCell<IColumnsPersonEmploymentTable>[] = [

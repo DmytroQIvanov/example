@@ -19,9 +19,21 @@ const rows: IRowsPersonEmploymentTable[] = [
     informationSource: "string",
     propagate: "string",
     comments: "string",
-    dfkv: "string",
-    dlkv: "string",
-    dmi: "string",
+    dfkv: "01/02/2003",
+    dlkv: "01/02/2005",
+    dmi: "01/02/2001",
+  },
+  {
+    id: "2",
+    campus: "campus",
+    location1: "location1",
+    location2: "location2",
+    informationSource: "informationSource",
+    propagate: "propagate",
+    comments: "comments",
+    dfkv: "01/02/2002",
+    dlkv: "01/02/2002",
+    dmi: "01/02/2002",
   },
 ];
 
@@ -33,6 +45,7 @@ const headCells: readonly HeadCell<IColumnsPersonEmploymentTable>[] = [
   {
     id: "location",
     label: "Location",
+    sortingBy: "location1",
   },
   {
     id: "informationSource",

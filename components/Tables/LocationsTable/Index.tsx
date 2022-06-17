@@ -23,6 +23,19 @@ const rows: IRowsPersonEmploymentTable[] = [
     dlkv: "string",
     dmi: "string",
   },
+
+  {
+    id: "2",
+    campus: "string2",
+    location1: "string3",
+    location2: "string3",
+    informationSource: "informationSource",
+    primary: false,
+    comments: "lorem",
+    dfkv: "01/23/2022",
+    dlkv: "13/13/2000",
+    dmi: "01/01/2001",
+  },
 ];
 
 const headCells: readonly HeadCell<IColumnsPersonEmploymentTable>[] = [

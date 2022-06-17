@@ -61,7 +61,22 @@ const rows: IRowsPersonEmploymentTable[] = [
     comments:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
     dfkv: "01/02/2021",
-    dlkv: "string1",
+    dlkv: "03/41/2333",
+    dmi: "02/03/2013",
+  },
+  {
+    id: "2",
+    campus: "San Andreas",
+    area: "Any",
+    superArea: "3410 Cohort",
+    turf: "Joshs",
+    suppress: false,
+    pi: false,
+    informationSource: "informationSource",
+    comments:
+      "do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+    dfkv: "05/03/2021",
+    dlkv: "05/12/1344",
     dmi: "02/03/2013",
   },
 ];

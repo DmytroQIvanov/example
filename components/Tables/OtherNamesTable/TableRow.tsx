@@ -31,11 +31,13 @@ const TableRowComponent: React.FC<
   onSaveWithProvidedState,
   onChangeWithProvidedState,
 }) => {
-  const { onCancel, summaryObject } = UseEditableTable({
+  const { onCancel, summaryObject, onSave } = UseEditableTable({
     row,
     activeRowObject,
+    onSaveWithProvidedState,
+    onChangeWithProvidedState,
+    onAddCancel,
   });
-
   return (
     <TableRow
       style={
@@ -107,19 +109,8 @@ const TableRowComponent: React.FC<
       </TableCell>
       <TableCell width={"130px"}>
         <OptionsBlock
-          onSave={() => {
-            if (activeRowObject.activeRow.state === "add") {
-              onAddCancel();
-              onSaveWithProvidedState(summaryObject.rowValues);
-            } else {
-              onChangeWithProvidedState(summaryObject.rowValues);
-            }
-            onCancel();
-          }}
-          onCancel={() => {
-            activeRowObject.activeRow.state === "add" && onAddCancel();
-            onCancel();
-          }}
+          onSave={onSave}
+          onCancel={onCancel}
           onDelete={onDelete}
           rowValues={summaryObject.rowValues}
           id={summaryObject.rowValues.id}

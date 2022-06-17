@@ -4,6 +4,7 @@ interface IRowsPersonEmploymentTable {
   cell: string;
   card: string;
   doNotCallDate: string;
+  phoneType: string;
   comments: string;
   dfkv: string;
   dlkv: string;
