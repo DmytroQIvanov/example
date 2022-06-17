@@ -56,7 +56,6 @@ const TableRowComponent: React.FC<
             name: "phoneNumber",
           })}
         </Box>
-        <Box sx={{ display: "flex", mt: "25px" }}></Box>
       </TableCell>
       <TableCell width={"200px"}>
         {EditableBlock({
