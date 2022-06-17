@@ -7,6 +7,7 @@ import {
 } from "./interfaces";
 import TableRowComponent from "./TableRow";
 import TableWrapper from "../TablesComponents/TableWrapper/Index";
+import { HeadCell } from "../TablesComponents/Interfaces/HeadCell";
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -52,43 +53,37 @@ const rows: IRowsPersonEmploymentTable[] = [
     id: "1",
     jobTitle: "DNMAJ-ADUH-NADMі",
     campus: "smth",
-    source: "string1",
-    unit: "string1",
-    dateStart: "01/03/2021",
-    dateEnd: "02/03/2021",
+    source: "string3",
+    unit: "string4",
+    dateStart: "01/05/2021",
+    dateEnd: "02/06/2021",
     apt: "50 %",
-    salary: "23.424141",
+    salary: "21.413141",
     comments:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
     dfkv: "01/02/2021",
-    dlkv: "string1",
+    dlkv: "02/03/2016",
     dmi: "02/03/2013",
   },
   {
     id: "2",
-    jobTitle: "DNMAJ-ADUH-NADM",
-    campus: "smth",
-    source: "string1",
-    unit: "string1",
-    dateStart: "01/02/2021",
-    dateEnd: "02/03/2021",
-    apt: "50 %",
-    salary: "23.424141",
+    jobTitle: "DNMA3-ADUH-NADM",
+    campus: "smth4",
+    source: "string5",
+    unit: "string6",
+    dateStart: "07/08/2021",
+    dateEnd: "02/03/2025",
+    apt: "30 %",
+    salary: "43.424141",
     comments:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-    dfkv: "01/02/2021",
-    dlkv: "string1",
+      "Lorem smth ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+    dfkv: "01/12/2021",
+    dlkv: "02/03/2014",
     dmi: "02/03/2013",
   },
 ];
 
-interface HeadCell {
-  id: keyof IColumnsPersonEmploymentTable;
-  label: string;
-  numeric: boolean;
-  width?: string;
-}
-const headCells: readonly HeadCell[] = [
+const headCells: readonly HeadCell<IColumnsPersonEmploymentTable>[] = [
   {
     id: "jobTitle",
     numeric: true,
@@ -103,11 +98,13 @@ const headCells: readonly HeadCell[] = [
     id: "datesStartDateEnd",
     numeric: false,
     label: "Dates Start  Dates End",
+    sortingBy: "dateStart",
   },
   {
     id: "aptSalary",
     numeric: false,
     label: "Apt % / \n Salary",
+    sortingBy: "apt",
   },
   {
     id: "comments",

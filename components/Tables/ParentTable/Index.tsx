@@ -20,12 +20,22 @@ const rows: IRowsPersonEmploymentTable[] = [
     createdBy: "John",
     dmi: "string",
   },
+  {
+    id: "2",
+    organization: "any",
+    typ: "typ",
+    dfkv: "03/10/2000",
+    dlkv: "03/10/2003",
+    createdBy: "Oliver",
+    dmi: "03/10/2003",
+  },
 ];
 
 const headCells: readonly HeadCell<IColumnsPersonEmploymentTable>[] = [
   {
     id: "organizationType",
     label: "Organization Type / Organization",
+    sortingBy: "organization",
   },
   {
     id: "dfkv",

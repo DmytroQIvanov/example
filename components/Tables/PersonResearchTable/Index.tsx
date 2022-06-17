@@ -1,11 +1,5 @@
 import React, { useState } from "react";
 import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import TableSortLabel from "@mui/material/TableSortLabel";
-import { Box } from "@mui/material";
-import { visuallyHidden } from "@mui/utils";
 
 import {
   IRowsPersonEmploymentTable,
@@ -61,6 +55,13 @@ const rows: IRowsPersonEmploymentTable[] = [
     createdBy: "John Doe",
     comments:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+  },
+  {
+    id: "2",
+    date: "03/04/2022",
+    createdBy: "Olena",
+    comments:
+      "magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
   },
 ];
 

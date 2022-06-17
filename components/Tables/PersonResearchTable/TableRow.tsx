@@ -22,9 +22,12 @@ const TableRowComponent: React.FC<
   onSaveWithProvidedState,
   onChangeWithProvidedState,
 }) => {
-  const { onCancel, summaryObject } = UseEditableTable({
+  const { onCancel, summaryObject, onSave } = UseEditableTable({
     row,
     activeRowObject,
+    onSaveWithProvidedState,
+    onChangeWithProvidedState,
+    onAddCancel,
   });
 
   return (
@@ -41,10 +44,11 @@ const TableRowComponent: React.FC<
           name: "date",
         })}
       </TableCell>
-      <TableCell component="th" scope="row" width={"600px"}>
+      <TableCell component="th" scope="row" width={"500px"}>
         {EditableBlock({
           ...summaryObject,
           name: "comments",
+          multiline: 6,
           width: 100,
         })}
       </TableCell>
@@ -56,19 +60,8 @@ const TableRowComponent: React.FC<
       </TableCell>
       <TableCell width={"130px"}>
         <OptionsBlock
-          onSave={() => {
-            if (activeRowObject.activeRow.state === "add") {
-              onAddCancel();
-              onSaveWithProvidedState(summaryObject.rowValues);
-            } else {
-              onChangeWithProvidedState(summaryObject.rowValues);
-            }
-            onCancel();
-          }}
-          onCancel={() => {
-            activeRowObject.activeRow.state === "add" && onAddCancel();
-            onCancel();
-          }}
+          onSave={onSave}
+          onCancel={onCancel}
           onDelete={onDelete}
           rowValues={summaryObject.rowValues}
           id={summaryObject.rowValues.id}

@@ -33,9 +33,12 @@ const TableRowComponent: React.FC<
   onSaveWithProvidedState,
   onChangeWithProvidedState,
 }) => {
-  const { onCancel, summaryObject } = UseEditableTable({
+  const { onCancel, summaryObject, onSave } = UseEditableTable({
     row,
     activeRowObject,
+    onSaveWithProvidedState,
+    onChangeWithProvidedState,
+    onAddCancel,
   });
 
   return (
@@ -51,10 +54,8 @@ const TableRowComponent: React.FC<
           {EditableBlock({
             ...summaryObject,
             name: "phoneNumber",
-            title: "Phone Number",
           })}
         </Box>
-        <Box sx={{ display: "flex", mt: "25px" }}></Box>
       </TableCell>
       <TableCell width={"200px"}>
         {EditableBlock({
@@ -78,7 +79,6 @@ const TableRowComponent: React.FC<
             ...summaryObject,
             name: "doNotCallDate",
             type: "date",
-            title: "Do Not Call Date",
             checkBox: { label: "Do Not Call" },
           })}
         </Box>
@@ -88,18 +88,17 @@ const TableRowComponent: React.FC<
           ...summaryObject,
           name: "comments",
           multiline: 6,
-          title: "Comments",
           width: 100,
         })}
       </TableCell>
-      <TableCell width={"130px"}>
+      <TableCell width={"200px"}>
         {EditableBlock({
           ...summaryObject,
           name: "dfkv",
-          title: "DFKV",
+          type: "date",
         })}
       </TableCell>
-      <TableCell width={"130px"}>
+      <TableCell width={"200px"}>
         {EditableBlock({
           ...summaryObject,
           name: "dlkv",
@@ -107,7 +106,7 @@ const TableRowComponent: React.FC<
         })}
         {EditableBlock({ ...summaryObject, type: "validate" })}
       </TableCell>
-      <TableCell width={"130px"}>
+      <TableCell width={"200px"}>
         {EditableBlock({
           ...summaryObject,
           name: "dmi",
@@ -121,19 +120,8 @@ const TableRowComponent: React.FC<
       </TableCell>
       <TableCell width={"130px"}>
         <OptionsBlock
-          onSave={() => {
-            if (activeRowObject.activeRow.state === "add") {
-              onAddCancel();
-              onSaveWithProvidedState(summaryObject.rowValues);
-            } else {
-              onChangeWithProvidedState(summaryObject.rowValues);
-            }
-            onCancel();
-          }}
-          onCancel={() => {
-            activeRowObject.activeRow.state === "add" && onAddCancel();
-            onCancel();
-          }}
+          onSave={onSave}
+          onCancel={onCancel}
           onDelete={onDelete}
           rowValues={summaryObject.rowValues}
           id={summaryObject.rowValues.id}

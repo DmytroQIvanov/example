@@ -5,7 +5,22 @@ import {
 } from "../components/Tables/TablesComponents/Interfaces/TableWrapperInterfaces";
 
 export const useTableWrapper = (rows: any[]) => {
-  const [tableElements, setTableElements] = useState(rows);
+  const [tableElements, setTableElements] = useState([]);
+  useEffect(() => {
+    const result = rows.map((elem) => {
+      let result = elem;
+      for (const field in elem) {
+        if (elem[field] == null) {
+          result[field] = "";
+        } else {
+          result[field] = elem[field];
+        }
+      }
+      return result;
+    });
+
+    setTableElements(result);
+  }, [rows]);
   const [temporallyTableElements, setTemporallyTableElements] = useState(rows);
   const [alreadyAdded, setAlreadyAdded] = useState(false);
   const [activeRow, setActiveRow] = useState<IActiveRow>({

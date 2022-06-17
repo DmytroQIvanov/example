@@ -21,11 +21,11 @@ const rows: IRowsPersonEmploymentTable[] = [
   },
   {
     id: "2",
-    campus: "",
-    employeeID: "4147637",
-    dfkv: "01/02/2021",
-    dlkv: "04/12/2022",
-    createdBy: "John",
+    campus: "San Andreas",
+    employeeID: "41452111",
+    dfkv: "01/04/2021",
+    dlkv: "04/16/2022",
+    createdBy: "Dima",
   },
 ];
 

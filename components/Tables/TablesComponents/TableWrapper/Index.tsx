@@ -39,10 +39,20 @@ const Index: React.FC<ITableWrapperProps> = ({
 
   //SORT FUNCTIONS
   function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
-    if (b[orderBy] < a[orderBy]) {
+    const func = (obj) => {
+      const result = orderBy.toString().split(".");
+      if (result.length === 2) {
+        return obj[result[0]][result[1]];
+      } else if (result.length === 3) {
+        return obj[result[0]][result[1]][result[2]];
+      } else {
+        return obj[orderBy];
+      }
+    };
+    if (func(b) < func(a)) {
       return -1;
     }
-    if (b[orderBy] > a[orderBy]) {
+    if (func(b) > func(a)) {
       return 1;
     }
     return 0;
@@ -78,6 +88,8 @@ const Index: React.FC<ITableWrapperProps> = ({
     const { order, orderBy, onRequestSort } = props;
     const createSortHandler =
       (property: any) => (event: React.MouseEvent<unknown>) => {
+        if (property == "options") return;
+
         onRequestSort(event, property);
       };
 
@@ -94,27 +106,47 @@ const Index: React.FC<ITableWrapperProps> = ({
                 sortDirection={orderBy === headCell.id ? order : false}
                 width={headCell.width && headCell.width}
               >
-                <TableSortLabel
-                  active={orderBy === sortingBy}
-                  direction={orderBy === sortingBy ? order : "asc"}
-                  onClick={createSortHandler(sortingBy)}
-                >
-                  <Box>
-                    {headCell.label}
-                    {headCell.secondLabel && (
-                      <>
-                        <br /> {headCell.secondLabel}
-                      </>
-                    )}
-                  </Box>
-                  {orderBy === headCell.id ? (
-                    <Box component="span" sx={visuallyHidden}>
-                      {order === "desc"
-                        ? "sorted descending"
-                        : "sorted ascending"}
+                {headCell.id !== "options" ? (
+                  <TableSortLabel
+                    active={orderBy === sortingBy}
+                    direction={orderBy === sortingBy ? order : "asc"}
+                    onClick={createSortHandler(sortingBy)}
+                  >
+                    <Box>
+                      {headCell.label}
+                      {headCell.secondLabel && (
+                        <>
+                          <br /> {headCell.secondLabel}
+                        </>
+                      )}
                     </Box>
-                  ) : null}
-                </TableSortLabel>
+                    {orderBy === headCell.id ? (
+                      <Box component="span" sx={visuallyHidden}>
+                        {order === "desc"
+                          ? "sorted descending"
+                          : "sorted ascending"}
+                      </Box>
+                    ) : null}
+                  </TableSortLabel>
+                ) : (
+                  <Box sx={{ cursor: "default" }}>
+                    <Box>
+                      {headCell.label}
+                      {headCell.secondLabel && (
+                        <>
+                          <br /> {headCell.secondLabel}
+                        </>
+                      )}
+                    </Box>
+                    {orderBy === headCell.id ? (
+                      <Box component="span" sx={visuallyHidden}>
+                        {order === "desc"
+                          ? "sorted descending"
+                          : "sorted ascending"}
+                      </Box>
+                    ) : null}
+                  </Box>
+                )}
               </TableCell>
             );
           })}

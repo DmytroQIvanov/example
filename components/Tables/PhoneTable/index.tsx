@@ -51,10 +51,24 @@ function stableSort<T>(
 const rows: IRowsPersonEmploymentTable[] = [
   {
     id: "1",
-    phoneNumber: "(408) 702-0623",
+    phoneNumber: "(405) 702-0623",
     cell: "Cell",
     card: "card",
     doNotCallDate: "01/01/2021",
+    phoneType: "phoneType",
+    comments:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+    dfkv: "01/02/2021",
+    dlkv: "string1",
+    dmi: "02/03/2013",
+  },
+  {
+    id: "2",
+    phoneNumber: "(402) 702-0623",
+    cell: "Cel4",
+    card: "cara",
+    doNotCallDate: "02/04/2021",
+    phoneType: "phoneType2",
     comments:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
     dfkv: "01/02/2021",
@@ -73,6 +87,7 @@ const headCells: readonly HeadCell<IColumnsPersonEmploymentTable>[] = [
     id: "phonyType",
     numeric: false,
     label: "Phone Type",
+    sortingBy: "phoneType",
   },
   {
     id: "infoSource",

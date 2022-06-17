@@ -47,6 +47,8 @@ interface propsBlockWithState extends ISummaryObject {
   className?: string;
   availableStateBoolean?: boolean;
   checkBox?: ICheckBox;
+  removeComponent?: boolean;
+  modifyOnlyExistingField?: boolean;
 }
 const InvalidateComponent = ({
   rowValues,
@@ -103,8 +105,13 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
   validateState,
   changeValidateState,
   changeRowState,
+  removeComponent,
 
   activeRowObject,
+
+  // Edit only existing field (Cannot add it)
+  modifyOnlyExistingField,
+
   ...inputParams
 }) => {
   const disableEditableArray = [
@@ -132,6 +139,14 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
   let styles = disabledState ? { backgroundColor: "#C3DBFF" } : {};
 
   const Component = () => {
+    if (
+      activeRowObject.activeRow.number === rowValues.id &&
+      activeRowObject.activeRow.state === "add" &&
+      modifyOnlyExistingField
+    )
+      return;
+    if (!rowValues[name] && modifyOnlyExistingField) return;
+
     switch (type) {
       case "textField":
         return (
@@ -223,14 +238,14 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
           <Box sx={{ display: "flex" }}>
             <Button
               sx={{
-                backgroundColor: "#2121c5",
+                backgroundColor: "#134A90",
                 color: "white",
                 width: "95%",
                 p: "3px",
                 mt: "5px",
                 "&:hover": {
                   color: "white",
-                  backgroundColor: "#1616a1",
+                  backgroundColor: "#0e3e7a",
                 },
               }}
               onClick={() => changeValidateState(false)}
@@ -276,14 +291,14 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
           <Box sx={{ display: "flex" }}>
             <Button
               sx={{
-                backgroundColor: "#2121c5",
+                backgroundColor: "#134A90",
                 color: "white",
                 width: "95%",
                 p: "3px",
                 mt: "5px",
                 "&:hover": {
                   color: "white",
-                  backgroundColor: "#1616a1",
+                  backgroundColor: "#0e3e7a",
                 },
               }}
               onClick={() => changeValidateState(false)}
@@ -339,13 +354,13 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
           )}
         </Grid>
         <Grid item width={width && `${width}%`}>
-          {rowState !== "default" ? (
-            Component()
-          ) : (
-            <Box sx={{ textAlign: "left" }}>
+          <Box sx={{ textAlign: "left" }}>
+            {rowState !== "default" && !removeComponent ? (
+              Component()
+            ) : (
               <TextComponent />
-            </Box>
-          )}
+            )}
+          </Box>
         </Grid>
       </Grid>
       {checkBox && type !== "checkBox" && (

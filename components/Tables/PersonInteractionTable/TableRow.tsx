@@ -27,6 +27,9 @@ const TableRowComponent: React.FC<
   const { onCancel, summaryObject } = UseEditableTable({
     row,
     activeRowObject,
+    onSaveWithProvidedState,
+    onChangeWithProvidedState,
+    onAddCancel,
   });
 
   return (
@@ -100,7 +103,8 @@ const TableRowComponent: React.FC<
           rowValues={summaryObject.rowValues}
           id={summaryObject.rowValues.id}
           activeRowObject={activeRowObject}
-          documentElement
+          handleEditableState={() => {}}
+          // documentElement
         />
       </TableCell>
     </TableRow>

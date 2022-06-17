@@ -20,12 +20,13 @@ const headCells: readonly HeadCell<IColumnsPersonEmploymentTable>[] = [
   {
     id: "locationAccuracy",
     label: "Location Accuracy",
+    sortingBy: "location_accuracy",
   },
 
   {
     id: "source",
     label: "Source",
-    sortingBy: "information_source_type",
+    sortingBy: "information_source_type.informationsourcetype",
   },
   {
     id: "comments",

@@ -16,12 +16,22 @@ const rows: IRowsPersonEmploymentTable[] = [
   {
     id: "1",
 
-    url: "string",
+    url: "https://amazon.com/",
     comments: "string",
     crawl: false,
-    dfkv: "string",
-    dlkv: "string",
-    dmi: "string",
+    dfkv: "01/02/2001",
+    dlkv: "01/02/2002",
+    dmi: "01/02/2005",
+  },
+  {
+    id: "2",
+
+    url: "https://google.com/",
+    comments: "loremlorem lorem",
+    crawl: true,
+    dfkv: "01/02/1002",
+    dlkv: "01/02/1006",
+    dmi: "01/02/1001",
   },
 ];
 
