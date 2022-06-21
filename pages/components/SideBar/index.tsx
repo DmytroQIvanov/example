@@ -1,9 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BiLogOut } from "react-icons/bi";
-import { BsArrowRight, BsFillPersonFill, BsPhoneFill } from "react-icons/bs";
-import { FaClipboardList, FaHome, FaMap, FaSuitcase } from "react-icons/fa";
-import { HiOutlineCog, HiOutlineMailOpen } from "react-icons/hi";
-import { IoMdShare } from "react-icons/io";
+import { BsArrowRight } from "react-icons/bs";
+import { HiOutlineCog } from "react-icons/hi";
 import { UserButton } from "@clerk/nextjs";
 import { useRouter } from "next/router";
 
@@ -11,7 +9,9 @@ const SideBar: React.FC<{
   options: { link: string; icon: JSX.Element; text: string }[];
   title: string;
 }> = ({ options, title }) => {
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(
+    JSON.parse(localStorage.getItem("SideBarState") || "")
+  );
   function handleCollapseState() {
     !collapsed ? setCollapsed(true) : setCollapsed(false);
   }
@@ -22,6 +22,9 @@ const SideBar: React.FC<{
     router.push(href);
   };
 
+  useEffect(() => {
+    localStorage.setItem("SideBarState", `${collapsed}`);
+  }, [collapsed]);
   return (
     <div className={collapsed ? "sidebar close" : "sidebar open"}>
       <div className="logo-details">
@@ -54,10 +57,11 @@ const SideBar: React.FC<{
               className={`disable-select list-element ${
                 router.pathname === elem.link ? "list-element_selected" : ""
               }`}
-              key={index}
+              key={elem.link}
+              onClick={(e) => goTo(e, elem.link)}
             >
               <div className="iocn-link">
-                <a onClick={(e) => goTo(e, elem.link)}>
+                <a>
                   <div className={"disable-select"}>{elem.icon}</div>
                   <span className="link_name">{elem.text}</span>
                 </a>

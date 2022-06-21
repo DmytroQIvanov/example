@@ -6,9 +6,6 @@ import { useUser } from "@clerk/clerk-react";
 import { getPosts } from "../graphql/getPosts";
 import { useContext, useState, useEffect } from "react";
 import { AuthContext } from "../lib/authcontext";
-import Table from "../components/Table/Table";
-import Configuration from "../components/Configuration/Configuration";
-import { AppSelection } from "../components/AppSelection";
 import useStyles from "./styles";
 
 const INSERT_POST = gql`
@@ -68,10 +65,7 @@ const Home = () => {
     );
   };
 
-  return (
-    <div className={classes.body}>
-    </div>
-  );
+  return <div className={classes.body}></div>;
 };
 
 export default Home;

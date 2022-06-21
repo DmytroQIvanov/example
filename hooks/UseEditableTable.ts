@@ -89,7 +89,7 @@ export const UseEditableTable = ({
   };
 
   const onSave = () => {
-    setRowValues((prevValue) => {
+    setRowValues((prevValue: any) => {
       if (activeRowObject.activeRow.state === "add") {
         onAddCancel();
         onSaveWithProvidedState({

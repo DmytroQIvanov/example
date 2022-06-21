@@ -9,6 +9,7 @@ import {
   IColumnsPersonEmploymentTable,
   IRowsPersonEmploymentTable,
 } from "./interfaces";
+// @ts-ignore
 import TableWrapper from "../TablesComponents/TableWrapper";
 import TableRowComponent from "./TableRow";
 import { HeadCell } from "../TablesComponents/Interfaces/HeadCell";

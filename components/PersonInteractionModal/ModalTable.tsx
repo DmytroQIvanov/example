@@ -169,7 +169,7 @@ const rows: ItemType[] = [
     other: "Football7",
   },
 ];
-const headCells: readonly HeadCell[] = [
+const headCells: any[] = [
   {
     id: "id",
     numeric: true,

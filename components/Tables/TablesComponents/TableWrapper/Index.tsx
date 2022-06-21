@@ -39,7 +39,7 @@ const Index: React.FC<ITableWrapperProps> = ({
 
   //SORT FUNCTIONS
   function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
-    const func = (obj) => {
+    const func = (obj: any) => {
       const result = orderBy.toString().split(".");
       if (result.length === 2) {
         return obj[result[0]][result[1]];

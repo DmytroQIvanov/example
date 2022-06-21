@@ -11,9 +11,6 @@ import OptionsBlock from "../TablesComponents/OptionsBlock";
 import { IActiveRowObject } from "../TablesComponents/Interfaces/TableWrapperInterfaces";
 import { ITableRowComponent } from "../TablesComponents/Interfaces/ITableRowComponent";
 
-// handleOpenPersonInteractionModal: () => void;
-// handleOpenPersonInteractionModal,
-
 const TableRowComponent: React.FC<
   ITableRowComponent<IRowsPersonEmploymentTable>
 > = ({
@@ -23,6 +20,7 @@ const TableRowComponent: React.FC<
   activeRowObject,
   onSaveWithProvidedState,
   onChangeWithProvidedState,
+  handleOpenPersonInteractionModal,
 }) => {
   const { onCancel, summaryObject } = UseEditableTable({
     row,
@@ -96,7 +94,7 @@ const TableRowComponent: React.FC<
 
       <TableCell width={"170px"}>
         <OptionsBlock
-          addIcon
+          addIcon={{ onClick: handleOpenPersonInteractionModal }}
           onSave={() => {}}
           onCancel={() => {}}
           onDelete={onDelete}

@@ -28,7 +28,7 @@ interface optionsBlock {
   onDelete: Function;
   id: string;
   documentElement?: boolean;
-  addIcon?: boolean;
+  addIcon?: { onClick?: Function };
   type?: "default" | "buttons";
   activeRowObject: IActiveRowObject;
   rowValues: any;
@@ -153,6 +153,8 @@ const Index: React.FC<optionsBlock> = ({
                   onClick={() =>
                     activeRowObject.activeRow.state !== "default"
                       ? () => {}
+                      : addIcon.onClick
+                      ? addIcon.onClick()
                       : handleModal(true)
                   }
                 />

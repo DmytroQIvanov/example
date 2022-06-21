@@ -14,20 +14,30 @@ export interface IActiveRowObject {
 
 export interface ITableWrapperProps {
   children: (props: {
-    descendingComparator: any;
-    getComparator: any;
-    stableSort: any;
     EnhancedTableHead: React.FC<{
       order: Order;
       orderBy: any;
       onRequestSort: any;
       headCells: any;
     }>;
+    stableSort: any;
+    getComparator: any;
+    descendingComparator: any;
+
     tableElements: any;
     onDelete: (id: string | undefined) => void;
-    onSave: Function;
-    onCancel: Function;
+    onAddSave: () => void;
+    handleChangeMainStateEvent: (
+      event: React.ChangeEvent<HTMLInputElement>
+    ) => void;
+
+    handleChangeMainState: (
+      name: string,
+      value: string | number | boolean | Date
+    ) => void;
+    onAddCancel: (id: string | undefined) => void;
     onSaveWithProvidedState: (state: any) => void;
+    onChangeWithProvidedState: (state: any) => void;
     activeRowObject: IActiveRowObject;
   }) => React.ReactNode;
   buttonsList?: [

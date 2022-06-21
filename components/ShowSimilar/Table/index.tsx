@@ -471,13 +471,10 @@ const headCells: HeadCell[] = [
 ];
 
 interface EnhancedTableProps {
-  onRequestSort?: (
-    event: React.MouseEvent<unknown>,
-    property: keyof Data
-  ) => void;
+  onRequestSort?: (event: any, property: any) => void;
   order: Order;
   orderBy: string;
-  headCells: HeadCell[];
+  headCells: any[];
 }
 
 export function EnhancedTableHead(props: EnhancedTableProps) {

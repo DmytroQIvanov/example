@@ -1,7 +1,7 @@
-import React, { useCallback, useLayoutEffect, useRef, useState } from 'react';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import { FaRocketchat } from 'react-icons/fa';
+import React, { useCallback, useLayoutEffect, useRef, useState } from "react";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import { FaRocketchat } from "react-icons/fa";
 import {
   Input,
   TextField,
@@ -9,16 +9,17 @@ import {
   MenuItem,
   FormControl,
   InputLabel,
-  Button
-} from '@mui/material';
+  Button,
+} from "@mui/material";
 
-import useStyles from './styles';
-import PiSummaryDataTest from './Type'
+import useStyles from "./styles";
+import PiSummaryDataTest from "./Type";
 
 const PiSummary = () => {
   const classes = useStyles();
   const config = PiSummaryDataTest;
 
+  // @ts-ignore
   return (
     <Box sx={{ flexGrow: 1 }} className={classes.content}>
       <Box className={classes.editInternal}>
@@ -51,7 +52,11 @@ const PiSummary = () => {
             <div className={classes.item}>
               <div className={classes.itemBtn}>
                 <Button variant="contained">
-                  <FaRocketchat className={classes.actionIcon} onClick={() => onSave(config)} /> Propagate Locations
+                  <FaRocketchat
+                    className={classes.actionIcon}
+                    // onClick={() => onSave(config)}
+                  />{" "}
+                  Propagate Locations
                 </Button>
               </div>
             </div>
@@ -73,7 +78,7 @@ const PiSummary = () => {
           <Grid item xs={2} className={classes.itemPaddingWhite}>
             <div className={classes.item}>
               <div className={classes.itemBtn}>
-                <Button variant="contained" sx={{marginTop: '13px'}}>
+                <Button variant="contained" sx={{ marginTop: "13px" }}>
                   View Person Records
                 </Button>
               </div>

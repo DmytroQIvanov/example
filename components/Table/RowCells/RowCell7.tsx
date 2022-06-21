@@ -8,7 +8,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 
 import { RowCellProps } from "../RowCell";
-import AddressEditModal from "../../Tables/PersonHomeAddressTable/AddressEditModal";
+// import AddressEditModal from "../../Tables/PersonHomeAddressTable/AddressEditModal";
 
 const RowCell7 = (props: RowCellProps) => {
   const [open, setOpen] = React.useState(false);
@@ -22,13 +22,13 @@ const RowCell7 = (props: RowCellProps) => {
   return (
     <TableCell>
       <div>
-        <AddressEditModal
-          open={open}
-          data={props.data}
-          title={`Address Record`}
-          handleClose={() => setOpen(false)}
-          onChangeAddress={(address: any) => props.changeAddress(address)}
-        />
+        {/*<AddressEditModal*/}
+        {/*  open={open}*/}
+        {/*  data={props.data}*/}
+        {/*  title={`Address Record`}*/}
+        {/*  handleClose={() => setOpen(false)}*/}
+        {/*  onChangeAddress={(address: any) => props.changeAddress(address)}*/}
+        {/*/>*/}
       </div>
       <div>
         <>
