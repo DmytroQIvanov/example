@@ -8,7 +8,6 @@ import { IRowsPersonEmploymentTable } from "./interfaces";
 import EditableBlock from "../TablesComponents/EditableBlock";
 import { UseEditableTable } from "../../../hooks/UseEditableTable";
 import OptionsBlock from "../TablesComponents/OptionsBlock";
-import { IActiveRowObject } from "../TablesComponents/Interfaces/TableWrapperInterfaces";
 import { ITableRowComponent } from "../TablesComponents/Interfaces/ITableRowComponent";
 
 const dropArray = [

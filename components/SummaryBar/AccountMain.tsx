@@ -21,7 +21,7 @@ import * as React from "react";
 import { ColorLabel } from "./ColorLabel";
 import Autocomplete from "@mui/material/Autocomplete";
 import { useEffect, useState } from "react";
-import styles from './styles.module.css'
+import styles from "./styles.module.css";
 
 const PERSON_DATA = gql`
   query sample_query {
@@ -238,11 +238,13 @@ const AccountMain = () => {
                         key: number
                       ) => (
                         <span key={`${account_location || key}`}>
-                          {account_location}
-                          {index <
-                          data?.sample_person[index].user_accounts?.length - 1
-                            ? ", "
-                            : ""}
+                          <span>{`${account_location}`}</span>
+                          <span>
+                            {index <
+                            data?.sample_person[index].user_accounts?.length - 1
+                              ? ", "
+                              : ""}
+                          </span>
                         </span>
                       )
                     )}
@@ -260,9 +262,9 @@ const AccountMain = () => {
             }}
           >
             {textOnLabels.map((elem, key) => (
-                <Box sx={{fontSize:'13px', p:'0 1px'}}>
+              <Box sx={{ fontSize: "13px", p: "0 1px" }}>
                 <ColorLabel type={key} text={elem} key={key} />
-                </Box>
+              </Box>
             ))}
           </Box>
         </Box>
@@ -417,6 +419,7 @@ const AccountMain = () => {
                             onChange={(data) =>
                               handleChange(
                                 "personId",
+                                // @ts-ignore
                                 options[data.target.value].label
                               )
                             }
@@ -449,18 +452,19 @@ const AccountMain = () => {
                       </TableCell>
                       <TableCell>
                         {data?.sample_person[index].user_accounts.map(
-                            (
-                                { account_location }: { account_location?: Number },
-                                key: number
-                            ) => (
-                                <>
-                                  {account_location}
-                                  {index <
-                                  data?.sample_person[index].user_accounts?.length - 1
-                                      ? ', '
-                                      : ''}
-                                </>
-                            )
+                          (
+                            { account_location }: { account_location?: Number },
+                            key: number
+                          ) => (
+                            <>
+                              {account_location}
+                              {index <
+                              data?.sample_person[index].user_accounts?.length -
+                                1
+                                ? ", "
+                                : ""}
+                            </>
+                          )
                         )}
                       </TableCell>
                     </TableRow>
@@ -684,7 +688,8 @@ const AccountMain = () => {
             </Button>
             <Button
               style={{
-                backgroundColor: "#6BAD43",
+                // backgroundColor: "#6BAD43",
+                backgroundColor: "#AA2B2B",
               }}
               variant="contained"
               onClick={() => onCancel()}

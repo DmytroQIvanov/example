@@ -16,14 +16,27 @@ import {
 
 import Modal from "../../Modal/Modal";
 
-const Sources = [
+interface ISources {
+  value: string;
+  label: string;
+}
+const Sources: ISources[] = [
   { value: "Paper Card", label: "Paper Card" },
   { value: "On the Ground", label: "On the Ground" },
   { value: "UC List", label: "UC List" },
 ];
 
-const scriptOptions = {
-  googleMapsApiKey: process.env.NEXT_PUBLIC_API_KEY,
+const scriptOptions: {
+  googleMapsApiKey: string;
+  libraries: (
+    | "drawing"
+    | "geometry"
+    | "localContext"
+    | "places"
+    | "visualization"
+  )[];
+} = {
+  googleMapsApiKey: process.env.NEXT_PUBLIC_API_KEY || "",
   libraries: ["places"],
 };
 
@@ -32,10 +45,17 @@ const initialAddress = {
   comments: "",
   streetnumber: "",
   streetname: "",
-  country: "",
+  city: "",
+  state: "",
   postal: "",
-  formatted_address: "",
+  country: "",
+  apartment: "",
+  full: "",
   google_formatted: "",
+  formatted_address: "",
+  zip: "",
+
+  location_accuracy: "",
 };
 
 const AddressEditModal = ({
@@ -46,31 +66,7 @@ const AddressEditModal = ({
   onChangeAddress,
   modalProps,
 }: any) => {
-  const [address, setAddress] = React.useState({
-    source: "",
-    comments: "",
-    streetnumber: "",
-    streetname: "",
-    city: "",
-    state: "",
-    postal: "",
-    country: "",
-    apartment: "",
-    full: "",
-    google_formatted: "",
-    formatted_address: "",
-    zip: "",
-
-    location_accuracy: "",
-    // "information_source_type": {
-    //   "informationsourcetypeid": 5,
-    //   "informationsourcetype": "U. List"
-    // },
-    // "comments": null,
-    // "datefirstknownvalid": "2018-01-09T00:00:00",
-    // "datelastknownvalid": "2018-03-06T00:00:00",
-    // "datemarkedinvalid": null
-  });
+  const [address, setAddress] = React.useState(initialAddress);
 
   const { isLoaded, loadError } = useLoadScript(scriptOptions);
   const [autocomplete, setAutocomplete] = useState<any>(null);
@@ -83,6 +79,7 @@ const AddressEditModal = ({
     if (autocompleteBoolean) {
       apartmentInputReference &&
         apartmentInputReference.current &&
+        // @ts-ignore
         apartmentInputReference.current.focus();
       setAutocompleteBoolean(false);
     }
@@ -95,7 +92,7 @@ const AddressEditModal = ({
   }, [data]);
 
   // Handle the keypress for input
-  const onKeypress = (e: KeyboardEvent) => {
+  const onKeypress = (e: React.KeyboardEvent<HTMLDivElement>) => {
     // On enter pressed
     if (e.key === "Enter") {
       e.preventDefault();
@@ -119,7 +116,7 @@ const AddressEditModal = ({
     setAddress(update);
   };
 
-  const onPlaceChanged = (e: any) => {
+  const onPlaceChanged = () => {
     let autoAddress = {
       ...address,
       streetnumber: "",
@@ -135,6 +132,7 @@ const AddressEditModal = ({
       setAutocompleteBoolean(true);
 
       let fullAddress: any[] = [];
+      console.log(place);
       if ("address_components" in place) {
         place["address_components"].forEach((item: any) => {
           if (item["types"][0] == "street_number" && item["long_name"]) {
@@ -188,7 +186,7 @@ const AddressEditModal = ({
         <Grid container spacing={2}>
           <Grid item xs={8}>
             {isLoaded && (
-              <React.Fragment>
+              <>
                 <form className="flex" onSubmit={handleSubmit}>
                   <div className="MuiFormControl-root MuiTextField-root makeStyles-fullWidth-6 css-1u3bzj6-MuiFormControl-root-MuiTextField-root full-width">
                     <Autocomplete
@@ -198,28 +196,33 @@ const AddressEditModal = ({
                       onPlaceChanged={onPlaceChanged}
                       className={classes.fullWidth}
                     >
-                      <div className="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root full-width">
-                        <input
-                          ref={inputEl}
-                          type="text"
-                          className="MuiOutlinedInput-input MuiInputBase-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input full-width"
-                          onKeyPress={onKeypress}
-                          placeholder="Search Address..."
-                          name="fullAddress"
-                        />
-                        <fieldset
-                          aria-hidden="true"
-                          className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
-                        >
-                          <legend className="css-1ftyaf0">
-                            <span>Address</span>
-                          </legend>
-                        </fieldset>
-                      </div>
+                      <TextField
+                        sx={{ width: "100%" }}
+                        placeholder={"Search Address..."}
+                        onKeyUp={(event) => onKeypress(event)}
+                      />
+                      {/*<div className="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root full-width">*/}
+                      {/*  <input*/}
+                      {/*    ref={inputEl}*/}
+                      {/*    type="text"*/}
+                      {/*    className="MuiOutlinedInput-input MuiInputBase-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input full-width"*/}
+                      {/*    onKeyPress={onKeypress}*/}
+                      {/*    placeholder="Search Address..."*/}
+                      {/*    name="fullAddress"*/}
+                      {/*  />*/}
+                      {/*  <fieldset*/}
+                      {/*    aria-hidden="true"*/}
+                      {/*    className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"*/}
+                      {/*  >*/}
+                      {/*    <legend className="css-1ftyaf0">*/}
+                      {/*      <span>Address</span>*/}
+                      {/*    </legend>*/}
+                      {/*  </fieldset>*/}
+                      {/*</div>*/}
                     </Autocomplete>
                   </div>
                 </form>
-              </React.Fragment>
+              </>
             )}
           </Grid>
           <Grid item xs={4}>
@@ -231,7 +234,6 @@ const AddressEditModal = ({
                 label="Source"
                 name="source"
                 onChange={(e) => handleChange(e)}
-                InputLabelProps={{ shrink: true }}
                 className={classes.fullWidth}
               >
                 {Sources.map((item, itemIndex) => {

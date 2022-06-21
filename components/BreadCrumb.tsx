@@ -1,24 +1,12 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 
-const breadCrumbArray = [
-  {
-    url: "",
-    text: "",
-  },
-  //FIRST PATH OF ROUTE
-  {
-    url: "",
-    text: "",
-  },
-];
-
 export default function BreadCrumb({
   breadcrumbs,
   icon,
 }: {
   breadcrumbs: string[];
-  icon: any;
+  icon?: any;
 }) {
   const [breadcrumb, setBreadcrumb] = useState("");
 
@@ -29,7 +17,7 @@ export default function BreadCrumb({
   return (
     <div className="bread-crumb">
       {breadcrumb}
-      <div style={{ margin: "auto 10px" }}>{icon}</div>
+      {icon && <div style={{ margin: "auto 10px" }}>{icon}</div>}
     </div>
   );
 }

@@ -5,7 +5,7 @@ import {
 } from "../components/Tables/TablesComponents/Interfaces/TableWrapperInterfaces";
 
 export const useTableWrapper = (rows: any[]) => {
-  const [tableElements, setTableElements] = useState([]);
+  const [tableElements, setTableElements] = useState<any[]>([]);
   useEffect(() => {
     const result = rows.map((elem) => {
       let result = elem;
@@ -62,7 +62,7 @@ export const useTableWrapper = (rows: any[]) => {
       result[name] = value;
       setTemporallyTableElements((prevState: any) => {
         const newArray = prevState.filter(
-          (elem) => elem.id !== activeRow.number
+          (elem: any) => elem.id !== activeRow.number
         );
         return [...newArray, result];
       });
@@ -83,7 +83,7 @@ export const useTableWrapper = (rows: any[]) => {
 
       setTemporallyTableElements((prevState: any) => {
         const newArray = prevState.filter(
-          (elem) => elem.id !== activeRow.number
+          (elem: any) => elem.id !== activeRow.number
         );
         // const newArray = prevState.map((elem) =>
         //   elem.filter((elem) => elem.id !== activeRow.number)

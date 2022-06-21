@@ -199,14 +199,17 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
         return (
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <DatePicker
-              // label="Basic example"
               value={rowValues[name] || "11/11/2011"}
               disabled={disabledState}
               onChange={(newValue) => {
+                // console.log(newValue);
+                // console.log(typeof newValue);
                 const month = newValue.getUTCMonth() + 1;
                 const day = newValue.getUTCDate();
                 const year = newValue.getUTCFullYear();
-                handleChange(name, `${day}/${month}/${year}`);
+                console.log(`${day}/${month}/${year}`);
+                // handleChange(name, `${day}/${month}/${year}`);
+                handleChange(name, `${month}/${day}/${year}`);
               }}
               renderInput={(params) => <TextField {...params} style={styles} />}
             />
@@ -280,7 +283,6 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
         return (
           <InvalidateComponent
             rowValues={rowValues}
-            rowState={rowState}
             activeRowObject={activeRowObject}
             validateState={validateState}
             changeValidateState={changeValidateState}
@@ -312,7 +314,7 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
           <Typography
             mt={0.8}
             style={
-              validateState
+              !validateState
                 ? rowValues[name]
                   ? { color: "green" }
                   : { color: "red" }
@@ -331,7 +333,7 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
       default:
         return (
           <Typography mt={0.8} style={styles}>
-            {rowValues[name]}
+            {rowValues[name].toString()}
           </Typography>
         );
     }

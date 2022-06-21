@@ -1,39 +1,52 @@
-import React, { useCallback, useLayoutEffect, useRef, useState } from 'react';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import { FaPencilAlt, FaSave, FaWindowClose } from 'react-icons/fa';
+import React, { useState } from "react";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import { FaPencilAlt, FaSave, FaWindowClose } from "react-icons/fa";
 import {
-  Input,
   TextField,
   Select,
   MenuItem,
   FormControl,
   InputLabel,
-  Button
-} from '@mui/material';
+  Button,
+} from "@mui/material";
 
-import useStyles from './styles';
-import ConfigurationTest, { ConfigurationData, ConfTemplate } from './Type';
+import useStyles from "./styles";
+import ConfigurationTest, { ConfigurationData, ConfTemplate } from "./Type";
 
-const ConfigurationDisplay = ({config, onEdit}: {config: ConfigurationData, onEdit: any}) => {
+const ConfigurationDisplay = ({
+  config,
+  onEdit,
+}: {
+  config: ConfigurationData;
+  onEdit: any;
+}) => {
   const classes = useStyles();
 
   return (
     <Box className={classes.editInternal}>
-      <Grid container className={classes.container} style={{paddingTop: '10px'}}>
+      <Grid
+        container
+        className={classes.container}
+        style={{ paddingTop: "10px" }}
+      >
         <Grid item xs={10} className={classes.itemPaddingWhite}>
           <div className={classes.textTitle}>Organization Name</div>
           <div className={classes.textContent}>{config.org_name}</div>
         </Grid>
         <Grid item xs={2} className={classes.itemPaddingWhite}>
           <div className={classes.item}>
-            <FaPencilAlt className={classes.icon} onClick={()=>onEdit()} />
+            <FaPencilAlt className={classes.icon} onClick={() => onEdit()} />
             <div className={classes.textTitle}>Acronym</div>
             <div className={classes.textContent}>{config.acronym}</div>
           </div>
         </Grid>
       </Grid>
-      <Grid container className={classes.container} style={{paddingBottom: '10px'}}>
+      <Grid
+        container
+        className={classes.container}
+        style={{ paddingBottom: "10px" }}
+      >
         <Grid item xs={2}>
           <Grid container>
             <Grid item xs={6} className={classes.itemPaddingWhite}>
@@ -67,13 +80,17 @@ const ConfigurationDisplay = ({config, onEdit}: {config: ConfigurationData, onEd
             <Grid item xs={3} className={classes.itemPaddingWhite}>
               <div className={classes.item}>
                 <div className={classes.textTitle}>University Name</div>
-                <div className={classes.textContent}>{config.university_name}</div>
+                <div className={classes.textContent}>
+                  {config.university_name}
+                </div>
               </div>
             </Grid>
             <Grid item xs={3} className={classes.itemPaddingWhite}>
               <div className={classes.item}>
                 <div className={classes.textTitle}>University Code</div>
-                <div className={classes.textContent}>{config.university_code}</div>
+                <div className={classes.textContent}>
+                  {config.university_code}
+                </div>
               </div>
             </Grid>
           </Grid>
@@ -81,8 +98,14 @@ const ConfigurationDisplay = ({config, onEdit}: {config: ConfigurationData, onEd
         <Grid item xs={2} className={classes.itemPaddingWhite}>
           <div className={classes.item}>
             <div className={classes.prompt}>
-              Prompt Add Locaion <input checked={config.prompt_location} name="prompt_location"
-              onChange={(e) => {}} type="checkbox" style={{ margin: '5px 0px 0px 10px' }} />
+              Prompt Add Location{" "}
+              <input
+                checked={config.prompt_location}
+                name="prompt_location"
+                // onChange={(e) => {}}
+                type="checkbox"
+                style={{ margin: "5px 0px 0px 10px" }}
+              />
             </div>
             <div className={classes.itemBtn}>
               <Button variant="contained">Propagate Locations</Button>
@@ -91,10 +114,18 @@ const ConfigurationDisplay = ({config, onEdit}: {config: ConfigurationData, onEd
         </Grid>
       </Grid>
     </Box>
-  )
-}
+  );
+};
 
-const ConfigurationEdit = ({data, onSave, onCancel}: {data: ConfigurationData, onSave: any, onCancel: any}) => {
+const ConfigurationEdit = ({
+  data,
+  onSave,
+  onCancel,
+}: {
+  data: ConfigurationData;
+  onSave: any;
+  onCancel: any;
+}) => {
   const classes = useStyles();
   const [config, setConfig] = useState<ConfigurationData>(data);
 
@@ -102,17 +133,21 @@ const ConfigurationEdit = ({data, onSave, onCancel}: {data: ConfigurationData, o
     let update: any = { ...config };
     // update[e.target.name] = e.target.value;
     // setAddress(update)
-    if (e.target.name === 'prompt_location') {
-      update['prompt_location'] = e.target.checked
+    if (e.target.name === "prompt_location") {
+      update["prompt_location"] = e.target.checked;
     } else if (e.target.name) {
-      update[e.target.name] = e.target.value
+      update[e.target.name] = e.target.value;
     }
-    setConfig(update)
-  }
+    setConfig(update);
+  };
 
   return (
     <Box className={classes.editInternal}>
-      <Grid container className={classes.containerWhite} style={{paddingTop: '15px'}}>
+      <Grid
+        container
+        className={classes.containerWhite}
+        style={{ paddingTop: "15px" }}
+      >
         <Grid item xs={9} className={classes.itemPaddingWhite}>
           <div className={classes.item}>
             <TextField
@@ -121,9 +156,10 @@ const ConfigurationEdit = ({data, onSave, onCancel}: {data: ConfigurationData, o
               size="small"
               onChange={(e) => handleChange(e)}
               value={config.org_name}
-              InputLabelProps={{'shrink': true}}
+              InputLabelProps={{ shrink: true }}
               name="org_name"
-              className="full-width" />
+              className="full-width"
+            />
           </div>
         </Grid>
         <Grid item xs={2} className={classes.itemPaddingWhite}>
@@ -134,15 +170,19 @@ const ConfigurationEdit = ({data, onSave, onCancel}: {data: ConfigurationData, o
               size="small"
               onChange={(e) => handleChange(e)}
               value={config.acronym}
-              InputLabelProps={{'shrink': true}}
+              InputLabelProps={{ shrink: true }}
               name="acronym"
-              className="full-width" />
+              className="full-width"
+            />
           </div>
         </Grid>
-        <Grid item xs={1} className={classes.itemPaddingWhite}>
-        </Grid>
+        <Grid item xs={1} className={classes.itemPaddingWhite}></Grid>
       </Grid>
-      <Grid container className={classes.containerWhite} style={{paddingBottom: '15px'}}>
+      <Grid
+        container
+        className={classes.containerWhite}
+        style={{ paddingBottom: "15px" }}
+      >
         <Grid item xs={3}>
           <Grid container>
             <Grid item xs={7} className={classes.itemPaddingWhite}>
@@ -158,26 +198,28 @@ const ConfigurationEdit = ({data, onSave, onCancel}: {data: ConfigurationData, o
                     className="full-width"
                     onChange={(e) => handleChange(e)}
                   >
-                    {ConfTemplate.campus && ConfTemplate.campus.map((item, itemIndex) => {
-                      return <MenuItem value={item}>{item}</MenuItem>;
-                    })}
+                    {ConfTemplate.campus &&
+                      ConfTemplate.campus.map((item) => {
+                        return <MenuItem value={item}>{item}</MenuItem>;
+                      })}
                   </Select>
                 </FormControl>
               </div>
             </Grid>
-              <Grid item xs={5} className={classes.itemPaddingWhite}>
-                <div className={classes.item}>
-                  <TextField
-                    label="Org ID"
-                    variant="outlined"
-                    size="small"
-                    onChange={(e) => handleChange(e)}
-                    disabled
-                    value={config.org_id}
-                    InputLabelProps={{'shrink': true}}
-                    name="org_id"
-                    className="full-width" />
-                </div>
+            <Grid item xs={5} className={classes.itemPaddingWhite}>
+              <div className={classes.item}>
+                <TextField
+                  label="Org ID"
+                  variant="outlined"
+                  size="small"
+                  onChange={(e) => handleChange(e)}
+                  disabled
+                  value={config.org_id}
+                  InputLabelProps={{ shrink: true }}
+                  name="org_id"
+                  className="full-width"
+                />
+              </div>
             </Grid>
           </Grid>
         </Grid>
@@ -196,9 +238,10 @@ const ConfigurationEdit = ({data, onSave, onCancel}: {data: ConfigurationData, o
                     onChange={(e) => handleChange(e)}
                     className="full-width"
                   >
-                    {ConfTemplate.org_type && ConfTemplate.org_type.map((item, itemIndex) => {
-                      return <MenuItem value={item}>{item}</MenuItem>;
-                    })}
+                    {ConfTemplate.org_type &&
+                      ConfTemplate.org_type.map((item) => {
+                        return <MenuItem value={item}>{item}</MenuItem>;
+                      })}
                   </Select>
                 </FormControl>
               </div>
@@ -216,9 +259,10 @@ const ConfigurationEdit = ({data, onSave, onCancel}: {data: ConfigurationData, o
                     onChange={(e) => handleChange(e)}
                     className="full-width"
                   >
-                    {ConfTemplate.division && ConfTemplate.division.map((item, itemIndex) => {
-                      return <MenuItem value={item}>{item}</MenuItem>;
-                    })}
+                    {ConfTemplate.division &&
+                      ConfTemplate.division.map((item) => {
+                        return <MenuItem value={item}>{item}</MenuItem>;
+                      })}
                   </Select>
                 </FormControl>
               </div>
@@ -230,10 +274,11 @@ const ConfigurationEdit = ({data, onSave, onCancel}: {data: ConfigurationData, o
                   variant="outlined"
                   size="small"
                   value={config.university_name}
-                  InputLabelProps={{'shrink': true}}
+                  InputLabelProps={{ shrink: true }}
                   name="university_name"
                   onChange={(e) => handleChange(e)}
-                  className="full-width" />
+                  className="full-width"
+                />
               </div>
             </Grid>
             <Grid item xs={2} className={classes.itemPaddingWhite}>
@@ -243,10 +288,11 @@ const ConfigurationEdit = ({data, onSave, onCancel}: {data: ConfigurationData, o
                   variant="outlined"
                   size="small"
                   value={config.university_code}
-                  InputLabelProps={{'shrink': true}}
+                  InputLabelProps={{ shrink: true }}
                   name="university_code"
                   onChange={(e) => handleChange(e)}
-                  className="full-width" />
+                  className="full-width"
+                />
               </div>
             </Grid>
           </Grid>
@@ -254,40 +300,68 @@ const ConfigurationEdit = ({data, onSave, onCancel}: {data: ConfigurationData, o
         <Grid item xs={2} className={classes.itemPaddingWhite}>
           <div className={classes.item}>
             <div className={classes.prompt}>
-              Prompt Add Locaion <input checked={config.prompt_location} name="prompt_location"
-              onChange={(e) => handleChange(e)} type="checkbox" style={{ margin: '5px 0px 0px 10px' }} />
+              Prompt Add Location{" "}
+              <input
+                checked={config.prompt_location}
+                name="prompt_location"
+                onChange={(e) => handleChange(e)}
+                type="checkbox"
+                style={{ margin: "5px 0px 0px 10px" }}
+              />
             </div>
             <div className={classes.itemBtn}>
               <Button variant="contained">Propagate Locations</Button>
             </div>
           </div>
         </Grid>
-        <Grid item xs={1} className={classes.itemPaddingWhite} style={{display: 'flex', alignItems: 'flex-end'}}>
-          <div className={classes.item} style={{display: 'flex', justifyContent: 'center'}}>
-            <FaSave className={classes.actionIcon} onClick={() => onSave(config)} />
-            <FaWindowClose className={classes.actionIcon} onClick={() => onCancel()} />
+        <Grid
+          item
+          xs={1}
+          className={classes.itemPaddingWhite}
+          style={{ display: "flex", alignItems: "flex-end" }}
+        >
+          <div
+            className={classes.item}
+            style={{ display: "flex", justifyContent: "center" }}
+          >
+            <FaSave
+              className={classes.actionIcon}
+              onClick={() => onSave(config)}
+            />
+            <FaWindowClose
+              className={classes.actionIcon}
+              onClick={() => onCancel()}
+            />
           </div>
         </Grid>
       </Grid>
     </Box>
-  )
-}
+  );
+};
 
 const Configuration = () => {
-  const [mode, setMode] = useState('display');
-  const [conf, setConf] = useState(ConfigurationTest)
+  const [mode, setMode] = useState("display");
+  const [conf, setConf] = useState(ConfigurationTest);
 
   const classes = useStyles();
 
   const onSave = (config: ConfigurationData) => {
     setConf(config);
-    setMode('display');
-  }
+    setMode("display");
+  };
 
   return (
     <Box sx={{ flexGrow: 1 }} className={classes.content}>
-      { mode == 'display' && <ConfigurationDisplay config={ conf } onEdit={()=>setMode('edit')} />}
-      { mode == 'edit' && <ConfigurationEdit data={ conf } onSave={(config: ConfigurationData)=>onSave(config)} onCancel={()=>setMode('display')} />}
+      {mode == "display" && (
+        <ConfigurationDisplay config={conf} onEdit={() => setMode("edit")} />
+      )}
+      {mode == "edit" && (
+        <ConfigurationEdit
+          data={conf}
+          onSave={(config: ConfigurationData) => onSave(config)}
+          onCancel={() => setMode("display")}
+        />
+      )}
     </Box>
   );
 };

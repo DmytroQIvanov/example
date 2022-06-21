@@ -1,4 +1,4 @@
-import { gql, useQuery } from '@apollo/client';
+import { gql, useQuery } from "@apollo/client";
 import {
   Box,
   Table,
@@ -7,11 +7,10 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  TextField,
-} from '@mui/material';
-import React, { ChangeEvent } from 'react';
-import { BootstrapInput } from './Type';
-import useStyles from './styles';
+} from "@mui/material";
+import React, { ChangeEvent } from "react";
+import { BootstrapInput } from "./Type";
+import styles from "./styles.module.scss";
 
 interface DataTypes {
   person_order_id: Number;
@@ -40,15 +39,15 @@ const SEARCH_DATA = gql`
 `;
 
 const searchTitle = {
-  name: 'Name',
-  id: 'PID',
-  orderID: 'Unit',
-  code: 'Campus',
-  state: 'Employee ID',
+  name: "Name",
+  id: "PID",
+  orderID: "Unit",
+  code: "Campus",
+  state: "Employee ID",
 };
 
 const SearchMenu = () => {
-  const [searchData, setSearchData] = React.useState('');
+  const [searchData, setSearchData] = React.useState("");
 
   const handleSearch = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -57,7 +56,6 @@ const SearchMenu = () => {
   };
 
   const { data } = useQuery(SEARCH_DATA);
-  const classes = useStyles();
 
   return (
     <>
@@ -65,18 +63,17 @@ const SearchMenu = () => {
         className="input-white"
         placeholder="Search Person"
         type="search"
-        variant="standard"
         onChange={(event) => handleSearch(event)}
       />
       {searchData ? (
-        <TableContainer className={classes.searchContainer}>
+        <TableContainer className={styles.searchContainer}>
           <Table>
             <TableBody>
               <TableRow>
                 <TableCell>
-                  <Box className={classes.result}>
-                    <TableContainer className={classes.resultContainer}>
-                      <Table sx={{pt: '-22px'}}>
+                  <Box className={styles.result}>
+                    <TableContainer>
+                      <Table sx={{ pt: "-22px" }}>
                         <TableHead>
                           <TableRow>
                             <TableCell>
@@ -114,20 +111,24 @@ const SearchMenu = () => {
                                   .includes(searchData)
                               ) {
                                 return (
-                                  <TableRow key={person_order_id}>
-                                    {' '}
+                                  <TableRow key={`${person_order_id}`}>
+                                    {" "}
                                     <TableCell>
-                                      {' '}
-                                      {`${last_name || ''}, ${
-                                        first_name || ''
-                                      } ${middle_name || ''} ${
-                                        nickname || ''
-                                      }`}{' '}
-                                    </TableCell>{' '}
-                                    <TableCell>{person_order_id}</TableCell>{' '}
-                                    <TableCell>{order_id || ''}</TableCell>{' '}
-                                    <TableCell>{code || ''}</TableCell>{' '}
-                                    <TableCell>{order_state || ''}</TableCell>{' '}
+                                      {" "}
+                                      {`${last_name || ""}, ${
+                                        first_name || ""
+                                      } ${middle_name || ""} ${
+                                        nickname || ""
+                                      }`}{" "}
+                                    </TableCell>{" "}
+                                    <TableCell>
+                                      <>{person_order_id}</>
+                                    </TableCell>{" "}
+                                    <TableCell>
+                                      <>{order_id || ""}</>
+                                    </TableCell>{" "}
+                                    <TableCell>{code || ""}</TableCell>{" "}
+                                    <TableCell>{order_state || ""}</TableCell>{" "}
                                   </TableRow>
                                 );
                               }
@@ -143,7 +144,7 @@ const SearchMenu = () => {
           </Table>
         </TableContainer>
       ) : (
-        ''
+        ""
       )}
     </>
   );
