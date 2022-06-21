@@ -9,9 +9,12 @@ const SideBar: React.FC<{
   options: { link: string; icon: JSX.Element; text: string }[];
   title: string;
 }> = ({ options, title }) => {
-  const [collapsed, setCollapsed] = useState(
-    JSON.parse(localStorage.getItem("SideBarState") || "")
-  );
+  const parsedItem = localStorage.getItem("SideBarState");
+  let result = false;
+  if (parsedItem) {
+    result = Boolean(JSON.parse(parsedItem));
+  }
+  const [collapsed, setCollapsed] = useState(result);
   function handleCollapseState() {
     !collapsed ? setCollapsed(true) : setCollapsed(false);
   }
