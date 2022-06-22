@@ -230,7 +230,7 @@
 }
 .sidebar .menulist-container {
     height: calc(100vh - 10rem);
-    overflow-y: scroll;
+    /*overflow-y: scroll;*/ /*disabled until workaround can be found */
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;  /* Firefox */
 }
