@@ -333,7 +333,7 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
       default:
         return (
           <Typography mt={0.8} style={styles}>
-            {rowValues[name].toString()}
+            {rowValues[name]?.toString()}
           </Typography>
         );
     }
