@@ -46,7 +46,7 @@ export function PersonDataEntryHeader() {
                     </option>
                     {ConfTemplate.campus &&
                       ConfTemplate.campus.map((item, itemIndex) => {
-                        return <option value={item}>{item}</option>;
+                        return <option value={item} key={itemIndex}>{item}</option>;
                       })}
                   </NativeSelect>
                 </FormControl>
@@ -77,7 +77,7 @@ export function PersonDataEntryHeader() {
                     </option>
                     {ConfTemplate.campus &&
                       ConfTemplate.campus.map((item, itemIndex) => {
-                        return <option value={item}>{item}</option>;
+                        return <option value={item} key={itemIndex}>{item}</option>;
                       })}
                   </NativeSelect>
                 </FormControl>
@@ -95,7 +95,7 @@ export function PersonDataEntryHeader() {
                     </option>
                     {ConfTemplate.campus &&
                       ConfTemplate.campus.map((item, itemIndex) => {
-                        return <option value={item}>{item}</option>;
+                        return <option value={item} key={itemIndex}>{item}</option>;
                       })}
                   </NativeSelect>
                 </FormControl>
