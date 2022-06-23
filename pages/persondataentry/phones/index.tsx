@@ -1,7 +1,7 @@
 import type { ReactElement } from 'react'
 
 import { Layout } from '../layout';
-import Table from '../../../components/Tables/PhoneTable/Index'
+import Table from '../../../components/Tables/PhoneTable/index'
 
 
 export default function Index() {

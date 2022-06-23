@@ -66,6 +66,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   });
   const { pathname } = useRouter();
   const isPublicPages = publicPages.includes(pathname);
+  //@ts-ignore
   const getLayout = Component.getLayout || ((page: ReactElement) => page);
   return (
     <ThemeProvider theme={theme}>

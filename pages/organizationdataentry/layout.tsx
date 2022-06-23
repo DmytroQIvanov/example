@@ -14,67 +14,27 @@ const arrowNavigation = [
   {
     link: "/persondataentry/interactions",
     icon: <BsFillPersonFill className="react-icon" />,
-    text: "Person Interactions",
+    text: "Locations",
   },
   {
     link: "/persondataentry/electronicaddress",
     icon: <HiOutlineMailOpen className="react-icon" />,
-    text: "Electronic Addresses",
+    text: "Electronic Websites",
   },
   {
     link: "/persondataentry/affiliations",
     icon: <IoMdShare className="react-icon" />,
-    text: "Affiliations",
+    text: "Research Notes",
   },
   {
     link: "/persondataentry/locations",
     icon: <FaMap className="react-icon" />,
-    text: "Locations",
+    text: "Parents",
   },
   {
     link: "/persondataentry/phones",
     icon: <BsPhoneFill className="react-icon" />,
-    text: "Phones",
-  },
-  {
-    link: "/persondataentry/othernames",
-    icon: <FaClipboardList className="react-icon" />,
-    text: "Other Names",
-  },
-  {
-    link: "/persondataentry/homeaddress",
-    icon: <FaHome className="react-icon" />,
-    text: "Home Address",
-  },
-  {
-    link: "/persondataentry/employment.tsx",
-    icon: <FaSuitcase className="react-icon" />,
-    text: "Employment",
-  },
-  {
-    link: "/persondataentry/employmenthistory",
-    icon: <FaSuitcase className="react-icon" />,
-    text: "Employment Id History",
-  },
-  {
-    link: "/persondataentry/employment.tsx",
-    icon: <FaSuitcase className="react-icon" />,
-    text: "Submissions",
-  },
-  {
-    link: "/persondataentry/employment.tsx",
-    icon: <FaSuitcase className="react-icon" />,
-    text: "Deductions",
-  },
-  {
-    link: "/persondataentry/employment.tsx",
-    icon: <FaSuitcase className="react-icon" />,
-    text: "Research",
-  },
-  {
-    link: "/persondataentry/employment.tsx",
-    icon: <FaSuitcase className="react-icon" />,
-    text: "Campuses",
+    text: "Children",
   },
 ];
 
