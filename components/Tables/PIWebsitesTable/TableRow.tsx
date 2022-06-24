@@ -49,15 +49,15 @@ const TableRowComponent: React.FC<
         {EditableBlock({
           ...summaryObject,
           name: "url",
-          type: "dropdown",
-          itemsArray: dropArray,
+          // type: "dropdown",
+          // itemsArray: dropArray,
         })}
 
         {EditableBlock({
           ...summaryObject,
           name: "comments",
-          type: "dropdown",
-          itemsArray: dropArray,
+          // type: "dropdown",
+          // itemsArray: dropArray,
         })}
       </TableCell>
 

@@ -1,5 +1,6 @@
 import React from "react";
 import TableCell from "@material-ui/core/TableCell";
+import { Box } from "@mui/material";
 import TableRow from "@material-ui/core/TableRow";
 
 //INTERFACES
@@ -46,31 +47,69 @@ const TableRowComponent: React.FC<
           : {}
       }
     >
-      <TableCell component="th" scope="row" width={"240px"}>
+      <TableCell component="th" scope="row" width={"300px"}>
+        <Box>
+          {EditableBlock({
+            ...summaryObject,
+            name: "campus",
+            type: "dropdown",
+            itemsArray: dropArray,
+          })}
+        </Box>
+      </TableCell>
+      <TableCell component="th" scope="row" width={"300px"}>
+        <Box>
+          {EditableBlock({
+            ...summaryObject,
+            name: "organization1",
+            type: "dropdown",
+            itemsArray: dropArray,
+          })}
+        </Box>
+        <Box sx={{ mt: "20px" }}>
+          {EditableBlock({
+            ...summaryObject,
+            name: "organization2",
+            type: "dropdown",
+            itemsArray: dropArray,
+          })}
+        </Box>
+      </TableCell>
+      <TableCell width={"150px"}>
         {EditableBlock({
           ...summaryObject,
-          name: "campus",
+          name: "informationSource",
           type: "dropdown",
-          availableStateBoolean: true,
           itemsArray: dropArray,
-          modifyOnlyExistingField: true,
         })}
       </TableCell>
-
-      <TableCell width={"130px"}>
+      <TableCell width={"100px"}>
         {EditableBlock({
           ...summaryObject,
-          name: "employeeID",
+          name: "primary",
+          type: "checkBox",
+          checkBox: {
+            type: "green",
+            textVariants: { trueVariant: "YES", falseVariant: "NO" },
+          },
         })}
       </TableCell>
-      <TableCell width={"200px"}>
+      <TableCell width={"400px"}>
+        {EditableBlock({
+          ...summaryObject,
+          name: "comments",
+          multiline: 6,
+          width: 100,
+        })}
+      </TableCell>
+      <TableCell width={"230px"}>
         {EditableBlock({
           ...summaryObject,
           name: "dfkv",
           type: "date",
         })}
       </TableCell>
-      <TableCell width={"200px"}>
+      <TableCell width={"230px"}>
         {EditableBlock({
           ...summaryObject,
           name: "dlkv",
@@ -78,10 +117,16 @@ const TableRowComponent: React.FC<
         })}
         {EditableBlock({ ...summaryObject, type: "validate" })}
       </TableCell>
-      <TableCell width={"230px"}>
+      <TableCell width={"220px"}>
         {EditableBlock({
           ...summaryObject,
-          name: "createdBy",
+          name: "dmi",
+          type: "date",
+        })}
+
+        {EditableBlock({
+          ...summaryObject,
+          type: "invalidate",
         })}
       </TableCell>
       <TableCell width={"130px"}>

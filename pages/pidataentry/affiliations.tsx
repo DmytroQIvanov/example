@@ -1,7 +1,7 @@
 import type { ReactElement } from "react";
 
-import { Layout } from "../layout";
-import Table from "../../../components/Tables/IDHistoryTable/Index";
+import { Layout } from "./layout";
+import Table from "../../components/Tables/PIAffiliations/Index";
 
 export default function Index() {
   return (
@@ -12,5 +12,5 @@ export default function Index() {
 }
 
 Index.getLayout = function getLayout(page: ReactElement) {
-  return <Layout breadcrumb={"Employee Id History"}>{page}</Layout>;
+  return <Layout breadcrumb={"Affiliations"}>{page}</Layout>;
 };

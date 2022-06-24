@@ -28,6 +28,15 @@ export const useTableWrapper = (rows: any[]) => {
     number: null,
   });
 
+  const checkActiveRow = (
+    id: string,
+    state: RowStateTypes = "change"
+  ): boolean => {
+    if (activeRow.number === id && activeRow.state === state) return true;
+
+    return false;
+  };
+
   const handleRowState = (id: string | null, state: RowStateTypes) => {
     setActiveRow({ number: id, state: state });
   };
@@ -140,6 +149,7 @@ export const useTableWrapper = (rows: any[]) => {
     activeRowObject: {
       activeRow,
       handleRowState,
+      checkActiveRow,
     },
   };
 };

@@ -1,16 +1,8 @@
-import React, { useCallback, useLayoutEffect, useRef, useState } from "react";
+import React from "react";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import { FaRocketchat } from "react-icons/fa";
-import {
-  Input,
-  TextField,
-  Select,
-  MenuItem,
-  FormControl,
-  InputLabel,
-  Button,
-} from "@mui/material";
+import { Button } from "@mui/material";
 
 import useStyles from "./styles";
 import PiSummaryDataTest from "./Type";
@@ -23,7 +15,10 @@ const PiSummary = () => {
   return (
     <Box sx={{ flexGrow: 1 }} className={classes.content}>
       <Box className={classes.editInternal}>
-        <Grid container className={[classes.container, classes.topSection]}>
+        <Grid
+          container
+          className={[classes.container, classes.topSection].join(" ")}
+        >
           <Grid item xs={2} className={classes.itemPaddingWhite}>
             <div className={classes.item}>
               <div className={classes.textTitle}>Campus</div>
@@ -62,7 +57,10 @@ const PiSummary = () => {
             </div>
           </Grid>
         </Grid>
-        <Grid container className={[classes.container, classes.bottomSection]}>
+        <Grid
+          container
+          className={[classes.container, classes.bottomSection].join(" ")}
+        >
           <Grid item xs={5} className={classes.itemPaddingWhite}>
             <div className={classes.item}>
               <div className={classes.textTitle}>Super Area</div>

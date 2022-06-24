@@ -8,7 +8,7 @@ import SideBar from "../components/SideBar";
 import { BsFillPersonFill, BsPhoneFill } from "react-icons/bs";
 import { HiOutlineMailOpen } from "react-icons/hi";
 import { IoMdShare } from "react-icons/io";
-import { FaClipboardList, FaHome, FaMap, FaSuitcase } from "react-icons/fa";
+import { FaMap } from "react-icons/fa";
 const arrowNavigation = [
   {
     link: "/pidataentry/locations",
@@ -26,7 +26,7 @@ const arrowNavigation = [
     text: "Members",
   },
   {
-    link: "/pidataentry/locations",
+    link: "/pidataentry/affiliations",
     icon: <FaMap className="react-icon" />,
     text: "Affiliations",
   },
@@ -48,7 +48,6 @@ export function Layout({
 
   return (
     <div className={classes.layout}>
-      {/*<PersonDataEntrySideBar/>*/}
       <SideBar options={arrowNavigation} title={"PI Data Entry"} />
 
       <div className={classes.content}>
@@ -56,7 +55,7 @@ export function Layout({
         <Grid sx={{ padding: "20px 100px" }}>
           <PiSummary />
         </Grid>
-        <BreadCrumb breadcrumbs={["PI Data Entry Form", breadcrumb]} />
+        <BreadCrumb breadcrumbs={["PI Data Entry", breadcrumb]} />
         <main>{children}</main>
       </div>
     </div>

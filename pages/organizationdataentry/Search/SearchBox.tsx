@@ -43,6 +43,7 @@ const searchTitle = {
   id: "Org ID",
   orderID: "Acronym",
   code: "Org Type",
+  state: "State",
 };
 
 const SearchMenu = () => {
@@ -63,7 +64,6 @@ const SearchMenu = () => {
         className="input-white"
         placeholder="Search Person"
         type="search"
-        variant="standard"
         onChange={(event) => handleSearch(event)}
       />
       {searchData ? (
@@ -73,7 +73,7 @@ const SearchMenu = () => {
               <TableRow>
                 <TableCell>
                   <Box className={classes.result}>
-                    <TableContainer className={classes.resultContainer}>
+                    <TableContainer>
                       <Table sx={{ pt: "-22px" }}>
                         <TableHead>
                           <TableRow>
@@ -112,7 +112,7 @@ const SearchMenu = () => {
                                   .includes(searchData)
                               ) {
                                 return (
-                                  <TableRow key={person_order_id}>
+                                  <TableRow key={`${person_order_id}`}>
                                     {" "}
                                     <TableCell>
                                       {" "}
@@ -122,8 +122,12 @@ const SearchMenu = () => {
                                         nickname || ""
                                       }`}{" "}
                                     </TableCell>{" "}
-                                    <TableCell>{person_order_id}</TableCell>{" "}
-                                    <TableCell>{order_id || ""}</TableCell>{" "}
+                                    <TableCell>
+                                      <>{person_order_id}</>
+                                    </TableCell>{" "}
+                                    <TableCell>
+                                      <>{order_id || ""}</>
+                                    </TableCell>{" "}
                                     <TableCell>{code || ""}</TableCell>{" "}
                                     <TableCell>{order_state || ""}</TableCell>{" "}
                                   </TableRow>
@@ -135,6 +139,7 @@ const SearchMenu = () => {
                       </Table>
                     </TableContainer>
                   </Box>
+                  a
                 </TableCell>
               </TableRow>
             </TableBody>
