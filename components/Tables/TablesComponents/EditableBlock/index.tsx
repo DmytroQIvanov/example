@@ -16,7 +16,13 @@ import { IActiveRowObject } from "../Interfaces/TableWrapperInterfaces";
 import { useUser } from "@clerk/nextjs";
 import { propsBlockWithState } from "./interfaces";
 
-let dateOptions = {
+type date = "numeric" | "2-digit";
+export let dateOptions: {
+  year: date;
+  month: date;
+  day: date;
+  timeZone: string;
+} = {
   year: "numeric",
   month: "2-digit",
   day: "2-digit",
@@ -110,7 +116,10 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
     if (!rowValues[name]) {
       handleChange(name, "");
     }
-    if (rowState === "change" && !availableStateBoolean)
+    if (
+      activeRowObject.checkActiveRow(rowValues.id, "change") &&
+      !availableStateBoolean
+    )
       setDisabledState(disableEditableArray.includes(name));
     if (editable) {
       setDisabledState(false);
@@ -119,8 +128,7 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
     // PUT FULL NAME ON THE ROW
     if (
       name === "createdBy" &&
-      activeRowObject.activeRow.number === rowValues.id &&
-      activeRowObject.activeRow.state === "add"
+      activeRowObject.checkActiveRow(rowValues.id, "add")
     ) {
       setDisabledState(true);
       handleChange(name, `${user?.firstName} ${user?.lastName}`);
@@ -128,8 +136,7 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
     // PUT DATE TO DFKV
     if (
       name === "dfkv" &&
-      activeRowObject.activeRow.number === rowValues.id &&
-      activeRowObject.activeRow.state === "add"
+      activeRowObject.checkActiveRow(rowValues.id, "add")
     ) {
       const date = new Date();
       const pst = date.toLocaleString("en-US", dateOptions);
@@ -228,7 +235,7 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
         return (
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <DatePicker
-              value={rowValues[name] || "11/11/2011"}
+              value={rowValues[name] || ""}
               disabled={disabledState}
               onChange={(newValue) => {
                 const month = newValue.getUTCMonth() + 1;

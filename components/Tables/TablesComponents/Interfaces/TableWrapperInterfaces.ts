@@ -10,6 +10,7 @@ export interface IActiveRow {
 export interface IActiveRowObject {
   activeRow: IActiveRow;
   handleRowState: (id: string | null, state: RowStateTypes) => void;
+  checkActiveRow: (id: string, state?: RowStateTypes) => boolean;
 }
 
 export interface ITableWrapperProps {

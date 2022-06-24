@@ -168,7 +168,8 @@ const rows: ItemType[] = [
     other: "Football7",
   },
 ];
-const headCells: readonly HeadCell[] = [
+// const headCells: readonly HeadCell[] = [
+const headCells: HeadCell[] = [
   {
     id: "id",
     numeric: true,

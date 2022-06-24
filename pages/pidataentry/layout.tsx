@@ -26,7 +26,7 @@ const arrowNavigation = [
     text: "Members",
   },
   {
-    link: "/pidataentry/locations",
+    link: "/pidataentry/affiliations",
     icon: <FaMap className="react-icon" />,
     text: "Affiliations",
   },

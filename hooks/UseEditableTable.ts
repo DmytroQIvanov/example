@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { IActiveRowObject } from "../components/Tables/TablesComponents/Interfaces/TableWrapperInterfaces";
+import { dateOptions } from "../components/Tables/TablesComponents/EditableBlock";
 
 export type rowStateTypes = "default" | "change" | "add";
 
@@ -63,6 +64,7 @@ export const UseEditableTable = ({
   const [validateState, setValidateState] = useState(
     row?.datemarkedinvalid ? true : false
   );
+  const [validateStateChanged, setValidateStateChanged] = useState(false);
 
   // ---FUNCTIONS---
 
@@ -83,19 +85,31 @@ export const UseEditableTable = ({
   // CHANGE VALIDATE STATE
   const changeValidateState: (state?: boolean) => void = (state?: boolean) => {
     setValidateState((prevState) => {
-      setRowValues((prevState2: any[]) => {
-        let dateOptions = {
-          year: "numeric",
-          month: "2-digit",
-          day: "2-digit",
-          timeZone: "America/Los_Angeles",
-        };
-        const date = new Date();
-        const pst = date.toLocaleString("en-US", dateOptions);
-        prevState2["dmi"] = pst;
+      if (activeRowObject.activeRow.state === "default") {
+        setRowValues((prevState2: any) => {
+          const date = new Date();
+          const pst = date.toLocaleString("en-US", dateOptions);
+          prevState2["dmi"] = pst;
 
-        return prevState2;
-      });
+          return prevState2;
+        });
+        setEditableRowValues((prevState2: any) => {
+          const date = new Date();
+          const pst = date.toLocaleString("en-US", dateOptions);
+          prevState2["dmi"] = pst;
+
+          return prevState2;
+        });
+        if (state != undefined) return state;
+        return !prevState;
+      }
+      // if (
+      //   activeRowObject.activeRow.state !== "default" &&
+      //   activeRowObject.activeRow.number === rowValues.id
+      // ) {
+      //   setValidateStateChanged(true);
+      // }
+      //
       if (state != undefined) return state;
       return !prevState;
     });
@@ -105,17 +119,37 @@ export const UseEditableTable = ({
     setRowValues((prevValue: any) => {
       if (activeRowObject.activeRow.state === "add") {
         onAddCancel();
-        onSaveWithProvidedState({
+        let state = {
           ...editableRowValues,
           rowState,
           datemarkedinvalid: validateState,
-        });
+        };
+        if (validateState) {
+          const date = new Date();
+          const pst = date.toLocaleString("en-US", dateOptions);
+          state["dmi"] = pst;
+        }
+
+        onSaveWithProvidedState(state);
       } else {
-        onChangeWithProvidedState({
+        const state = {
           ...editableRowValues,
           rowState,
           datemarkedinvalid: validateState,
-        });
+        };
+        if (prevValue.datemarkedinvalid !== validateState) {
+          const date = new Date();
+          const pst = date.toLocaleString("en-US", dateOptions);
+          state["dmi"] = pst;
+          setValidateStateChanged(true);
+        }
+        // if (validateState) {
+        //   const date = new Date();
+        //   const pst = date.toLocaleString("en-US", dateOptions);
+        //   state["dmi"] = pst;
+        //   setValidateStateChanged(true);
+        // }
+        onChangeWithProvidedState(state);
       }
 
       return {

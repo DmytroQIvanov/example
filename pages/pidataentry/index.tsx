@@ -1,19 +1,11 @@
-import type { ReactElement } from 'react'
+import type { ReactElement } from "react";
 
-import { Layout } from './layout';
-import useStyles from '../styles';
+import { Layout } from "./layout";
 
 export default function Index() {
-  return (
-    <>
-    </>
-  )
+  return <></>;
 }
 
 Index.getLayout = function getLayout(page: ReactElement) {
-  return (
-    <Layout breadcrumb={''}>
-      {page}
-    </Layout>
-  )
-}
+  return <Layout breadcrumb={""}>{page}</Layout>;
+};
