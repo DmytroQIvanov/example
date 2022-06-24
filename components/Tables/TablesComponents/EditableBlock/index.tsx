@@ -1,4 +1,4 @@
-import React, { CSSProperties, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Autocomplete,
   Box,
@@ -12,44 +12,16 @@ import {
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import {
-  ISummaryObject,
-  rowStateTypes,
-} from "../../../../hooks/UseEditableTable";
 import { IActiveRowObject } from "../Interfaces/TableWrapperInterfaces";
+import { useUser } from "@clerk/nextjs";
+import { propsBlockWithState } from "./interfaces";
 
-interface ICheckBox {
-  label?: string;
-  textVariants?: { trueVariant: string; falseVariant: string };
-  type?: "green" | "default";
-  onClick?: () => void;
-  value?: boolean;
-  disabled?: boolean;
-}
-
-interface propsBlockWithState extends ISummaryObject {
-  title?: string;
-  name?: string;
-  disabled?: boolean;
-  width?: number;
-  editable?: boolean;
-  itemsArray?: { label: string }[];
-  type?:
-    | "textField"
-    | "dropdown"
-    | "date"
-    | "checkBox"
-    | "invalidate"
-    | "validate";
-  multiline?: number;
-  titleVisibly?: boolean;
-  style?: CSSProperties;
-  className?: string;
-  availableStateBoolean?: boolean;
-  checkBox?: ICheckBox;
-  removeComponent?: boolean;
-  modifyOnlyExistingField?: boolean;
-}
+let dateOptions = {
+  year: "numeric",
+  month: "2-digit",
+  day: "2-digit",
+  timeZone: "America/Los_Angeles",
+};
 const InvalidateComponent = ({
   rowValues,
   validateState,
@@ -122,20 +94,77 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
     "%",
     "date",
     "dmi",
+
+    //
+    "dlkv",
+    "dfkv",
   ];
+
+  // ---DISABLED STATE---
+  // let disabledState = false;
+  const [disabledState, setDisabledState] = useState(false);
+
+  const { isLoaded, isSignedIn, user } = useUser();
 
   useEffect(() => {
     if (!rowValues[name]) {
       handleChange(name, "");
     }
-  }, []);
+    if (rowState === "change" && !availableStateBoolean)
+      setDisabledState(disableEditableArray.includes(name));
+    if (editable) {
+      setDisabledState(false);
+    }
 
-  let disabledState = false;
-  if (rowState === "change" && !availableStateBoolean)
-    disabledState = disableEditableArray.includes(name);
-  if (editable) {
-    disabledState = false;
-  }
+    // PUT FULL NAME ON THE ROW
+    if (
+      name === "createdBy" &&
+      activeRowObject.activeRow.number === rowValues.id &&
+      activeRowObject.activeRow.state === "add"
+    ) {
+      setDisabledState(true);
+      handleChange(name, `${user?.firstName} ${user?.lastName}`);
+    }
+    // PUT DATE TO DFKV
+    if (
+      name === "dfkv" &&
+      activeRowObject.activeRow.number === rowValues.id &&
+      activeRowObject.activeRow.state === "add"
+    ) {
+      const date = new Date();
+      const pst = date.toLocaleString("en-US", dateOptions);
+
+      handleChange(name, `${pst}` || "");
+    }
+    if (name === "dfkv") {
+      setDisabledState(true);
+    }
+  }, [activeRowObject]);
+
+  useEffect(() => {
+    // PUT DATE TO DFKV
+    if (
+      name === "dlkv" &&
+      activeRowObject.activeRow.number === rowValues.id &&
+      activeRowObject.activeRow.state === "change"
+    ) {
+      setDisabledState(true);
+      const date = new Date();
+      const pst = date.toLocaleString("en-US", dateOptions);
+
+      handleChange(name, `${pst}`);
+    }
+    if (name === "dlkv") {
+      setDisabledState(true);
+    }
+  }, [activeRowObject]);
+
+  useEffect(() => {
+    if (name === "dmi") {
+      setDisabledState(true);
+    }
+  }, [activeRowObject]);
+
   let styles = disabledState ? { backgroundColor: "#C3DBFF" } : {};
 
   const Component = () => {
@@ -202,8 +231,6 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
               value={rowValues[name] || "11/11/2011"}
               disabled={disabledState}
               onChange={(newValue) => {
-                // console.log(newValue);
-                // console.log(typeof newValue);
                 const month = newValue.getUTCMonth() + 1;
                 const day = newValue.getUTCDate();
                 const year = newValue.getUTCFullYear();

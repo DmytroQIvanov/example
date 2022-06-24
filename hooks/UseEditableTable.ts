@@ -83,6 +83,19 @@ export const UseEditableTable = ({
   // CHANGE VALIDATE STATE
   const changeValidateState: (state?: boolean) => void = (state?: boolean) => {
     setValidateState((prevState) => {
+      setRowValues((prevState2: any[]) => {
+        let dateOptions = {
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+          timeZone: "America/Los_Angeles",
+        };
+        const date = new Date();
+        const pst = date.toLocaleString("en-US", dateOptions);
+        prevState2["dmi"] = pst;
+
+        return prevState2;
+      });
       if (state != undefined) return state;
       return !prevState;
     });
