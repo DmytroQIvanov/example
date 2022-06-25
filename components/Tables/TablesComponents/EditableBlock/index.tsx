@@ -50,9 +50,9 @@ const InvalidateComponent = ({
               activeRowObject.activeRow.number == rowValues.id &&
               activeRowObject.activeRow.state !== "default"
                 ? validateState
-                : rowValues["datemarkedinvalid"]
+                : rowValues["validateState"]
             }
-            disabled={rowValues["datemarkedinvalid"]}
+            disabled={rowValues["validateState"]}
           />
         }
         label={"Invalidate"}
@@ -135,13 +135,13 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
     }
     // PUT DATE TO DFKV
     if (
-      name === "dfkv" &&
+      (name === "dfkv" || name === "datefirstknownvalid") &&
       activeRowObject.checkActiveRow(rowValues.id, "add")
     ) {
       const date = new Date();
       const pst = date.toLocaleString("en-US", dateOptions);
 
-      handleChange(name, `${pst}` || "");
+      handleChange(name, `${pst}`);
     }
     if (name === "dfkv") {
       setDisabledState(true);
@@ -151,7 +151,7 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
   useEffect(() => {
     // PUT DATE TO DFKV
     if (
-      name === "dlkv" &&
+      (name === "dlkv" || name === "datelastknownvalid") &&
       activeRowObject.activeRow.number === rowValues.id &&
       activeRowObject.activeRow.state === "add"
     ) {
@@ -166,7 +166,7 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
   }, [activeRowObject]);
 
   useEffect(() => {
-    if (name === "dmi") {
+    if (name === "dmi" || name === "datemarkedinvalid") {
       setDisabledState(true);
     }
   }, [activeRowObject]);

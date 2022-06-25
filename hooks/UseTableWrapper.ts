@@ -3,6 +3,7 @@ import {
   IActiveRow,
   RowStateTypes,
 } from "../components/Tables/TablesComponents/Interfaces/TableWrapperInterfaces";
+import { dateOptions } from "../components/Tables/TablesComponents/EditableBlock";
 
 export const useTableWrapper = (rows: any[]) => {
   const [tableElements, setTableElements] = useState<any[]>([]);
@@ -110,16 +111,26 @@ export const useTableWrapper = (rows: any[]) => {
   };
 
   const onSaveWithProvidedState = (state: any) => {
+    const date = new Date();
+    const pst = date.toLocaleString("en-US", dateOptions);
     setTableElements((prevState) => [
       ...prevState,
-      { ...state, id: Math.floor(Math.random() * (10000 - 1 + 1) + 1) },
+      {
+        ...state,
+        id: Math.floor(Math.random() * (10000 - 1 + 1) + 1),
+        datefirstknownvalid: pst,
+      },
     ]);
     console.log(tableElements);
   };
-  const onChangeWithProvidedState = (state: any) => {
+  const onChangeWithProvidedState = (state: any, changingRow?: string) => {
+    const date = new Date();
+    const pst = date.toLocaleString("en-US", dateOptions);
     setTableElements((prevState) => {
-      const result = prevState.filter((elem) => elem.id !== activeRow.number);
-      return [...result, state];
+      const result = prevState.filter(
+        (elem) => elem.id !== changingRow || activeRow.number
+      );
+      return [...result, { ...state, datefirstknownvalid: pst }];
     });
   };
   const onAddCancel = (id: string | undefined) => {

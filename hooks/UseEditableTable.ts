@@ -92,7 +92,9 @@ export const UseEditableTable = ({
         const date = new Date();
         const pst = date.toLocaleString("en-US", dateOptions);
         prevState2["dlkv"] = pst;
+        prevState2["datelastknownvalid"] = pst;
         prevState2["dmi"] = null;
+        prevState2["datemarkedinvalid"] = null;
 
         return prevState2;
       });
@@ -100,7 +102,9 @@ export const UseEditableTable = ({
         const date = new Date();
         const pst = date.toLocaleString("en-US", dateOptions);
         prevState2["dlkv"] = pst;
+        prevState2["datelastknownvalid"] = pst;
         prevState2["dmi"] = null;
+        prevState2["datemarkedinvalid"] = null;
 
         return prevState2;
       });
@@ -115,6 +119,7 @@ export const UseEditableTable = ({
           const date = new Date();
           const pst = date.toLocaleString("en-US", dateOptions);
           prevState2["dmi"] = pst;
+          prevState2["datemarkedinvalid"] = pst;
 
           return prevState2;
         });
@@ -122,6 +127,7 @@ export const UseEditableTable = ({
           const date = new Date();
           const pst = date.toLocaleString("en-US", dateOptions);
           prevState2["dmi"] = pst;
+          prevState2["datemarkedinvalid"] = pst;
 
           return prevState2;
         });
@@ -147,7 +153,8 @@ export const UseEditableTable = ({
         let state = {
           ...editableRowValues,
           rowState,
-          datemarkedinvalid: validateState,
+          validateState,
+          // datemarkedinvalid: validateState,
         };
         if (validateState) {
           const date = new Date();
@@ -160,9 +167,10 @@ export const UseEditableTable = ({
         const state = {
           ...editableRowValues,
           rowState,
-          datemarkedinvalid: validateState,
+          validateState,
+          // datemarkedinvalid: validateState,
         };
-        if (prevValue.datemarkedinvalid !== validateState) {
+        if (prevValue.validateState !== validateState) {
           const date = new Date();
           const pst = date.toLocaleString("en-US", dateOptions);
           state["dmi"] = pst;
@@ -180,7 +188,8 @@ export const UseEditableTable = ({
       return {
         ...editableRowValues,
         rowState,
-        datemarkedinvalid: validateState,
+        validateState,
+        // datemarkedinvalid: validateState,
       };
     });
 
@@ -245,7 +254,8 @@ export const UseEditableTable = ({
       setRowValues((prevValues: any) => {
         return {
           ...prevValues,
-          datemarkedinvalid: validateState,
+          validateState,
+          // datemarkedinvalid: validateState,
         };
       });
   }, [validateState]);

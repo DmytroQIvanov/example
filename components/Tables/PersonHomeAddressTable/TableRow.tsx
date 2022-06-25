@@ -42,7 +42,7 @@ const TableRowComponent: React.FC<
   return (
     <TableRow
       style={
-        summaryObject.rowValues.datemarkedinvalid
+        summaryObject.rowValues.validateState
           ? { backgroundColor: "#ececec" }
           : {}
       }
@@ -78,6 +78,7 @@ const TableRowComponent: React.FC<
         {EditableBlock({
           ...summaryObject,
           name: "datefirstknownvalid",
+          type: "date",
         })}
       </TableCell>
       <TableCell width={"220px"}>
@@ -116,11 +117,11 @@ const TableRowComponent: React.FC<
         data={{ address: summaryObject.rowValues }}
         open={stateModal}
         handleClose={onHandleClose}
-        onChangeAddress={
+        onChangeAddress={(state: any) => {
           summaryObject.rowState === "add"
-            ? onSaveWithProvidedState
-            : onChangeWithProvidedState
-        }
+            ? onSaveWithProvidedState(state)
+            : onChangeWithProvidedState(state, summaryObject.rowValues.id);
+        }}
       />
     </TableRow>
   );

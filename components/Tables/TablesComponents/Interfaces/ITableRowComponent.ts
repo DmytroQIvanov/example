@@ -2,7 +2,7 @@ import { IActiveRowObject } from "./TableWrapperInterfaces";
 
 export interface ITableRowComponent<IRowsPersonEmploymentTable> {
   row: IRowsPersonEmploymentTable;
-  onChangeWithProvidedState: (state: any) => void;
+  onChangeWithProvidedState: (state: any, changingRow?: string) => void;
   onSaveWithProvidedState: (state: any) => void;
   onDelete: (id: string | undefined) => void;
   onAddSave: () => void;
