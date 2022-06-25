@@ -11,7 +11,7 @@ export interface ISummaryObject {
     // | React.ChangeEvent<HTMLInputElement>
   ) => void;
   validateState: boolean;
-  changeValidateState: (state?: boolean) => void;
+  changeValidateState: (state?: boolean, validate?: boolean) => void;
   rowState: rowStateTypes;
   changeRowState: () => void;
   rowValues: { [index: string]: any };
@@ -83,9 +83,34 @@ export const UseEditableTable = ({
   };
 
   // CHANGE VALIDATE STATE
-  const changeValidateState: (state?: boolean) => void = (state?: boolean) => {
+  const changeValidateState: (state?: boolean, validate?: boolean) => void = (
+    state?: boolean,
+    validate?: boolean
+  ) => {
+    if (validate) {
+      setRowValues((prevState2: any) => {
+        const date = new Date();
+        const pst = date.toLocaleString("en-US", dateOptions);
+        prevState2["dlkv"] = pst;
+        prevState2["dmi"] = null;
+
+        return prevState2;
+      });
+      setEditableRowValues((prevState2: any) => {
+        const date = new Date();
+        const pst = date.toLocaleString("en-US", dateOptions);
+        prevState2["dlkv"] = pst;
+        prevState2["dmi"] = null;
+
+        return prevState2;
+      });
+    }
     setValidateState((prevState) => {
-      if (activeRowObject.activeRow.state === "default") {
+      if (
+        activeRowObject.activeRow.state === "default" &&
+        state === undefined &&
+        validate === undefined
+      ) {
         setRowValues((prevState2: any) => {
           const date = new Date();
           const pst = date.toLocaleString("en-US", dateOptions);
