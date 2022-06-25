@@ -153,9 +153,8 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
     if (
       name === "dlkv" &&
       activeRowObject.activeRow.number === rowValues.id &&
-      activeRowObject.activeRow.state === "change"
+      activeRowObject.activeRow.state === "add"
     ) {
-      setDisabledState(true);
       const date = new Date();
       const pst = date.toLocaleString("en-US", dateOptions);
 
@@ -285,7 +284,12 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
                   backgroundColor: "#0e3e7a",
                 },
               }}
-              onClick={() => changeValidateState(false)}
+              onClick={() => {
+                const date = new Date();
+                const pst = date.toLocaleString("en-US", dateOptions);
+                handleChange("dlkv", `${pst}`);
+                changeValidateState(false, true);
+              }}
             >
               Validate
             </Button>
@@ -337,7 +341,12 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
                   backgroundColor: "#0e3e7a",
                 },
               }}
-              onClick={() => changeValidateState(false)}
+              onClick={() => {
+                const date = new Date();
+                const pst = date.toLocaleString("en-US", dateOptions);
+                handleChange("dlkv", pst);
+                changeValidateState(false, true);
+              }}
             >
               Validate
             </Button>
