@@ -114,7 +114,7 @@ const Index: React.FC<optionsBlock> = ({
         saveElements()
       ) : (
         <>
-          {!rowValues.datemarkedinvalid && (
+          {!rowValues.validateState && (
             <Box>
               {documentElement && (
                 <ArticleIcon

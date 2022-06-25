@@ -33,7 +33,7 @@ const TableRowComponent: React.FC<
   return (
     <TableRow
       style={
-        summaryObject.rowValues.datemarkedinvalid
+        summaryObject.rowValues.validateState
           ? { backgroundColor: "#ececec" }
           : {}
       }
