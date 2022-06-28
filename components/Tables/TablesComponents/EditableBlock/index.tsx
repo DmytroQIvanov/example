@@ -96,13 +96,10 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
     "campus",
     "createdBy",
     "location1",
-    // "location2",
     "%",
     "date",
     "dmi",
     "dateCreated",
-
-    //
     "dlkv",
     "dfkv",
   ];
@@ -147,9 +144,6 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
     if (name === "dfkv") {
       setDisabledState(true);
     }
-  }, [activeRowObject]);
-
-  useEffect(() => {
     // PUT DATE TO DFKV
     if (
       (name === "dlkv" || name === "datelastknownvalid") &&
@@ -164,13 +158,10 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
     if (name === "dlkv") {
       setDisabledState(true);
     }
-  }, [activeRowObject]);
-
-  useEffect(() => {
     if (name === "dmi" || name === "datemarkedinvalid") {
       setDisabledState(true);
     }
-  }, [activeRowObject]);
+  }, [activeRowObject.activeRow]);
 
   let styles = disabledState ? { backgroundColor: "#C3DBFF" } : {};
 

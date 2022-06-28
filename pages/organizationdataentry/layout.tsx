@@ -41,6 +41,12 @@ const arrowNavigation = [
     icon: <BsPhoneFill className="react-icon" />,
     text: "Child Orgs",
   },
+
+  {
+    link: "/organizationdataentry/parentorgs",
+    icon: <BsPhoneFill className="react-icon" />,
+    text: "Parent Orgs",
+  },
 ];
 
 export function Layout({
