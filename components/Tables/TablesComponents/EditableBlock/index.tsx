@@ -100,6 +100,7 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
     "%",
     "date",
     "dmi",
+    "dateCreated",
 
     //
     "dlkv",
