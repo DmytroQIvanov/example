@@ -40,23 +40,11 @@ const SEARCH_DATA = gql`
   }
 `;
 
-const initialSearchTitle = {
-  name: "Name",
-  id: "PID",
-  orderID: "Unit",
-  code: "Campus",
-  state: "Employee ID",
-};
+const initialSearchTitle = ["Name", "PID", "Unit", "Campus", "Employee ID"];
 
 const SearchMenu: React.FC<{
   placeholder?: string;
-  searchTitle?: {
-    name: string;
-    id: string;
-    orderID: string;
-    code: string;
-    state: string;
-  };
+  searchTitle?: string[];
 }> = ({ placeholder = "Search Person", searchTitle = initialSearchTitle }) => {
   const [searchData, setSearchData] = React.useState("");
 
@@ -154,21 +142,11 @@ const SearchMenu: React.FC<{
                           <Table sx={{ pt: "-22px" }}>
                             <TableHead>
                               <TableRow>
-                                <TableCell>
-                                  <strong>{searchTitle.name}</strong>
-                                </TableCell>
-                                <TableCell>
-                                  <strong>{searchTitle.id}</strong>
-                                </TableCell>
-                                <TableCell>
-                                  <strong>{searchTitle.orderID}</strong>
-                                </TableCell>
-                                <TableCell>
-                                  <strong>{searchTitle.code}</strong>
-                                </TableCell>
-                                <TableCell>
-                                  <strong>{searchTitle.state}</strong>
-                                </TableCell>
+                                {searchTitle.map((elem) => (
+                                  <TableCell key={elem}>
+                                    <strong>{elem}</strong>
+                                  </TableCell>
+                                ))}
                               </TableRow>
                             </TableHead>
                             <TableBody>

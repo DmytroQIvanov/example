@@ -176,12 +176,6 @@ export const UseEditableTable = ({
           state["dmi"] = pst;
           setValidateStateChanged(true);
         }
-        // if (validateState) {
-        //   const date = new Date();
-        //   const pst = date.toLocaleString("en-US", dateOptions);
-        //   state["dmi"] = pst;
-        //   setValidateStateChanged(true);
-        // }
         onChangeWithProvidedState(state);
       }
 

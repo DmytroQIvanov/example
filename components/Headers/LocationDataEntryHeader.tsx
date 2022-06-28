@@ -38,7 +38,15 @@ export function LocationDataEntryHeader() {
             <Grid container>
               <Grid item sm={6}>
                 <FormControl sx={{ m: 1, width: "95%" }} variant="standard">
-                  <SearchMenu placeholder={"Search by"} />
+                  <SearchMenu
+                    placeholder={"Search by"}
+                    searchTitle={[
+                      "Building Name",
+                      "Building id",
+                      "Acronym",
+                      "Sector",
+                    ]}
+                  />
                 </FormControl>
               </Grid>
               <Grid item sm={6}>
