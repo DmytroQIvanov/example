@@ -3,6 +3,7 @@ import TableCell from "@material-ui/core/TableCell";
 import TableRow from "@material-ui/core/TableRow";
 //INTERFACES
 import { IRowsPersonEmploymentTable } from "./interfaces";
+import TableRowWrapper from "../TablesComponents/TableRowWrapper";
 
 //ICONS
 import EditableBlock from "../TablesComponents/EditableBlock";
@@ -40,13 +41,7 @@ const TableRowComponent: React.FC<
     setStateModal(true);
   };
   return (
-    <TableRow
-      style={
-        summaryObject.rowValues.validateState
-          ? { backgroundColor: "#ececec" }
-          : {}
-      }
-    >
+    <TableRowWrapper summaryObject={summaryObject}>
       <TableCell component="th" scope="row" width={"450px"}>
         <Box
           sx={{ mr: "2px", display: "flex", flexWrap: "wrap", gap: "4px 7px" }}
@@ -123,7 +118,7 @@ const TableRowComponent: React.FC<
             : onChangeWithProvidedState(state, summaryObject.rowValues.id);
         }}
       />
-    </TableRow>
+    </TableRowWrapper>
   );
 };
 

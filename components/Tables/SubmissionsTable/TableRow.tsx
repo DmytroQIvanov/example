@@ -1,6 +1,5 @@
 import React from "react";
 import TableCell from "@material-ui/core/TableCell";
-import TableRow from "@material-ui/core/TableRow";
 
 //INTERFACES
 import { IRowsPersonEmploymentTable } from "./interfaces";
@@ -8,8 +7,8 @@ import { IRowsPersonEmploymentTable } from "./interfaces";
 //ICONS
 import EditableBlock from "../TablesComponents/EditableBlock";
 import { UseEditableTable } from "../../../hooks/UseEditableTable";
-import { IActiveRowObject } from "../TablesComponents/Interfaces/TableWrapperInterfaces";
 import { ITableRowComponent } from "../TablesComponents/Interfaces/ITableRowComponent";
+import TableRowWrapper from "../TablesComponents/TableRowWrapper";
 
 const TableRowComponent: React.FC<
   ITableRowComponent<IRowsPersonEmploymentTable>
@@ -29,13 +28,7 @@ const TableRowComponent: React.FC<
     onAddCancel,
   });
   return (
-    <TableRow
-      style={
-        summaryObject.rowValues.validateState
-          ? { backgroundColor: "#ececec" }
-          : {}
-      }
-    >
+    <TableRowWrapper summaryObject={summaryObject}>
       <TableCell component="th" scope="row" width={"200px"}>
         {EditableBlock({
           ...summaryObject,
@@ -64,7 +57,7 @@ const TableRowComponent: React.FC<
       <TableCell width={"130px"}>
         {EditableBlock({ ...summaryObject, name: "createdBy" })}
       </TableCell>
-    </TableRow>
+    </TableRowWrapper>
   );
 };
 

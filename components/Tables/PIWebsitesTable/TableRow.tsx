@@ -3,6 +3,7 @@ import TableCell from "@material-ui/core/TableCell";
 import TableRow from "@material-ui/core/TableRow";
 //INTERFACES
 import { IRowsPersonEmploymentTable } from "./interfaces";
+import TableRowWrapper from "../TablesComponents/TableRowWrapper";
 
 //ICONS
 import EditableBlock from "../TablesComponents/EditableBlock";
@@ -38,26 +39,16 @@ const TableRowComponent: React.FC<
     onAddCancel,
   });
   return (
-    <TableRow
-      style={
-        summaryObject.rowValues.validateState
-          ? { backgroundColor: "#ececec" }
-          : {}
-      }
-    >
+    <TableRowWrapper summaryObject={summaryObject}>
       <TableCell component="th" scope="row" width={"450px"}>
         {EditableBlock({
           ...summaryObject,
           name: "url",
-          // type: "dropdown",
-          // itemsArray: dropArray,
         })}
 
         {EditableBlock({
           ...summaryObject,
           name: "comments",
-          // type: "dropdown",
-          // itemsArray: dropArray,
         })}
       </TableCell>
 
@@ -107,7 +98,7 @@ const TableRowComponent: React.FC<
           activeRowObject={activeRowObject}
         />
       </TableCell>
-    </TableRow>
+    </TableRowWrapper>
   );
 };
 

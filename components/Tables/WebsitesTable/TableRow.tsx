@@ -10,6 +10,7 @@ import { UseEditableTable } from "../../../hooks/UseEditableTable";
 import OptionsBlock from "../TablesComponents/OptionsBlock";
 import { IActiveRowObject } from "../TablesComponents/Interfaces/TableWrapperInterfaces";
 import { ITableRowComponent } from "../TablesComponents/Interfaces/ITableRowComponent";
+import TableRowWrapper from "../TablesComponents/TableRowWrapper";
 
 const dropArray = [
   {
@@ -38,13 +39,7 @@ const TableRowComponent: React.FC<
     onAddCancel,
   });
   return (
-    <TableRow
-      style={
-        summaryObject.rowValues.validateState
-          ? { backgroundColor: "#ececec" }
-          : {}
-      }
-    >
+    <TableRowWrapper summaryObject={summaryObject}>
       <TableCell component="th" scope="row" width={"450px"}>
         {EditableBlock({
           ...summaryObject,
@@ -107,7 +102,7 @@ const TableRowComponent: React.FC<
           activeRowObject={activeRowObject}
         />
       </TableCell>
-    </TableRow>
+    </TableRowWrapper>
   );
 };
 
