@@ -8,7 +8,7 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import React, { ChangeEvent } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { BootstrapInput } from "./Type";
 import styles from "./styles.module.scss";
 
@@ -46,8 +46,16 @@ const searchTitle = {
   state: "Employee ID",
 };
 
-const SearchMenu = () => {
+const SearchMenu: React.FC<{ placeholder?: string }> = ({
+  placeholder = "Search Person",
+}) => {
   const [searchData, setSearchData] = React.useState("");
+
+  const [visibility, setVisibility] = useState(false);
+
+  useEffect(() => {
+    if (searchData.length >= 2) setVisibility(true);
+  }, [searchData]);
 
   const handleSearch = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -61,11 +69,11 @@ const SearchMenu = () => {
     <>
       <BootstrapInput
         className="input-white"
-        placeholder="Search Person"
+        placeholder={placeholder}
         type="search"
         onChange={(event) => handleSearch(event)}
       />
-      {searchData ? (
+      {visibility ? (
         <TableContainer className={styles.searchContainer}>
           <Table>
             <TableBody>

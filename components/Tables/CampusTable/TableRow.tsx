@@ -1,11 +1,9 @@
 import React from "react";
 import TableCell from "@material-ui/core/TableCell";
 import { Box } from "@mui/material";
-import TableRow from "@material-ui/core/TableRow";
 import EditableBlock from "../TablesComponents/EditableBlock";
 import { UseEditableTable } from "../../../hooks/UseEditableTable";
 import OptionsBlock from "../TablesComponents/OptionsBlock";
-import { IActiveRowObject } from "../TablesComponents/Interfaces/TableWrapperInterfaces";
 import TableRowWrapper from "../TablesComponents/TableRowWrapper";
 
 //INTERFACES

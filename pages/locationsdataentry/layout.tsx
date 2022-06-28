@@ -11,26 +11,6 @@ import { IoMdShare } from "react-icons/io";
 import { FaClipboardList, FaHome, FaMap, FaSuitcase } from "react-icons/fa";
 import { OrganizationHeader } from "../../components/Headers/OrganizationHeader";
 const arrowNavigation = [
-  // {
-  //   link: "/persondataentry/interactions",
-  //   icon: <BsFillPersonFill className="react-icon" />,
-  //   text: "Locations",
-  // },
-  // {
-  //   link: "/persondataentry/electronicaddress",
-  //   icon: <HiOutlineMailOpen className="react-icon" />,
-  //   text: "Electronic Websites",
-  // },
-  // {
-  //   link: "/persondataentry/affiliations",
-  //   icon: <IoMdShare className="react-icon" />,
-  //   text: "Research Notes",
-  // },
-  // {
-  //   link: "/persondataentry/locations",
-  //   icon: <FaMap className="react-icon" />,
-  //   text: "Parents",
-  // },
   {
     link: "/locationsdataentry/building",
     icon: <BsPhoneFill className="react-icon" />,
@@ -52,7 +32,7 @@ export function Layout({
       <SideBar options={arrowNavigation} title={"Organization Data Entry"} />
       <div className={classes.content}>
         {/*<LocationDataEntryHeader />*/}
-        <OrganizationHeader />
+        <LocationDataEntryHeader />
         <Grid sx={{ padding: "20px 100px" }}>
           <Configuration />
         </Grid>
