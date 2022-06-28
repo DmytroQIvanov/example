@@ -39,14 +39,20 @@ const TableRowComponent: React.FC<
   return (
     <TableRowWrapper summaryObject={summaryObject}>
       <TableCell component="th" scope="row" width={"300px"}>
-        <Box sx={{ display: "flex" }}>
+        <Box sx={{ display: "flex", flexDirection: "column" }}>
           {EditableBlock({
             ...summaryObject,
             name: "organizationType",
+
+            type: "dropdown",
+            itemsArray: dropArray,
           })}
           {EditableBlock({
             ...summaryObject,
             name: "organization",
+
+            type: "dropdown",
+            itemsArray: dropArray,
           })}
         </Box>
       </TableCell>
