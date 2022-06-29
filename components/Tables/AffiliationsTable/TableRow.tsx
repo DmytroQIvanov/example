@@ -1,7 +1,6 @@
 import React from "react";
 import TableCell from "@material-ui/core/TableCell";
 import { Box } from "@mui/material";
-import TableRow from "@material-ui/core/TableRow";
 
 //INTERFACES
 import { IRowsPersonEmploymentTable } from "./interfaces";
