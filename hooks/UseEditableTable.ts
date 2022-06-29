@@ -134,13 +134,6 @@ export const UseEditableTable = ({
         if (state != undefined) return state;
         return !prevState;
       }
-      // if (
-      //   activeRowObject.activeRow.state !== "default" &&
-      //   activeRowObject.activeRow.number === rowValues.id
-      // ) {
-      //   setValidateStateChanged(true);
-      // }
-      //
       if (state != undefined) return state;
       return !prevState;
     });
@@ -154,7 +147,6 @@ export const UseEditableTable = ({
           ...editableRowValues,
           rowState,
           validateState,
-          // datemarkedinvalid: validateState,
         };
         if (validateState) {
           const date = new Date();
@@ -168,7 +160,6 @@ export const UseEditableTable = ({
           ...editableRowValues,
           rowState,
           validateState,
-          // datemarkedinvalid: validateState,
         };
         if (prevValue.validateState !== validateState) {
           const date = new Date();
@@ -176,14 +167,13 @@ export const UseEditableTable = ({
           state["dmi"] = pst;
           setValidateStateChanged(true);
         }
-        onChangeWithProvidedState(state);
+        onChangeWithProvidedState(state, rowValues.id);
       }
 
       return {
         ...editableRowValues,
         rowState,
         validateState,
-        // datemarkedinvalid: validateState,
       };
     });
 
