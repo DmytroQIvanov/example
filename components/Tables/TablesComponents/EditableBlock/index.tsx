@@ -110,6 +110,7 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
 
   const { isLoaded, isSignedIn, user } = useUser();
 
+  /* eslint-disable */
   useEffect(() => {
     if (!rowValues[name]) {
       handleChange(name, "");
@@ -162,6 +163,7 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
       setDisabledState(true);
     }
   }, [activeRowObject.activeRow]);
+  /* eslint-enable */
 
   let styles = disabledState ? { backgroundColor: "#C3DBFF" } : {};
 
