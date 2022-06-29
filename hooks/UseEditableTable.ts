@@ -60,9 +60,13 @@ export const UseEditableTable = ({
     }
   }, [activeRowObject.activeRow]);
 
+  // useEffect(() => {
+  //   onChangeWithProvidedState(rowValues);
+  // }, [rowValues]);
+
   // IS ROW VALIDATED
   const [validateState, setValidateState] = useState(
-    row?.datemarkedinvalid ? true : false
+    row?.validateState || false
   );
   const [validateStateChanged, setValidateStateChanged] = useState(false);
 
@@ -95,7 +99,6 @@ export const UseEditableTable = ({
         prevState2["datelastknownvalid"] = pst;
         prevState2["dmi"] = null;
         prevState2["datemarkedinvalid"] = null;
-
         return prevState2;
       });
       setEditableRowValues((prevState2: any) => {
@@ -109,7 +112,7 @@ export const UseEditableTable = ({
         return prevState2;
       });
     }
-    setValidateState((prevState) => {
+    setValidateState((prevState: any) => {
       if (
         activeRowObject.activeRow.state === "default" &&
         state === undefined &&
