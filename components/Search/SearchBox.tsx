@@ -53,7 +53,7 @@ const SearchMenu: React.FC<{
 
   useEffect(() => {
     setVisibility(false);
-    if (searchData.length >= 2) setVisibility(true);
+    if (searchData.length >= 1) setVisibility(true);
   }, [searchData]);
 
   const handleSearch = (

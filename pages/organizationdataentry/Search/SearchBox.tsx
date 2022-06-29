@@ -139,7 +139,6 @@ const SearchMenu = () => {
                       </Table>
                     </TableContainer>
                   </Box>
-                  a
                 </TableCell>
               </TableRow>
             </TableBody>
