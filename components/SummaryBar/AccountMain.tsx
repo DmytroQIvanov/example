@@ -262,8 +262,8 @@ const AccountMain = () => {
             }}
           >
             {textOnLabels.map((elem, key) => (
-              <Box sx={{ fontSize: "13px", p: "0 1px" }}>
-                <ColorLabel type={key} text={elem} key={key} />
+              <Box sx={{ fontSize: "13px", p: "0 1px" }} key={key}>
+                <ColorLabel type={key} text={elem} />
               </Box>
             ))}
           </Box>

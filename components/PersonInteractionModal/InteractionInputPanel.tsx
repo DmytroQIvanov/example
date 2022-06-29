@@ -7,16 +7,15 @@ import {
   MenuItem,
   Select,
   TextField,
-} from '@mui/material';
-import React from 'react';
+} from "@mui/material";
+import React from "react";
 
 function InteractionInputPanel() {
-  const [interactionType, setInteractionType] = React.useState('');
-  const [response, setResponse] = React.useState('');
-  const [infoSource, setInfoSource] = React.useState('');
+  const [interactionType, setInteractionType] = React.useState("");
+  const [response, setResponse] = React.useState("");
+  const [infoSource, setInfoSource] = React.useState("");
 
-  // eslint-disable-next-line unused-imports/no-unused-vars
-  const [date, setDate] = React.useState('2017-05-24');
+  const [date, setDate] = React.useState("2017-05-24");
 
   const handleInteractionType = (event: {
     target: { value: React.SetStateAction<string> };

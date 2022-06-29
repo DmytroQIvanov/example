@@ -1,8 +1,9 @@
-import { useState } from "react";
 import { FaMap, FaUserAlt, FaRegMap } from "react-icons/fa";
 import { BsTools, BsGear } from "react-icons/bs";
 import { FiShuffle, FiUsers, FiLogOut } from "react-icons/fi";
 import { useRouter } from "next/router";
+import Image from "next/image";
+import Box from "@mui/material/Box";
 
 export function AppSelection() {
   const router = useRouter();
@@ -11,15 +12,25 @@ export function AppSelection() {
     router.push(href);
   };
 
+  const customImgLoader = ({ src }: { src: any }) => {
+    return `${src}`;
+  };
+
+  //later to use
   return (
     <div className="app-selection">
       <div>
         <div className="title">
           <div style={{ display: "flex", marginBottom: "14px" }}>
-            <img
-              style={{ margin: "auto" }}
-              src={"https://via.placeholder.com/50"}
-            />
+            <Box style={{ margin: "auto", display: "flex" }}>
+              <Image
+                loader={customImgLoader}
+                alt="Avatar"
+                width={64}
+                height={64}
+                src={"https://via.placeholder.com/50"}
+              />
+            </Box>
           </div>
           App Selection
         </div>

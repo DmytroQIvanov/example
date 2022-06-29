@@ -128,7 +128,8 @@ export const useTableWrapper = (rows: any[]) => {
     const pst = date.toLocaleString("en-US", dateOptions);
     setTableElements((prevState) => {
       const result = prevState.filter(
-        (elem) => elem.id !== changingRow || activeRow.number
+        // (elem) => elem.id != changingRow || activeRow.number
+        (elem) => elem.id != state.id
       );
       return [...result, { ...state, datefirstknownvalid: pst }];
     });

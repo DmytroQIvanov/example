@@ -200,7 +200,11 @@ const ConfigurationEdit = ({
                   >
                     {ConfTemplate.campus &&
                       ConfTemplate.campus.map((item) => {
-                        return <MenuItem value={item}>{item}</MenuItem>;
+                        return (
+                          <MenuItem value={item} key={item}>
+                            {item}
+                          </MenuItem>
+                        );
                       })}
                   </Select>
                 </FormControl>
@@ -240,7 +244,11 @@ const ConfigurationEdit = ({
                   >
                     {ConfTemplate.org_type &&
                       ConfTemplate.org_type.map((item) => {
-                        return <MenuItem value={item}>{item}</MenuItem>;
+                        return (
+                          <MenuItem value={item} key={item}>
+                            {item}
+                          </MenuItem>
+                        );
                       })}
                   </Select>
                 </FormControl>
@@ -261,7 +269,11 @@ const ConfigurationEdit = ({
                   >
                     {ConfTemplate.division &&
                       ConfTemplate.division.map((item) => {
-                        return <MenuItem value={item}>{item}</MenuItem>;
+                        return (
+                          <MenuItem value={item} key={item}>
+                            {item}
+                          </MenuItem>
+                        );
                       })}
                   </Select>
                 </FormControl>

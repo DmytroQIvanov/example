@@ -1,11 +1,10 @@
 import React from "react";
 import TableCell from "@material-ui/core/TableCell";
 import { Box } from "@mui/material";
-import TableRow from "@material-ui/core/TableRow";
 import EditableBlock from "../TablesComponents/EditableBlock";
 import { UseEditableTable } from "../../../hooks/UseEditableTable";
 import OptionsBlock from "../TablesComponents/OptionsBlock";
-import { IActiveRowObject } from "../TablesComponents/Interfaces/TableWrapperInterfaces";
+import TableRowWrapper from "../TablesComponents/TableRowWrapper";
 
 //INTERFACES
 import { IRowsPersonEmploymentTable } from "./interfaces";
@@ -38,13 +37,7 @@ const TableRowComponent: React.FC<
     onAddCancel,
   });
   return (
-    <TableRow
-      style={
-        summaryObject.rowValues.validateState
-          ? { backgroundColor: "#ececec" }
-          : {}
-      }
-    >
+    <TableRowWrapper summaryObject={summaryObject}>
       <TableCell component="th" scope="row" width={"300px"}>
         <Box>
           {EditableBlock({
@@ -154,7 +147,7 @@ const TableRowComponent: React.FC<
           activeRowObject={activeRowObject}
         />
       </TableCell>
-    </TableRow>
+    </TableRowWrapper>
   );
 };
 

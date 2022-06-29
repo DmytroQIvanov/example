@@ -251,8 +251,14 @@
     align-items: center;
     justify-content: space-between;
     background: #1d1b31;
-    padding: 12px 0;
+    /*padding: 12px 10px;*/
+    padding: 12px 10px;
     transition: all 0.5s ease;
+
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
 }
 .sidebar.close .profile-details{
     background: none;
@@ -267,7 +273,8 @@
 .sidebar .profile-details img{
     /*object-fit: cover;*/
     border-radius: 100px !important;
-    margin: 0 34px 0 12px;
+    /*margin: 0 34px 0 12px;*/
+    margin: 0 34px 0 0px;
     background: #1d1b31;
     transition: all 0.5s ease;
     /*width: 100%;*/

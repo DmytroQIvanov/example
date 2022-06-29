@@ -1,16 +1,14 @@
 import React from "react";
 import TableCell from "@material-ui/core/TableCell";
-import TableRow from "@material-ui/core/TableRow";
-//INTERFACES
-import { IRowsPersonEmploymentTable } from "./interfaces";
-
-//ICONS
+import { Box } from "@mui/material";
 import EditableBlock from "../TablesComponents/EditableBlock";
 import { UseEditableTable } from "../../../hooks/UseEditableTable";
 import OptionsBlock from "../TablesComponents/OptionsBlock";
-import { IActiveRowObject } from "../TablesComponents/Interfaces/TableWrapperInterfaces";
-import { ITableRowComponent } from "../TablesComponents/Interfaces/ITableRowComponent";
 import TableRowWrapper from "../TablesComponents/TableRowWrapper";
+
+//INTERFACES
+import { IRowsPersonEmploymentTable } from "./interfaces";
+import { ITableRowComponent } from "../TablesComponents/Interfaces/ITableRowComponent";
 
 const dropArray = [
   {
@@ -40,55 +38,41 @@ const TableRowComponent: React.FC<
   });
   return (
     <TableRowWrapper summaryObject={summaryObject}>
-      <TableCell component="th" scope="row" width={"450px"}>
+      <TableCell component="th" scope="row" width={"300px"}>
+        <Box>
+          {EditableBlock({
+            ...summaryObject,
+            name: "room",
+          })}
+        </Box>
+      </TableCell>
+      <TableCell component="th" scope="row" width={"300px"}>
         {EditableBlock({
           ...summaryObject,
-          name: "url",
-          type: "dropdown",
-          itemsArray: dropArray,
+          name: "floor",
         })}
-
+      </TableCell>
+      <TableCell component="th" scope="row" width={"300px"}>
         {EditableBlock({
           ...summaryObject,
-          name: "comments",
+          name: "locationType",
           type: "dropdown",
           itemsArray: dropArray,
         })}
       </TableCell>
-
       <TableCell width={"220px"}>
         {EditableBlock({
           ...summaryObject,
-          name: "crawl",
-          type: "checkBox",
+          name: "dateCreated",
+          type: "date",
+          disabled: true,
+          availableStateBoolean: false,
         })}
       </TableCell>
-      <TableCell width={"230px"}>
+      <TableCell width={"220px"}>
         {EditableBlock({
           ...summaryObject,
-          name: "dfkv",
-          type: "date",
-        })}
-      </TableCell>
-
-      <TableCell width={"230px"}>
-        {EditableBlock({
-          ...summaryObject,
-          name: "dlkv",
-          type: "date",
-        })}
-        {EditableBlock({ ...summaryObject, type: "validate" })}
-      </TableCell>
-      <TableCell width={"330px"}>
-        {EditableBlock({
-          ...summaryObject,
-          name: "dmi",
-          type: "date",
-        })}
-
-        {EditableBlock({
-          ...summaryObject,
-          type: "invalidate",
+          name: "locationId",
         })}
       </TableCell>
 

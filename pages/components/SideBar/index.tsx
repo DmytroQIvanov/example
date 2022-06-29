@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { BiLogOut } from "react-icons/bi";
 import { BsArrowRight } from "react-icons/bs";
 import { HiOutlineCog } from "react-icons/hi";
-import { UserButton } from "@clerk/nextjs";
+import { UserButton, useUser } from "@clerk/nextjs";
 import { useRouter } from "next/router";
 
 const SideBar: React.FC<{
@@ -28,6 +28,8 @@ const SideBar: React.FC<{
   useEffect(() => {
     localStorage.setItem("SideBarState", `${collapsed}`);
   }, [collapsed]);
+
+  const { isLoaded, isSignedIn, user } = useUser();
   return (
     <div className={collapsed ? "sidebar close" : "sidebar open"}>
       <div className="logo-details">
@@ -81,13 +83,15 @@ const SideBar: React.FC<{
         </ul>
       </div>
       <div className="profile-details">
-        <div className="profile-content"></div>
+        {/*<div className="profile-content"></div>*/}
         <div className="name-job">
-          <div className="profile_name">Alberto Aguilera</div>
+          <div className="profile_name">
+            {user?.firstName} {user?.lastName}
+          </div>
           <UserButton />
         </div>
-        <HiOutlineCog />
-        <BiLogOut className="react-icon" />
+        {/*<HiOutlineCog />*/}
+        {/*<BiLogOut className="react-icon" />*/}
       </div>
     </div>
   );

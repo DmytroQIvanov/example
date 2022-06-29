@@ -1,16 +1,14 @@
 import React from "react";
 import TableCell from "@material-ui/core/TableCell";
-import TableRow from "@material-ui/core/TableRow";
-//INTERFACES
-import { IRowsPersonEmploymentTable } from "./interfaces";
-
-//ICONS
+import { Box } from "@mui/material";
 import EditableBlock from "../TablesComponents/EditableBlock";
 import { UseEditableTable } from "../../../hooks/UseEditableTable";
 import OptionsBlock from "../TablesComponents/OptionsBlock";
-import { IActiveRowObject } from "../TablesComponents/Interfaces/TableWrapperInterfaces";
-import { ITableRowComponent } from "../TablesComponents/Interfaces/ITableRowComponent";
 import TableRowWrapper from "../TablesComponents/TableRowWrapper";
+
+//INTERFACES
+import { IRowsPersonEmploymentTable } from "./interfaces";
+import { ITableRowComponent } from "../TablesComponents/Interfaces/ITableRowComponent";
 
 const dropArray = [
   {
@@ -40,50 +38,41 @@ const TableRowComponent: React.FC<
   });
   return (
     <TableRowWrapper summaryObject={summaryObject}>
-      <TableCell component="th" scope="row" width={"450px"}>
-        {EditableBlock({
-          ...summaryObject,
-          name: "url",
-          type: "dropdown",
-          itemsArray: dropArray,
-        })}
+      <TableCell component="th" scope="row" width={"300px"}>
+        <Box sx={{ display: "flex", flexDirection: "column" }}>
+          {EditableBlock({
+            ...summaryObject,
+            name: "organizationType",
 
-        {EditableBlock({
-          ...summaryObject,
-          name: "comments",
-          type: "dropdown",
-          itemsArray: dropArray,
-        })}
-      </TableCell>
+            type: "dropdown",
+            itemsArray: dropArray,
+          })}
+          {EditableBlock({
+            ...summaryObject,
+            name: "organization",
 
-      <TableCell width={"220px"}>
-        {EditableBlock({
-          ...summaryObject,
-          name: "crawl",
-          type: "checkBox",
-        })}
+            type: "dropdown",
+            itemsArray: dropArray,
+          })}
+        </Box>
       </TableCell>
-      <TableCell width={"230px"}>
+      <TableCell component="th" scope="row" width={"300px"}>
         {EditableBlock({
           ...summaryObject,
           name: "dfkv",
-          type: "date",
         })}
       </TableCell>
-
-      <TableCell width={"230px"}>
+      <TableCell component="th" scope="row" width={"300px"}>
         {EditableBlock({
           ...summaryObject,
           name: "dlkv",
-          type: "date",
         })}
         {EditableBlock({ ...summaryObject, type: "validate" })}
       </TableCell>
-      <TableCell width={"330px"}>
+      <TableCell width={"220px"}>
         {EditableBlock({
           ...summaryObject,
           name: "dmi",
-          type: "date",
         })}
 
         {EditableBlock({
@@ -91,7 +80,6 @@ const TableRowComponent: React.FC<
           type: "invalidate",
         })}
       </TableCell>
-
       <TableCell width={"130px"}>
         <OptionsBlock
           onSave={onSave}

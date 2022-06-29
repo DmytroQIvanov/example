@@ -2,7 +2,7 @@ import type { ReactElement } from "react";
 
 import { Layout } from "./layout";
 
-import Table from "../../components/Tables/WebsitesTable/Index";
+import Table from "../../components/Tables/ChildOrgTable/Index";
 
 export default function Index() {
   return (
@@ -13,5 +13,5 @@ export default function Index() {
 }
 
 Index.getLayout = function getLayout(page: ReactElement) {
-  return <Layout breadcrumb={"Websites"}>{page}</Layout>;
+  return <Layout breadcrumb={"Child Orgs"}>{page}</Layout>;
 };
