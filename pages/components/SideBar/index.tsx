@@ -22,6 +22,9 @@ const SideBar: React.FC<{
   const router = useRouter();
   const goTo = (e: any, href: string) => {
     e.preventDefault();
+    if (router.pathname.includes("[id]")) {
+      href += `/${router.query.id}`;
+    }
     router.push(href);
   };
 
@@ -60,7 +63,9 @@ const SideBar: React.FC<{
           {options.map((elem, index) => (
             <li
               className={`disable-select list-element ${
-                router.pathname === elem.link ? "list-element_selected" : ""
+                router.pathname.includes(elem.link)
+                  ? "list-element_selected"
+                  : ""
               }`}
               key={elem.link}
               onClick={(e) => goTo(e, elem.link)}
