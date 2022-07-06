@@ -18,6 +18,7 @@ const ReusableComponent: React.FC<{
   type?: "textField" | "selectableList";
   coma?: boolean;
   handleChange: (name: string, text: string | number) => void;
+  editable?: boolean;
 }> = ({
   personDataState,
   editStatus,
@@ -28,7 +29,9 @@ const ReusableComponent: React.FC<{
   type = "textField",
   loading,
   coma,
+  editable = true,
 }) => {
+  let data = personDataState[name];
   let component;
   switch (type) {
     case "textField":
@@ -67,13 +70,13 @@ const ReusableComponent: React.FC<{
 
   return (
     <div>
-      {editStatus ? (
+      {editStatus && editable ? (
         component
       ) : (
         <Box sx={{ ml: "10px" }}>
-          {personDataState[name] ? (
+          {data ? (
             `
-            ${personDataState[name]} ${coma ? "," : ""}`
+            ${data} ${coma ? "," : ""}`
           ) : loading ? (
             "..."
           ) : (

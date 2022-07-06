@@ -17,6 +17,22 @@ export const PERSON_DATA = gql`
       date_marked_invalid
       date_added
       cohort
+      person_campuses {
+        campus {
+          campus_id
+          campus_name
+        }
+        area {
+          area_id
+          area
+          super_area {
+            super_area_id
+            super_area
+          }
+        }
+        is_pi
+        date_last_known_valid
+      }
     }
   }
 `;
