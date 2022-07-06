@@ -39,16 +39,13 @@ const ReusableComponent: React.FC<{
           onChange={handleChangeEvent}
           name={name}
           value={editableState[name]}
-          // size={"small"}
+          size={"small"}
         />
       );
       break;
     case "selectableList":
       component = (
-        <FormControl
-          fullWidth
-          // size={"small"}
-        >
+        <FormControl fullWidth size={"small"}>
           <InputLabel id="demo-simple-select-label">
             {/*Name Source Type*/}
           </InputLabel>

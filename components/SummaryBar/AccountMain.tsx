@@ -19,6 +19,7 @@ import styles from "./styles.module.css";
 import { useRouter } from "next/router";
 import ReusableComponent from "./ReusableComponent";
 import ButtonsBlock from "./ButtonsBlock";
+import { CREATE_PERSON, PERSON_DATA } from "../../shemas/PersonGraphqlShemas";
 
 // const PERSON_DATA = gql`
 //   query sample_query {
@@ -53,60 +54,6 @@ import ButtonsBlock from "./ButtonsBlock";
 //     }
 //   }
 // `;
-
-const PERSON_DATA = gql`
-  query person_query($pid: Int!) {
-    person(where: { person_id: { _eq: $pid } }) {
-      first_name
-      middle_names
-      last_name
-      modified_by
-      nick_name
-      person_id
-      last_employee_list_name
-      last_employee_list_action
-      last_employee_df
-      last_df_list_name
-      date_modified
-      date_marked_invalid
-      date_added
-      cohort
-    }
-  }
-`;
-
-const CREATE_PERSON = gql`
-  mutation create_person(
-    $first_name: String!
-    $middle_names: String
-    $last_name: String!
-    $nickname: String
-    $suffix: String
-    $employeeid: String
-  ) {
-    insert_person(
-      objects: {
-        first_name: $first_name
-        middle_names: $middle_names
-        last_name: $last_name
-        nick_name: $nickname
-        suffix: $suffix
-        employee_id: $employeeid
-      }
-    ) {
-      returning {
-        first_name
-        middle_names
-        last_name
-        nick_name
-        suffix
-        modified_by
-        employee_id
-        person_id
-      }
-    }
-  }
-`;
 
 const row1Title = {
   fname: "First Name",
@@ -154,8 +101,8 @@ interface valuesTypes {
   nickname: string | undefined;
   suffix: string | undefined;
   nameSourceType: string | undefined;
-  personId: string | undefined;
-  employeeId: string | undefined;
+  person_id: string | undefined;
+  employee_id: string | undefined;
 }
 
 const initialObject = {
@@ -165,8 +112,8 @@ const initialObject = {
   nickname: "",
   suffix: "",
   nameSourceType: "",
-  personId: "",
-  employeeId: "",
+  person_id: "",
+  employee_id: "",
 };
 
 const AccountMain = () => {
@@ -177,11 +124,10 @@ const AccountMain = () => {
 
   const router = useRouter();
 
-  const [mutateFunction, { creatingData, creatingLoading, creatingError }] =
+  const [mutateFunction, { loading: creatingLoading }] =
     useMutation(CREATE_PERSON);
 
   const goTo = (id: string) => {
-    let href = "";
     if (router.pathname.includes("[id]")) {
       router.pathname = router.pathname.replace("[id]", id);
     } else {
@@ -200,6 +146,10 @@ const AccountMain = () => {
   }, [router.query.state]);
 
   useEffect(() => {
+    if (router.query.state != "creating") setEditStatus(0);
+  }, [router.query.id]);
+
+  useEffect(() => {
     if (editStatus == 0 || editStatus == 1) {
       delete router.query.state;
       router.push(router);
@@ -216,11 +166,13 @@ const AccountMain = () => {
   }, [editStatus, personDataState]);
 
   const onCreateUser = () => {
-    console.log(state);
-    mutateFunction({ variables: state }).then((data) => {
-      goTo(data.data.insert_person.returning[0].person_id);
-      setEditStatus(0);
-    });
+    if (state.first_name && state.last_name) {
+      console.log(state);
+      mutateFunction({ variables: state }).then((data) => {
+        goTo(data.data.insert_person.returning[0].person_id);
+        setEditStatus(0);
+      });
+    }
   };
   const {
     data: personData,
@@ -233,11 +185,7 @@ const AccountMain = () => {
   useEffect(() => {
     if (personData?.person.length != 0 && !error) {
       setPersonDataState({
-        first_name: personData?.person[0].first_name,
-        middle_names: personData?.person[0].middle_names,
-        last_name: personData?.person[0].last_name,
-        nickname: personData?.person[0].nick_name,
-        personId: personData?.person[0].person_id,
+        ...personData?.person[0],
       });
     }
   }, [personData]);
@@ -370,7 +318,7 @@ const AccountMain = () => {
               <TableBody>
                 <TableRow>
                   <TableCell sx={{ textAlign: "left !important" }}>
-                    {personDataState?.personId}
+                    {personDataState?.person_id}
                   </TableCell>
                   <TableCell
                     sx={{ textAlign: "left !important", display: "flex" }}
@@ -393,9 +341,7 @@ const AccountMain = () => {
                     <ReusableComponent
                       {...reusableComponentObject}
                       name={"nickname"}
-                      // coma
                     />
-                    {/*{`${ personDataState?.last_name}, ${personDataState?.first_name} ${personDataState?.middle_names} ${personDataState?.nickname}`}*/}
                   </TableCell>
                   <TableCell>
                     {data?.sample_person[index].typeByType?.typename}
@@ -440,7 +386,7 @@ const AccountMain = () => {
       ) : (
         <>
           <TableContainer sx={{ position: "relative" }}>
-            {loading && (
+            {(loading || creatingLoading) && (
               <Box sx={{ position: "absolute", width: "100%" }}>
                 <LinearProgress />
               </Box>
@@ -537,13 +483,13 @@ const AccountMain = () => {
                       <TableCell>
                         <ReusableComponent
                           {...reusableComponentObject}
-                          name={"personId"}
+                          name={"person_id"}
                         />
                       </TableCell>
                       <TableCell>
                         <ReusableComponent
                           {...reusableComponentObject}
-                          name={"employeeId"}
+                          name={"employee_id"}
                         />
                       </TableCell>
                       <TableCell width={"200px"}>
@@ -572,48 +518,50 @@ const AccountMain = () => {
                   </TableBody>
                 </Table>
               </TableContainer>
-              <TableContainer>
-                <Table>
-                  <TableHead>
-                    <TableRow className={styles.tableRow}>
-                      <TableCell>
-                        <strong>{row3Title.dateCreated}</strong>
-                      </TableCell>
-                      <TableCell>
-                        <strong>{row3Title.dateEdited}</strong>
-                      </TableCell>
-                      <TableCell>
-                        <strong>{row3Title.editedBy}</strong>
-                      </TableCell>
-                      <TableCell>
-                        <strong>{row3Title.lemail}</strong>
-                      </TableCell>
-                      <TableCell>
-                        <strong>{row3Title.disputes}</strong>
-                      </TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    <TableRow className={styles.tableRow}>
-                      <TableCell>
-                        {data?.sample_person[index].date_created}
-                      </TableCell>
-                      <TableCell>
-                        {data?.sample_person[index].date_modified}
-                      </TableCell>
-                      <TableCell>
-                        {data?.sample_person[index].edited_by}
-                      </TableCell>
-                      <TableCell>
-                        {data?.sample_person[index].last_email}
-                      </TableCell>
-                      <TableCell>
-                        {data?.sample_person[index].disputes}
-                      </TableCell>
-                    </TableRow>
-                  </TableBody>
-                </Table>
-              </TableContainer>
+              {editStatus != 2 && (
+                <TableContainer>
+                  <Table>
+                    <TableHead>
+                      <TableRow className={styles.tableRow}>
+                        <TableCell>
+                          <strong>{row3Title.dateCreated}</strong>
+                        </TableCell>
+                        <TableCell>
+                          <strong>{row3Title.dateEdited}</strong>
+                        </TableCell>
+                        <TableCell>
+                          <strong>{row3Title.editedBy}</strong>
+                        </TableCell>
+                        <TableCell>
+                          <strong>{row3Title.lemail}</strong>
+                        </TableCell>
+                        <TableCell>
+                          <strong>{row3Title.disputes}</strong>
+                        </TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      <TableRow className={styles.tableRow}>
+                        <TableCell>
+                          {data?.sample_person[index].date_created}
+                        </TableCell>
+                        <TableCell>
+                          {data?.sample_person[index].date_modified}
+                        </TableCell>
+                        <TableCell>
+                          {data?.sample_person[index].edited_by}
+                        </TableCell>
+                        <TableCell>
+                          {data?.sample_person[index].last_email}
+                        </TableCell>
+                        <TableCell>
+                          {data?.sample_person[index].disputes}
+                        </TableCell>
+                      </TableRow>
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              )}
               <Box
                 sx={{
                   display: "flex",
