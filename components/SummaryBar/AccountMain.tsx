@@ -529,34 +529,48 @@ const AccountMain = () => {
                         <TableCell>
                           <strong>{row3Title.dateEdited}</strong>
                         </TableCell>
-                        <TableCell>
+                        <TableCell width={"160px"}>
                           <strong>{row3Title.editedBy}</strong>
                         </TableCell>
-                        <TableCell>
-                          <strong>{row3Title.lemail}</strong>
-                        </TableCell>
-                        <TableCell>
-                          <strong>{row3Title.disputes}</strong>
-                        </TableCell>
+                        {/*<TableCell>*/}
+                        {/*  <strong>{row3Title.lemail}</strong>*/}
+                        {/*</TableCell>*/}
+                        {/*<TableCell>*/}
+                        {/*  <strong>{row3Title.disputes}</strong>*/}
+                        {/*</TableCell>*/}
                       </TableRow>
                     </TableHead>
                     <TableBody>
                       <TableRow className={styles.tableRow}>
                         <TableCell>
-                          {data?.sample_person[index].date_created}
+                          <ReusableComponent
+                            {...reusableComponentObject}
+                            name={"date_added"}
+                            editable={false}
+                          />
+                          {/*{data?.sample_person[index].date_created}*/}
                         </TableCell>
                         <TableCell>
-                          {data?.sample_person[index].date_modified}
+                          <ReusableComponent
+                            {...reusableComponentObject}
+                            name={"date_modified"}
+                            editable={false}
+                          />
+                          {/*{data?.sample_person[index].date_modified}*/}
                         </TableCell>
                         <TableCell>
-                          {data?.sample_person[index].edited_by}
+                          <ReusableComponent
+                            {...reusableComponentObject}
+                            name={"modified_by"}
+                            editable={false}
+                          />
                         </TableCell>
-                        <TableCell>
-                          {data?.sample_person[index].last_email}
-                        </TableCell>
-                        <TableCell>
-                          {data?.sample_person[index].disputes}
-                        </TableCell>
+                        {/*<TableCell>*/}
+                        {/*  {data?.sample_person[index].last_email}*/}
+                        {/*</TableCell>*/}
+                        {/*<TableCell>*/}
+                        {/*  {data?.sample_person[index].disputes}*/}
+                        {/*</TableCell>*/}
                       </TableRow>
                     </TableBody>
                   </Table>

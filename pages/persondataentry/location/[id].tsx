@@ -2,7 +2,7 @@ import type { ReactElement } from "react";
 
 import { Layout } from "../../organizationdataentry/layout";
 // @ts-ignore
-import OrganizationLocationTable from "../../../components/Tables/OrganizationLocationTable";
+import OrganizationLocationTable from "../../../components/Tables/OrganizationLocationTable/Index";
 
 export default function Index() {
   return (

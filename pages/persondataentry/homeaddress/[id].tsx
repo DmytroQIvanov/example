@@ -2,7 +2,7 @@ import type { ReactElement } from "react";
 import React, { useEffect, useState } from "react";
 
 // import HomeAddressTable from "./components/HomeAddressTable/Table";
-import PersonHomeAddressTable from "../../../components/Tables/PersonHomeAddressTable";
+import PersonHomeAddressTable from "../../../components/Tables/PersonHomeAddressTable/Index";
 import { Layout } from "../layout";
 import useStyles from "../../styles";
 
