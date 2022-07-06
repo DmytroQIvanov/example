@@ -11,6 +11,7 @@ import { useRouter } from "next/router";
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import { AuthContext } from "../lib/authcontext";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import ApolloProviderWrapper from "./ApolloProviderWrapper";
 
 declare module "@mui/material/styles" {
   interface Palette {
@@ -39,12 +40,6 @@ declare module "@mui/material/Button" {
     blue: true;
   }
 }
-
-const client = new ApolloClient({
-  uri: "https://hasura-project-22.herokuapp.com",
-  cache: new InMemoryCache(),
-  headers: { "x-hasura-admin-secret": "grace_under_pressure" },
-});
 
 const publicPages: string[] = [];
 const apiKey = process.env.NEXT_PUBLIC_CLERK_FRONTEND_API;
@@ -75,11 +70,13 @@ function MyApp({ Component, pageProps }: AppProps) {
           getLayout(<Component {...pageProps} />)
         ) : (
           <>
-            <ApolloProvider client={client}>
+            <ApolloProviderWrapper>
+              {/*<ApolloProvider client={client}>*/}
               <AuthContext.Provider value={{ token: null, userRole: null }}>
                 <SignedIn>{getLayout(<Component {...pageProps} />)}</SignedIn>
               </AuthContext.Provider>
-            </ApolloProvider>
+              {/*</ApolloProvider>*/}
+            </ApolloProviderWrapper>
             <SignedOut>
               <RedirectToSignIn afterSignInUrl={"/appselection"} />
             </SignedOut>

@@ -1,57 +1,108 @@
 /* eslint-disable no-unsafe-optional-chaining */
-import { gql, useQuery } from "@apollo/client";
+import { gql, useMutation, useQuery } from "@apollo/client";
 import {
   Box,
-  Button,
-  FormControl,
   Grid,
-  InputLabel,
-  MenuItem,
-  Select,
+  LinearProgress,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
   TableRow,
-  TextField,
 } from "@mui/material";
 import * as React from "react";
 
 import { ColorLabel } from "./ColorLabel";
-import Autocomplete from "@mui/material/Autocomplete";
 import { useEffect, useState } from "react";
 import styles from "./styles.module.css";
+import { useRouter } from "next/router";
+import ReusableComponent from "./ReusableComponent";
+import ButtonsBlock from "./ButtonsBlock";
+
+// const PERSON_DATA = gql`
+//   query sample_query {
+//     sample_person {
+//       person_id
+//       first_name
+//       middle_names
+//       last_name
+//       nicknames
+//       suffix
+//       google_id
+//       app_id
+//       typeByType {
+//         type_id
+//         typename
+//       }
+//       date_created
+//       date_modified
+//       edited_by
+//       last_email
+//       disputes
+//       user_accounts {
+//         account_name
+//         accountTypeByAccountType {
+//           account_type_name
+//         }
+//         account_location
+//         active_since
+//         is_pm
+//         can_email
+//       }
+//     }
+//   }
+// `;
 
 const PERSON_DATA = gql`
-  query sample_query {
-    sample_person {
-      person_id
+  query person_query($pid: Int!) {
+    person(where: { person_id: { _eq: $pid } }) {
       first_name
       middle_names
       last_name
-      nicknames
-      suffix
-      google_id
-      app_id
-      typeByType {
-        type_id
-        typename
-      }
-      date_created
+      modified_by
+      nick_name
+      person_id
+      last_employee_list_name
+      last_employee_list_action
+      last_employee_df
+      last_df_list_name
       date_modified
-      edited_by
-      last_email
-      disputes
-      user_accounts {
-        account_name
-        accountTypeByAccountType {
-          account_type_name
-        }
-        account_location
-        active_since
-        is_pm
-        can_email
+      date_marked_invalid
+      date_added
+      cohort
+    }
+  }
+`;
+
+const CREATE_PERSON = gql`
+  mutation create_person(
+    $first_name: String!
+    $middle_names: String
+    $last_name: String!
+    $nickname: String
+    $suffix: String
+    $employeeid: String
+  ) {
+    insert_person(
+      objects: {
+        first_name: $first_name
+        middle_names: $middle_names
+        last_name: $last_name
+        nick_name: $nickname
+        suffix: $suffix
+        employee_id: $employeeid
+      }
+    ) {
+      returning {
+        first_name
+        middle_names
+        last_name
+        nick_name
+        suffix
+        modified_by
+        employee_id
+        person_id
       }
     }
   }
@@ -97,15 +148,26 @@ const textOnLabels = [
   "Organized",
 ];
 interface valuesTypes {
-  firstName: string | undefined;
-  middleNames: string | undefined;
-  lastName: string | undefined;
-  nickName: string | undefined;
+  first_name: string | undefined;
+  middle_names: string | undefined;
+  last_name: string | undefined;
+  nickname: string | undefined;
   suffix: string | undefined;
   nameSourceType: string | undefined;
   personId: string | undefined;
   employeeId: string | undefined;
 }
+
+const initialObject = {
+  first_name: "",
+  middle_names: "",
+  last_name: "",
+  nickname: "",
+  suffix: "",
+  nameSourceType: "",
+  personId: "",
+  employeeId: "",
+};
 
 const AccountMain = () => {
   const [index, setIndex] = React.useState(0);
@@ -113,17 +175,75 @@ const AccountMain = () => {
   const [editStatus, setEditStatus] = React.useState(0);
   const [collapse, setCollapse] = React.useState(false);
 
-  const [state, setState] = useState<valuesTypes>({
-    firstName: "1",
-    middleNames: "2",
-    lastName: "3",
-    nickName: "4",
-    suffix: "5",
-    nameSourceType: "6",
-    personId: "7",
-    employeeId: "8",
-  });
+  const router = useRouter();
 
+  const [mutateFunction, { creatingData, creatingLoading, creatingError }] =
+    useMutation(CREATE_PERSON);
+
+  const goTo = (id: string) => {
+    let href = "";
+    if (router.pathname.includes("[id]")) {
+      router.pathname = router.pathname.replace("[id]", id);
+    } else {
+      router.pathname = router.pathname + `/${id}`;
+    }
+    delete router.query.state;
+    router.push(router);
+  };
+  useEffect(() => {
+    if (router.query.state == "creating") {
+      setCollapse(false);
+      setPersonDataState(initialObject);
+      setState(initialObject);
+      setEditStatus(2);
+    }
+  }, [router.query.state]);
+
+  useEffect(() => {
+    if (editStatus == 0 || editStatus == 1) {
+      delete router.query.state;
+      router.push(router);
+    }
+  }, [editStatus]);
+
+  const [state, setState] = useState<valuesTypes>(initialObject);
+
+  const [personDataState, setPersonDataState] =
+    useState<valuesTypes>(initialObject);
+
+  useEffect(() => {
+    setState(personDataState);
+  }, [editStatus, personDataState]);
+
+  const onCreateUser = () => {
+    console.log(state);
+    mutateFunction({ variables: state }).then((data) => {
+      goTo(data.data.insert_person.returning[0].person_id);
+      setEditStatus(0);
+    });
+  };
+  const {
+    data: personData,
+    error,
+    loading,
+  } = useQuery(PERSON_DATA, {
+    skip: !router.query.id,
+    variables: { pid: router.query.id },
+  });
+  useEffect(() => {
+    if (personData?.person.length != 0 && !error) {
+      setPersonDataState({
+        first_name: personData?.person[0].first_name,
+        middle_names: personData?.person[0].middle_names,
+        last_name: personData?.person[0].last_name,
+        nickname: personData?.person[0].nick_name,
+        personId: personData?.person[0].person_id,
+      });
+    }
+  }, [personData]);
+  console.log(personData);
+
+  // const data = "";
   function handleChangeEvent(event: React.ChangeEvent<any>) {
     const { name, value } = event.target;
     setState({
@@ -139,18 +259,7 @@ const AccountMain = () => {
     });
   }
 
-  const { data, loading } = useQuery(PERSON_DATA);
-
-  const [personDataState, setPersonDataState] = useState<valuesTypes>({
-    firstName: "1",
-    middleNames: "2",
-    lastName: "3",
-    nickName: "4",
-    suffix: "5",
-    nameSourceType: "6",
-    personId: "7",
-    employeeId: "8",
-  });
+  const { data } = useQuery(PERSON_DATA);
 
   const handleIndex = (direction: string) => {
     if (direction === "prev") {
@@ -188,6 +297,42 @@ const AccountMain = () => {
     setEditStatus(0);
   };
 
+  if (!router.query.id && editStatus != 2) {
+    return <></>;
+  }
+  if (personData?.person.length == 0 || error)
+    return (
+      <Box
+        sx={{
+          p: 1,
+          m: 2,
+          border: "1px solid #000",
+          borderRadius: "5px",
+        }}
+        className="account_main"
+      >
+        No User
+      </Box>
+    );
+
+  const reusableComponentObject = {
+    editStatus,
+    personDataState,
+    editableState: state,
+    handleChangeEvent,
+    handleChange,
+    loading,
+  };
+
+  const buttonsBlockObject = {
+    editStatus,
+    collapse,
+    handleCollapse,
+    handleEditStatus,
+    onSave,
+    onCancel,
+    onCreateUser,
+  };
   return (
     <Box
       sx={{
@@ -224,9 +369,33 @@ const AccountMain = () => {
               </TableHead>
               <TableBody>
                 <TableRow>
-                  <TableCell>{data?.sample_person[index]?.app_id}</TableCell>
-                  <TableCell>
-                    {`${data?.sample_person[index].last_name}, ${data?.sample_person[index].first_name} ${data?.sample_person[index].middle_names} ${data?.sample_person[index].nicknames}`}
+                  <TableCell sx={{ textAlign: "left !important" }}>
+                    {personDataState?.personId}
+                  </TableCell>
+                  <TableCell
+                    sx={{ textAlign: "left !important", display: "flex" }}
+                  >
+                    <ReusableComponent
+                      {...reusableComponentObject}
+                      name={"last_name"}
+                      coma
+                    />
+                    <ReusableComponent
+                      {...reusableComponentObject}
+                      name={"first_name"}
+                      coma
+                    />
+                    <ReusableComponent
+                      {...reusableComponentObject}
+                      name={"middle_names"}
+                      coma
+                    />
+                    <ReusableComponent
+                      {...reusableComponentObject}
+                      name={"nickname"}
+                      // coma
+                    />
+                    {/*{`${ personDataState?.last_name}, ${personDataState?.first_name} ${personDataState?.middle_names} ${personDataState?.nickname}`}*/}
                   </TableCell>
                   <TableCell>
                     {data?.sample_person[index].typeByType?.typename}
@@ -270,7 +439,12 @@ const AccountMain = () => {
         </Box>
       ) : (
         <>
-          <TableContainer>
+          <TableContainer sx={{ position: "relative" }}>
+            {loading && (
+              <Box sx={{ position: "absolute", width: "100%" }}>
+                <LinearProgress />
+              </Box>
+            )}
             <Table>
               <TableHead>
                 <TableRow>
@@ -297,91 +471,41 @@ const AccountMain = () => {
               <TableBody>
                 <TableRow className={styles.tableRow}>
                   <TableCell>
-                    {editStatus ? (
-                      <TextField
-                        defaultValue={personDataState?.firstName}
-                        variant="outlined"
-                        onChange={handleChangeEvent}
-                        name={"firstName"}
-                        value={state["firstName"]}
-                      />
-                    ) : (
-                      personDataState?.firstName
-                    )}
+                    <ReusableComponent
+                      {...reusableComponentObject}
+                      name={"first_name"}
+                    />
                   </TableCell>
                   <TableCell>
-                    {editStatus ? (
-                      <TextField
-                        defaultValue={personDataState?.middleNames}
-                        variant="outlined"
-                        onChange={handleChangeEvent}
-                        name={"middleNames"}
-                        value={state["middleNames"]}
-                      />
-                    ) : (
-                      personDataState?.middleNames
-                    )}
+                    <ReusableComponent
+                      {...reusableComponentObject}
+                      name={"middle_names"}
+                    />
                   </TableCell>
                   <TableCell>
-                    {editStatus ? (
-                      <TextField
-                        defaultValue={personDataState?.lastName}
-                        variant="outlined"
-                        onChange={handleChangeEvent}
-                        name={"lastName"}
-                        value={state["lastName"]}
-                      />
-                    ) : (
-                      personDataState?.lastName
-                    )}
+                    <ReusableComponent
+                      {...reusableComponentObject}
+                      name={"last_name"}
+                    />
                   </TableCell>
                   <TableCell>
-                    {editStatus ? (
-                      <TextField
-                        defaultValue={personDataState?.lastName}
-                        variant="outlined"
-                        onChange={handleChangeEvent}
-                        name={"nickName"}
-                        value={state["nickName"]}
-                      />
-                    ) : (
-                      personDataState?.nickName
-                    )}
+                    <ReusableComponent
+                      {...reusableComponentObject}
+                      name={"nickname"}
+                    />
                   </TableCell>
                   <TableCell>
-                    {editStatus ? (
-                      <TextField
-                        defaultValue={personDataState?.suffix}
-                        variant="outlined"
-                        onChange={handleChangeEvent}
-                        name={"suffix"}
-                        value={state["suffix"]}
-                      />
-                    ) : (
-                      personDataState?.suffix
-                    )}
+                    <ReusableComponent
+                      {...reusableComponentObject}
+                      name={"suffix"}
+                    />
                   </TableCell>
                   <TableCell>
-                    {editStatus ? (
-                      <FormControl fullWidth>
-                        <InputLabel id="demo-simple-select-label">
-                          {/*Name Source Type*/}
-                        </InputLabel>
-                        <Select
-                          onChange={(event, child) =>
-                            handleChange("nameSourceType", event.target.value)
-                          }
-                          name={"nameSourceType"}
-                          value={state["nameSourceType"]}
-                        >
-                          <MenuItem value={10}>Ten</MenuItem>
-                          <MenuItem value={20}>Twenty</MenuItem>
-                          <MenuItem value={30}>Thirty</MenuItem>
-                        </Select>
-                      </FormControl>
-                    ) : (
-                      personDataState?.nameSourceType
-                    )}
+                    <ReusableComponent
+                      {...reusableComponentObject}
+                      name={"nameSourceType"}
+                      type={"selectableList"}
+                    />
                   </TableCell>
                 </TableRow>
               </TableBody>
@@ -411,61 +535,38 @@ const AccountMain = () => {
                   <TableBody>
                     <TableRow className={styles.tableRow}>
                       <TableCell>
-                        {editStatus ? (
-                          <Autocomplete
-                            disablePortal
-                            id="combo-box-demo"
-                            options={options}
-                            onChange={(data) =>
-                              handleChange(
-                                "personId",
-                                // @ts-ignore
-                                options[data.target.value].label
-                              )
-                            }
-                            value={{ label: state["personId"] }}
-                            sx={{ width: 170 }}
-                            renderInput={(params) => (
-                              <TextField {...params} label="" />
-                            )}
-                          />
-                        ) : (
-                          personDataState?.personId
-                        )}
+                        <ReusableComponent
+                          {...reusableComponentObject}
+                          name={"personId"}
+                        />
                       </TableCell>
                       <TableCell>
-                        {editStatus ? (
-                          <>
-                            <TextField
-                              defaultValue={
-                                data?.sample_person[index].employeeId
-                              }
-                              variant="outlined"
-                              onChange={handleChangeEvent}
-                              name={"employeeId"}
-                              value={state["employeeId"]}
-                            />
-                          </>
-                        ) : (
-                          personDataState.employeeId
-                        )}
+                        <ReusableComponent
+                          {...reusableComponentObject}
+                          name={"employeeId"}
+                        />
                       </TableCell>
-                      <TableCell>
-                        {data?.sample_person[index].user_accounts.map(
-                          (
-                            { account_location }: { account_location?: Number },
-                            key: number
-                          ) => (
-                            <>
-                              {account_location}
-                              {index <
-                              data?.sample_person[index].user_accounts?.length -
-                                1
-                                ? ", "
-                                : ""}
-                            </>
-                          )
-                        )}
+                      <TableCell width={"200px"}>
+                        <ReusableComponent
+                          {...reusableComponentObject}
+                          name={"personType"}
+                          type={"selectableList"}
+                        />
+                        {/*{data?.sample_person[index].user_accounts.map(*/}
+                        {/*  (*/}
+                        {/*    { account_location }: { account_location?: Number },*/}
+                        {/*    key: number*/}
+                        {/*  ) => (*/}
+                        {/*    <>*/}
+                        {/*      {account_location}*/}
+                        {/*      {index <*/}
+                        {/*      data?.sample_person[index].user_accounts?.length -*/}
+                        {/*        1*/}
+                        {/*        ? ", "*/}
+                        {/*        : ""}*/}
+                        {/*    </>*/}
+                        {/*  )*/}
+                        {/*)}*/}
                       </TableCell>
                     </TableRow>
                   </TableBody>
@@ -651,54 +752,7 @@ const AccountMain = () => {
           </Box>
         </>
       )}
-      <Box sx={{ m: 2, textAlign: "center" }}>
-        {!editStatus ? (
-          <>
-            {!collapse && (
-              <Button
-                style={{
-                  marginRight: 10,
-                }}
-                variant="contained"
-                onClick={() => handleEditStatus()}
-              >
-                Edit
-              </Button>
-            )}
-            <Button
-              style={{
-                backgroundColor: "#6BAD43",
-              }}
-              variant="contained"
-              onClick={() => handleCollapse()}
-            >
-              {collapse ? "Expand" : "Collapse"}
-            </Button>
-          </>
-        ) : (
-          <>
-            <Button
-              style={{
-                marginRight: 10,
-              }}
-              variant="contained"
-              onClick={() => onSave()}
-            >
-              Save
-            </Button>
-            <Button
-              style={{
-                // backgroundColor: "#6BAD43",
-                backgroundColor: "#AA2B2B",
-              }}
-              variant="contained"
-              onClick={() => onCancel()}
-            >
-              Cancel
-            </Button>
-          </>
-        )}
-      </Box>
+      <ButtonsBlock {...buttonsBlockObject} />
       <Grid container spacing={2}>
         <Grid item xs={6}>
           {index > 0 ? (
