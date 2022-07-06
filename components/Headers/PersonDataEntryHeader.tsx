@@ -5,8 +5,21 @@ import { NativeSelect, FormControl, Button } from "@mui/material";
 import SearchMenu from "../Search/SearchBox";
 import { ConfTemplate } from "../Configuration/Type";
 import { BootstrapInput } from "../Search/Type";
+import { useRouter } from "next/router";
 
 export function PersonDataEntryHeader() {
+  const router = useRouter();
+
+  const onAddNewPerson = () => {
+    if (router.pathname.includes("[id]")) {
+      router.pathname = router.pathname.replace("/[id]", "");
+    } else {
+      // href += router.pathname + `/${id}`;
+    }
+    router.query.state = "creating";
+    delete router.query.id;
+    router.push(router);
+  };
   return (
     <div className="header">
       <Box>
@@ -46,7 +59,11 @@ export function PersonDataEntryHeader() {
                     </option>
                     {ConfTemplate.campus &&
                       ConfTemplate.campus.map((item, itemIndex) => {
-                        return <option value={item} key={itemIndex}>{item}</option>;
+                        return (
+                          <option value={item} key={itemIndex}>
+                            {item}
+                          </option>
+                        );
                       })}
                   </NativeSelect>
                 </FormControl>
@@ -77,7 +94,11 @@ export function PersonDataEntryHeader() {
                     </option>
                     {ConfTemplate.campus &&
                       ConfTemplate.campus.map((item, itemIndex) => {
-                        return <option value={item} key={itemIndex}>{item}</option>;
+                        return (
+                          <option value={item} key={itemIndex}>
+                            {item}
+                          </option>
+                        );
                       })}
                   </NativeSelect>
                 </FormControl>
@@ -95,14 +116,24 @@ export function PersonDataEntryHeader() {
                     </option>
                     {ConfTemplate.campus &&
                       ConfTemplate.campus.map((item, itemIndex) => {
-                        return <option value={item} key={itemIndex}>{item}</option>;
+                        return (
+                          <option value={item} key={itemIndex}>
+                            {item}
+                          </option>
+                        );
                       })}
                   </NativeSelect>
                 </FormControl>
               </Grid>
               <Grid item sm={4}>
                 <FormControl sx={{ m: 1, width: "90%" }} variant="standard">
-                  <Button variant="contained" color="success">
+                  <Button
+                    variant="contained"
+                    color="success"
+                    onClick={() => {
+                      onAddNewPerson();
+                    }}
+                  >
                     Add New Person
                   </Button>
                 </FormControl>

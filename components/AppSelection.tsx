@@ -4,6 +4,20 @@ import { FiShuffle, FiUsers, FiLogOut } from "react-icons/fi";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import Box from "@mui/material/Box";
+// import { useClerk } from "@clerk/clerk-react";
+import { useAuth, useClerk } from "@clerk/nextjs";
+// import { useQuery } from "@apollo/react-hooks";
+import {
+  ApolloClient,
+  from,
+  gql,
+  HttpLink,
+  InMemoryCache,
+  useApolloClient,
+  useQuery,
+} from "@apollo/client";
+import { setContext } from "@apollo/client/link/context";
+// import { GetUser } from "../shemas/GetPerson";
 
 export function AppSelection() {
   const router = useRouter();
@@ -12,9 +26,54 @@ export function AppSelection() {
     router.push(href);
   };
 
+  // const client = useApolloClient();
+
+  const qsad = gql`
+    query GetPerson($search: String!) {
+      fuzzy_search(args: { search_text: $search }) {
+        person_id
+        full_name
+        employee_id
+      }
+    }
+  `;
+
+  const httpLink = new HttpLink({
+    uri: "https://api.advancemarketingsolutions.net/v1/graphql",
+  });
+  const { getToken } = useAuth();
+
+  const authMiddleware = setContext(async (req, { headers }) => {
+    const token = await getToken({ template: "Hasura" });
+
+    return {
+      headers: { ...headers, authorization: `Bearer ${token}` },
+    };
+  });
+  const client = new ApolloClient({
+    uri: "https://api.advancemarketingsolutions.net/v1/graphql",
+    cache: new InMemoryCache(),
+  });
+  // const apolloClient = new ApolloClient({
+  //   cache: new InMemoryCache(),
+  //
+  // link: from([authMiddleware, httpLink]),
+  // link: httpLink,
+  // headers: { "x-hasura-admin-secret": "grace_under_pressure" },
+  // });
+
+  const { data, error } = useQuery(qsad, {
+    // query: qsad,
+    variables: { search: "Ivan" },
+    // client,
+  });
+  console.log(data);
+  console.log(error);
   const customImgLoader = ({ src }: { src: any }) => {
     return `${src}`;
   };
+
+  const { signOut } = useClerk();
 
   //later to use
   return (
@@ -93,7 +152,7 @@ export function AppSelection() {
               </div>
             </li>
             <li>
-              <div className="iocn-link">
+              <div className="iocn-link" onClick={() => signOut()}>
                 <a href="#">
                   <FiLogOut className="react-icon" />
                   <span className="link_name">Logout</span>

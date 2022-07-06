@@ -2,11 +2,11 @@ import type { ReactElement } from "react";
 import React, { useEffect, useState } from "react";
 
 // import HomeAddressTable from "./components/HomeAddressTable/Table";
-import PersonHomeAddressTable from "../../components/Tables/PersonHomeAddressTable/Index";
-import { Layout } from "./layout";
-import useStyles from "../styles";
+import PersonHomeAddressTable from "../../../components/Tables/PersonHomeAddressTable";
+import { Layout } from "../layout";
+import useStyles from "../../styles";
 
-export default function HomeAddress() {
+export default function Index() {
   const classes = useStyles();
   const [data, setData] = useState<any[]>([]);
 
@@ -82,7 +82,7 @@ export default function HomeAddress() {
   );
 }
 
-HomeAddress.getLayout = function getLayout(page: ReactElement) {
+Index.getLayout = function getLayout(page: ReactElement) {
   return (
     <Layout key="home-address" breadcrumb="Home Address">
       {page}
