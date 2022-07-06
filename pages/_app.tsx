@@ -70,13 +70,15 @@ function MyApp({ Component, pageProps }: AppProps) {
           getLayout(<Component {...pageProps} />)
         ) : (
           <>
-            <ApolloProviderWrapper>
-              {/*<ApolloProvider client={client}>*/}
-              <AuthContext.Provider value={{ token: null, userRole: null }}>
-                <SignedIn>{getLayout(<Component {...pageProps} />)}</SignedIn>
-              </AuthContext.Provider>
-              {/*</ApolloProvider>*/}
-            </ApolloProviderWrapper>
+            {/*<ApolloProvider client={client}>*/}
+            <AuthContext.Provider value={{ token: null, userRole: null }}>
+              <SignedIn>
+                <ApolloProviderWrapper>
+                  {getLayout(<Component {...pageProps} />)}
+                </ApolloProviderWrapper>
+              </SignedIn>
+            </AuthContext.Provider>
+            {/*</ApolloProvider>*/}
             <SignedOut>
               <RedirectToSignIn afterSignInUrl={"/appselection"} />
             </SignedOut>
