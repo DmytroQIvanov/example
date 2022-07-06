@@ -22,23 +22,18 @@ const ApolloProviderWrapper: React.FC<{ children: ReactNode }> = ({
     };
   });
 
-  console.log(authMiddleware);
   const httpLink = new HttpLink({
     uri: "https://api.advancemarketingsolutions.net/v1/graphql",
-    // uri: "https://hasura-project-22.herokuapp.com",
   });
-
-  // const apolloClient = new ApolloClient({
-  //   link: from([authMiddleware, httpLink]),
-  //   cache: new InMemoryCache(),
-  //   headers: { "x-hasura-admin-secret": "grace_under_pressure" },
-  // });
 
   const apolloClient = new ApolloClient({
-    uri: "https://api.advancemarketingsolutions.net/v1/graphql",
+    link: from([authMiddleware, httpLink]),
+    // uri: "https://api.advancemarketingsolutions.net/v1/graphql",
     cache: new InMemoryCache(),
+
     headers: { "x-hasura-admin-secret": "grace_under_pressure" },
   });
+
   return <ApolloProvider client={apolloClient}>{children}</ApolloProvider>;
 };
 
