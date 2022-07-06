@@ -15,8 +15,10 @@ const ApolloProviderWrapper: React.FC<{ children: ReactNode }> = ({
   const { getToken } = useAuth();
 
   const authMiddleware = setContext(async (req, { headers }) => {
-    const token = await getToken({ template: "Hasura" });
+    const token = await getToken({ template: "dev" });
 
+    console.log("Hasura token is");
+    console.log(token);
     return {
       headers: { ...headers, authorization: `Bearer ${token}` },
     };
@@ -30,8 +32,6 @@ const ApolloProviderWrapper: React.FC<{ children: ReactNode }> = ({
     link: from([authMiddleware, httpLink]),
     // uri: "https://api.advancemarketingsolutions.net/v1/graphql",
     cache: new InMemoryCache(),
-
-    headers: { "x-hasura-admin-secret": "grace_under_pressure" },
   });
 
   return <ApolloProvider client={apolloClient}>{children}</ApolloProvider>;
