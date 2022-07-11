@@ -101,6 +101,7 @@ const SearchMenu: React.FC<{
     router.push(href);
   };
   const { data, error, loading } = useQuery(SEARCH_PERSON, {
+    skip: !searchData,
     variables: { search: searchData },
   });
   const Modal = ({

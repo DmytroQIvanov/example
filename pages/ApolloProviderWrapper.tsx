@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react";
-import { useAuth } from "@clerk/nextjs";
-import { useUser } from '@clerk/clerk-react'
+import { useAuth, useUser } from "@clerk/nextjs";
+// import { useUser } from '@clerk/clerk-react'
 import { setContext } from "@apollo/client/link/context";
 import {
   HttpLink,
@@ -14,24 +14,27 @@ const ApolloProviderWrapper: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const { getToken } = useAuth();
-  const {user} = useUser()
+  const { user } = useUser();
   const authMiddleware = setContext(async (req, { headers }) => {
     const token = await getToken({ template: "dev" });
     console.log("Hasura token is");
     console.log(token);
     return {
-      headers: { ...headers, authorization: `Bearer ${token}`,
-        "x-hasura-role": `${user.unsafeMetadata.role}`},
+      headers: {
+        ...headers,
+        authorization: `Bearer ${token}`,
+        "x-hasura-role": `${user?.unsafeMetadata.role}`,
+      },
     };
   });
 
   const httpLink = new HttpLink({
     uri: "https://api.advancemarketingsolutions.net/v1/graphql",
   });
+  console.log("userRole", user);
 
   const apolloClient = new ApolloClient({
     link: from([authMiddleware, httpLink]),
-    // uri: "https://api.advancemarketingsolutions.net/v1/graphql",
     cache: new InMemoryCache(),
   });
 

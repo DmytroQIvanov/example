@@ -63,3 +63,10 @@ query name_source_query {
     name_source_type
   }
 }
+
+query information_sources {
+  information_source_type {
+    information_source_type_id
+    information_source_type
+  }
+}
