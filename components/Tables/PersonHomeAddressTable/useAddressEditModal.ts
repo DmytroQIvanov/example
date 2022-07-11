@@ -1,23 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useLoadScript } from "@react-google-maps/api";
-
-const initialAddress = {
-  source: "",
-  comments: "",
-  streetnumber: "",
-  streetname: "",
-  city: "",
-  state: "",
-  postal: "",
-  country: "",
-  apartment: "",
-  full: "",
-  google_formatted: "",
-  formatted_address: "",
-  zip: "",
-
-  location_accuracy: "",
-};
+import { useQuery } from "@apollo/client";
+import { PERSON_DATA } from "../../../shemas/PersonGraphqlShemas";
+import { INFORMATION_SOURCES_LIST } from "../../../shemas/HomeAddressShemas";
 
 const scriptOptions: {
   googleMapsApiKey: string;
@@ -48,10 +33,14 @@ export const useAddressEditModal = ({
   data,
   handleClose,
   onChangeAddress,
+  initialAddress,
+  formikData,
 }: {
   data: any;
   handleClose: () => void;
   onChangeAddress: any;
+  initialAddress: any;
+  formikData: any;
 }) => {
   const [address, setAddress] = React.useState(initialAddress);
 
@@ -68,6 +57,8 @@ export const useAddressEditModal = ({
 
     // @ts-ignore
     update[e.target.name] = e.target.value;
+
+    formikData.handleChange(e);
     setAddress(update);
   };
 
@@ -82,7 +73,7 @@ export const useAddressEditModal = ({
   const { isLoaded, loadError } = useLoadScript(scriptOptions);
   const [autocomplete, setAutocomplete] = useState<any>(null);
   const [autocompleteBoolean, setAutocompleteBoolean] = useState<any>(null);
-  const inputEl = useRef(null);
+  // const inputEl = useRef(null);
 
   const apartmentInputReference = useRef(null);
 
@@ -150,6 +141,7 @@ export const useAddressEditModal = ({
 
         autoAddress = { ...autoAddress, full: fullAddress.join(", ") };
         setAddress(autoAddress);
+        formikData.setValues(autoAddress);
       }
     }
   };
@@ -163,6 +155,13 @@ export const useAddressEditModal = ({
     handleClose();
     setAddress(initialAddress);
   };
+
+  const {
+    data: information_sources_list,
+    error,
+    loading,
+  } = useQuery(INFORMATION_SOURCES_LIST);
+  console.log(information_sources_list?.information_source_type);
   return {
     address,
     functions: { handleSubmit, onKeypress, handleChange, onSave, onCancel },
@@ -171,5 +170,12 @@ export const useAddressEditModal = ({
     onPlaceChanged,
     sources,
     apartmentInputReference,
+    initialAddress,
+    data: {
+      informationSources: {
+        loading,
+        data: information_sources_list?.information_source_type,
+      },
+    },
   };
 };

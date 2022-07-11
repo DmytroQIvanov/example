@@ -1,31 +1,37 @@
 import { gql } from "@apollo/client";
 
+// state: "", //??????????? TODO
+// google_formatted: "" TODO,
+// formatted_address: "" TODO
+// zip: "" TODO ,
+// location_accuracy: "" TODO,
+
 export const CREATE_HOME_ADDRESS = gql`
   mutation insert_person_home_address(
     $pid: Int!
-    $street: String
+    $streetnumber: String
     $streetname: String
-    $apt: String
+    $apartment: String
     $city: String
     $postal: String
     $country: String
     $comments: String
     $source: Int!
-    $normalized: String
+    $full: String
   ) {
     insert_person_home_address_one(
       object: {
         person_id: $pid
-        street_number: $street
+        street_number: $streetnumber
         street_name: $streetname
-        apartment: $apt
+        apartment: $apartment
         city: $city
         zip_code: $postal
         country: $country
         coments: $comments
         information_source_type_id: $source
         accuracy: "ROOFTOP"
-        normalized_address: $normalized
+        normalized_address: $full
       }
     ) {
       person_id
@@ -40,6 +46,37 @@ export const CREATE_HOME_ADDRESS = gql`
       date_first_known_valid
       date_last_known_valid
       accuracy
+    }
+  }
+`;
+export const INFORMATION_SOURCES_LIST = gql`
+  query information_sources {
+    information_source_type {
+      information_source_type_id
+      information_source_type
+    }
+  }
+`;
+
+export const HOME_ADDRESS_TABLE = gql`
+  query home_address_query($pid: Int!) {
+    person_home_address(where: { person_id: { _eq: $pid } }) {
+      person_home_address_id
+      street_number
+      street_name
+      apartment
+      city
+      state
+      country
+      accuracy
+      coments
+      date_first_known_valid
+      date_last_known_valid
+      date_marked_invalid
+      information_source_type {
+        information_source_type_id
+        information_source_type
+      }
     }
   }
 `;
