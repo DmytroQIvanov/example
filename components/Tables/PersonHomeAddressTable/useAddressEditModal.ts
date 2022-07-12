@@ -1,8 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useLoadScript } from "@react-google-maps/api";
-import { useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { PERSON_DATA } from "../../../shemas/PersonGraphqlShemas";
-import { INFORMATION_SOURCES_LIST } from "../../../shemas/HomeAddressShemas";
+import {
+  CREATE_HOME_ADDRESS,
+  INFORMATION_SOURCES_LIST,
+} from "../../../shemas/HomeAddressShemas";
+import { useRouter } from "next/router";
 
 const scriptOptions: {
   googleMapsApiKey: string;
@@ -34,13 +38,13 @@ export const useAddressEditModal = ({
   handleClose,
   onChangeAddress,
   initialAddress,
-  formikData,
+  refetch,
 }: {
   data: any;
   handleClose: () => void;
   onChangeAddress: any;
   initialAddress: any;
-  formikData: any;
+  refetch?: Function;
 }) => {
   const [address, setAddress] = React.useState(initialAddress);
 
@@ -59,7 +63,6 @@ export const useAddressEditModal = ({
     // @ts-ignore
     update[e.target.name] = e.target.value;
 
-    formikData.handleChange(e);
     setAddress(update);
   };
 
@@ -69,6 +72,21 @@ export const useAddressEditModal = ({
     if (e.key === "Enter") {
       e.preventDefault();
       return false;
+    }
+  };
+  const [mutateFunction, { loading: creatingLoading }] =
+    useMutation(CREATE_HOME_ADDRESS);
+  const router = useRouter();
+
+  const onSubmit = (data: any) => {
+    if (router.query.id) {
+      mutateFunction({
+        variables: { ...data, pid: router.query.id },
+      }).then((data) => {
+        refetch && refetch();
+        setAddress(initialAddress);
+        handleClose();
+      });
     }
   };
   const { isLoaded, loadError } = useLoadScript(scriptOptions);
@@ -142,15 +160,14 @@ export const useAddressEditModal = ({
 
         autoAddress = { ...autoAddress, full: fullAddress.join(", ") };
         setAddress(autoAddress);
-        formikData.setValues(autoAddress);
       }
     }
   };
 
   const onSave = () => {
+    onSubmit(address);
     onChangeAddress(address);
-    handleClose();
-    setAddress(initialAddress);
+    // handleClose();
   };
   const onCancel = () => {
     handleClose();

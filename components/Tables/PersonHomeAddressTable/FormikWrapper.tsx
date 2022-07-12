@@ -16,25 +16,11 @@ const FormikWrapper = ({
   handleClose: () => void;
   refetch: () => void;
 }) => {
-  const [mutateFunction, { loading: creatingLoading }] =
-    useMutation(CREATE_HOME_ADDRESS);
-
-  const router = useRouter();
   return (
     <Formik
       initialValues={initialValues}
       validationSchema={HomeAddressSchema}
-      onSubmit={(values) => {
-        if (router.query.id) {
-          mutateFunction({
-            variables: { ...values, pid: router.query.id },
-          }).then((data) => {
-            refetch();
-            handleClose();
-            console.log(data);
-          });
-        }
-      }}
+      onSubmit={(values) => {}}
     >
       {(formikData) => <>{children({ formikData })}</>}
     </Formik>
