@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { IActiveRowObject } from "../components/Tables/TablesComponents/Interfaces/TableWrapperInterfaces";
 import { dateOptions } from "../components/Tables/TablesComponents/EditableBlock";
+import { useMutation } from "@apollo/client";
+import {
+  CREATE_HOME_ADDRESS,
+  INVALIDATE_PERSON_HOME_ADDRESS,
+  VALIDATE_PERSON_HOME_ADDRESS,
+} from "../shemas/HomeAddressShemas";
 
 export type rowStateTypes = "default" | "change" | "add";
 
@@ -32,12 +38,14 @@ export const UseEditableTable = ({
   onChangeWithProvidedState,
   onSaveWithProvidedState,
   onAddCancel,
+  refetch,
 }: {
   activeRowObject: IActiveRowObject;
   row?: any;
   onChangeWithProvidedState: any;
   onSaveWithProvidedState: any;
   onAddCancel: any;
+  refetch?: () => void;
 }): IUseEditableTableReturns => {
   // ---STATES---
 
@@ -63,6 +71,13 @@ export const UseEditableTable = ({
   // useEffect(() => {
   //   onChangeWithProvidedState(rowValues);
   // }, [rowValues]);
+
+  const [invalidateFunction, { loading: invalidateLoading }] = useMutation(
+    INVALIDATE_PERSON_HOME_ADDRESS
+  );
+  const [validateFunction, { loading: validateLoading }] = useMutation(
+    VALIDATE_PERSON_HOME_ADDRESS
+  );
 
   // IS ROW VALIDATED
   const [validateState, setValidateState] = useState(
@@ -99,6 +114,11 @@ export const UseEditableTable = ({
         prevState2["datelastknownvalid"] = pst;
         prevState2["dmi"] = null;
         prevState2["datemarkedinvalid"] = null;
+        validateFunction({
+          variables: { id: prevState2.id, date: pst },
+        }).then(() => {
+          refetch && refetch();
+        });
         return prevState2;
       });
       setEditableRowValues((prevState2: any) => {
@@ -112,6 +132,7 @@ export const UseEditableTable = ({
         return prevState2;
       });
     }
+
     setValidateState((prevState: any) => {
       if (
         activeRowObject.activeRow.state === "default" &&
@@ -123,6 +144,11 @@ export const UseEditableTable = ({
           const pst = date.toLocaleString("en-US", dateOptions);
           prevState2["dmi"] = pst;
           prevState2["datemarkedinvalid"] = pst;
+          invalidateFunction({
+            variables: { id: prevState2.id, date: pst },
+          }).then(() => {
+            refetch && refetch();
+          });
 
           return prevState2;
         });

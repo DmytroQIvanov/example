@@ -57,12 +57,17 @@ const SEARCH_PERSON = gql`
   }
 `;
 
+// const initialSearchTitle = [
+//   { label: "Name", valueName: "full_name" },
+//   { label: "Person ID", valueName: "person_id", id: true },
+//   { label: "Employee ID", valueName: "employee_id" },
+// ];
 const initialSearchTitle = [
   { label: "Name", valueName: "full_name" },
-  { label: "Person ID", valueName: "person_id", id: true },
-  { label: "Employee ID", valueName: "employee_id" },
-
-  // {"PID", "Unit", "Campus", "Employee ID"
+  { label: "PID", valueName: "person_id", id: true },
+  { label: "EID", valueName: "employee_id" },
+  { label: "Unit", valueName: "" },
+  { label: "Campus", valueName: "" },
 ];
 
 const SearchMenu: React.FC<{
@@ -104,6 +109,7 @@ const SearchMenu: React.FC<{
     skip: !searchData,
     variables: { search: searchData },
   });
+  console.log(data);
   const Modal = ({
     isOpen,
     coverApp,

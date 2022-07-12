@@ -11,8 +11,6 @@ import { UseEditableTable } from "../../../hooks/UseEditableTable";
 import OptionsBlock from "../TablesComponents/OptionsBlock";
 import AddressEditModal from "./AddressEditModal";
 import { Box } from "@mui/material";
-import { IActiveRowObject } from "../TablesComponents/Interfaces/TableWrapperInterfaces";
-import Typography from "@mui/material/Typography";
 import { ITableRowComponent } from "../TablesComponents/Interfaces/ITableRowComponent";
 
 const TableRowComponent: React.FC<
@@ -24,6 +22,7 @@ const TableRowComponent: React.FC<
   activeRowObject,
   onSaveWithProvidedState,
   onChangeWithProvidedState,
+  refetch,
 }) => {
   const { onCancel, summaryObject, onSave } = UseEditableTable({
     row,
@@ -31,6 +30,7 @@ const TableRowComponent: React.FC<
     onSaveWithProvidedState,
     onChangeWithProvidedState,
     onAddCancel,
+    refetch,
   });
 
   const [stateModal, setStateModal] = useState(false);
@@ -46,8 +46,8 @@ const TableRowComponent: React.FC<
         <Box
           sx={{ mr: "2px", display: "flex", flexWrap: "wrap", gap: "4px 7px" }}
         >
-          <span>{summaryObject.rowValues["streetnumber"]}</span>
-          <span>{summaryObject.rowValues["streetname"]}</span>
+          <span>{summaryObject.rowValues["street_number"]}</span>
+          <span>{summaryObject.rowValues["street_name"]}</span>
           <span>{summaryObject.rowValues["apartment"]}</span>
 
           <span>{summaryObject.rowValues["city"]} </span>
@@ -63,7 +63,7 @@ const TableRowComponent: React.FC<
       <TableCell component="th" scope="row" width={"200px"}>
         {
           summaryObject.rowValues["information_source_type"]
-            ?.informationsourcetype
+            ?.information_source_type
         }
       </TableCell>
       <TableCell component="th" scope="row" width={"340px"}>
@@ -72,14 +72,14 @@ const TableRowComponent: React.FC<
       <TableCell component="th" scope="row" width={"200px"}>
         {EditableBlock({
           ...summaryObject,
-          name: "datefirstknownvalid",
+          name: "date_first_known_valid",
           type: "date",
         })}
       </TableCell>
       <TableCell width={"220px"}>
         {EditableBlock({
           ...summaryObject,
-          name: "datelastknownvalid",
+          name: "date_last_known_valid",
           type: "date",
         })}
         {EditableBlock({ ...summaryObject, type: "validate" })}
@@ -87,7 +87,7 @@ const TableRowComponent: React.FC<
       <TableCell width={"230px"}>
         {EditableBlock({
           ...summaryObject,
-          name: "datemarkedinvalid",
+          name: "date_marked_invalid",
           type: "date",
         })}
 

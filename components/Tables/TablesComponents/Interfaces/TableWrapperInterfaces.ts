@@ -20,6 +20,7 @@ export interface ITableWrapperProps {
       orderBy: any;
       onRequestSort: any;
       headCells: any;
+      loading?: boolean;
     }>;
     stableSort: any;
     getComparator: any;
@@ -46,4 +47,6 @@ export interface ITableWrapperProps {
   ];
   rows: any[];
   disableAddBtn?: boolean;
+  refetch?: Function;
+  deleteFunction?: Function;
 }

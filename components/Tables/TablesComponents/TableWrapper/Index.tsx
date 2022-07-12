@@ -1,5 +1,5 @@
 import React, { MouseEventHandler, useState } from "react";
-import { Box, Button } from "@mui/material";
+import { Box, Button, LinearProgress } from "@mui/material";
 import Paper from "@material-ui/core/Paper";
 import TableContainer from "@material-ui/core/TableContainer";
 import Table from "@material-ui/core/Table";
@@ -20,6 +20,8 @@ const Index: React.FC<ITableWrapperProps> = ({
   buttonsList,
   rows,
   disableAddBtn,
+  refetch,
+  deleteFunction,
 }) => {
   const {
     tableElements,
@@ -32,7 +34,7 @@ const Index: React.FC<ITableWrapperProps> = ({
     handleChangeMainStateEvent,
     handleChangeMainState,
     onChangeWithProvidedState,
-  } = useTableWrapper(rows);
+  } = useTableWrapper(rows, refetch, deleteFunction);
   const [buttonsListState, setButtonsListState] = useState(
     buttonsList !== undefined ? buttonsList : []
   );
@@ -85,7 +87,7 @@ const Index: React.FC<ITableWrapperProps> = ({
 
   //TABLE HEAD
   function EnhancedTableHead(props: any) {
-    const { order, orderBy, onRequestSort } = props;
+    const { order, orderBy, onRequestSort, loading } = props;
     const createSortHandler =
       (property: any) => (event: React.MouseEvent<unknown>) => {
         if (property == "options") return;
@@ -151,6 +153,9 @@ const Index: React.FC<ITableWrapperProps> = ({
             );
           })}
         </TableRow>
+        {loading && (
+          <LinearProgress sx={{ width: "100%", position: "absolute" }} />
+        )}
       </TableHead>
     );
   }

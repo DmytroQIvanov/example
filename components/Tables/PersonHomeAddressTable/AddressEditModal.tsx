@@ -15,11 +15,6 @@ import {
 } from "@mui/material";
 
 import Modal from "../../Modal/Modal";
-import { useMutation, useQuery } from "@apollo/client";
-import {
-  CREATE_HOME_ADDRESS,
-  INFORMATION_SOURCES_LIST,
-} from "../../../shemas/HomeAddressShemas";
 import { useAddressEditModal } from "./useAddressEditModal";
 import { Formik, Form } from "formik";
 import FormikWrapper from "./FormikWrapper";
@@ -43,7 +38,11 @@ const initialAddress = {
 };
 const AddressEditModal = (props: any) => {
   return (
-    <FormikWrapper initialValues={initialAddress}>
+    <FormikWrapper
+      initialValues={initialAddress}
+      handleClose={props.handleClose}
+      refetch={props.refetch}
+    >
       {(data) => <Component formikData={data.formikData} data={props} />}
     </FormikWrapper>
   );
@@ -74,7 +73,7 @@ const Component = ({
   });
 
   return (
-    <Modal open={open} title={title} handleClose={handleClose}>
+    <Modal open={open} title={title} handleClose={onCancel}>
       <Box sx={{ flexGrow: 1 }} className={classes.addressModal}>
         <Form>
           <Grid container spacing={2}>

@@ -50,6 +50,7 @@ export const useAddressEditModal = ({
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
+    alert();
   };
 
   const handleChange = (e: any) => {

@@ -28,7 +28,7 @@ export const CREATE_HOME_ADDRESS = gql`
         city: $city
         zip_code: $postal
         country: $country
-        coments: $comments
+        comments: $comments
         information_source_type_id: $source
         accuracy: "ROOFTOP"
         normalized_address: $full
@@ -69,7 +69,7 @@ export const HOME_ADDRESS_TABLE = gql`
       state
       country
       accuracy
-      coments
+      comments
       date_first_known_valid
       date_last_known_valid
       date_marked_invalid
@@ -77,6 +77,38 @@ export const HOME_ADDRESS_TABLE = gql`
         information_source_type_id
         information_source_type
       }
+    }
+  }
+`;
+
+export const INVALIDATE_PERSON_HOME_ADDRESS = gql`
+  mutation invalidate_person_home_address($id: Int!, $date: timestamp!) {
+    update_person_home_address_by_pk(
+      pk_columns: { person_home_address_id: $id }
+      _set: { date_marked_invalid: $date }
+    ) {
+      date_marked_invalid
+    }
+  }
+`;
+
+export const VALIDATE_PERSON_HOME_ADDRESS = gql`
+  mutation validate_person_home_address($id: Int!, $date: timestamp!) {
+    update_person_home_address_by_pk(
+      pk_columns: { person_home_address_id: $id }
+      _set: { date_last_known_valid: $date }
+    ) {
+      date_last_known_valid
+    }
+  }
+`;
+
+export const DELETE_PERSON_HOME_TABLE = gql`
+  mutation delete_person_home_address($id: Int!) {
+    delete_person_home_address(
+      where: { person_home_address_id: { _eq: $id } }
+    ) {
+      affected_rows
     }
   }
 `;

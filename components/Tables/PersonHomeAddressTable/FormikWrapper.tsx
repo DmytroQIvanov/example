@@ -3,35 +3,36 @@ import { Formik } from "formik";
 import { HomeAddressSchema } from "./ValidationShema";
 import { useMutation } from "@apollo/client";
 import { CREATE_HOME_ADDRESS } from "../../../shemas/HomeAddressShemas";
-import { useUser } from "@clerk/nextjs";
+import { useRouter } from "next/router";
 
 const FormikWrapper = ({
   children,
   initialValues,
+  handleClose,
+  refetch,
 }: {
   children: ({ formikData }: { formikData: any }) => React.ReactNode;
   initialValues: any;
+  handleClose: () => void;
+  refetch: () => void;
 }) => {
   const [mutateFunction, { loading: creatingLoading }] =
     useMutation(CREATE_HOME_ADDRESS);
 
-  const { isLoaded, isSignedIn, user } = useUser();
-  console.log(user);
+  const router = useRouter();
   return (
     <Formik
       initialValues={initialValues}
       validationSchema={HomeAddressSchema}
       onSubmit={(values) => {
-        console.log(values);
-
-        if (user && user.id) {
-          mutateFunction({ variables: { ...values, pid: user.id } }).then(
-            (data) => {
-              // goTo(data.data.insert_person.returning[0].person_id);
-              // setEditStatus(0);
-              console.log(data);
-            }
-          );
+        if (router.query.id) {
+          mutateFunction({
+            variables: { ...values, pid: router.query.id },
+          }).then((data) => {
+            refetch();
+            handleClose();
+            console.log(data);
+          });
         }
       }}
     >
