@@ -43,7 +43,11 @@ export interface ITableWrapperProps {
     activeRowObject: IActiveRowObject;
   }) => React.ReactNode;
   buttonsList?: [
-    { label: string; buttonFunction?: MouseEventHandler<HTMLButtonElement> }
+    {
+      label: string;
+      buttonFunction?: MouseEventHandler<HTMLButtonElement>;
+      disabled?: boolean;
+    }
   ];
   rows: any[];
   disableAddBtn?: boolean;

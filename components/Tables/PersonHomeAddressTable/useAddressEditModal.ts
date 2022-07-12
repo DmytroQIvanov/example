@@ -40,7 +40,7 @@ export const useAddressEditModal = ({
   initialAddress,
   refetch,
 }: {
-  data: any;
+  data?: any;
   handleClose: () => void;
   onChangeAddress: any;
   initialAddress: any;
@@ -78,20 +78,33 @@ export const useAddressEditModal = ({
     useMutation(CREATE_HOME_ADDRESS);
   const router = useRouter();
 
-  const onSubmit = (data: any) => {
+  useEffect(() => {
+    if (address?.source) {
+      setErrors({ source: false });
+    }
+  }, [address]);
+  const onSubmit = () => {
+    if (!address?.source) {
+      setErrors({ source: true });
+      return;
+    }
     if (router.query.id) {
+      onChangeAddress(address);
+
       mutateFunction({
-        variables: { ...data, pid: router.query.id },
+        variables: { ...address, pid: router.query.id },
       }).then((data) => {
         refetch && refetch();
         setAddress(initialAddress);
         handleClose();
+        setErrors({ source: false });
       });
     }
   };
   const { isLoaded, loadError } = useLoadScript(scriptOptions);
   const [autocomplete, setAutocomplete] = useState<any>(null);
   const [autocompleteBoolean, setAutocompleteBoolean] = useState<any>(null);
+  const [errors, setErrors] = useState({ source: false });
   // const inputEl = useRef(null);
 
   const apartmentInputReference = useRef(null);
@@ -165,8 +178,7 @@ export const useAddressEditModal = ({
   };
 
   const onSave = () => {
-    onSubmit(address);
-    onChangeAddress(address);
+    onSubmit();
     // handleClose();
   };
   const onCancel = () => {
@@ -189,6 +201,7 @@ export const useAddressEditModal = ({
     sources,
     apartmentInputReference,
     initialAddress,
+    errors,
     data: {
       informationSources: {
         loading,

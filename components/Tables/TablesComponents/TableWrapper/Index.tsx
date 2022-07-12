@@ -198,6 +198,7 @@ const Index: React.FC<ITableWrapperProps> = ({
               onClick={
                 elem.buttonFunction ? elem.buttonFunction : onChangeAddState
               }
+              disabled={elem?.disabled}
               key={index}
             >
               {elem.label}

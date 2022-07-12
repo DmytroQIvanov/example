@@ -11,5 +11,5 @@ export interface ITableRowComponent<IRowsPersonEmploymentTable> {
 
   handleOpenPersonInteractionModal?: () => void;
 
-  refetch?: () => void;
+  refetch?: Function;
 }

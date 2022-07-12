@@ -50,12 +50,12 @@ const AddressEditModal = ({
 }: // modalProps,
 {
   open: boolean;
-  data: any;
+  data?: any;
   title: string;
   handleClose: () => void;
   onChangeAddress: Function;
-  modalProps: any;
-  refetch: Function;
+  // modalProps: any;
+  refetch?: Function;
 }) => {
   console.log("data", data);
 
@@ -68,6 +68,7 @@ const AddressEditModal = ({
     onLoad,
     onPlaceChanged,
     sources,
+    errors,
     apartmentInputReference,
     data: { informationSources },
   } = useAddressEditModal({
@@ -77,12 +78,10 @@ const AddressEditModal = ({
     initialAddress,
     refetch,
   });
-  // return <></>;
 
   return (
     <Modal open={open} title={title} handleClose={onCancel}>
       <Box sx={{ flexGrow: 1 }} className={classes.addressModal}>
-        {/*<Form>*/}
         <Grid container spacing={2}>
           <Grid item xs={8}>
             {isLoaded && (
@@ -110,7 +109,7 @@ const AddressEditModal = ({
           <Grid item xs={4}>
             <FormControl
               className={classes.fullWidth}
-              // error={formikData.errors.source}
+              error={errors.source}
               // loading={true}
             >
               <InputLabel id="source-label">Source</InputLabel>
@@ -270,7 +269,6 @@ const AddressEditModal = ({
                 variant="contained"
                 color="primary"
                 onClick={onSave}
-                type="onSubmit"
                 className={classes.saveBtn}
               >
                 Save
@@ -278,7 +276,6 @@ const AddressEditModal = ({
             </div>
           </Grid>
         </Grid>
-        {/*</Form>*/}
       </Box>
     </Modal>
   );

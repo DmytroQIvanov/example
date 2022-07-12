@@ -117,6 +117,7 @@ const TableRowComponent: React.FC<
             ? onSaveWithProvidedState(state)
             : onChangeWithProvidedState(state, summaryObject.rowValues.id);
         }}
+        title={"Changing home address"}
       />
     </TableRowWrapper>
   );

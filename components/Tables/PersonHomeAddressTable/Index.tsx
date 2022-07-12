@@ -16,6 +16,7 @@ import {
   DELETE_PERSON_HOME_TABLE,
   INVALIDATE_PERSON_HOME_ADDRESS,
 } from "../../../shemas/HomeAddressShemas";
+import { useRouter } from "next/router";
 
 `accuracy: "ROOFTOP"
 apartment: null
@@ -84,6 +85,7 @@ const Index: React.FC<{
   const [orderBy, setOrderBy] =
     React.useState<keyof IRowsPersonEmploymentTable>("options");
 
+  const router = useRouter();
   const handleRequestSort = (
     _: any,
     property: keyof IRowsPersonEmploymentTable
@@ -106,7 +108,13 @@ const Index: React.FC<{
   );
   return (
     <TableWrapper
-      buttonsList={[{ label: "Add", buttonFunction: onHandleOpen }]}
+      buttonsList={[
+        {
+          label: "Add",
+          buttonFunction: onHandleOpen,
+          disabled: !router.query.id,
+        },
+      ]}
       rows={tableData}
       disableAddBtn
       refetch={refetch}
@@ -154,6 +162,7 @@ const Index: React.FC<{
               handleClose={onHandleClose}
               onChangeAddress={onSaveWithProvidedState}
               refetch={refetch}
+              title={"Adding home address"}
             />
           </TableBody>
         </>

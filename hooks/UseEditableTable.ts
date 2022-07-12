@@ -45,7 +45,7 @@ export const UseEditableTable = ({
   onChangeWithProvidedState: any;
   onSaveWithProvidedState: any;
   onAddCancel: any;
-  refetch?: () => void;
+  refetch?: Function;
 }): IUseEditableTableReturns => {
   // ---STATES---
 

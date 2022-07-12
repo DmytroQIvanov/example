@@ -9,8 +9,8 @@ import { DELETE_PERSON_HOME_TABLE } from "../shemas/HomeAddressShemas";
 
 export const useTableWrapper = (
   rows: any[],
-  refetch: Function,
-  deleteFunction: Function
+  refetch?: Function,
+  deleteFunction?: Function
 ) => {
   const [tableElements, setTableElements] = useState<any[]>([]);
 
@@ -135,7 +135,7 @@ export const useTableWrapper = (
       },
     ]);
     console.log(tableElements);
-    refetch({ pid: router.query?.id });
+    refetch && refetch({ pid: router.query?.id });
     // fetchMore({ variables: { pid: router.query?.id } });
   };
   const onChangeWithProvidedState = (state: any, changingRow?: string) => {
