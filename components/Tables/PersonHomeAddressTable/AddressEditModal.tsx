@@ -57,7 +57,7 @@ const AddressEditModal = ({
   // modalProps: any;
   refetch?: Function;
 }) => {
-  console.log("data", data);
+  console.log(data?.address);
 
   const classes = useStyles();
 

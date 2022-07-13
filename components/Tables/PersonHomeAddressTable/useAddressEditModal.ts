@@ -139,7 +139,7 @@ export const useAddressEditModal = ({
       setAutocompleteBoolean(true);
 
       let fullAddress: any[] = [];
-      console.log(place);
+      // a.log(place);
       if ("address_components" in place) {
         place["address_components"].forEach((item: any) => {
           if (item["types"][0] == "street_number" && item["long_name"]) {
@@ -191,7 +191,7 @@ export const useAddressEditModal = ({
     error,
     loading,
   } = useQuery(INFORMATION_SOURCES_LIST);
-  console.log(information_sources_list?.information_source_type);
+  // console.log(information_sources_list?.information_source_type);
   return {
     address,
     functions: { handleSubmit, onKeypress, handleChange, onSave, onCancel },

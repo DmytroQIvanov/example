@@ -32,7 +32,7 @@ export default function Id() {
           return {
             id: elem.person_home_address_id,
             ...elem,
-            validateState: Boolean(elem.date_marked_invalid),
+            // validateState: Boolean(elem.date_marked_invalid),
           };
         })
       );

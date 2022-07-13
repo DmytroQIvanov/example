@@ -6,6 +6,7 @@ const Index: React.FC<{
   summaryObject: ISummaryObject;
   children: React.ReactNode;
 }> = ({ summaryObject, children }) => {
+  console.log("rowValues", summaryObject.rowValues);
   return (
     <TableRow
       style={

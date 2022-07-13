@@ -3,6 +3,7 @@ import { IActiveRowObject } from "../components/Tables/TablesComponents/Interfac
 import { dateOptions } from "../components/Tables/TablesComponents/EditableBlock";
 import { useMutation } from "@apollo/client";
 import {
+  CHANGE_DATE_LAST_KNOWN_VALID,
   CREATE_HOME_ADDRESS,
   INVALIDATE_PERSON_HOME_ADDRESS,
   VALIDATE_PERSON_HOME_ADDRESS,
@@ -79,6 +80,10 @@ export const UseEditableTable = ({
     VALIDATE_PERSON_HOME_ADDRESS
   );
 
+  const [dlkvFunction, { loading: mutateLoading }] = useMutation(
+    CHANGE_DATE_LAST_KNOWN_VALID
+  );
+
   // IS ROW VALIDATED
   const [validateState, setValidateState] = useState(
     row?.validateState || false
@@ -114,6 +119,14 @@ export const UseEditableTable = ({
         prevState2["datelastknownvalid"] = pst;
         prevState2["dmi"] = null;
         prevState2["datemarkedinvalid"] = null;
+
+        alert(prevState2.id);
+        dlkvFunction({
+          variables: { id: prevState2.id, date: pst },
+        }).then(() => {
+          alert();
+          refetch && refetch();
+        });
         validateFunction({
           variables: { id: prevState2.id, date: pst },
         }).then(() => {

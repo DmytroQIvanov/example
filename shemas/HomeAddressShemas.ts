@@ -112,3 +112,14 @@ export const DELETE_PERSON_HOME_TABLE = gql`
     }
   }
 `;
+
+export const CHANGE_DATE_LAST_KNOWN_VALID = gql`
+  mutation validate_person_home_address($id: Int!, $date: timestamp!) {
+    update_person_home_address_by_pk(
+      pk_columns: { person_home_address_id: $id }
+      _set: { date_last_known_valid: $date }
+    ) {
+      date_last_known_valid
+    }
+  }
+`;
