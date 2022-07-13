@@ -111,6 +111,8 @@ const TableRowComponent: React.FC<
       <AddressEditModal
         data={{ address: summaryObject.rowValues }}
         open={stateModal}
+        rowState={"change"}
+        refetch={refetch}
         handleClose={onHandleClose}
         onChangeAddress={(state: any) => {
           summaryObject.rowState === "add"

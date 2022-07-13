@@ -9,8 +9,8 @@ import { gql } from "@apollo/client";
 export const CREATE_HOME_ADDRESS = gql`
   mutation insert_person_home_address(
     $pid: Int!
-    $streetnumber: String
-    $streetname: String
+    $street_number: String
+    $street_name: String
     $apartment: String
     $city: String
     $postal: String
@@ -22,8 +22,8 @@ export const CREATE_HOME_ADDRESS = gql`
     insert_person_home_address_one(
       object: {
         person_id: $pid
-        street_number: $streetnumber
-        street_name: $streetname
+        street_number: $street_number
+        street_name: $street_name
         apartment: $apartment
         city: $city
         zip_code: $postal
@@ -120,6 +120,64 @@ export const CHANGE_DATE_LAST_KNOWN_VALID = gql`
       _set: { date_last_known_valid: $date }
     ) {
       date_last_known_valid
+    }
+  }
+`;
+
+export const HOME_ADDRESS_DMI_NULL = gql`
+  mutation update_person_home_address_dmi_null($id: Int) {
+    update_person_home_address(
+      where: { person_home_address_id: { _eq: $id } }
+      _set: { date_marked_invalid: null }
+    ) {
+      affected_rows
+    }
+  }
+`;
+
+export const UPDATE_HOME_ADDRESS = gql`
+  mutation update_person_home_address(
+    $id: Int!
+    $street_number: String
+    $street_name: String
+    $apartment: String
+    $city: String
+    $state: String
+    $postal: String
+    $country: String
+    $comments: String
+    $source: Int
+    $date: timestamp
+    $normalized: String
+  ) {
+    update_person_home_address_by_pk(
+      pk_columns: { person_home_address_id: $id }
+      _set: {
+        street_number: $street_number
+        street_name: $street_name
+        apartment: $apartment
+        city: $city
+        state: $state
+        country: $country
+        comments: $comments
+        information_source_type_id: $source
+        date_last_known_valid: $date
+        accuracy: "ROOFTOP"
+        zip_code: $postal
+        normalized_address: $normalized
+      }
+    ) {
+      person_home_address_id
+      street_number
+      street_name
+      state
+      person_id
+      date_first_known_valid
+      date_last_known_valid
+      date_marked_invalid
+      comments
+      country
+      accuracy
     }
   }
 `;

@@ -5,8 +5,10 @@ import { PERSON_DATA } from "../../../shemas/PersonGraphqlShemas";
 import {
   CREATE_HOME_ADDRESS,
   INFORMATION_SOURCES_LIST,
+  UPDATE_HOME_ADDRESS,
 } from "../../../shemas/HomeAddressShemas";
 import { useRouter } from "next/router";
+import { RowStateTypes } from "../TablesComponents/Interfaces/TableWrapperInterfaces";
 
 const scriptOptions: {
   googleMapsApiKey: string;
@@ -39,22 +41,27 @@ export const useAddressEditModal = ({
   onChangeAddress,
   initialAddress,
   refetch,
+  rowState,
 }: {
   data?: any;
   handleClose: () => void;
   onChangeAddress: any;
   initialAddress: any;
   refetch?: Function;
+  rowState?: RowStateTypes;
 }) => {
   const [address, setAddress] = React.useState(initialAddress);
 
   useEffect(() => {
-    setAddress(data?.address);
+    setAddress({
+      ...data?.address,
+      source:
+        data?.address?.information_source_type?.information_source_type_id,
+    });
   }, [data]);
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    alert();
   };
 
   const handleChange = (e: any) => {
@@ -62,6 +69,8 @@ export const useAddressEditModal = ({
 
     // @ts-ignore
     update[e.target.name] = e.target.value;
+    console.log(update[e.target.name]);
+    console.log(e.target.value);
 
     setAddress(update);
   };
@@ -78,6 +87,9 @@ export const useAddressEditModal = ({
     useMutation(CREATE_HOME_ADDRESS);
   const router = useRouter();
 
+  const [updateFunction, { loading: updateHomeAddressLoading }] =
+    useMutation(UPDATE_HOME_ADDRESS);
+
   useEffect(() => {
     if (address?.source) {
       setErrors({ source: false });
@@ -89,23 +101,32 @@ export const useAddressEditModal = ({
       return;
     }
     if (router.query.id) {
-      onChangeAddress(address);
-
-      mutateFunction({
-        variables: { ...address, pid: router.query.id },
-      }).then((data) => {
-        refetch && refetch();
-        setAddress(initialAddress);
-        handleClose();
-        setErrors({ source: false });
-      });
+      if (rowState === "add") {
+        mutateFunction({
+          variables: { ...address, pid: router.query.id },
+        }).then((data) => {
+          onChangeAddress(address);
+          refetch && refetch();
+          setAddress(initialAddress);
+          handleClose();
+          setErrors({ source: false });
+        });
+      }
+      if (rowState === "change") {
+        updateFunction({ variables: { ...address } }).then((data) => {
+          onChangeAddress(address);
+          setAddress(initialAddress);
+          refetch && refetch();
+          handleClose();
+          setErrors({ source: false });
+        });
+      }
     }
   };
   const { isLoaded, loadError } = useLoadScript(scriptOptions);
   const [autocomplete, setAutocomplete] = useState<any>(null);
   const [autocompleteBoolean, setAutocompleteBoolean] = useState<any>(null);
   const [errors, setErrors] = useState({ source: false });
-  // const inputEl = useRef(null);
 
   const apartmentInputReference = useRef(null);
 
@@ -126,8 +147,8 @@ export const useAddressEditModal = ({
   const onPlaceChanged = () => {
     let autoAddress = {
       ...address,
-      streetnumber: "",
-      streetname: "",
+      street_number: "",
+      street_name: "",
       city: "",
       state: "",
       postal: "",
@@ -140,14 +161,15 @@ export const useAddressEditModal = ({
 
       let fullAddress: any[] = [];
       // a.log(place);
+      console.log(place);
       if ("address_components" in place) {
         place["address_components"].forEach((item: any) => {
           if (item["types"][0] == "street_number" && item["long_name"]) {
-            autoAddress = { ...autoAddress, streetnumber: item["long_name"] };
+            autoAddress = { ...autoAddress, street_number: item["long_name"] };
             fullAddress.push(item["long_name"]);
           }
           if (item["types"][0] == "route" && item["long_name"]) {
-            autoAddress = { ...autoAddress, streetname: item["long_name"] };
+            autoAddress = { ...autoAddress, street_name: item["long_name"] };
             fullAddress.push(item["long_name"]);
           }
           if (item["types"][0] == "locality" && item["long_name"]) {
@@ -172,6 +194,7 @@ export const useAddressEditModal = ({
         });
 
         autoAddress = { ...autoAddress, full: fullAddress.join(", ") };
+        console.log(autoAddress);
         setAddress(autoAddress);
       }
     }
@@ -186,12 +209,9 @@ export const useAddressEditModal = ({
     setAddress(initialAddress);
   };
 
-  const {
-    data: information_sources_list,
-    error,
-    loading,
-  } = useQuery(INFORMATION_SOURCES_LIST);
-  // console.log(information_sources_list?.information_source_type);
+  const { data: information_sources_list, loading } = useQuery(
+    INFORMATION_SOURCES_LIST
+  );
   return {
     address,
     functions: { handleSubmit, onKeypress, handleChange, onSave, onCancel },
@@ -202,6 +222,7 @@ export const useAddressEditModal = ({
     apartmentInputReference,
     initialAddress,
     errors,
+    loading: creatingLoading || updateHomeAddressLoading,
     data: {
       informationSources: {
         loading,

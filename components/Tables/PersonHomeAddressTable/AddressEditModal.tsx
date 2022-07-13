@@ -12,21 +12,18 @@ import {
   MenuItem,
   FormControl,
   InputLabel,
+  CircularProgress,
 } from "@mui/material";
 
 import Modal from "../../Modal/Modal";
 import { useAddressEditModal } from "./useAddressEditModal";
-import { Formik, Form } from "formik";
-import FormikWrapper from "./FormikWrapper";
-import { useMutation } from "@apollo/client";
-import { CREATE_HOME_ADDRESS } from "../../../shemas/HomeAddressShemas";
-import { useRouter } from "next/router";
+import { RowStateTypes } from "../TablesComponents/Interfaces/TableWrapperInterfaces";
 
 const initialAddress = {
   source: "",
   comments: "",
-  streetnumber: "",
-  streetname: "",
+  street_number: "",
+  street_name: "",
   city: "",
   state: "",
   postal: "",
@@ -47,6 +44,7 @@ const AddressEditModal = ({
   handleClose,
   onChangeAddress,
   refetch,
+  rowState,
 }: // modalProps,
 {
   open: boolean;
@@ -56,6 +54,7 @@ const AddressEditModal = ({
   onChangeAddress: Function;
   // modalProps: any;
   refetch?: Function;
+  rowState?: RowStateTypes;
 }) => {
   console.log(data?.address);
 
@@ -70,6 +69,7 @@ const AddressEditModal = ({
     sources,
     errors,
     apartmentInputReference,
+    loading,
     data: { informationSources },
   } = useAddressEditModal({
     data,
@@ -77,6 +77,7 @@ const AddressEditModal = ({
     handleClose,
     initialAddress,
     refetch,
+    rowState,
   });
 
   return (
@@ -107,11 +108,7 @@ const AddressEditModal = ({
             )}
           </Grid>
           <Grid item xs={4}>
-            <FormControl
-              className={classes.fullWidth}
-              error={errors.source}
-              // loading={true}
-            >
+            <FormControl className={classes.fullWidth} error={errors.source}>
               <InputLabel id="source-label">Source</InputLabel>
               <Select
                 labelId="source-label"
@@ -147,9 +144,9 @@ const AddressEditModal = ({
             <TextField
               label="Street Number"
               variant="outlined"
-              value={address?.streetnumber}
+              value={address?.street_number}
               InputLabelProps={{ shrink: true }}
-              name="streetnumber"
+              name="street_number"
               onChange={(e) => handleChange(e)}
               className={classes.fullWidth}
             />
@@ -158,8 +155,8 @@ const AddressEditModal = ({
             <TextField
               label="Street Name"
               variant="outlined"
-              value={address?.streetname}
-              name="streetname"
+              value={address?.street_name}
+              name="street_name"
               InputLabelProps={{ shrink: true }}
               onChange={(e) => handleChange(e)}
               className={classes.fullWidth}
@@ -272,6 +269,12 @@ const AddressEditModal = ({
                 className={classes.saveBtn}
               >
                 Save
+                {loading && (
+                  <CircularProgress
+                    size={30}
+                    sx={{ position: "absolute", right: "-43px" }}
+                  />
+                )}
               </Button>
             </div>
           </Grid>

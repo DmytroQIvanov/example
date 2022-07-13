@@ -78,8 +78,8 @@ const headCells: readonly HeadCell<IColumnsPersonEmploymentTable>[] = [
 
 const Index: React.FC<{
   tableData: IRowsPersonEmploymentTable[];
-  loading: boolean;
-  refetch: Function;
+  loading?: boolean;
+  refetch?: Function;
 }> = ({ tableData, loading, refetch }) => {
   const [order, setOrder] = React.useState<Order>("asc");
   const [orderBy, setOrderBy] =
@@ -163,6 +163,7 @@ const Index: React.FC<{
               onChangeAddress={onSaveWithProvidedState}
               refetch={refetch}
               title={"Adding home address"}
+              rowState={"add"}
             />
           </TableBody>
         </>
