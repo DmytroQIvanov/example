@@ -4,17 +4,35 @@ import {
   RowStateTypes,
 } from "../components/Tables/TablesComponents/Interfaces/TableWrapperInterfaces";
 import { dateOptions } from "../components/Tables/TablesComponents/EditableBlock";
+import { useRouter } from "next/router";
+import {
+  DELETE_PERSON_HOME_TABLE,
+  INVALIDATE_PERSON_HOME_ADDRESS,
+  UPDATE_HOME_ADDRESS,
+} from "../shemas/HomeAddressShemas";
+import { useMutation } from "@apollo/client";
 
-export const useTableWrapper = (rows: any[]) => {
+export const useTableWrapper = (
+  rows: any[],
+  refetch?: Function,
+  deleteFunction?: Function
+) => {
   const [tableElements, setTableElements] = useState<any[]>([]);
+
+  const router = useRouter();
   useEffect(() => {
-    const result = rows.map((elem) => {
+    let result = rows.map((elem) => {
+      console.log(elem);
       let result = elem;
       for (const field in elem) {
-        if (elem[field] == null) {
+        if (elem[field] === null) {
+          console.log(field + " : " + result[field]);
           result[field] = "";
         } else {
-          result[field] = elem[field];
+          console.log(result);
+          // console.log(result[field]);
+          if (field !== "__typename" && field !== "person_home_address_id")
+            result[field] = elem[field];
         }
       }
       return result;
@@ -122,6 +140,8 @@ export const useTableWrapper = (rows: any[]) => {
       },
     ]);
     console.log(tableElements);
+    refetch && refetch({ pid: router.query?.id });
+    // fetchMore({ variables: { pid: router.query?.id } });
   };
   const onChangeWithProvidedState = (state: any, changingRow?: string) => {
     const date = new Date();
@@ -142,6 +162,7 @@ export const useTableWrapper = (rows: any[]) => {
 
   const onDelete = (id: string | undefined) => {
     if (!id) return;
+    deleteFunction && deleteFunction({ variables: { id: id } });
     setTableElements(tableElements.filter((elem) => elem.id !== id));
   };
   return {

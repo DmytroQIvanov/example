@@ -5,7 +5,8 @@
     "endpoints": {
       "Default GraphQL Endpoint": {
         "url": "https://api.advancemarketingsolutions.net/v1/graphql",
-        "headers": {"x-hasura-admin-secret": "grace_under_pressure" ,
+        "headers": {
+          "x-hasura-admin-secret": "grace_under_pressure" ,
 
           "user-agent": "JS GraphQL"
         },

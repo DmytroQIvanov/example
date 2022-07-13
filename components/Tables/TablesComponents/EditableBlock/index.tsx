@@ -368,6 +368,11 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
           </Typography>
         );
       default:
+        if (type === "date") {
+          if (!rowValues[name]) return <></>;
+          const date = new Date(rowValues[name]);
+          return <>{date?.toLocaleString("en-US", dateOptions)}</>;
+        }
         return (
           <Typography mt={0.8} style={styles}>
             {rowValues[name]?.toString()}

@@ -23,6 +23,7 @@
     "@react-google-maps/api": "^2.10.2",
     "classname": "^0.0.0",
     "date-fns": "^2.28.0",
+    "formik": "^2.2.9",
     "graphql": "^16.4.0",
     "mui-nested-menu": "^2.0.2",
     "next": "12.1.5",

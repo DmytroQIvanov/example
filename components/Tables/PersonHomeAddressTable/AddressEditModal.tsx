@@ -1,10 +1,10 @@
-import React, { useRef, useState, useEffect } from "react";
+import React from "react";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import useStyles from "./styles";
 
-import { useLoadScript, Autocomplete } from "@react-google-maps/api";
+import { Autocomplete } from "@react-google-maps/api";
 
 import {
   TextField,
@@ -12,39 +12,18 @@ import {
   MenuItem,
   FormControl,
   InputLabel,
+  CircularProgress,
 } from "@mui/material";
 
 import Modal from "../../Modal/Modal";
-
-interface ISources {
-  value: string;
-  label: string;
-}
-const Sources: ISources[] = [
-  { value: "Paper Card", label: "Paper Card" },
-  { value: "On the Ground", label: "On the Ground" },
-  { value: "UC List", label: "UC List" },
-];
-
-const scriptOptions: {
-  googleMapsApiKey: string;
-  libraries: (
-    | "drawing"
-    | "geometry"
-    | "localContext"
-    | "places"
-    | "visualization"
-  )[];
-} = {
-  googleMapsApiKey: process.env.NEXT_PUBLIC_API_KEY || "",
-  libraries: ["places"],
-};
+import { useAddressEditModal } from "./useAddressEditModal";
+import { RowStateTypes } from "../TablesComponents/Interfaces/TableWrapperInterfaces";
 
 const initialAddress = {
   source: "",
   comments: "",
-  streetnumber: "",
-  streetname: "",
+  street_number: "",
+  street_name: "",
   city: "",
   state: "",
   postal: "",
@@ -64,124 +43,45 @@ const AddressEditModal = ({
   title,
   handleClose,
   onChangeAddress,
-  modalProps,
-}: any) => {
-  const [address, setAddress] = React.useState(initialAddress);
-
-  const { isLoaded, loadError } = useLoadScript(scriptOptions);
-  const [autocomplete, setAutocomplete] = useState<any>(null);
-  const [autocompleteBoolean, setAutocompleteBoolean] = useState<any>(null);
-  const inputEl = useRef(null);
-
-  const apartmentInputReference = useRef(null);
-
-  useEffect(() => {
-    if (autocompleteBoolean) {
-      apartmentInputReference &&
-        apartmentInputReference.current &&
-        // @ts-ignore
-        apartmentInputReference.current.focus();
-      setAutocompleteBoolean(false);
-    }
-  }, [autocompleteBoolean]);
+  refetch,
+  rowState,
+}: // modalProps,
+{
+  open: boolean;
+  data?: any;
+  title: string;
+  handleClose: () => void;
+  onChangeAddress: Function;
+  // modalProps: any;
+  refetch?: Function;
+  rowState?: RowStateTypes;
+}) => {
+  console.log(data?.address);
 
   const classes = useStyles();
 
-  useEffect(() => {
-    setAddress(data?.address);
-  }, [data]);
-
-  // Handle the keypress for input
-  const onKeypress = (e: React.KeyboardEvent<HTMLDivElement>) => {
-    // On enter pressed
-    if (e.key === "Enter") {
-      e.preventDefault();
-      return false;
-    }
-  };
-
-  const handleSubmit = (e: any) => {
-    e.preventDefault();
-  };
-
-  const onLoad = (autocompleteObj: any) => {
-    setAutocomplete(autocompleteObj);
-  };
-
-  const handleChange = (e: any) => {
-    let update: any = { ...address };
-
-    // @ts-ignore
-    update[e.target.name] = e.target.value;
-    setAddress(update);
-  };
-
-  const onPlaceChanged = () => {
-    let autoAddress = {
-      ...address,
-      streetnumber: "",
-      streetname: "",
-      city: "",
-      state: "",
-      postal: "",
-      country: "",
-      full: "",
-    };
-    if (autocomplete) {
-      const place = autocomplete.getPlace();
-      setAutocompleteBoolean(true);
-
-      let fullAddress: any[] = [];
-      console.log(place);
-      if ("address_components" in place) {
-        place["address_components"].forEach((item: any) => {
-          if (item["types"][0] == "street_number" && item["long_name"]) {
-            autoAddress = { ...autoAddress, streetnumber: item["long_name"] };
-            fullAddress.push(item["long_name"]);
-          }
-          if (item["types"][0] == "route" && item["long_name"]) {
-            autoAddress = { ...autoAddress, streetname: item["long_name"] };
-            fullAddress.push(item["long_name"]);
-          }
-          if (item["types"][0] == "locality" && item["long_name"]) {
-            autoAddress = { ...autoAddress, city: item["long_name"] };
-            fullAddress.push(item["long_name"]);
-          }
-          if (
-            item["types"][0] == "administrative_area_level_1" &&
-            item["long_name"]
-          ) {
-            autoAddress = { ...autoAddress, state: item["long_name"] };
-            fullAddress.push(item["long_name"]);
-          }
-          if (item["types"][0] == "postal_code" && item["long_name"]) {
-            autoAddress = { ...autoAddress, postal: item["long_name"] };
-            fullAddress.push(item["long_name"]);
-          }
-          if (item["types"][0] == "country" && item["long_name"]) {
-            autoAddress = { ...autoAddress, country: item["long_name"] };
-            fullAddress.push(item["long_name"]);
-          }
-        });
-
-        autoAddress = { ...autoAddress, full: fullAddress.join(", ") };
-        setAddress(autoAddress);
-      }
-    }
-  };
-
-  const onSave = () => {
-    onChangeAddress(address);
-    handleClose();
-    setAddress(initialAddress);
-  };
-  const onCancel = () => {
-    handleClose();
-    setAddress(initialAddress);
-  };
+  const {
+    address,
+    functions: { handleSubmit, onKeypress, handleChange, onSave, onCancel },
+    isLoaded,
+    onLoad,
+    onPlaceChanged,
+    sources,
+    errors,
+    apartmentInputReference,
+    loading,
+    data: { informationSources },
+  } = useAddressEditModal({
+    data,
+    onChangeAddress,
+    handleClose,
+    initialAddress,
+    refetch,
+    rowState,
+  });
 
   return (
-    <Modal open={open} title={title} handleClose={handleClose}>
+    <Modal open={open} title={title} handleClose={onCancel}>
       <Box sx={{ flexGrow: 1 }} className={classes.addressModal}>
         <Grid container spacing={2}>
           <Grid item xs={8}>
@@ -201,24 +101,6 @@ const AddressEditModal = ({
                         placeholder={"Search Address..."}
                         onKeyUp={(event) => onKeypress(event)}
                       />
-                      {/*<div className="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root full-width">*/}
-                      {/*  <input*/}
-                      {/*    ref={inputEl}*/}
-                      {/*    type="text"*/}
-                      {/*    className="MuiOutlinedInput-input MuiInputBase-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input full-width"*/}
-                      {/*    onKeyPress={onKeypress}*/}
-                      {/*    placeholder="Search Address..."*/}
-                      {/*    name="fullAddress"*/}
-                      {/*  />*/}
-                      {/*  <fieldset*/}
-                      {/*    aria-hidden="true"*/}
-                      {/*    className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"*/}
-                      {/*  >*/}
-                      {/*    <legend className="css-1ftyaf0">*/}
-                      {/*      <span>Address</span>*/}
-                      {/*    </legend>*/}
-                      {/*  </fieldset>*/}
-                      {/*</div>*/}
                     </Autocomplete>
                   </div>
                 </form>
@@ -226,7 +108,7 @@ const AddressEditModal = ({
             )}
           </Grid>
           <Grid item xs={4}>
-            <FormControl className={classes.fullWidth}>
+            <FormControl className={classes.fullWidth} error={errors.source}>
               <InputLabel id="source-label">Source</InputLabel>
               <Select
                 labelId="source-label"
@@ -236,13 +118,25 @@ const AddressEditModal = ({
                 onChange={(e) => handleChange(e)}
                 className={classes.fullWidth}
               >
-                {Sources.map((item, itemIndex) => {
-                  return (
-                    <MenuItem value={item.value} key={itemIndex}>
-                      {item.label}
-                    </MenuItem>
-                  );
-                })}
+                {informationSources.loading ? (
+                  <Box sx={{ ml: "15px", my: "4px" }}>Loading...</Box>
+                ) : informationSources?.data?.length == 0 ? (
+                  <MenuItem>Nothing found</MenuItem>
+                ) : (
+                  informationSources?.data.map(
+                    (elem: {
+                      information_source_type_id: number;
+                      information_source_type: string;
+                    }) => (
+                      <MenuItem
+                        value={elem.information_source_type_id}
+                        key={elem.information_source_type_id}
+                      >
+                        {elem.information_source_type}
+                      </MenuItem>
+                    )
+                  )
+                )}
               </Select>
             </FormControl>
           </Grid>
@@ -250,9 +144,9 @@ const AddressEditModal = ({
             <TextField
               label="Street Number"
               variant="outlined"
-              value={address?.streetnumber}
+              value={address?.street_number}
               InputLabelProps={{ shrink: true }}
-              name="streetnumber"
+              name="street_number"
               onChange={(e) => handleChange(e)}
               className={classes.fullWidth}
             />
@@ -261,8 +155,8 @@ const AddressEditModal = ({
             <TextField
               label="Street Name"
               variant="outlined"
-              value={address?.streetname}
-              name="streetname"
+              value={address?.street_name}
+              name="street_name"
               InputLabelProps={{ shrink: true }}
               onChange={(e) => handleChange(e)}
               className={classes.fullWidth}
@@ -375,6 +269,12 @@ const AddressEditModal = ({
                 className={classes.saveBtn}
               >
                 Save
+                {loading && (
+                  <CircularProgress
+                    size={30}
+                    sx={{ position: "absolute", right: "-43px" }}
+                  />
+                )}
               </Button>
             </div>
           </Grid>

@@ -63,3 +63,97 @@ query name_source_query {
     name_source_type
   }
 }
+
+query information_sources {
+  information_source_type {
+    information_source_type_id
+    information_source_type
+  }
+}
+
+query home_address_query($pid: Int!) {
+  person_home_address(where: { person_id: { _eq: $pid } }) {
+    person_home_address_id
+    street_number
+    street_name
+    apartment
+    city
+    state
+    country
+    accuracy
+    coments
+    date_first_known_valid
+    date_last_known_valid
+    date_marked_invalid
+    information_source_type {
+      information_source_type_id
+      information_source_type
+    }
+  }
+}
+
+mutation insert_person_home_address($pid: Int!, $street: String, $streetname: String, $apt: String, $city: String,
+  $postal: String, $country: String, $comments: String, $source: Int!, $normalized: String) {
+  insert_person_home_address_one(object: {person_id: $pid, street_number: $street, street_name: $streetname,
+    apartment: $apt, city: $city, zip_code: $postal, country: $country, coments: $comments,
+    information_source_type_id: $source, accuracy: "ROOFTOP", normalized_address: $normalized}) {
+    person_id
+    street_number
+    street_name
+    apartment
+    city
+    zip_code
+    country
+    person_home_address_id
+    created_by
+    date_first_known_valid
+    date_last_known_valid
+    accuracy
+  }
+}
+
+mutation invalidate_person_home_address($id: Int!, $date: timestamp!) {
+  update_person_home_address_by_pk(pk_columns: {person_home_address_id: $id}, _set:
+  {date_marked_invalid: $date}) {
+    date_marked_invalid
+  }
+}
+mutation validate_person_home_address($id: Int!, $date: timestamp!) {
+  update_person_home_address_by_pk(
+    pk_columns: { person_home_address_id: $id }
+    _set: { date_last_known_valid: $date }
+  ) {
+    date_last_known_valid
+  }
+}
+
+
+mutation delete_person_home_address($id: Int!) {
+  delete_person_home_address(where: {person_home_address_id: {_eq: $id}}) {
+    affected_rows
+  }
+}
+
+mutation update_person_home_address($id: Int!, $streetnumber: String, $streetname: String, $apartment: String, $city: String, $state: String, $postal: String, $country: String, $comments: String, $source: Int, $date: timestamp, $normalized: String) {
+  update_person_home_address_by_pk(pk_columns: {person_home_address_id: $id}, _set: {street_number: $streetnumber, street_name: $streetname, apartment: $apartment, city: $city,
+    state: $state, country: $country, comments: $comments, information_source_type_id: $source, date_last_known_valid: $date, accuracy: "ROOFTOP",
+    zip_code: $postal, normalized_address: $normalized}) {
+    person_home_address_id
+    street_number
+    street_name
+    state
+    person_id
+    date_first_known_valid
+    date_last_known_valid
+    date_marked_invalid
+    comments
+    country
+    accuracy
+  }
+}
+
+mutation update_person_home_address_dmi_null($id: Int) {
+  update_person_home_address(where: {person_home_address_id: {_eq: $id}}, _set: {date_marked_invalid: null }) {
+    affected_rows
+  }
+}

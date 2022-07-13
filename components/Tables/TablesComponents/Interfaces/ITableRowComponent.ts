@@ -10,4 +10,6 @@ export interface ITableRowComponent<IRowsPersonEmploymentTable> {
   activeRowObject: IActiveRowObject;
 
   handleOpenPersonInteractionModal?: () => void;
+
+  refetch?: Function;
 }

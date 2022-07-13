@@ -1,6 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { IActiveRowObject } from "../components/Tables/TablesComponents/Interfaces/TableWrapperInterfaces";
 import { dateOptions } from "../components/Tables/TablesComponents/EditableBlock";
+import { useMutation } from "@apollo/client";
+import {
+  CHANGE_DATE_LAST_KNOWN_VALID,
+  INVALIDATE_PERSON_HOME_ADDRESS,
+  VALIDATE_PERSON_HOME_ADDRESS,
+  HOME_ADDRESS_DMI_NULL,
+} from "../shemas/HomeAddressShemas";
 
 export type rowStateTypes = "default" | "change" | "add";
 
@@ -32,12 +39,14 @@ export const UseEditableTable = ({
   onChangeWithProvidedState,
   onSaveWithProvidedState,
   onAddCancel,
+  refetch,
 }: {
   activeRowObject: IActiveRowObject;
   row?: any;
   onChangeWithProvidedState: any;
   onSaveWithProvidedState: any;
   onAddCancel: any;
+  refetch?: Function;
 }): IUseEditableTableReturns => {
   // ---STATES---
 
@@ -63,6 +72,18 @@ export const UseEditableTable = ({
   // useEffect(() => {
   //   onChangeWithProvidedState(rowValues);
   // }, [rowValues]);
+
+  const [invalidateFunction, { loading: invalidateLoading }] = useMutation(
+    INVALIDATE_PERSON_HOME_ADDRESS
+  );
+  const [validateFunction, { loading: validateLoading }] = useMutation(
+    VALIDATE_PERSON_HOME_ADDRESS
+  );
+  const [dmiNullFunction] = useMutation(HOME_ADDRESS_DMI_NULL);
+
+  const [dlkvFunction, { loading: mutateLoading }] = useMutation(
+    CHANGE_DATE_LAST_KNOWN_VALID
+  );
 
   // IS ROW VALIDATED
   const [validateState, setValidateState] = useState(
@@ -97,40 +118,62 @@ export const UseEditableTable = ({
         const pst = date.toLocaleString("en-US", dateOptions);
         prevState2["dlkv"] = pst;
         prevState2["datelastknownvalid"] = pst;
+        prevState2["date_last_known_valid"] = pst;
         prevState2["dmi"] = null;
         prevState2["datemarkedinvalid"] = null;
+        prevState2["date_marked_invalid"] = null;
+
+        const dlkvPromise = dlkvFunction({
+          variables: { id: prevState2.id, date: pst },
+        });
+        const validatePromise = validateFunction({
+          variables: { id: prevState2.id, date: pst },
+        });
+        const dmiNullPromise = dmiNullFunction({
+          variables: { id: prevState2.id },
+        });
+        Promise.all([dlkvPromise, validatePromise, dmiNullPromise]).then(() => {
+          refetch && refetch();
+        });
+
         return prevState2;
       });
       setEditableRowValues((prevState2: any) => {
         const date = new Date();
         const pst = date.toLocaleString("en-US", dateOptions);
         prevState2["dlkv"] = pst;
+        prevState2["date_last_known_valid"] = pst;
         prevState2["datelastknownvalid"] = pst;
         prevState2["dmi"] = null;
+        prevState2["date_marked_invalid"] = null;
         prevState2["datemarkedinvalid"] = null;
 
         return prevState2;
       });
     }
+
     setValidateState((prevState: any) => {
       if (
         activeRowObject.activeRow.state === "default" &&
         state === undefined &&
         validate === undefined
       ) {
+        const date = new Date();
+        const pst = date.toLocaleString("en-US", dateOptions);
+        invalidateFunction({
+          variables: { id: rowValues.id, date: pst },
+        }).then(() => {
+          refetch && refetch();
+        });
         setRowValues((prevState2: any) => {
-          const date = new Date();
-          const pst = date.toLocaleString("en-US", dateOptions);
           prevState2["dmi"] = pst;
-          prevState2["datemarkedinvalid"] = pst;
+          prevState2["date_marked_invalid"] = pst;
 
           return prevState2;
         });
         setEditableRowValues((prevState2: any) => {
-          const date = new Date();
-          const pst = date.toLocaleString("en-US", dateOptions);
           prevState2["dmi"] = pst;
-          prevState2["datemarkedinvalid"] = pst;
+          prevState2["date_marked_invalid"] = pst;
 
           return prevState2;
         });
@@ -200,7 +243,6 @@ export const UseEditableTable = ({
     event: React.ChangeEvent<HTMLInputElement>
   ): void => {
     const { name, value } = event.target;
-    console.log(value);
     setEditableRowValues((prevState: any) => {
       return {
         ...prevState,
@@ -242,7 +284,6 @@ export const UseEditableTable = ({
         return {
           ...prevValues,
           validateState,
-          // datemarkedinvalid: validateState,
         };
       });
   }, [validateState]);

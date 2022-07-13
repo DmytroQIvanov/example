@@ -20,6 +20,7 @@ export interface ITableWrapperProps {
       orderBy: any;
       onRequestSort: any;
       headCells: any;
+      loading?: boolean;
     }>;
     stableSort: any;
     getComparator: any;
@@ -42,8 +43,14 @@ export interface ITableWrapperProps {
     activeRowObject: IActiveRowObject;
   }) => React.ReactNode;
   buttonsList?: [
-    { label: string; buttonFunction?: MouseEventHandler<HTMLButtonElement> }
+    {
+      label: string;
+      buttonFunction?: MouseEventHandler<HTMLButtonElement>;
+      disabled?: boolean;
+    }
   ];
   rows: any[];
   disableAddBtn?: boolean;
+  refetch?: Function;
+  deleteFunction?: Function;
 }

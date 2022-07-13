@@ -1,15 +1,15 @@
 import type { ReactElement } from "react";
 import React, { useEffect, useState } from "react";
 
-// import HomeAddressTable from "./components/HomeAddressTable/Table";
-import PersonHomeAddressTable from "../../../components/Tables/PersonHomeAddressTable/Index"
-//import PersonHomeAddressTable from "../../../components/Tables/PersonHomeAddressTable";
+import PersonHomeAddressTable from "../../../components/Tables/PersonHomeAddressTable/Index";
 import { Layout } from "../layout";
 import useStyles from "../../styles";
+import { useRouter } from "next/router";
 
 export default function Index() {
   const classes = useStyles();
   const [data, setData] = useState<any[]>([]);
+  const router = useRouter();
 
   useEffect(() => {
     const res = {
@@ -76,11 +76,7 @@ export default function Index() {
     setData(res.data.person_home_address);
   }, []);
 
-  return (
-    <>
-      <PersonHomeAddressTable tableData={data} />
-    </>
-  );
+  return <>{/*<PersonHomeAddressTable tableData={data} />*/}</>;
 }
 
 Index.getLayout = function getLayout(page: ReactElement) {
