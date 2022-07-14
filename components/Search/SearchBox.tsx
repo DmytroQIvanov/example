@@ -99,7 +99,8 @@ const SearchMenu: React.FC<{
     if (router.pathname.includes("[id]")) {
       href = router.pathname.replace("[id]", id);
     } else {
-      href += router.pathname + `/${id}`;
+      // href += router.pathname + `/${id}`;
+      href += "/persondataentry/homeaddress" + `/${id}`;
     }
     setVisibility(false);
     setSearchData("");

@@ -1,7 +1,9 @@
 /* eslint-disable no-unsafe-optional-chaining */
 import { gql, useMutation, useQuery } from "@apollo/client";
 import {
+  Alert,
   Box,
+  Collapse,
   Grid,
   LinearProgress,
   Table,
@@ -21,40 +23,6 @@ import ReusableComponent from "./ReusableComponent";
 import ButtonsBlock from "./ButtonsBlock";
 import { CREATE_PERSON, PERSON_DATA } from "../../shemas/PersonGraphqlShemas";
 
-// const PERSON_DATA = gql`
-//   query sample_query {
-//     sample_person {
-//       person_id
-//       first_name
-//       middle_names
-//       last_name
-//       nicknames
-//       suffix
-//       google_id
-//       app_id
-//       typeByType {
-//         type_id
-//         typename
-//       }
-//       date_created
-//       date_modified
-//       edited_by
-//       last_email
-//       disputes
-//       user_accounts {
-//         account_name
-//         accountTypeByAccountType {
-//           account_type_name
-//         }
-//         account_location
-//         active_since
-//         is_pm
-//         can_email
-//       }
-//     }
-//   }
-// `;
-
 const row1Title = {
   fname: "First Name",
   mname: "Middle Names",
@@ -70,7 +38,6 @@ const row2Title = {
   cid: "Employee ID",
   type: "Person Type",
 };
-const options = [{ label: "The Godfather" }, { label: "Pulp Fiction" }];
 const row3Title = {
   dateCreated: "Date Created",
   dateEdited: "Date Edited",
@@ -117,10 +84,29 @@ const initialObject = {
 };
 
 const AccountMain = () => {
-  const [index, setIndex] = React.useState(0);
-  const [subIndex, setSubIndex] = React.useState(0);
-  const [editStatus, setEditStatus] = React.useState(0);
-  const [collapse, setCollapse] = React.useState(false);
+  const [index, setIndex] = useState(0);
+  const [subIndex, setSubIndex] = useState(0);
+  const [editStatus, setEditStatus] = useState(0);
+  const [collapse, setCollapse] = useState(false);
+
+  const [alertSuccessPopup, setAlertSuccessPopup] = useState(false);
+  const [alertErrorPopup, setAlertErrorPopup] = useState(false);
+
+  useEffect(() => {
+    if (alertSuccessPopup) {
+      setTimeout(() => {
+        setAlertSuccessPopup(false);
+      }, 4000);
+    }
+  }, [alertSuccessPopup]);
+
+  useEffect(() => {
+    if (alertErrorPopup) {
+      setTimeout(() => {
+        setAlertErrorPopup(false);
+      }, 4000);
+    }
+  }, [alertErrorPopup]);
 
   const router = useRouter();
 
@@ -167,12 +153,21 @@ const AccountMain = () => {
   const onCreateUser = () => {
     if (state.first_name && state.last_name) {
       console.log(state);
-      mutateFunction({ variables: state }).then((data) => {
-        goTo(data.data.insert_person.returning[0].person_id);
-        setEditStatus(0);
-      });
+      mutateFunction({ variables: state })
+        .then((data) => {
+          // goTo(data.data.insert_person.returning[0].person_id);
+          // setEditStatus(0);
+          setAlertSuccessPopup(true);
+          setState(initialObject);
+        })
+        .catch(() => {
+          setAlertErrorPopup(true);
+        });
+    } else {
+      setAlertErrorPopup(true);
     }
   };
+
   const {
     data: personData,
     error,
@@ -280,6 +275,7 @@ const AccountMain = () => {
     onCancel,
     onCreateUser,
   };
+
   return (
     <Box
       sx={{
@@ -287,6 +283,7 @@ const AccountMain = () => {
         m: 2,
         border: "1px solid #000",
         borderRadius: "5px",
+        position: "relative",
       }}
       className="account_main"
     >
@@ -748,6 +745,32 @@ const AccountMain = () => {
           )}
         </Grid>
       </Grid>
+
+      <Box
+        sx={{
+          position: "absolute",
+          left: "50%",
+          top: "10px",
+          transform: "translate(-50%, 0)",
+        }}
+      >
+        <Collapse in={alertErrorPopup}>
+          <Alert
+            onClose={() => setAlertErrorPopup(false)}
+            severity="error"
+            sx={{
+              mb: "15px",
+            }}
+          >
+            Sorry, something went wrong
+          </Alert>
+        </Collapse>
+        <Collapse in={alertSuccessPopup}>
+          <Alert onClose={() => setAlertSuccessPopup(false)}>
+            The person was created successfully!
+          </Alert>
+        </Collapse>
+      </Box>
     </Box>
   );
 };

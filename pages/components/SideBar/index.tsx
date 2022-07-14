@@ -38,7 +38,7 @@ const SideBar: React.FC<{
       <div className="logo-details">
         <span
           className="logo_name"
-          onClick={() => router.push("/appselection")}
+          onClick={() => router.push("/persondataentry")}
         >
           {title}
         </span>
