@@ -9,29 +9,31 @@ import { gql } from "@apollo/client";
 export const CREATE_HOME_ADDRESS = gql`
   mutation insert_person_home_address(
     $pid: Int!
-    $street_number: String
-    $street_name: String
-    $apartment: String
+    $street: String
+    $streetname: String
+    $apt: String
     $city: String
-    $postal: String
+    $zip_code: String
     $country: String
     $comments: String
     $source: Int!
-    $full: String
+    $normalized: String
+    $state: String
   ) {
     insert_person_home_address_one(
       object: {
         person_id: $pid
-        street_number: $street_number
-        street_name: $street_name
-        apartment: $apartment
+        street_number: $street
+        street_name: $streetname
+        apartment: $apt
         city: $city
-        zip_code: $postal
+        zip_code: $zip_code
         country: $country
         comments: $comments
         information_source_type_id: $source
         accuracy: "ROOFTOP"
-        normalized_address: $full
+        normalized_address: $normalized
+        state: $state
       }
     ) {
       person_id
@@ -49,6 +51,7 @@ export const CREATE_HOME_ADDRESS = gql`
     }
   }
 `;
+
 export const INFORMATION_SOURCES_LIST = gql`
   query information_sources {
     information_source_type {
@@ -66,6 +69,7 @@ export const HOME_ADDRESS_TABLE = gql`
       street_name
       apartment
       city
+      zip_code
       state
       country
       accuracy

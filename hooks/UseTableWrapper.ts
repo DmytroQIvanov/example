@@ -5,12 +5,6 @@ import {
 } from "../components/Tables/TablesComponents/Interfaces/TableWrapperInterfaces";
 import { dateOptions } from "../components/Tables/TablesComponents/EditableBlock";
 import { useRouter } from "next/router";
-import {
-  DELETE_PERSON_HOME_TABLE,
-  INVALIDATE_PERSON_HOME_ADDRESS,
-  UPDATE_HOME_ADDRESS,
-} from "../shemas/HomeAddressShemas";
-import { useMutation } from "@apollo/client";
 
 export const useTableWrapper = (
   rows: any[],

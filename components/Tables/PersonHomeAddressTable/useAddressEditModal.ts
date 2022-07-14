@@ -151,7 +151,7 @@ export const useAddressEditModal = ({
       street_name: "",
       city: "",
       state: "",
-      postal: "",
+      zip_code: "",
       country: "",
       full: "",
     };
@@ -184,7 +184,7 @@ export const useAddressEditModal = ({
             fullAddress.push(item["long_name"]);
           }
           if (item["types"][0] == "postal_code" && item["long_name"]) {
-            autoAddress = { ...autoAddress, postal: item["long_name"] };
+            autoAddress = { ...autoAddress, zip_code: item["long_name"] };
             fullAddress.push(item["long_name"]);
           }
           if (item["types"][0] == "country" && item["long_name"]) {
