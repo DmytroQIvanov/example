@@ -26,13 +26,13 @@ const initialAddress = {
   street_name: "",
   city: "",
   state: "",
-  postal: "",
+  // postal: "",
   country: "",
   apartment: "",
   full: "",
   google_formatted: "",
   formatted_address: "",
-  zip: "",
+  zip_code: "",
 
   location_accuracy: "",
 };
@@ -200,8 +200,8 @@ const AddressEditModal = ({
             <TextField
               label="Postal Code"
               variant="outlined"
-              value={address?.postal}
-              name="postal"
+              value={address?.zip_code}
+              name="zip_code"
               InputLabelProps={{ shrink: true }}
               className={classes.fullWidth}
             />

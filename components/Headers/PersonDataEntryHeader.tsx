@@ -11,11 +11,13 @@ export function PersonDataEntryHeader() {
   const router = useRouter();
 
   const onAddNewPerson = () => {
-    if (router.pathname.includes("[id]")) {
-      router.pathname = router.pathname.replace("/[id]", "");
-    } else {
-      // href += router.pathname + `/${id}`;
-    }
+    // if (router.pathname.includes("[id]")) {
+    //   router.pathname = router.pathname.replace("/[id]", "");
+    // } else {
+    //   // href += router.pathname + `/${id}`;
+    // }
+
+    router.pathname = "/persondataentry";
     router.query.state = "creating";
     delete router.query.id;
     router.push(router);

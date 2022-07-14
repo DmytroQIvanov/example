@@ -126,7 +126,6 @@ const AccountMain = () => {
 
   const [mutateFunction, { loading: creatingLoading }] =
     useMutation(CREATE_PERSON);
-
   const goTo = (id: string) => {
     if (router.pathname.includes("[id]")) {
       router.pathname = router.pathname.replace("[id]", id);
@@ -137,7 +136,7 @@ const AccountMain = () => {
     router.push(router);
   };
   useEffect(() => {
-    if (router.query.state == "creating") {
+    if (router.query.state === "creating") {
       setCollapse(false);
       setPersonDataState(initialObject);
       setState(initialObject);
@@ -146,15 +145,15 @@ const AccountMain = () => {
   }, [router.query.state]);
 
   useEffect(() => {
-    if (router.query.state != "creating") setEditStatus(0);
+    if (router.query.state !== "creating") setEditStatus(0);
   }, [router.query.id]);
 
-  useEffect(() => {
-    if (editStatus == 0 || editStatus == 1) {
-      delete router.query.state;
-      router.push(router);
-    }
-  }, [editStatus]);
+  // useEffect(() => {
+  //   if (editStatus == 0 || editStatus == 1) {
+  //     delete router.query.state;
+  //     router.push(router);
+  //   }
+  // }, [editStatus]);
 
   const [state, setState] = useState<valuesTypes>(initialObject);
 
