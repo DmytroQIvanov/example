@@ -97,10 +97,7 @@ export function AppSelection() {
           <ul className="nav-links">
             <li>
               <div className="iocn-link">
-                <a
-                  href="#"
-                  onClick={(e) => goTo(e, "/persondataentry/homeaddress")}
-                >
+                <a href="#" onClick={(e) => goTo(e, "/persondataentry")}>
                   <FaUserAlt className="react-icon" />
                   <span className="link_name">Person Data Entry</span>
                 </a>

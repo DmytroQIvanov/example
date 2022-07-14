@@ -9,9 +9,9 @@ import { gql } from "@apollo/client";
 export const CREATE_HOME_ADDRESS = gql`
   mutation insert_person_home_address(
     $pid: Int!
-    $street: String
-    $streetname: String
-    $apt: String
+    $street_number: String
+    $street_name: String
+    $apartment: String
     $city: String
     $zip_code: String
     $country: String
@@ -23,9 +23,9 @@ export const CREATE_HOME_ADDRESS = gql`
     insert_person_home_address_one(
       object: {
         person_id: $pid
-        street_number: $street
-        street_name: $streetname
-        apartment: $apt
+        street_number: $street_number
+        street_name: $street_name
+        apartment: $apartment
         city: $city
         zip_code: $zip_code
         country: $country
@@ -147,7 +147,7 @@ export const UPDATE_HOME_ADDRESS = gql`
     $apartment: String
     $city: String
     $state: String
-    $postal: String
+    $zip_code: String
     $country: String
     $comments: String
     $source: Int
@@ -167,7 +167,7 @@ export const UPDATE_HOME_ADDRESS = gql`
         information_source_type_id: $source
         date_last_known_valid: $date
         accuracy: "ROOFTOP"
-        zip_code: $postal
+        zip_code: $zip_code
         normalized_address: $normalized
       }
     ) {
