@@ -57,7 +57,7 @@ const TableRowComponent: React.FC<
       </TableCell>
       <TableCell component="th" scope="row" width={"200px"}>
         <Box sx={{ mr: "2px", display: "flex", gap: "2px" }}>
-          {summaryObject.rowValues["location_accuracy"]}
+          {summaryObject.rowValues["accuracy"]}
         </Box>
       </TableCell>
       <TableCell component="th" scope="row" width={"200px"}>
