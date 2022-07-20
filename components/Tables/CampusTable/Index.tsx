@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import TableBody from "@material-ui/core/TableBody";
 import TableWrapper from "../TablesComponents/TableWrapper/Index";
 
@@ -8,6 +8,18 @@ import {
 } from "./interfaces";
 import TableRowComponent from "./TableRow";
 import { HeadCell } from "../TablesComponents/Interfaces/HeadCell";
+import { useRouter } from "next/router";
+import { useMutation, useQuery } from "@apollo/client";
+import {
+  CHANGE_OTHER_NAME,
+  GET_OTHER_NAMES,
+} from "../../../shemas/OtherNamesShemas";
+import {
+  DELETE_CAMPUS_TABLE,
+  INSERT_PERSON_CAMPUS,
+  PERSON_CAMPUS_QUERY,
+  UPDATE_PERSON_CAMPUS,
+} from "../../../shemas/CampusShemas";
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -48,49 +60,50 @@ function stableSort<T>(
   return stabilizedThis.map((el) => el[0]);
 }
 
-const rows: IRowsPersonEmploymentTable[] = [
-  {
-    id: "1",
-    campus: "Los Angeles",
-    area: "Phyiscs",
-    superArea: "2810 Cohort",
-    turf: "Josh Kenshall",
-    suppress: true,
-    pi: true,
-    informationSource: "smth",
-    comments:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-    dfkv: "01/02/2021",
-    dlkv: "03/41/2333",
-    dmi: "02/03/2013",
-  },
-  {
-    id: "2",
-    campus: "San Andreas",
-    area: "Any",
-    superArea: "3410 Cohort",
-    turf: "Joshs",
-    suppress: false,
-    pi: false,
-    informationSource: "informationSource",
-    comments:
-      "do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-    dfkv: "05/03/2021",
-    dlkv: "05/12/1344",
-    dmi: "02/03/2013",
-  },
-];
+// const rows: IRowsPersonEmploymentTable[] = [
+//   {
+//     id: "1",
+//     campus: "Los Angeles",
+//     area: "Phyiscs",
+//     superArea: "2810 Cohort",
+//     turf: "Josh Kenshall",
+//     suppress: true,
+//     pi: true,
+//     informationSource: "smth",
+//     comments:
+//       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+//     dfkv: "01/02/2021",
+//     dlkv: "03/41/2333",
+//     dmi: "02/03/2013",
+//   },
+//   {
+//     id: "2",
+//     campus: "San Andreas",
+//     area: "Any",
+//     superArea: "3410 Cohort",
+//     turf: "Joshs",
+//     suppress: false,
+//     pi: false,
+//     informationSource: "informationSource",
+//     comments:
+//       "do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+//     dfkv: "05/03/2021",
+//     dlkv: "05/12/1344",
+//     dmi: "02/03/2013",
+//   },
+// ];
 
 const headCells: readonly HeadCell<IColumnsPersonEmploymentTable>[] = [
   {
     id: "campus",
     label: "Campus",
+    sortingBy: "campus.campus_name",
   },
   {
     id: "superAreaArea",
     label: "Super Area",
     secondLabel: "Area",
-    sortingBy: "superArea",
+    sortingBy: "area.super_area.super_area",
   },
   {
     id: "turf",
@@ -99,6 +112,7 @@ const headCells: readonly HeadCell<IColumnsPersonEmploymentTable>[] = [
   {
     id: "informationSource",
     label: "Information Source",
+    sortingBy: "information_source_type.information_source_type",
   },
   {
     id: "suppress",
@@ -107,22 +121,24 @@ const headCells: readonly HeadCell<IColumnsPersonEmploymentTable>[] = [
   {
     id: "pi",
     label: "PI",
+    sortingBy: "is_pi",
   },
 
   {
     id: "comments",
     label: "Comments",
+    sortingBy: "area.comments",
   },
   {
-    id: "dfkv",
+    id: "date_first_known_valid",
     label: "DFKV",
   },
   {
-    id: "dlkv",
+    id: "date_last_known_valid",
     label: "DLKV",
   },
   {
-    id: "dmi",
+    id: "date_marked_invalid",
     label: "DMI",
   },
 
@@ -146,8 +162,88 @@ const CampusTable = () => {
     setOrderBy(property);
   };
 
+  const [data, setData] = useState<any[]>([]);
+
+  const router = useRouter();
+  const {
+    data: personCampusTables,
+    error,
+    loading,
+    fetchMore,
+    refetch,
+  } = useQuery(PERSON_CAMPUS_QUERY, {
+    variables: { pid: router.query.id },
+    skip: !router.query.id,
+  });
+
+  useEffect(() => {
+    if (personCampusTables?.person_campus)
+      setData(() =>
+        personCampusTables?.person_campus.map((elem: any) => {
+          return {
+            id: elem.person_campus_id,
+            ...elem,
+            validateState: Boolean(elem.date_marked_invalid),
+          };
+        })
+      );
+  }, [personCampusTables?.person_campus]);
+
+  const [changeFunction, { loading: changeLoading }] =
+    useMutation(UPDATE_PERSON_CAMPUS);
+
+  const [createFunction, { loading: createLoading, error: createError }] =
+    useMutation(INSERT_PERSON_CAMPUS);
+
+  const [deleteFunction, { loading: deleteLoading, error: deleteError }] =
+    useMutation(DELETE_CAMPUS_TABLE);
+
+  const onChangeFunction = (state: any) => {
+    const date = new Date();
+
+    changeFunction({
+      variables: {
+        id: state.person_campus_id,
+        date: date,
+        campus: state.campus.campus_id || null,
+        area: state.area.area_id || null,
+        turf: state.turfid || null,
+        source: state.information_source_type.information_source_type_id,
+        supress: Boolean(state.supress),
+        pi: Boolean(state.is_pi),
+        comments: state.area.comments || null,
+      },
+    });
+  };
+  const onCreateFunction = (state: any) => {
+    const date = new Date();
+    createFunction({
+      variables: {
+        pid: router.query.id,
+        date: date,
+        campus: state.campus.campus_id || null,
+        area: state.area.area_id || null,
+        turf: state.turfid || null,
+        source: state.information_source_type.information_source_type_id,
+        supress: Boolean(state.supress),
+        pi: Boolean(state.is_pi),
+        comments: state.area.comments || null,
+      },
+    });
+  };
+
+  const onDeleteFunction = (state: any) => {
+    if (!state.person_campus_id) return;
+    deleteFunction({ variables: { id: state.person_campus_id } });
+  };
   return (
-    <TableWrapper rows={rows}>
+    <TableWrapper
+      rows={data}
+      refetch={refetch}
+      onChangeFunction={onChangeFunction}
+      onSaveFunction={onCreateFunction}
+      deleteFunction={onDeleteFunction}
+    >
       {({
         EnhancedTableHead,
         stableSort,

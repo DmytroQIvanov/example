@@ -43,7 +43,6 @@ const ReusableComponent: React.FC<{
           name={name}
           value={editableState[name]}
           size={"small"}
-          error={true}
         />
       );
       break;

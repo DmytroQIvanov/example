@@ -78,6 +78,7 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
   rowValues,
   rowState,
   handleChange,
+  handleChangeArray,
   handleChangeEvent,
   titleVisibly = true,
   checkBox,
@@ -91,6 +92,9 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
   removeComponent,
 
   activeRowObject,
+  idName,
+
+  value,
 
   // Edit only existing field (Cannot add it)
   modifyOnlyExistingField,
@@ -114,10 +118,19 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
   const [disabledState, setDisabledState] = useState(false);
 
   const { isLoaded, isSignedIn, user } = useUser();
-
+  const func = () => {
+    const result = name.toString().split(".");
+    if (result.length === 2) {
+      return rowValues[result[0]]?.[result[1]];
+    } else if (result.length === 3) {
+      return rowValues[result[0]]?.[result[1]]?.[result[2]];
+    } else {
+      return rowValues[name];
+    }
+  };
   /* eslint-disable */
   useEffect(() => {
-    if (!rowValues[name]) {
+    if (!func()) {
       handleChange(name, "");
     }
     if (
@@ -201,6 +214,17 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
 
       case "dropdown":
         if (itemsArray && itemsArray.length >= 1) {
+          const dropDownFunction = (inputName: string | undefined) => {
+            if (!inputName) return;
+            const result = inputName?.toString().split(".");
+            if (result?.length === 2) {
+              return rowValues[result[0]][result[1]];
+            } else if (result?.length === 3) {
+              return rowValues[result[0]][result[1]]?.[result[2]];
+            } else {
+              return rowValues[inputName];
+            }
+          };
           return (
             <Autocomplete
               disablePortal
@@ -208,12 +232,23 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
               fullWidth={width ? true : false}
               {...inputParams}
               disabled={disabledState}
-              value={{ label: rowValues[name] || "" }}
+              value={{
+                id: dropDownFunction(idName),
+                label: dropDownFunction(name),
+              }}
               onChange={(
                 event: any,
-                newValue: { label: string | number } | null
+                newValue: { label: string | number; id: number | string } | null
               ) => {
-                if (newValue !== null) handleChange(name, newValue.label);
+                if (!newValue) return;
+                if (idName) {
+                  handleChangeArray([
+                    { name, value: newValue.label },
+                    { name: idName, value: newValue.id },
+                  ]);
+                } else {
+                  handleChange(name, newValue.id);
+                }
               }}
               renderInput={(params) => (
                 <TextField
@@ -370,6 +405,14 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
               : rowValues[name]
               ? "Yes"
               : "N/A"}
+          </Typography>
+        );
+      case "dropdown":
+        return (
+          <Typography mt={0.8} style={styles}>
+            {/*{value && value}*/}
+            {func()}
+            {/*{rowValues[name]?.toString()}*/}
           </Typography>
         );
       default:

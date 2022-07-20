@@ -12,6 +12,13 @@ import OptionsBlock from "../TablesComponents/OptionsBlock";
 import AddressEditModal from "./AddressEditModal";
 import { Box } from "@mui/material";
 import { ITableRowComponent } from "../TablesComponents/Interfaces/ITableRowComponent";
+import { useMutation } from "@apollo/client";
+import {
+  CHANGE_DATE_LAST_KNOWN_VALID,
+  HOME_ADDRESS_DMI_NULL,
+  INVALIDATE_PERSON_HOME_ADDRESS,
+  VALIDATE_PERSON_HOME_ADDRESS,
+} from "../../../shemas/HomeAddressShemas";
 
 const TableRowComponent: React.FC<
   ITableRowComponent<IRowsPersonEmploymentTable>
@@ -24,13 +31,27 @@ const TableRowComponent: React.FC<
   onChangeWithProvidedState,
   refetch,
 }) => {
+  const [invalidateFunction, { loading: invalidateLoading }] = useMutation(
+    INVALIDATE_PERSON_HOME_ADDRESS
+  );
+  const [validateFunction, { loading: validateLoading }] = useMutation(
+    VALIDATE_PERSON_HOME_ADDRESS
+  );
+  const [dmiNullFunction] = useMutation(HOME_ADDRESS_DMI_NULL);
+
+  const [dlkvFunction, { loading: mutateLoading }] = useMutation(
+    CHANGE_DATE_LAST_KNOWN_VALID
+  );
   const { onCancel, summaryObject, onSave } = UseEditableTable({
     row,
     activeRowObject,
     onSaveWithProvidedState,
     onChangeWithProvidedState,
     onAddCancel,
-    refetch,
+    invalidateFunction,
+    validateFunction,
+    dmiNullFunction,
+    // dlkvFunction,
   });
 
   const [stateModal, setStateModal] = useState(false);

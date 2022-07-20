@@ -27,7 +27,7 @@ export interface ITableWrapperProps {
     descendingComparator: any;
 
     tableElements: any;
-    onDelete: (id: string | undefined) => void;
+    // onDelete: (id: string | undefined) => void;
     onAddSave: () => void;
     handleChangeMainStateEvent: (
       event: React.ChangeEvent<HTMLInputElement>
@@ -41,6 +41,7 @@ export interface ITableWrapperProps {
     onSaveWithProvidedState: (state: any) => void;
     onChangeWithProvidedState: (state: any) => void;
     activeRowObject: IActiveRowObject;
+    onDelete: Function;
   }) => React.ReactNode;
   buttonsList?: [
     {
@@ -53,4 +54,7 @@ export interface ITableWrapperProps {
   disableAddBtn?: boolean;
   refetch?: Function;
   deleteFunction?: Function;
+
+  onSaveFunction?: Function;
+  onChangeFunction?: Function;
 }

@@ -1,27 +1,28 @@
 interface IRowsPersonEmploymentTable {
   id: string;
-  nameSourceType: string;
-  nameSourceSubType: string;
-  firstName: string;
-  middleNames: string;
-  lastName: string;
-  nickName: string;
+  first_name: string;
+  middle_name: string;
+  last_name: string;
+  nick_name: string;
   suffix: string;
-  dfkv: string;
-  dlkv: string;
-  dmi: string;
+  // person_id: string;
+  validateState: boolean;
+  person_other_name_id: string;
+  date_first_known_valid: string;
+  date_last_known_valid: string;
+  date_marked_invalid: string;
   options?: string;
 }
 interface IColumnsPersonEmploymentTable {
   id: string;
   nameSource: string;
-  firstName: string;
-  middleNames: string;
-  lastName: string;
-  nickName: string;
-  dfkv: string;
-  dlkv: string;
-  dmi: string;
+  first_name: string;
+  middle_name: string;
+  last_name: string;
+  nick_name: string;
+  date_first_known_valid: string;
+  date_last_known_valid: string;
+  date_marked_invalid: string;
   options: string;
 }
 

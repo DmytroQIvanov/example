@@ -224,7 +224,7 @@ const Index: React.FC<optionsBlock> = ({
           handleClose={handleCloseDeleteModal}
           state={deleteModal}
           onDelete={() => {
-            onDelete(id);
+            onDelete(id, rowValues);
             handleCloseDeleteModal();
           }}
         />
