@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
-  Autocomplete,
   Box,
-  Button,
   Checkbox,
   FormControlLabel,
   Grid,
@@ -12,95 +10,49 @@ import {
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { IActiveRowObject } from "../Interfaces/TableWrapperInterfaces";
 import { useUser } from "@clerk/nextjs";
 import { propsBlockWithState } from "./interfaces";
+import {
+  InvalidateComponent,
+  ValidateComponent,
+  Dropdown,
+} from "./Components/index";
+import { dateOptions } from "./Components/dateOptions";
 
-type date = "numeric" | "2-digit";
-export let dateOptions: {
-  year: date;
-  month: date;
-  day: date;
-  hour: date;
-  minute: date;
-  timeZone: string;
-} = {
-  year: "numeric",
-  month: "2-digit",
-  day: "2-digit",
-  hour: "2-digit",
-  minute: "2-digit",
+const EditableBlock: React.FC<propsBlockWithState> = (data) => {
+  const {
+    title,
+    name = "null",
+    width,
+    type = "textField",
+    multiline,
+    itemsArray,
+    rowValues,
+    rowState,
+    handleChange,
+    handleChangeArray,
+    handleChangeEvent,
+    titleVisibly = true,
+    checkBox,
+    editable,
+    availableStateBoolean,
 
-  timeZone: "America/Los_Angeles",
-};
-const InvalidateComponent = ({
-  rowValues,
-  validateState,
-  changeValidateState,
-  activeRowObject,
-}: {
-  rowValues: any;
-  validateState: boolean;
-  changeValidateState: () => void;
-  activeRowObject: IActiveRowObject;
-}) => {
-  return (
-    <Box sx={{ display: "flex" }}>
-      <FormControlLabel
-        value="start"
-        control={
-          <Checkbox
-            onChange={() => changeValidateState()}
-            checked={
-              activeRowObject.activeRow.number == rowValues.id &&
-              activeRowObject.activeRow.state !== "default"
-                ? validateState
-                : rowValues["validateState"]
-            }
-            disabled={rowValues["validateState"]}
-          />
-        }
-        label={"Invalidate"}
-        labelPlacement="start"
-        sx={{ ml: "0" }}
-      />
-    </Box>
-  );
-};
+    disabled,
+    validateState,
+    changeValidateState,
+    changeRowState,
+    removeComponent,
 
-const EditableBlock: React.FC<propsBlockWithState> = ({
-  title,
-  name = "null",
-  width,
-  type = "textField",
-  multiline,
-  itemsArray,
-  rowValues,
-  rowState,
-  handleChange,
-  handleChangeArray,
-  handleChangeEvent,
-  titleVisibly = true,
-  checkBox,
-  editable,
-  availableStateBoolean,
+    activeRowObject,
+    idName,
 
-  disabled,
-  validateState,
-  changeValidateState,
-  changeRowState,
-  removeComponent,
+    value,
 
-  activeRowObject,
-  idName,
+    // Edit only existing field (Cannot add it)
+    modifyOnlyExistingField,
 
-  value,
-
-  // Edit only existing field (Cannot add it)
-  modifyOnlyExistingField,
-
-  ...inputParams
-}) => {
+    ...inputParams
+  } = data;
   const disableEditableArray = [
     "campus",
     "createdBy",
@@ -111,10 +63,12 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
     "dateCreated",
     "dlkv",
     "dfkv",
+    "date_last_known_valid",
+    "date_first_known_valid",
+    "date_marked_invalid",
   ];
 
   // ---DISABLED STATE---
-  // let disabledState = false;
   const [disabledState, setDisabledState] = useState(false);
 
   const { isLoaded, isSignedIn, user } = useUser();
@@ -160,9 +114,6 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
 
       handleChange(name, `${pst}`);
     }
-    if (name === "dfkv") {
-      setDisabledState(true);
-    }
     // PUT DATE TO DFKV
     if (
       (name === "dlkv" || name === "datelastknownvalid") &&
@@ -173,12 +124,6 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
       const pst = date.toLocaleString("en-US", dateOptions);
 
       handleChange(name, `${pst}`);
-    }
-    if (name === "dlkv") {
-      setDisabledState(true);
-    }
-    if (name === "dmi" || name === "datemarkedinvalid") {
-      setDisabledState(true);
     }
   }, [activeRowObject.activeRow]);
   /* eslint-enable */
@@ -213,57 +158,9 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
         );
 
       case "dropdown":
-        if (itemsArray && itemsArray.length >= 1) {
-          const dropDownFunction = (inputName: string | undefined) => {
-            if (!inputName) return;
-            const result = inputName?.toString().split(".");
-            if (result?.length === 2) {
-              return rowValues[result[0]][result[1]];
-            } else if (result?.length === 3) {
-              return rowValues[result[0]][result[1]]?.[result[2]];
-            } else {
-              return rowValues[inputName];
-            }
-          };
-          return (
-            <Autocomplete
-              disablePortal
-              options={itemsArray && itemsArray}
-              fullWidth={width ? true : false}
-              {...inputParams}
-              disabled={disabledState}
-              value={{
-                id: dropDownFunction(idName),
-                label: dropDownFunction(name),
-              }}
-              onChange={(
-                event: any,
-                newValue: { label: string | number; id: number | string } | null
-              ) => {
-                if (!newValue) return;
-                if (idName) {
-                  handleChangeArray([
-                    { name, value: newValue.label },
-                    { name: idName, value: newValue.id },
-                  ]);
-                } else {
-                  handleChange(name, newValue.id);
-                }
-              }}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  style={styles}
-                  size={"small"}
-                  label={""}
-                  name={name}
-                />
-              )}
-            />
-          );
-        } else {
-          return <></>;
-        }
+        return (
+          <Dropdown {...{ ...data, disabledState, inputParams, styles }} />
+        );
       case "date":
         return (
           <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -304,31 +201,7 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
           />
         );
       case "validate":
-        return (
-          <Box sx={{ display: "flex" }}>
-            <Button
-              sx={{
-                backgroundColor: "#134A90",
-                color: "white",
-                width: "95%",
-                p: "3px",
-                mt: "5px",
-                "&:hover": {
-                  color: "white",
-                  backgroundColor: "#0e3e7a",
-                },
-              }}
-              onClick={() => {
-                const date = new Date();
-                const pst = date.toLocaleString("en-US", dateOptions);
-                handleChange("dlkv", `${pst}`);
-                changeValidateState(false, true);
-              }}
-            >
-              Validate
-            </Button>
-          </Box>
-        );
+        return <ValidateComponent {...data} />;
       default:
         return (
           <TextField
@@ -361,31 +234,7 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
           />
         );
       case "validate":
-        return (
-          <Box sx={{ display: "flex" }}>
-            <Button
-              sx={{
-                backgroundColor: "#134A90",
-                color: "white",
-                width: "95%",
-                p: "3px",
-                mt: "5px",
-                "&:hover": {
-                  color: "white",
-                  backgroundColor: "#0e3e7a",
-                },
-              }}
-              onClick={() => {
-                const date = new Date();
-                const pst = date.toLocaleString("en-US", dateOptions);
-                handleChange("dlkv", pst);
-                changeValidateState(false, true);
-              }}
-            >
-              Validate
-            </Button>
-          </Box>
-        );
+        return <ValidateComponent {...data} />;
       case "checkBox":
         return (
           <Typography
@@ -410,9 +259,7 @@ const EditableBlock: React.FC<propsBlockWithState> = ({
       case "dropdown":
         return (
           <Typography mt={0.8} style={styles}>
-            {/*{value && value}*/}
             {func()}
-            {/*{rowValues[name]?.toString()}*/}
           </Typography>
         );
       default:

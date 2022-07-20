@@ -59,13 +59,7 @@ const TableRowComponent: React.FC<
     []
   );
 
-  const {
-    data: campusData,
-    error,
-    loading,
-    fetchMore,
-    refetch,
-  } = useQuery(CAMPUS_LIST_QUERY);
+  const { data: campusData } = useQuery(CAMPUS_LIST_QUERY);
 
   useEffect(() => {
     campusData?.campus &&

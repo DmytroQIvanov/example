@@ -10,14 +10,13 @@ import TableRowComponent from "./TableRow";
 import { HeadCell } from "../TablesComponents/Interfaces/HeadCell";
 import { Order } from "../TablesComponents/Interfaces/Order";
 import { useMutation } from "@apollo/client";
-import { UPDATE_HOME_ADDRESS } from "../../../shemas/HomeAddressShemas";
 import {
   CHANGE_OTHER_NAME,
   CREATE_OTHER_NAME,
   DELETE_OTHER_NAMES,
   VALIDATE_OTHER_NAME,
 } from "../../../shemas/OtherNamesShemas";
-import { dateOptions } from "../TablesComponents/EditableBlock";
+import { useRouter } from "next/router";
 
 // const rows: IRowsPersonEmploymentTable[] = [
 //   {
@@ -99,6 +98,7 @@ const Index: React.FC<{
   const [orderBy, setOrderBy] =
     React.useState<keyof IRowsPersonEmploymentTable>("id");
 
+  const router = useRouter();
   const handleRequestSort = (
     _: any,
     property: keyof IRowsPersonEmploymentTable
@@ -131,6 +131,24 @@ const Index: React.FC<{
     });
   };
 
+  const onCreateFunction = (state: any) => {
+    const date = new Date();
+    createFunction({
+      variables: {
+        pid: router.query.id,
+        id: state.person_other_name_id,
+        date: date,
+        namesource: state.name_source_type.name_source_type_id,
+        namesourcesubtype: state.name_source_subtype.name_source_type_id,
+        first_name: state.first_name,
+        middle_name: state.middle_name,
+        last_name: state.last_name,
+        nick_name: state.nick_name,
+        suffix: state.suffix,
+      },
+    });
+  };
+
   const [validateFunction, { loading: validateLoading }] =
     useMutation(VALIDATE_OTHER_NAME);
 
@@ -144,7 +162,7 @@ const Index: React.FC<{
     <TableWrapper
       rows={tableData}
       refetch={refetch}
-      onSaveFunction={createFunction}
+      onSaveFunction={onCreateFunction}
       onChangeFunction={onChangeFunction}
       deleteFunction={onDelete}
 

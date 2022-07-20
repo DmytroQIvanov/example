@@ -108,6 +108,7 @@ const headCells: readonly HeadCell<IColumnsPersonEmploymentTable>[] = [
   {
     id: "turf",
     label: "Turf",
+    sortingBy: "turfid",
   },
   {
     id: "informationSource",
