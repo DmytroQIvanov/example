@@ -7,7 +7,7 @@ export interface propsBlockWithState extends ISummaryObject {
   disabled?: boolean;
   width?: number;
   editable?: boolean;
-  itemsArray?: { label: string }[];
+  itemsArray?: { label: string; id: string }[];
   type?:
     | "textField"
     | "dropdown"
@@ -23,6 +23,8 @@ export interface propsBlockWithState extends ISummaryObject {
   checkBox?: ICheckBox;
   removeComponent?: boolean;
   modifyOnlyExistingField?: boolean;
+  value?: string;
+  idName?: string;
 }
 
 interface ICheckBox {

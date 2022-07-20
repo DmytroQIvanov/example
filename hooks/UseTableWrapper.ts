@@ -9,7 +9,9 @@ import { useRouter } from "next/router";
 export const useTableWrapper = (
   rows: any[],
   refetch?: Function,
-  deleteFunction?: Function
+  deleteFunction?: Function,
+  onSaveFunction?: Function,
+  onChangeFunction?: Function
 ) => {
   const [tableElements, setTableElements] = useState<any[]>([]);
 
@@ -19,14 +21,15 @@ export const useTableWrapper = (
       console.log(elem);
       let result = elem;
       for (const field in elem) {
+        console.log(typeof elem[field]);
         if (elem[field] === null) {
-          console.log(field + " : " + result[field]);
           result[field] = "";
         } else {
-          console.log(result);
-          // console.log(result[field]);
-          if (field !== "__typename" && field !== "person_home_address_id")
-            result[field] = elem[field];
+          // if (typeof elem[field] === "object") {
+          //   result[field] = { ...elem[field] };
+          // }
+          // if (field !== "__typename" && field !== "person_home_address_id")
+          result[field] = elem[field];
         }
       }
       return result;
@@ -135,11 +138,23 @@ export const useTableWrapper = (
     ]);
     console.log(tableElements);
     refetch && refetch({ pid: router.query?.id });
+    onSaveFunction && onSaveFunction(state);
+    // onSaveFunction({
+    //   variables: {
+    //     pid: router.query?.id,
+    //     ...state,
+    //     namesource: 2,
+    //     person_other_name: 2,
+    //     name_source_subtype: 2,
+    //   },
+    // });
+
     // fetchMore({ variables: { pid: router.query?.id } });
   };
   const onChangeWithProvidedState = (state: any, changingRow?: string) => {
     const date = new Date();
     const pst = date.toLocaleString("en-US", dateOptions);
+    onChangeFunction && onChangeFunction(state, changingRow);
     setTableElements((prevState) => {
       const result = prevState.filter((elem) => elem.id != state.id);
       return [...result, { ...state, datefirstknownvalid: pst }];
@@ -154,9 +169,9 @@ export const useTableWrapper = (
     handleRowState(null, "default");
   };
 
-  const onDelete = (id: string | undefined) => {
+  const onDelete = (id: string | undefined, state: any) => {
     if (!id) return;
-    deleteFunction && deleteFunction({ variables: { id: id } });
+    deleteFunction && deleteFunction(state);
     setTableElements(tableElements.filter((elem) => elem.id !== id));
   };
   return {

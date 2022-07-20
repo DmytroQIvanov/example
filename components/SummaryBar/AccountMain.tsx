@@ -22,6 +22,7 @@ import { useRouter } from "next/router";
 import ReusableComponent from "./ReusableComponent";
 import ButtonsBlock from "./ButtonsBlock";
 import { CREATE_PERSON, PERSON_DATA } from "../../shemas/PersonGraphqlShemas";
+import { dateOptions } from "../Tables/TablesComponents/EditableBlock";
 
 const row1Title = {
   fname: "First Name",
@@ -46,13 +47,23 @@ const row3Title = {
   disputes: "DF",
 };
 const rowSubTitle = {
-  name: "Sub Account Name",
-  type: "Sub Account Type",
-  location: "Location",
-  activeDate: "Active since",
-  pmStatus: "Is PM",
-  canEmail: "Can Email",
+  name: "Campus Name",
+  type: "Area",
+  location: "Super Area",
+  activeDate: "Turf",
+  pmStatus: "Active Appointment?",
+  canEmail: "is PI?",
+  dfkv: "DLKNV",
 };
+
+// const rowSubTitle = {
+//   name: "Sub Account Name",
+//   type: "Sub Account Type",
+//   location: "Location",
+//   activeDate: "Active since",
+//   pmStatus: "Is PM",
+//   canEmail: "Can Email",
+// };
 
 const textOnLabels = [
   "Card Status",
@@ -70,6 +81,19 @@ interface valuesTypes {
   nameSourceType: string | undefined;
   person_id: string | undefined;
   employee_id: string | undefined;
+  person_campuses: {
+    area: {
+      area_id: number;
+      area: string;
+      super_area: {
+        super_area_id: number;
+        super_area: string;
+      };
+    };
+    turfid: number;
+    is_pi: boolean;
+    date_last_known_valid: string;
+  }[];
 }
 
 const initialObject = {
@@ -81,6 +105,7 @@ const initialObject = {
   nameSourceType: "",
   person_id: "",
   employee_id: "",
+  person_campuses: [],
 };
 
 const AccountMain = () => {
@@ -155,10 +180,12 @@ const AccountMain = () => {
       console.log(state);
       mutateFunction({ variables: state })
         .then((data) => {
-          // goTo(data.data.insert_person.returning[0].person_id);
-          // setEditStatus(0);
           setAlertSuccessPopup(true);
-          setState(initialObject);
+          setTimeout(() => {
+            goTo(data.data.insert_person.returning[0].person_id);
+            setEditStatus(0);
+            setState(initialObject);
+          }, 3000);
         })
         .catch(() => {
           setAlertErrorPopup(true);
@@ -584,7 +611,8 @@ const AccountMain = () => {
                 ))}
               </Box>
             </Box>
-            {data?.sample_person[index].user_accounts.length > 0 ? (
+            {/*///////////////*/}
+            {personDataState?.person_campuses?.length >= 1 ? (
               <Box
                 sx={{
                   p: 1,
@@ -602,10 +630,8 @@ const AccountMain = () => {
                           style={{ paddingTop: 10, paddingBottom: 10 }}
                         >
                           <strong>{rowSubTitle.name}: </strong>
-                          {
-                            data?.sample_person[index].user_accounts[subIndex]
-                              ?.account_name
-                          }
+
+                          {personDataState?.person_campuses[index].area.area}
                         </TableCell>
                       </TableRow>
                       <TableRow className={styles.tableRow}>
@@ -613,10 +639,7 @@ const AccountMain = () => {
                           style={{ paddingTop: 10, paddingBottom: 10 }}
                         >
                           <strong>{rowSubTitle.type}: </strong>
-                          {
-                            data?.sample_person[index].user_accounts[subIndex]
-                              ?.accountTypeByAccountType?.account_type_name
-                          }
+                          {personDataState?.person_campuses[index].area.area}
                         </TableCell>
                       </TableRow>
                       <TableRow className={styles.tableRow}>
@@ -625,8 +648,8 @@ const AccountMain = () => {
                         >
                           <strong>{rowSubTitle.location}: </strong>
                           {
-                            data?.sample_person[index].user_accounts[subIndex]
-                              ?.account_location
+                            personDataState?.person_campuses[index].area
+                              .super_area.super_area
                           }
                         </TableCell>
                       </TableRow>
@@ -635,10 +658,7 @@ const AccountMain = () => {
                           style={{ paddingTop: 10, paddingBottom: 10 }}
                         >
                           <strong>{rowSubTitle.activeDate}: </strong>
-                          {
-                            data?.sample_person[index].user_accounts[subIndex]
-                              ?.active_since
-                          }
+                          {personDataState?.person_campuses[index].turfid}
                         </TableCell>
                       </TableRow>
                       <TableRow className={styles.tableRow}>
@@ -663,6 +683,28 @@ const AccountMain = () => {
                             : "No"}
                         </TableCell>
                       </TableRow>
+
+                      <TableRow className={styles.tableRow}>
+                        <TableCell
+                          style={{ paddingTop: 10, paddingBottom: 10 }}
+                        >
+                          <strong>{rowSubTitle.dfkv}: </strong>
+                          <>
+                            {(() => {
+                              const date = new Date(
+                                personDataState?.person_campuses[
+                                  index
+                                ]?.date_last_known_valid
+                              );
+                              return (
+                                <>
+                                  {date?.toLocaleString("en-US", dateOptions)}
+                                </>
+                              );
+                            })()}
+                          </>
+                        </TableCell>
+                      </TableRow>
                     </TableBody>
                   </Table>
                 </TableContainer>
@@ -675,8 +717,16 @@ const AccountMain = () => {
                   }}
                   onClick={() => handleSubIndex()}
                 >
-                  {subIndex + 1} of{" "}
-                  {data?.sample_person[index].user_accounts?.length} &gt;
+                  {(() => {
+                    if (personDataState?.person_campuses?.length == 1)
+                      return <>{personDataState?.person_campuses?.length}</>;
+                    return (
+                      <>
+                        {subIndex + 1} of{" "}
+                        {data?.sample_person[index].user_accounts?.length} &gt;
+                      </>
+                    );
+                  })()}
                 </Box>
               </Box>
             ) : (

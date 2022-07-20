@@ -22,10 +22,11 @@ const Index: React.FC<ITableWrapperProps> = ({
   disableAddBtn,
   refetch,
   deleteFunction,
+  onSaveFunction,
+  onChangeFunction,
 }) => {
   const {
     tableElements,
-    onDelete,
     onChangeAddState,
     onAddSave,
     onAddCancel,
@@ -34,7 +35,14 @@ const Index: React.FC<ITableWrapperProps> = ({
     handleChangeMainStateEvent,
     handleChangeMainState,
     onChangeWithProvidedState,
-  } = useTableWrapper(rows, refetch, deleteFunction);
+    onDelete,
+  } = useTableWrapper(
+    rows,
+    refetch,
+    deleteFunction,
+    onSaveFunction,
+    onChangeFunction
+  );
   const [buttonsListState, setButtonsListState] = useState(
     buttonsList !== undefined ? buttonsList : []
   );
@@ -44,9 +52,9 @@ const Index: React.FC<ITableWrapperProps> = ({
     const func = (obj: any) => {
       const result = orderBy.toString().split(".");
       if (result.length === 2) {
-        return obj[result[0]][result[1]];
+        return obj[result[0]]?.[result[1]];
       } else if (result.length === 3) {
-        return obj[result[0]][result[1]][result[2]];
+        return obj[result[0]]?.[result[1]]?.[result[2]];
       } else {
         return obj[orderBy];
       }
@@ -221,7 +229,6 @@ const Index: React.FC<ITableWrapperProps> = ({
               getComparator,
               descendingComparator,
               tableElements,
-              onDelete,
               onAddSave,
               handleChangeMainStateEvent,
               handleChangeMainState,
@@ -229,6 +236,7 @@ const Index: React.FC<ITableWrapperProps> = ({
               onSaveWithProvidedState,
               onChangeWithProvidedState,
               activeRowObject,
+              onDelete,
             })}
           </Table>
         </TableContainer>

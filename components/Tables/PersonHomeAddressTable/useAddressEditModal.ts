@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useLoadScript } from "@react-google-maps/api";
 import { useMutation, useQuery } from "@apollo/client";
-import { PERSON_DATA } from "../../../shemas/PersonGraphqlShemas";
 import {
   CREATE_HOME_ADDRESS,
   INFORMATION_SOURCES_LIST,

@@ -4,7 +4,7 @@ export interface ITableRowComponent<IRowsPersonEmploymentTable> {
   row: IRowsPersonEmploymentTable;
   onChangeWithProvidedState: (state: any, changingRow?: string) => void;
   onSaveWithProvidedState: (state: any) => void;
-  onDelete: (id: string | undefined) => void;
+  onDelete: Function;
   onAddSave: () => void;
   onAddCancel: Function;
   activeRowObject: IActiveRowObject;
@@ -12,4 +12,5 @@ export interface ITableRowComponent<IRowsPersonEmploymentTable> {
   handleOpenPersonInteractionModal?: () => void;
 
   refetch?: Function;
+  validateFunction?: Function;
 }
