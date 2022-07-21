@@ -3,8 +3,8 @@ import {
   IActiveRow,
   RowStateTypes,
 } from "../components/Tables/TablesComponents/Interfaces/TableWrapperInterfaces";
-import { dateOptions } from "../components/Tables/TablesComponents/EditableBlock";
 import { useRouter } from "next/router";
+import { dateOptions } from "../components/Tables/TablesComponents/EditableBlock/Components/dateOptions";
 
 export const useTableWrapper = (
   rows: any[],

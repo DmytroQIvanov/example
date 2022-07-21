@@ -74,18 +74,21 @@ const TableRowComponent: React.FC<
     refetch,
   } = useQuery(NAME_SOURCE_SUBTYPE_QUERY, {
     variables: {
-      id: summaryObject.rowValues.name_source_type.name_source_type_id,
+      id: summaryObject.rowValues?.name_source_type?.name_source_type_id,
     },
-    skip: !summaryObject.rowValues.name_source_type.name_source_type_id,
+    skip: !summaryObject.rowValues?.name_source_type?.name_source_type_id,
   });
   useEffect(() => {
     if (summaryObject.rowValues.name_source_type)
       refetch({
-        id: summaryObject.rowValues.name_source_type.name_source_type_id,
+        id: summaryObject.rowValues?.name_source_type?.name_source_type_id,
       });
-  }, [summaryObject.rowValues.name_source_type]);
+  }, [summaryObject.rowValues?.name_source_type]);
 
   const { data: nameSourceType } = useQuery(NAME_SOURCE_TYPE_QUERY);
+  console.log(nameSourceType);
+  console.log(nameSourceType);
+  console.log(nameSourceTypeArray);
 
   useEffect(() => {
     nameSourceType?.name_source_type &&
@@ -149,6 +152,7 @@ const TableRowComponent: React.FC<
       <TableCell width={"230px"}>
         {EditableBlock({
           ...summaryObject,
+          type: "date",
           name: "date_first_known_valid",
         })}
       </TableCell>

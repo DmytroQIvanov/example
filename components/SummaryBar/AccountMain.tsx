@@ -3,6 +3,7 @@ import { gql, useMutation, useQuery } from "@apollo/client";
 import {
   Alert,
   Box,
+  Button,
   Collapse,
   Grid,
   LinearProgress,
@@ -16,13 +17,13 @@ import {
 import * as React from "react";
 
 import { ColorLabel } from "./ColorLabel";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import styles from "./styles.module.css";
 import { useRouter } from "next/router";
 import ReusableComponent from "./ReusableComponent";
 import ButtonsBlock from "./ButtonsBlock";
 import { CREATE_PERSON, PERSON_DATA } from "../../shemas/PersonGraphqlShemas";
-import { dateOptions } from "../Tables/TablesComponents/EditableBlock";
+import { dateOptions } from "../Tables/TablesComponents/EditableBlock/Components/dateOptions";
 
 const row1Title = {
   fname: "First Name",
@@ -146,6 +147,10 @@ const AccountMain = () => {
     delete router.query.state;
     router.push(router);
   };
+  const goTo1 = (path: string) => {
+    let href = path + `/${router.query.id}`;
+    router.push(href);
+  };
   useEffect(() => {
     if (router.query.state === "creating") {
       setCollapse(false);
@@ -199,6 +204,7 @@ const AccountMain = () => {
     data: personData,
     error,
     loading,
+    refetch,
   } = useQuery(PERSON_DATA, {
     skip: !router.query.id,
     variables: { pid: router.query.id },
@@ -210,7 +216,6 @@ const AccountMain = () => {
       });
     }
   }, [personData]);
-  console.log(personData);
 
   // const data = "";
   function handleChangeEvent(event: React.ChangeEvent<any>) {
@@ -244,7 +249,7 @@ const AccountMain = () => {
     setSubIndex(0);
   };
   const handleSubIndex = () => {
-    if (subIndex + 1 < data?.sample_person[index].user_accounts.length) {
+    if (subIndex + 1 < personDataState?.person_campuses?.length) {
       setSubIndex(subIndex + 1);
     } else {
       setSubIndex(0);
@@ -521,21 +526,6 @@ const AccountMain = () => {
                           name={"personType"}
                           type={"selectableList"}
                         />
-                        {/*{data?.sample_person[index].user_accounts.map(*/}
-                        {/*  (*/}
-                        {/*    { account_location }: { account_location?: Number },*/}
-                        {/*    key: number*/}
-                        {/*  ) => (*/}
-                        {/*    <>*/}
-                        {/*      {account_location}*/}
-                        {/*      {index <*/}
-                        {/*      data?.sample_person[index].user_accounts?.length -*/}
-                        {/*        1*/}
-                        {/*        ? ", "*/}
-                        {/*        : ""}*/}
-                        {/*    </>*/}
-                        {/*  )*/}
-                        {/*)}*/}
                       </TableCell>
                     </TableRow>
                   </TableBody>
@@ -611,7 +601,6 @@ const AccountMain = () => {
                 ))}
               </Box>
             </Box>
-            {/*///////////////*/}
             {personDataState?.person_campuses?.length >= 1 ? (
               <Box
                 sx={{
@@ -631,7 +620,7 @@ const AccountMain = () => {
                         >
                           <strong>{rowSubTitle.name}: </strong>
 
-                          {personDataState?.person_campuses[index].area.area}
+                          {personDataState?.person_campuses[subIndex].area.area}
                         </TableCell>
                       </TableRow>
                       <TableRow className={styles.tableRow}>
@@ -639,7 +628,7 @@ const AccountMain = () => {
                           style={{ paddingTop: 10, paddingBottom: 10 }}
                         >
                           <strong>{rowSubTitle.type}: </strong>
-                          {personDataState?.person_campuses[index].area.area}
+                          {personDataState?.person_campuses[subIndex].area.area}
                         </TableCell>
                       </TableRow>
                       <TableRow className={styles.tableRow}>
@@ -648,7 +637,7 @@ const AccountMain = () => {
                         >
                           <strong>{rowSubTitle.location}: </strong>
                           {
-                            personDataState?.person_campuses[index].area
+                            personDataState?.person_campuses[subIndex].area
                               .super_area.super_area
                           }
                         </TableCell>
@@ -658,7 +647,10 @@ const AccountMain = () => {
                           style={{ paddingTop: 10, paddingBottom: 10 }}
                         >
                           <strong>{rowSubTitle.activeDate}: </strong>
-                          {personDataState?.person_campuses[index].turfid}
+                          {personDataState?.person_campuses[subIndex]?.turfid}
+                          {/*{personDataState?.first_name}{" "}*/}
+                          {/*{personDataState?.middle_name}{" "}*/}
+                          {/*{personDataState?.last_name}*/}
                         </TableCell>
                       </TableRow>
                       <TableRow className={styles.tableRow}>
@@ -666,7 +658,7 @@ const AccountMain = () => {
                           style={{ paddingTop: 10, paddingBottom: 10 }}
                         >
                           <strong>{rowSubTitle.pmStatus}: </strong>
-                          {data?.sample_person[index].user_accounts[subIndex]
+                          {data?.sample_person[subIndex].user_accounts[subIndex]
                             ?.is_pm
                             ? "Yes"
                             : "No"}
@@ -677,7 +669,7 @@ const AccountMain = () => {
                           style={{ paddingTop: 10, paddingBottom: 10 }}
                         >
                           <strong>{rowSubTitle.canEmail}: </strong>
-                          {data?.sample_person[index].user_accounts[subIndex]
+                          {data?.sample_person[subIndex].user_accounts[subIndex]
                             ?.can_email
                             ? "Yes"
                             : "No"}
@@ -688,12 +680,18 @@ const AccountMain = () => {
                         <TableCell
                           style={{ paddingTop: 10, paddingBottom: 10 }}
                         >
-                          <strong>{rowSubTitle.dfkv}: </strong>
-                          <>
+                          <Box
+                            sx={{
+                              display: "flex",
+                              gap: "0px 20px",
+                              paddingBottom: "15px",
+                            }}
+                          >
+                            <strong>{rowSubTitle.dfkv}: </strong>
                             {(() => {
                               const date = new Date(
                                 personDataState?.person_campuses[
-                                  index
+                                  subIndex
                                 ]?.date_last_known_valid
                               );
                               return (
@@ -702,32 +700,52 @@ const AccountMain = () => {
                                 </>
                               );
                             })()}
-                          </>
+
+                            <Box
+                              sx={{
+                                textAlign: "right",
+                                m: "auto 0px auto auto",
+                                color: "#0400ff",
+                                cursor: "pointer",
+                              }}
+                              className={"disable-select"}
+                              onClick={() => handleSubIndex()}
+                            >
+                              {(() => {
+                                if (
+                                  personDataState?.person_campuses?.length == 1
+                                )
+                                  return (
+                                    <>
+                                      {personDataState?.person_campuses?.length}
+                                    </>
+                                  );
+                                return (
+                                  <>
+                                    {subIndex + 1} of{" "}
+                                    {personDataState?.person_campuses?.length}{" "}
+                                    &gt;
+                                  </>
+                                );
+                              })()}
+                            </Box>
+                          </Box>
+                          <Button
+                            style={{
+                              backgroundColor: "#6BAD43",
+                              height: "30px",
+                              fontSize: "14px",
+                            }}
+                            variant="contained"
+                            onClick={() => goTo1("/persondataentry/research/")}
+                          >
+                            Campus Data Entry
+                          </Button>
                         </TableCell>
                       </TableRow>
                     </TableBody>
                   </Table>
                 </TableContainer>
-                <Box
-                  sx={{
-                    textAlign: "center",
-                    paddingTop: "10px",
-                    paddingBottom: "10px",
-                    cursor: "pointer",
-                  }}
-                  onClick={() => handleSubIndex()}
-                >
-                  {(() => {
-                    if (personDataState?.person_campuses?.length == 1)
-                      return <>{personDataState?.person_campuses?.length}</>;
-                    return (
-                      <>
-                        {subIndex + 1} of{" "}
-                        {data?.sample_person[index].user_accounts?.length} &gt;
-                      </>
-                    );
-                  })()}
-                </Box>
               </Box>
             ) : (
               <Box

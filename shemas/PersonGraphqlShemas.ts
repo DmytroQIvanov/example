@@ -30,6 +30,7 @@ export const PERSON_DATA = gql`
             super_area
           }
         }
+        turfid
         is_pi
         date_last_known_valid
       }

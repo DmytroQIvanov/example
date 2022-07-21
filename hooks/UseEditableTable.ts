@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { IActiveRowObject } from "../components/Tables/TablesComponents/Interfaces/TableWrapperInterfaces";
-import { dateOptions } from "../components/Tables/TablesComponents/EditableBlock";
+import { dateOptions } from "../components/Tables/TablesComponents/EditableBlock/Components/dateOptions";
 
 export type rowStateTypes = "default" | "change" | "add";
 

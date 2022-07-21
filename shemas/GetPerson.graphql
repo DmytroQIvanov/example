@@ -413,3 +413,13 @@ mutation update_person_campus(
     date_marked_invalid
   }
 }
+
+query person_research_query($pid: Int!) {
+  person_research(where: { person_id: { _eq: $pid } }) {
+    person_research_id
+    person_id
+    date_researched
+    comments
+    created_by
+  }
+}

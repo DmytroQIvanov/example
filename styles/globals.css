@@ -30,6 +30,7 @@ a:hover {
   background: #134A90;
   color: white;
   z-index: 1000;
+  height: 65px;
 }
 .header .default-option {
   color: gray;

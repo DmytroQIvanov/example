@@ -11,10 +11,6 @@ import { HeadCell } from "../TablesComponents/Interfaces/HeadCell";
 import { useRouter } from "next/router";
 import { useMutation, useQuery } from "@apollo/client";
 import {
-  CHANGE_OTHER_NAME,
-  GET_OTHER_NAMES,
-} from "../../../shemas/OtherNamesShemas";
-import {
   DELETE_CAMPUS_TABLE,
   INSERT_PERSON_CAMPUS,
   PERSON_CAMPUS_QUERY,
@@ -108,6 +104,7 @@ const headCells: readonly HeadCell<IColumnsPersonEmploymentTable>[] = [
   {
     id: "turf",
     label: "Turf",
+    sortingBy: "turfid",
   },
   {
     id: "informationSource",
