@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
-import { BiLogOut } from "react-icons/bi";
 import { BsArrowRight } from "react-icons/bs";
-import { HiOutlineCog } from "react-icons/hi";
 import { UserButton, useUser } from "@clerk/nextjs";
 import { useRouter } from "next/router";
 

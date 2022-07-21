@@ -68,6 +68,14 @@ const EditableBlock: React.FC<propsBlockWithState> = (data) => {
     "date_marked_invalid",
   ];
 
+  const notEditableDate = [
+    "date_last_known_valid",
+    "date_first_known_valid",
+    "date_marked_invalid",
+    "date_researched",
+  ];
+  const createdBy = ["created_by"];
+
   // ---DISABLED STATE---
   const [disabledState, setDisabledState] = useState(false);
 
@@ -88,17 +96,24 @@ const EditableBlock: React.FC<propsBlockWithState> = (data) => {
       handleChange(name, "");
     }
     if (
-      activeRowObject.checkActiveRow(rowValues.id, "change") &&
-      !availableStateBoolean
-    )
-      setDisabledState(disableEditableArray.includes(name));
+      activeRowObject.checkActiveRow(rowValues.id, "change")
+      // !availableStateBoolean
+    ) {
+      if (
+        disableEditableArray.includes(name) ||
+        createdBy.includes(name) ||
+        notEditableDate.includes(name)
+      ) {
+        setDisabledState(true);
+      }
+    }
     if (editable) {
       setDisabledState(false);
     }
 
     // PUT FULL NAME ON THE ROW
     if (
-      name === "createdBy" &&
+      createdBy.includes(name) &&
       activeRowObject.checkActiveRow(rowValues.id, "add")
     ) {
       setDisabledState(true);
@@ -106,22 +121,12 @@ const EditableBlock: React.FC<propsBlockWithState> = (data) => {
     }
     // PUT DATE TO DFKV
     if (
-      (name === "dfkv" || name === "datefirstknownvalid") &&
+      notEditableDate.includes(name) &&
       activeRowObject.checkActiveRow(rowValues.id, "add")
     ) {
       const date = new Date();
       const pst = date.toLocaleString("en-US", dateOptions);
-
-      handleChange(name, `${pst}`);
-    }
-    // PUT DATE TO DFKV
-    if (
-      (name === "dlkv" || name === "datelastknownvalid") &&
-      activeRowObject.activeRow.number === rowValues.id &&
-      activeRowObject.activeRow.state === "add"
-    ) {
-      const date = new Date();
-      const pst = date.toLocaleString("en-US", dateOptions);
+      setDisabledState(true);
 
       handleChange(name, `${pst}`);
     }
@@ -162,10 +167,11 @@ const EditableBlock: React.FC<propsBlockWithState> = (data) => {
           <Dropdown {...{ ...data, disabledState, inputParams, styles }} />
         );
       case "date":
+        const date = new Date();
         return (
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <DatePicker
-              value={rowValues[name] || ""}
+              value={rowValues[name] || date}
               disabled={disabledState}
               onChange={(newValue) => {
                 const month = newValue.getUTCMonth() + 1;

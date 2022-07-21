@@ -46,7 +46,7 @@ export const Dropdown = ({
           event: any,
           newValue: { label: string | number; id: number | string } | null
         ) => {
-          if (!newValue) return;
+          if (!newValue || !name) return;
           if (idName) {
             handleChangeArray([
               { name, value: newValue.label },

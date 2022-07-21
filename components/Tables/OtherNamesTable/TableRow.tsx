@@ -152,6 +152,7 @@ const TableRowComponent: React.FC<
       <TableCell width={"230px"}>
         {EditableBlock({
           ...summaryObject,
+          type: "date",
           name: "date_first_known_valid",
         })}
       </TableCell>

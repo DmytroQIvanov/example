@@ -1,5 +1,5 @@
-import React, { MouseEventHandler, useState } from "react";
-import { Box, Button, LinearProgress } from "@mui/material";
+import React, { MouseEventHandler, useEffect, useState } from "react";
+import { Alert, Box, Button, Collapse, LinearProgress } from "@mui/material";
 import Paper from "@material-ui/core/Paper";
 import TableContainer from "@material-ui/core/TableContainer";
 import Table from "@material-ui/core/Table";
@@ -95,7 +95,7 @@ const Index: React.FC<ITableWrapperProps> = ({
 
   //TABLE HEAD
   function EnhancedTableHead(props: any) {
-    const { order, orderBy, onRequestSort, loading } = props;
+    const { order, orderBy, onRequestSort, loading, error } = props;
     const createSortHandler =
       (property: any) => (event: React.MouseEvent<unknown>) => {
         if (property == "options") return;
@@ -103,8 +103,26 @@ const Index: React.FC<ITableWrapperProps> = ({
         onRequestSort(event, property);
       };
 
+    // const [errorMessage, setErrorMessage] = useState(false);
+    // useEffect(() => {
+    //   if (error) setErrorMessage(true);
+    // }, [error]);
+    //
+    // useEffect(() => {
+    //   if (errorMessage) {
+    //     setTimeout(() => {
+    //       setAlertSuccessPopup(false);
+    //     }, 4000);
+    //   }
+    // }, [errorMessage]);
+
     return (
       <TableHead>
+        {/*<Collapse in={errorMessage}>*/}
+        {/*  <Alert onClose={() => setErrorMessage(false)}>*/}
+        {/*    The person was created successfully!*/}
+        {/*  </Alert>*/}
+        {/*</Collapse>*/}
         <TableRow>
           {props.headCells.map((headCell: any) => {
             let sortingBy = headCell?.sortingBy || headCell.id;

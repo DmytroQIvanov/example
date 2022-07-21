@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import TableBody from "@material-ui/core/TableBody";
 
 import {
@@ -8,6 +8,15 @@ import {
 import TableRowComponent from "./TableRow";
 import TableWrapper from "../TablesComponents/TableWrapper/Index";
 import { HeadCell } from "../TablesComponents/Interfaces/HeadCell";
+import { useRouter } from "next/router";
+import { useMutation, useQuery } from "@apollo/client";
+import { DELETE_CAMPUS_TABLE } from "../../../shemas/CampusShemas";
+import {
+  DELETE_PERSON_RESEARCH,
+  INSERT_PERSON_RESEARCH,
+  MUTATE_PERSON_RESEARCH,
+  PERSON_RESEARCH_QUERY,
+} from "../../../shemas/PersonResearch";
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -48,26 +57,26 @@ function stableSort<T>(
   return stabilizedThis.map((el) => el[0]);
 }
 
-const rows: IRowsPersonEmploymentTable[] = [
-  {
-    id: "1",
-    date: "01/01/2021",
-    createdBy: "John Doe",
-    comments:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-  },
-  {
-    id: "2",
-    date: "03/04/2022",
-    createdBy: "Olena",
-    comments:
-      "magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-  },
-];
+// const rows: IRowsPersonEmploymentTable[] = [
+//   {
+//     id: "1",
+//     date: "01/01/2021",
+//     createdBy: "John Doe",
+//     comments:
+//       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+//   },
+//   {
+//     id: "2",
+//     date: "03/04/2022",
+//     createdBy: "Olena",
+//     comments:
+//       "magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+//   },
+// ];
 
 const headCells: readonly HeadCell<IColumnsPersonEmploymentTable>[] = [
   {
-    id: "date",
+    id: "date_researched",
     label: "Date",
   },
   {
@@ -77,7 +86,7 @@ const headCells: readonly HeadCell<IColumnsPersonEmploymentTable>[] = [
     width: "400px",
   },
   {
-    id: "createdBy",
+    id: "created_by",
     label: "Created By",
   },
   {
@@ -89,7 +98,7 @@ const headCells: readonly HeadCell<IColumnsPersonEmploymentTable>[] = [
 const PersonResearchTable = () => {
   const [order, setOrder] = React.useState<Order>("asc");
   const [orderBy, setOrderBy] =
-    React.useState<keyof IRowsPersonEmploymentTable>("date");
+    React.useState<keyof IRowsPersonEmploymentTable>("id");
 
   const handleRequestSort = (
     _: any,
@@ -99,14 +108,81 @@ const PersonResearchTable = () => {
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
   };
-  const [tableElements, setTableElements] = useState(rows);
-  const onDelete = (id: string | undefined) => {
-    if (!id) return;
-    setTableElements(tableElements.filter((elem) => elem.id !== id));
+  // const [tableElements, setTableElements] = useState(rows);
+  // const onDelete = (id: string | undefined) => {
+  //   if (!id) return;
+  //   setTableElements(tableElements.filter((elem) => elem.id !== id));
+  // };
+
+  const [data, setData] = useState<any[]>([]);
+
+  const router = useRouter();
+  const {
+    data: personResearchTables,
+    error,
+    loading,
+    fetchMore,
+    refetch,
+  } = useQuery(PERSON_RESEARCH_QUERY, {
+    variables: { pid: router.query.id },
+    skip: !router.query.id,
+  });
+
+  useEffect(() => {
+    if (personResearchTables?.person_research)
+      setData(() =>
+        personResearchTables?.person_research.map((elem: any) => {
+          return {
+            id: elem.person_research_id,
+            ...elem,
+          };
+        })
+      );
+  }, [personResearchTables?.person_research]);
+
+  const [changeFunction, { loading: changeLoading }] = useMutation(
+    MUTATE_PERSON_RESEARCH
+  );
+
+  const [createFunction, { loading: createLoading, error: createError }] =
+    useMutation(INSERT_PERSON_RESEARCH);
+
+  const [deleteFunction, { loading: deleteLoading, error: deleteError }] =
+    useMutation(DELETE_PERSON_RESEARCH);
+
+  const onChangeFunction = (state: any) => {
+    alert(state.person_research_id);
+    changeFunction({
+      variables: {
+        id: state.person_research_id,
+        date: state.date_researched,
+        comments: state.comments || null,
+      },
+    });
+  };
+  const onCreateFunction = (state: any) => {
+    createFunction({
+      variables: {
+        pid: router.query.id,
+        date: state.date_researched,
+        created_by: state.created_by,
+        comments: state.comments || null,
+      },
+    });
+  };
+
+  const onDeleteFunction = (state: any) => {
+    if (!state.person_research_id) return;
+    deleteFunction({ variables: { id: state.person_research_id } });
   };
 
   return (
-    <TableWrapper rows={rows}>
+    <TableWrapper
+      rows={data}
+      onSaveFunction={onCreateFunction}
+      onChangeFunction={onChangeFunction}
+      deleteFunction={onDeleteFunction}
+    >
       {({
         EnhancedTableHead,
         stableSort,
@@ -125,6 +201,7 @@ const PersonResearchTable = () => {
             orderBy={orderBy}
             onRequestSort={handleRequestSort}
             headCells={headCells}
+            loading={changeLoading || createLoading || deleteLoading}
           />
           <TableBody>
             {/*@ts-ignore*/}

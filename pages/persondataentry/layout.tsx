@@ -1,4 +1,3 @@
-import { PersonDataEntrySideBar } from "../../components/SideBars/PersonDataEntrySideBar";
 import { PersonDataEntryHeader } from "../../components/Headers/PersonDataEntryHeader";
 import AccountMain from "../../components/SummaryBar/AccountMain";
 import BreadCrumb from "../../components/BreadCrumb";
@@ -8,6 +7,7 @@ import { BsFillPersonFill, BsPhoneFill } from "react-icons/bs";
 import { HiOutlineMailOpen } from "react-icons/hi";
 import { IoMdShare } from "react-icons/io";
 import { FaClipboardList, FaHome, FaMap, FaSuitcase } from "react-icons/fa";
+import { useState } from "react";
 
 export function Layout({
   children,
@@ -85,6 +85,7 @@ export function Layout({
     },
   ];
 
+  const [sideBarState, setSideBarState] = useState();
   return (
     <div className={classes.layout}>
       <SideBar options={arrowNavigation} title={"Person Data Entry"} />

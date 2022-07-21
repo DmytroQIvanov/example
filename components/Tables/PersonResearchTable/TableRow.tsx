@@ -10,7 +10,6 @@ import TableRowWrapper from "../TablesComponents/TableRowWrapper";
 import EditableBlock from "../TablesComponents/EditableBlock";
 import { UseEditableTable } from "../../../hooks/UseEditableTable";
 import OptionsBlock from "../TablesComponents/OptionsBlock";
-import { IActiveRowObject } from "../TablesComponents/Interfaces/TableWrapperInterfaces";
 import { ITableRowComponent } from "../TablesComponents/Interfaces/ITableRowComponent";
 
 const TableRowComponent: React.FC<
@@ -36,7 +35,9 @@ const TableRowComponent: React.FC<
       <TableCell component="th" scope="row" width={"300px"}>
         {EditableBlock({
           ...summaryObject,
-          name: "date",
+          name: "date_researched",
+          type: "date",
+          disabled: true,
         })}
       </TableCell>
       <TableCell component="th" scope="row" width={"500px"}>
@@ -50,7 +51,8 @@ const TableRowComponent: React.FC<
       <TableCell width={"200px"}>
         {EditableBlock({
           ...summaryObject,
-          name: "createdBy",
+          name: "created_by",
+          disabled: true,
         })}
       </TableCell>
       <TableCell width={"130px"}>
