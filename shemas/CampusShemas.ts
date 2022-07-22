@@ -27,6 +27,7 @@ export const PERSON_CAMPUS_QUERY = gql`
       }
       supress
       is_pi
+      summary
       date_first_known_valid
       date_last_known_valid
       date_marked_invalid
@@ -43,7 +44,7 @@ export const UPDATE_PERSON_CAMPUS = gql`
     $source: Int!
     $supress: Boolean
     $pi: Boolean = false
-    $comments: String = null
+    $summary: String = null
     $date: timestamp
   ) {
     update_person_campus_by_pk(
@@ -55,7 +56,7 @@ export const UPDATE_PERSON_CAMPUS = gql`
         information_source_id: $source
         supress: $supress
         is_pi: $pi
-        summary: $comments
+        summary: $summary
         date_last_known_valid: $date
       }
     ) {
@@ -94,9 +95,9 @@ export const INSERT_PERSON_CAMPUS = gql`
     $area: Int = null
     $turf: Int = null
     $source: Int!
-    $suppress: Boolean = false
+    $supress: Boolean = false
     $pi: Boolean = false
-    $comments: String = null
+    $summary: String = null
   ) {
     insert_person_campus_one(
       object: {
@@ -104,9 +105,9 @@ export const INSERT_PERSON_CAMPUS = gql`
         area_id: $area
         turfid: $turf
         information_source_id: $source
-        supress: $suppress
+        supress: $supress
         is_pi: $pi
-        summary: $comments
+        summary: $summary
         person_id: $pid
       }
     ) {

@@ -168,6 +168,8 @@ const PersonResearchTable = () => {
         created_by: state.created_by,
         comments: state.comments || null,
       },
+    }).then(() => {
+      refetch();
     });
   };
 

@@ -70,3 +70,46 @@ export const CREATE_PERSON = gql`
     }
   }
 `;
+
+export const UPDATE_PERSON = gql`
+  mutation update_person(
+    $pid: Int!
+    $first_name: String
+    $middle_name: String
+    $last_name: String
+    $nick_name: String
+    $suffix: String
+    $employee_id: String
+    $persontype: Int
+    $date_modified: timestamp
+  ) {
+    update_person_by_pk(
+      pk_columns: { person_id: $pid }
+      _set: {
+        first_name: $first_name
+        middle_names: $middle_name
+        last_name: $last_name
+        nick_name: $nick_name
+        suffix: $suffix
+        employee_id: $employee_id
+        person_type_id: $persontype
+        date_modified: $date_modified
+      }
+    ) {
+      person_id
+      first_name
+      middle_names
+      last_name
+      nick_name
+      suffix
+      employee_id
+      person_type {
+        id
+        person_type
+      }
+      date_added
+      date_modified
+      modified_by
+    }
+  }
+`;

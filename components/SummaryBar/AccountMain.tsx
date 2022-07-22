@@ -22,7 +22,11 @@ import styles from "./styles.module.css";
 import { useRouter } from "next/router";
 import ReusableComponent from "./ReusableComponent";
 import ButtonsBlock from "./ButtonsBlock";
-import { CREATE_PERSON, PERSON_DATA } from "../../shemas/PersonGraphqlShemas";
+import {
+  CREATE_PERSON,
+  PERSON_DATA,
+  UPDATE_PERSON,
+} from "../../shemas/PersonGraphqlShemas";
 import { dateOptions } from "../Tables/TablesComponents/EditableBlock/Components/dateOptions";
 
 const row1Title = {
@@ -138,6 +142,9 @@ const AccountMain = () => {
 
   const [mutateFunction, { loading: creatingLoading }] =
     useMutation(CREATE_PERSON);
+
+  const [updateFunction, { loading: updatingLoading }] =
+    useMutation(UPDATE_PERSON);
   const goTo = (id: string) => {
     if (router.pathname.includes("[id]")) {
       router.pathname = router.pathname.replace("[id]", id);
@@ -199,6 +206,27 @@ const AccountMain = () => {
       setAlertErrorPopup(true);
     }
   };
+  const onUpdateUser = () => {
+    if (state.first_name && state.last_name) {
+      console.log(state);
+      updateFunction({ variables: { ...state, pid: router.query.id } })
+        .then((data) => {
+          setAlertSuccessPopup(true);
+          setTimeout(() => {
+            // goTo(data.data.insert_person.returning[0].person_id);
+            setEditStatus(0);
+            refetch();
+            // setState(initialObject);
+          }, 3000);
+        })
+        .catch((error) => {
+          console.log(error);
+          setAlertErrorPopup(true);
+        });
+    } else {
+      setAlertErrorPopup(true);
+    }
+  };
 
   const {
     data: personData,
@@ -217,7 +245,6 @@ const AccountMain = () => {
     }
   }, [personData]);
 
-  // const data = "";
   function handleChangeEvent(event: React.ChangeEvent<any>) {
     const { name, value } = event.target;
     setState({
@@ -263,6 +290,7 @@ const AccountMain = () => {
   };
 
   const onSave = () => {
+    onUpdateUser();
     setPersonDataState(state);
     setEditStatus(0);
   };
@@ -620,7 +648,10 @@ const AccountMain = () => {
                         >
                           <strong>{rowSubTitle.name}: </strong>
 
-                          {personDataState?.person_campuses[subIndex].area.area}
+                          {
+                            personDataState?.person_campuses[subIndex]?.area
+                              ?.area
+                          }
                         </TableCell>
                       </TableRow>
                       <TableRow className={styles.tableRow}>
@@ -628,7 +659,10 @@ const AccountMain = () => {
                           style={{ paddingTop: 10, paddingBottom: 10 }}
                         >
                           <strong>{rowSubTitle.type}: </strong>
-                          {personDataState?.person_campuses[subIndex].area.area}
+                          {
+                            personDataState?.person_campuses[subIndex]?.area
+                              ?.area
+                          }
                         </TableCell>
                       </TableRow>
                       <TableRow className={styles.tableRow}>
@@ -637,8 +671,8 @@ const AccountMain = () => {
                         >
                           <strong>{rowSubTitle.location}: </strong>
                           {
-                            personDataState?.person_campuses[subIndex].area
-                              .super_area.super_area
+                            personDataState?.person_campuses[subIndex]?.area
+                              ?.super_area?.super_area
                           }
                         </TableCell>
                       </TableRow>
