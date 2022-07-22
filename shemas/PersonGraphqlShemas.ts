@@ -17,6 +17,10 @@ export const PERSON_DATA = gql`
       date_marked_invalid
       date_added
       cohort
+      person_type {
+        id
+        person_type
+      }
       person_campuses {
         campus {
           campus_id
@@ -43,18 +47,20 @@ export const CREATE_PERSON = gql`
     $first_name: String!
     $middle_names: String
     $last_name: String!
-    $nickname: String
+    $nick_name: String
     $suffix: String
     $employee_id: String
+    $person_type: Int
   ) {
     insert_person(
       objects: {
         first_name: $first_name
         middle_names: $middle_names
         last_name: $last_name
-        nick_name: $nickname
+        nick_name: $nick_name
         suffix: $suffix
         employee_id: $employee_id
+        person_type_id: $person_type
       }
     ) {
       returning {
@@ -75,25 +81,27 @@ export const UPDATE_PERSON = gql`
   mutation update_person(
     $pid: Int!
     $first_name: String
-    $middle_name: String
+    $middle_names: String
     $last_name: String
     $nick_name: String
     $suffix: String
     $employee_id: String
-    $persontype: Int
+    $person_type: Int
     $date_modified: timestamp
-  ) {
+  ) #    $changed_by: String
+  {
     update_person_by_pk(
       pk_columns: { person_id: $pid }
       _set: {
         first_name: $first_name
-        middle_names: $middle_name
+        middle_names: $middle_names
         last_name: $last_name
         nick_name: $nick_name
         suffix: $suffix
         employee_id: $employee_id
-        person_type_id: $persontype
+        person_type_id: $person_type
         date_modified: $date_modified
+        #        changed_by: $changed_by
       }
     ) {
       person_id
@@ -102,6 +110,7 @@ export const UPDATE_PERSON = gql`
       last_name
       nick_name
       suffix
+      #      changed_by
       employee_id
       person_type {
         id
@@ -110,6 +119,15 @@ export const UPDATE_PERSON = gql`
       date_added
       date_modified
       modified_by
+    }
+  }
+`;
+
+export const PERSON_TYPE_QUERY = gql`
+  query person_type_query {
+    person_type {
+      id
+      person_type
     }
   }
 `;
