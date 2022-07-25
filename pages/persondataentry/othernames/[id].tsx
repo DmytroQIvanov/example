@@ -18,7 +18,7 @@ export default function Index() {
     fetchMore,
     refetch,
   } = useQuery(GET_OTHER_NAMES, {
-    variables: { pid: 1 },
+    variables: { pid: router.query.id  },
     skip: !router.query.id,
   });
 
