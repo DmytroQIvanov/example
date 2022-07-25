@@ -86,9 +86,6 @@ const TableRowComponent: React.FC<
   }, [summaryObject.rowValues?.name_source_type]);
 
   const { data: nameSourceType } = useQuery(NAME_SOURCE_TYPE_QUERY);
-  console.log(nameSourceType);
-  console.log(nameSourceType);
-  console.log(nameSourceTypeArray);
 
   useEffect(() => {
     nameSourceType?.name_source_type &&

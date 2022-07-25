@@ -197,7 +197,7 @@ const TableRowComponent: React.FC<
       <TableCell width={"400px"}>
         {EditableBlock({
           ...summaryObject,
-          name: "area.comments",
+          name: "summary",
           multiline: 6,
           width: 100,
         })}

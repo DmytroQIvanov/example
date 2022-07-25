@@ -22,8 +22,14 @@ import styles from "./styles.module.css";
 import { useRouter } from "next/router";
 import ReusableComponent from "./ReusableComponent";
 import ButtonsBlock from "./ButtonsBlock";
-import { CREATE_PERSON, PERSON_DATA } from "../../shemas/PersonGraphqlShemas";
+import {
+  CREATE_PERSON,
+  PERSON_DATA,
+  PERSON_TYPE_QUERY,
+  UPDATE_PERSON,
+} from "../../shemas/PersonGraphqlShemas";
 import { dateOptions } from "../Tables/TablesComponents/EditableBlock/Components/dateOptions";
+import { PERSON_RESEARCH_QUERY } from "../../shemas/PersonResearch";
 
 const row1Title = {
   fname: "First Name",
@@ -77,11 +83,12 @@ interface valuesTypes {
   first_name: string | undefined;
   middle_names: string | undefined;
   last_name: string | undefined;
-  nickname: string | undefined;
+  nick_name: string | undefined;
   suffix: string | undefined;
   nameSourceType: string | undefined;
   person_id: string | undefined;
   employee_id: string | undefined;
+  person_type: { id: string; person_type: string };
   person_campuses: {
     area: {
       area_id: number;
@@ -96,6 +103,7 @@ interface valuesTypes {
     date_last_known_valid: string;
   }[];
 }
+// middle_names
 
 const initialObject = {
   first_name: "",
@@ -107,6 +115,7 @@ const initialObject = {
   person_id: "",
   employee_id: "",
   person_campuses: [],
+  person_type: { id: null, person_type: "" },
 };
 
 const AccountMain = () => {
@@ -136,8 +145,12 @@ const AccountMain = () => {
 
   const router = useRouter();
 
-  const [mutateFunction, { loading: creatingLoading }] =
+  const [mutateFunction, { loading: creatingLoading, error: creatingError }] =
     useMutation(CREATE_PERSON);
+  console.log(creatingError);
+
+  const [updateFunction, { loading: updatingLoading }] =
+    useMutation(UPDATE_PERSON);
   const goTo = (id: string) => {
     if (router.pathname.includes("[id]")) {
       router.pathname = router.pathname.replace("[id]", id);
@@ -183,7 +196,9 @@ const AccountMain = () => {
   const onCreateUser = () => {
     if (state.first_name && state.last_name) {
       console.log(state);
-      mutateFunction({ variables: state })
+      mutateFunction({
+        variables: { ...state, person_type: state.person_type.id },
+      })
         .then((data) => {
           setAlertSuccessPopup(true);
           setTimeout(() => {
@@ -192,12 +207,42 @@ const AccountMain = () => {
             setState(initialObject);
           }, 3000);
         })
-        .catch(() => {
+        .catch((e) => {
+          console.log(e);
           setAlertErrorPopup(true);
         });
     } else {
       setAlertErrorPopup(true);
     }
+  };
+  const onUpdateUser = () => {
+    // if (state.first_name && state.last_name) {
+    console.log(state);
+    updateFunction({
+      variables: {
+        ...state,
+        // first_name: state.first_name,
+        // changed_by: "Dmytro",
+        pid: router.query.id,
+        person_type: state.person_type.id,
+      },
+    })
+      .then((data) => {
+        setAlertSuccessPopup(true);
+        setTimeout(() => {
+          // goTo(data.data.insert_person.returning[0].person_id);
+          setEditStatus(0);
+          refetch();
+          // setState(initialObject);
+        }, 3000);
+      })
+      .catch((error) => {
+        console.log(error);
+        setAlertErrorPopup(true);
+      });
+    // } else {
+    //   setAlertErrorPopup(true);
+    // }
   };
 
   const {
@@ -217,7 +262,18 @@ const AccountMain = () => {
     }
   }, [personData]);
 
-  // const data = "";
+  const { data: personTypeData } = useQuery(PERSON_TYPE_QUERY);
+
+  const [personTypeArray, setPersonTypeArray] = useState<any[]>([]);
+  useEffect(() => {
+    personTypeData?.person_type &&
+      setPersonTypeArray(
+        personTypeData?.person_type.map((elem: any) => {
+          return { label: elem.person_type, id: elem.id };
+        })
+      );
+  }, [personTypeData]);
+
   function handleChangeEvent(event: React.ChangeEvent<any>) {
     const { name, value } = event.target;
     setState({
@@ -232,6 +288,68 @@ const AccountMain = () => {
       [name]: text.toString(),
     });
   }
+
+  const func3 = (
+    data: {
+      prevState: any;
+      value: any;
+      name: string;
+    }[]
+  ) => {
+    let object = data[0].prevState;
+    console.log(data[0]);
+
+    data.forEach(({ prevState, value, name }) => {
+      const result = name.toString().split(".");
+      if (result.length === 2) {
+        object = {
+          ...object,
+          [result[0]]: { ...object[result[0]], [result[1]]: value },
+        };
+      } else if (result.length === 3) {
+        object = {
+          ...object,
+          [result[0]]: {
+            ...object[result[0]],
+            [result[1]]: {
+              ...object[result[0]][result[1]],
+              [result[2]]: value,
+            },
+          },
+        };
+        console.log("object", object);
+      } else {
+        object = { ...object, [name]: value };
+      }
+    });
+    console.log("object2", object);
+    return object;
+  };
+
+  const handleChangeArray = (
+    data: {
+      name: string;
+      value: string | number | boolean | Date;
+    }[]
+  ) => {
+    setState((prevState: any) => {
+      console.log("///");
+      console.log(prevState);
+      console.log(
+        func3(
+          data.map((elem) => {
+            return { ...elem, prevState };
+          })
+        )
+      );
+      return func3(
+        data.map((elem) => {
+          return { ...elem, prevState };
+        })
+      );
+      // return prevState;
+    });
+  };
 
   const { data } = useQuery(PERSON_DATA);
 
@@ -263,6 +381,7 @@ const AccountMain = () => {
   };
 
   const onSave = () => {
+    onUpdateUser();
     setPersonDataState(state);
     setEditStatus(0);
   };
@@ -291,11 +410,12 @@ const AccountMain = () => {
 
   const reusableComponentObject = {
     editStatus,
-    personDataState,
+    personDataState: state,
     editableState: state,
     handleChangeEvent,
     handleChange,
     loading,
+    handleChangeArray,
   };
 
   const buttonsBlockObject = {
@@ -308,6 +428,8 @@ const AccountMain = () => {
     onCreateUser,
   };
 
+  console.log(personData);
+  console.log(personTypeArray);
   return (
     <Box
       sx={{
@@ -368,7 +490,7 @@ const AccountMain = () => {
                     />
                     <ReusableComponent
                       {...reusableComponentObject}
-                      name={"nickname"}
+                      name={"nick_name"}
                     />
                   </TableCell>
                   <TableCell>
@@ -465,7 +587,7 @@ const AccountMain = () => {
                   <TableCell>
                     <ReusableComponent
                       {...reusableComponentObject}
-                      name={"nickname"}
+                      name={"nick_name"}
                     />
                   </TableCell>
                   <TableCell>
@@ -475,11 +597,13 @@ const AccountMain = () => {
                     />
                   </TableCell>
                   <TableCell>
-                    <ReusableComponent
-                      {...reusableComponentObject}
-                      name={"nameSourceType"}
-                      type={"selectableList"}
-                    />
+                    {/*<ReusableComponent*/}
+                    {/*  {...reusableComponentObject}*/}
+                    {/*  name={"person_type"}*/}
+                    {/*  idName={"person_type_id"}*/}
+                    {/*  type={"selectableList"}*/}
+                    {/*  list={personTypeArray}*/}
+                    {/*/>*/}
                   </TableCell>
                 </TableRow>
               </TableBody>
@@ -523,8 +647,10 @@ const AccountMain = () => {
                       <TableCell width={"200px"}>
                         <ReusableComponent
                           {...reusableComponentObject}
-                          name={"personType"}
+                          name={"person_type.person_type"}
+                          idName={"person_type.id"}
                           type={"selectableList"}
+                          list={personTypeArray}
                         />
                       </TableCell>
                     </TableRow>
@@ -620,7 +746,10 @@ const AccountMain = () => {
                         >
                           <strong>{rowSubTitle.name}: </strong>
 
-                          {personDataState?.person_campuses[subIndex].area.area}
+                          {
+                            personDataState?.person_campuses[subIndex]?.area
+                              ?.area
+                          }
                         </TableCell>
                       </TableRow>
                       <TableRow className={styles.tableRow}>
@@ -628,7 +757,10 @@ const AccountMain = () => {
                           style={{ paddingTop: 10, paddingBottom: 10 }}
                         >
                           <strong>{rowSubTitle.type}: </strong>
-                          {personDataState?.person_campuses[subIndex].area.area}
+                          {
+                            personDataState?.person_campuses[subIndex]?.area
+                              ?.area
+                          }
                         </TableCell>
                       </TableRow>
                       <TableRow className={styles.tableRow}>
@@ -637,8 +769,8 @@ const AccountMain = () => {
                         >
                           <strong>{rowSubTitle.location}: </strong>
                           {
-                            personDataState?.person_campuses[subIndex].area
-                              .super_area.super_area
+                            personDataState?.person_campuses[subIndex]?.area
+                              ?.super_area?.super_area
                           }
                         </TableCell>
                       </TableRow>

@@ -208,7 +208,7 @@ const CampusTable = () => {
         source: state.information_source_type.information_source_type_id,
         supress: Boolean(state.supress),
         pi: Boolean(state.is_pi),
-        comments: state.area.comments || null,
+        summary: state.summary || null,
       },
     });
   };
@@ -224,8 +224,10 @@ const CampusTable = () => {
         source: state.information_source_type.information_source_type_id,
         supress: Boolean(state.supress),
         pi: Boolean(state.is_pi),
-        comments: state.area.comments || null,
+        summary: state.summary || null,
       },
+    }).then(() => {
+      refetch();
     });
   };
 

@@ -17,7 +17,7 @@ export const useTableWrapper = (
 
   const router = useRouter();
   useEffect(() => {
-    let result = rows.map((elem) => {
+    let result = rows?.map((elem) => {
       console.log(elem);
       let result = elem;
       for (const field in elem) {

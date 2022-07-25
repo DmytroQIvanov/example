@@ -423,3 +423,164 @@ query person_research_query($pid: Int!) {
     created_by
   }
 }
+mutation insert_person_campus(
+  $pid: Int!
+  $campus: Int!
+  $area: Int = null
+  $turf: Int = null
+  $source: Int!
+  $supress: Boolean = false
+  $pi: Boolean = false
+  $comments: String = null
+) {
+  insert_person_campus_one(
+    object: {
+      campus_id: $campus
+      area_id: $area
+      turfid: $turf
+      information_source_id: $source
+      supress: $supress
+      is_pi: $pi
+      summary: $comments
+      person_id: $pid
+    }
+  ) {
+    person_campus_id
+    campus {
+      campus_id
+      campus_name
+    }
+    area {
+      area_id
+      area
+      super_area {
+        super_area_id
+        super_area
+      }
+    }
+    turfid
+    information_source_type {
+      information_source_type_id
+      information_source_type
+    }
+    is_pi
+    summary
+    date_first_known_valid
+    date_last_known_valid
+    date_marked_invalid
+    person_id
+  }
+}
+
+query person_campus_query($pid: Int!) {
+  person_campus(where: { person_id: { _eq: $pid } }) {
+    person_id
+    person_campus_id
+    campus {
+      campus_id
+      campus_name
+    }
+    area {
+      area_id
+      area
+      campus_id
+      super_area {
+        super_area_id
+        super_area
+        campus_id
+      }
+      comments
+    }
+    turfid
+    information_source_type {
+      information_source_type_id
+      information_source_type
+    }
+    supress
+    is_pi
+    date_first_known_valid
+    date_last_known_valid
+    date_marked_invalid
+    summary
+  }
+}
+
+mutation update_person(
+  $pid:String
+  $first_name: String
+  $middle_names: String
+  $last_name: String
+  $nickname: String
+  $suffix: String
+  $employee_id: String
+) {
+  update_person(
+    objects: {
+      pid:$pid
+      first_name: $first_name
+      middle_names: $middle_names
+      last_name: $last_name
+      nick_name: $nickname
+      suffix: $suffix
+      employee_id: $employee_id
+    }
+  ) {
+    returning {
+      first_name
+      middle_names
+      last_name
+      nick_name
+      suffix
+      modified_by
+      employee_id
+      person_id
+    }
+  }
+}
+
+mutation update_person(
+  $pid: Int!
+  $first_name: String
+  $middle_name: String
+  $last_name: String
+  $nick_name: String
+  $suffix: String
+  $employee_id: String
+  $persontype: Int
+  $date_modified: timestamp
+) {
+  update_person_by_pk(
+    pk_columns: { person_id: $pid }
+    _set: {
+      first_name: $first_name
+      middle_names: $middle_name
+      last_name: $last_name
+      nick_name: $nick_name
+      suffix: $suffix
+      employee_id: $employee_id
+      person_type_id: $persontype
+      date_modified: $date_modified
+    }
+  ) {
+    person_id
+    first_name
+    middle_names
+    last_name
+    nick_name
+    suffix
+    employee_ida
+    person_type {
+      id
+      person_type
+    }
+    date_added
+    date_modified
+    modified_by
+  }
+}
+query person_type_query {
+  person_type {
+    id
+    person_type
+  }
+}
