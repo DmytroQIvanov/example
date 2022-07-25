@@ -24,7 +24,8 @@ export function PersonDataEntryHeader() {
   };
   return (
     <>
-      <div className="header_container" />
+      <div className="header_container"> </div>
+
       <div className="header">
         <Box>
           <Grid container>

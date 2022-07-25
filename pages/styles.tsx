@@ -5,9 +5,8 @@ const useStyles = makeStyles(() => ({
     display: "flex",
   },
   content: {
-    overflow: "auto",
+    overflow: "clip",
     width: "100%",
-    // height: "100vh",
   },
   actions: {
     position: "absolute",
