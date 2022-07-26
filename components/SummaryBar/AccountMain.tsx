@@ -414,7 +414,7 @@ const AccountMain = () => {
     editableState: state,
     handleChangeEvent,
     handleChange,
-    loading,
+    loading: fetchLoading,
     handleChangeArray,
   };
 
@@ -890,7 +890,7 @@ const AccountMain = () => {
                   display: "flex",
                 }}
               >
-                {loading ? (
+                {fetchLoading ? (
                   <Box sx={{ m: "auto", fontWeight: 600, color: "black" }}>
                     <span>Loading...</span>
                   </Box>
