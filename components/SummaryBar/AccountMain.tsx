@@ -248,7 +248,7 @@ const AccountMain = () => {
   const {
     data: personData,
     error,
-    loading,
+    loading: fetchLoading,
     refetch,
   } = useQuery(PERSON_DATA, {
     skip: !router.query.id,
@@ -536,7 +536,7 @@ const AccountMain = () => {
       ) : (
         <>
           <TableContainer sx={{ position: "relative" }}>
-            {(loading || creatingLoading) && (
+            {(fetchLoading || creatingLoading || updatingLoading) && (
               <Box sx={{ position: "absolute", width: "100%" }}>
                 <LinearProgress />
               </Box>
