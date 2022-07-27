@@ -9,7 +9,7 @@ import TableRowWrapper from "../TablesComponents/TableRowWrapper";
 //INTERFACES
 import { IRowsPersonEmploymentTable } from "./interfaces";
 import { ITableRowComponent } from "../TablesComponents/Interfaces/ITableRowComponent";
-import { INFORMATION_SOURCE_QUERY } from "../../../shemas/CommonTableShemas";
+import { INFORMATION_SOURCE_QUERY } from "../../../schemas/CommonTableSchemas";
 import { useMutation, useQuery } from "@apollo/client";
 import {
   AREA_QUERY,
@@ -17,7 +17,7 @@ import {
   INVALIDATE_CAMPUS_TABLE,
   SUPER_AREA_QUERY,
   VALIDATE_CAMPUS_TABLE,
-} from "../../../shemas/CampusShemas";
+} from "../../../schemas/CampusSchemas";
 
 const TableRowComponent: React.FC<
   ITableRowComponent<IRowsPersonEmploymentTable>

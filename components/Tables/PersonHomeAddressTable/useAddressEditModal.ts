@@ -5,7 +5,7 @@ import {
   CREATE_HOME_ADDRESS,
   INFORMATION_SOURCES_LIST,
   UPDATE_HOME_ADDRESS,
-} from "../../../shemas/HomeAddressShemas";
+} from "../../../schemas/HomeAddressSchemas";
 import { useRouter } from "next/router";
 import { RowStateTypes } from "../TablesComponents/Interfaces/TableWrapperInterfaces";
 

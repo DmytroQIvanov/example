@@ -17,12 +17,12 @@ import {
   NAME_SOURCE_SUBTYPE_QUERY,
   NAME_SOURCE_TYPE_QUERY,
   VALIDATE_OTHER_NAME,
-} from "../../../shemas/OtherNamesShemas";
+} from "../../../schemas/OtherNamesSchemas";
 import { useRouter } from "next/router";
 import {
   CHANGE_DATE_LAST_KNOWN_VALID,
   HOME_ADDRESS_DMI_NULL,
-} from "../../../shemas/HomeAddressShemas";
+} from "../../../schemas/HomeAddressSchemas";
 
 const TableRowComponent: React.FC<
   ITableRowComponent<IRowsPersonEmploymentTable>

@@ -10,6 +10,7 @@ import { HiOutlineMailOpen } from "react-icons/hi";
 import { IoMdShare } from "react-icons/io";
 import { FaClipboardList, FaHome, FaMap, FaSuitcase } from "react-icons/fa";
 import { OrganizationHeader } from "../../components/Headers/OrganizationHeader";
+import BuildingSummary from "../../components/BuildingSummary/BuildingSummary";
 const arrowNavigation = [
   {
     link: "/locationsdataentry/building",
@@ -31,13 +32,12 @@ export function Layout({
     <div className={classes.layout}>
       <SideBar options={arrowNavigation} title={"Organization Data Entry"} />
       <div className={classes.content}>
-        {/*<LocationDataEntryHeader />*/}
         <LocationDataEntryHeader />
         <Grid sx={{ padding: "20px 100px" }}>
-          <Configuration />
+          <BuildingSummary/>
         </Grid>
         <BreadCrumb
-          breadcrumbs={["Organization Data Entry", breadcrumb]}
+          breadcrumbs={["Location Data Entry", breadcrumb]}
           icon={<FaSuitcase className="react-icon" />}
         />
         <main>{children}</main>

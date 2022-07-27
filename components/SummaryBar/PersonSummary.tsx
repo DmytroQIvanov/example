@@ -27,9 +27,9 @@ import {
   PERSON_DATA,
   PERSON_TYPE_QUERY,
   UPDATE_PERSON,
-} from "../../shemas/PersonGraphqlShemas";
+} from "../../schemas/PersonGraphqlShcemas";
 import { dateOptions } from "../Tables/TablesComponents/EditableBlock/Components/dateOptions";
-import { PERSON_RESEARCH_QUERY } from "../../shemas/PersonResearch";
+import { PERSON_RESEARCH_QUERY } from "../../schemas/PersonResearch";
 
 const row1Title = {
   fname: "First Name",
@@ -90,6 +90,9 @@ interface valuesTypes {
   employee_id: string | undefined;
   person_type: { id: string; person_type: string };
   person_campuses: {
+    campus: {
+      campus_name: string;
+    }
     area: {
       area_id: number;
       area: string;
@@ -118,7 +121,7 @@ const initialObject = {
   person_type: { id: null, person_type: "" },
 };
 
-const AccountMain = () => {
+const PersonSummary = () => {
   const [index, setIndex] = useState(0);
   const [subIndex, setSubIndex] = useState(0);
   const [editStatus, setEditStatus] = useState(0);
@@ -260,7 +263,7 @@ const AccountMain = () => {
         ...personData?.person[0],
       });
     }
-  }, [personData]);
+  }, [error, personData]);
 
   const { data: personTypeData } = useQuery(PERSON_TYPE_QUERY);
 
@@ -747,8 +750,8 @@ const AccountMain = () => {
                           <strong>{rowSubTitle.name}: </strong>
 
                           {
-                            personDataState?.person_campuses[subIndex]?.area
-                              ?.area
+                            personDataState?.person_campuses[subIndex]?.campus
+                              ?.campus_name
                           }
                         </TableCell>
                       </TableRow>
@@ -975,4 +978,4 @@ const AccountMain = () => {
   );
 };
 
-export default AccountMain;
+export default PersonSummary;

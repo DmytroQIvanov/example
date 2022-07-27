@@ -1,5 +1,5 @@
 import { PersonDataEntryHeader } from "../../components/Headers/PersonDataEntryHeader";
-import AccountMain from "../../components/SummaryBar/AccountMain";
+import PersonSummary from "../../components/SummaryBar/PersonSummary";
 import BreadCrumb from "../../components/BreadCrumb";
 import useStyles from "../styles";
 import SideBar from "../components/SideBar";
@@ -92,7 +92,7 @@ export function Layout({
 
       <div className={classes.content}>
         <PersonDataEntryHeader />
-        <AccountMain />
+        <PersonSummary />
         <BreadCrumb breadcrumbs={["Person Data Entry", breadcrumb]} />
         <main>{children}</main>
       </div>

@@ -5,7 +5,7 @@ import PersonHomeAddressTable from "../../../components/Tables/PersonHomeAddress
 import { Layout } from "../layout";
 import useStyles from "../../styles";
 import { useQuery } from "@apollo/client";
-import { HOME_ADDRESS_TABLE } from "../../../shemas/HomeAddressShemas";
+import { HOME_ADDRESS_TABLE } from "../../../schemas/HomeAddressSchemas";
 import { useRouter } from "next/router";
 import { Button } from "@mui/material";
 
