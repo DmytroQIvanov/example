@@ -95,7 +95,7 @@ const Index: React.FC<ITableWrapperProps> = ({
 
   //TABLE HEAD
   function EnhancedTableHead(props: any) {
-    const { order, orderBy, onRequestSort, loading, error } = props;
+    const { order, orderBy, onRequestSort, loading, error, success } = props;
     const createSortHandler =
       (property: any) => (event: React.MouseEvent<unknown>) => {
         if (property == "options") return;
@@ -116,13 +116,38 @@ const Index: React.FC<ITableWrapperProps> = ({
     //   }
     // }, [errorMessage]);
 
+    // const [successMessage, setSuccessMessage] = useState(false);
+    // useEffect(() => {
+    //   if (success.successMessage) setSuccessMessage(true);
+    // }, [success.successMessage]);
+
+    useEffect(() => {
+      if (success?.successAlert) {
+        setTimeout(() => {
+          success.setSuccessAlert && success.setSuccessAlert(false);
+        }, 4000);
+      }
+    }, [success?.successAlert]);
+
     return (
       <TableHead>
-        {/*<Collapse in={errorMessage}>*/}
-        {/*  <Alert onClose={() => setErrorMessage(false)}>*/}
-        {/*    The person was created successfully!*/}
-        {/*  </Alert>*/}
-        {/*</Collapse>*/}
+        <Box
+          sx={{
+            position: "fixed",
+            right: "20px",
+            top: "85px",
+            zIndex: "1000",
+          }}
+        >
+          {/*<Collapse in={error.errorAlert}>*/}
+          {/*  <Alert onClose={() => setErrorMessage(false)}>Something</Alert>*/}
+          {/*</Collapse>*/}
+          <Collapse in={success?.successAlert || false}>
+            <Alert onClose={() => success?.setSuccessAlert(false)}>
+              The row was created successfully!
+            </Alert>
+          </Collapse>
+        </Box>
         <TableRow>
           {props.headCells.map((headCell: any) => {
             let sortingBy = headCell?.sortingBy || headCell.id;

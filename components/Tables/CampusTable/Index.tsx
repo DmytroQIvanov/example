@@ -148,7 +148,7 @@ const headCells: readonly HeadCell<IColumnsPersonEmploymentTable>[] = [
 const CampusTable = () => {
   const [order, setOrder] = React.useState<Order>("asc");
   const [orderBy, setOrderBy] =
-    React.useState<keyof IRowsPersonEmploymentTable>("campus");
+    React.useState<keyof IRowsPersonEmploymentTable>("id");
 
   const handleRequestSort = (
     _: any,
@@ -160,6 +160,7 @@ const CampusTable = () => {
   };
 
   const [data, setData] = useState<any[]>([]);
+  const [successAlert, setSuccessAlert] = useState(false);
 
   const router = useRouter();
   const {
@@ -227,6 +228,7 @@ const CampusTable = () => {
         summary: state.summary || null,
       },
     }).then(() => {
+      setSuccessAlert(true);
       refetch();
     });
   };
@@ -235,6 +237,7 @@ const CampusTable = () => {
     if (!state.person_campus_id) return;
     deleteFunction({ variables: { id: state.person_campus_id } });
   };
+
   return (
     <TableWrapper
       rows={data}
@@ -261,6 +264,7 @@ const CampusTable = () => {
             orderBy={orderBy}
             onRequestSort={handleRequestSort}
             headCells={headCells}
+            success={{ successAlert, setSuccessAlert }}
           />
           <TableBody>
             {/*@ts-ignore*/}

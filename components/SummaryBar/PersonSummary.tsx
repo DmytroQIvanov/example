@@ -251,7 +251,7 @@ const PersonSummary = () => {
   const {
     data: personData,
     error,
-    loading,
+    loading: fetchLoading,
     refetch,
   } = useQuery(PERSON_DATA, {
     skip: !router.query.id,
@@ -417,7 +417,7 @@ const PersonSummary = () => {
     editableState: state,
     handleChangeEvent,
     handleChange,
-    loading,
+    loading: fetchLoading,
     handleChangeArray,
   };
 
@@ -539,7 +539,7 @@ const PersonSummary = () => {
       ) : (
         <>
           <TableContainer sx={{ position: "relative" }}>
-            {(loading || creatingLoading) && (
+            {(fetchLoading || creatingLoading || updatingLoading) && (
               <Box sx={{ position: "absolute", width: "100%" }}>
                 <LinearProgress />
               </Box>
@@ -893,7 +893,7 @@ const PersonSummary = () => {
                   display: "flex",
                 }}
               >
-                {loading ? (
+                {fetchLoading ? (
                   <Box sx={{ m: "auto", fontWeight: 600, color: "black" }}>
                     <span>Loading...</span>
                   </Box>

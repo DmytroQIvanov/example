@@ -65,10 +65,10 @@ main {
   transition: all 0.5s ease;
 }
 .sidebar.open {
-  min-width: 240px;
+  /*min-width: 240px;*/
 }
 .sidebar.close{
-  max-width: 78px;
+  /*max-width: 78px;*/
 }
 
 /* .sidebar.close  .iocn-link .react-icon  {
