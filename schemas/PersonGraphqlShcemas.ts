@@ -1,45 +1,44 @@
 import { gql } from "@apollo/client";
 
 export const PERSON_DATA = gql`
-  query person_query($pid: Int!) {
-    person(where: { person_id: { _eq: $pid } }) {
-      first_name
-      middle_names
-      last_name
-      modified_by
-      nick_name
-      person_id
-      last_employee_list_name
-      last_employee_list_action
-      last_employee_df
-      last_df_list_name
-      date_modified
-      date_marked_invalid
-      date_added
-      cohort
-      person_type {
-        id
-        person_type
-      }
-      person_campuses {
-        campus {
-          campus_id
+query person_query($pid: Int!) {
+  person(where: {person_id: {_eq: $pid}}) {
+    first_name
+    middle_names
+    last_name
+    modified_by
+    nick_name
+    person_id
+    last_employee_list_name
+    last_employee_list_action
+    last_employee_df
+    last_df_list_name
+    date_modified
+    date_marked_invalid
+    date_added
+    cohort
+    person_campuses {
+       campus {
           campus_name
         }
-        area {
-          area_id
-          area
-          super_area {
-            super_area_id
-            super_area
-          }
+      area {
+        area_id
+        area
+        super_area {
+          super_area_id
+          super_area
         }
-        turfid
-        is_pi
-        date_last_known_valid
       }
+      turfid
+      is_pi
+      date_last_known_valid
+    }
+    person_type {
+      id
+      person_type
     }
   }
+}
 `;
 
 export const CREATE_PERSON = gql`

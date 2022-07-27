@@ -10,13 +10,13 @@ import TableWrapper from "../TablesComponents/TableWrapper/Index";
 import { HeadCell } from "../TablesComponents/Interfaces/HeadCell";
 import { useRouter } from "next/router";
 import { useMutation, useQuery } from "@apollo/client";
-import { DELETE_CAMPUS_TABLE } from "../../../shemas/CampusShemas";
+import { DELETE_CAMPUS_TABLE } from "../../../schemas/CampusSchemas";
 import {
   DELETE_PERSON_RESEARCH,
   INSERT_PERSON_RESEARCH,
   MUTATE_PERSON_RESEARCH,
   PERSON_RESEARCH_QUERY,
-} from "../../../shemas/PersonResearch";
+} from "../../../schemas/PersonResearch";
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {

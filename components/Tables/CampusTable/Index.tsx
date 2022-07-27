@@ -15,7 +15,7 @@ import {
   INSERT_PERSON_CAMPUS,
   PERSON_CAMPUS_QUERY,
   UPDATE_PERSON_CAMPUS,
-} from "../../../shemas/CampusShemas";
+} from "../../../schemas/CampusSchemas";
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {

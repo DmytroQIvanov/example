@@ -5,7 +5,7 @@ import Table from "../../../components/Tables/OtherNamesTable/Index";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useQuery } from "@apollo/client";
-import { GET_OTHER_NAMES } from "../../../shemas/OtherNamesShemas";
+import { GET_OTHER_NAMES } from "../../../schemas/OtherNamesSchemas";
 
 export default function Index() {
   const [data, setData] = useState<any[]>([]);

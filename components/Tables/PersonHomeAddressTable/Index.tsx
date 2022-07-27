@@ -15,7 +15,7 @@ import { useMutation } from "@apollo/client";
 import {
   DELETE_PERSON_HOME_TABLE,
   INVALIDATE_PERSON_HOME_ADDRESS,
-} from "../../../shemas/HomeAddressShemas";
+} from "../../../schemas/HomeAddressSchemas";
 import { useRouter } from "next/router";
 
 `accuracy: "ROOFTOP"

@@ -18,7 +18,7 @@ import {
   HOME_ADDRESS_DMI_NULL,
   INVALIDATE_PERSON_HOME_ADDRESS,
   VALIDATE_PERSON_HOME_ADDRESS,
-} from "../../../shemas/HomeAddressShemas";
+} from "../../../schemas/HomeAddressSchemas";
 
 const TableRowComponent: React.FC<
   ITableRowComponent<IRowsPersonEmploymentTable>

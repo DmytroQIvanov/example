@@ -37,7 +37,7 @@ const ApolloProviderWrapper: React.FC<{ children: ReactNode }> = ({
   });
 
   const httpLink = new HttpLink({
-    uri: "https://api.advancemarketingsolutions.net/v1/graphql",
+    uri: process.env.NEXT_PUBLIC_GRAPHQL_API,
   });
   // console.log("userRole", user);
 

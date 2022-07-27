@@ -5,7 +5,7 @@ import { BsFillPersonFill, BsPhoneFill } from "react-icons/bs";
 import { HiOutlineMailOpen } from "react-icons/hi";
 import { IoMdShare } from "react-icons/io";
 import { FaClipboardList, FaHome, FaMap, FaSuitcase } from "react-icons/fa";
-import AccountMain from "../../../components/SummaryBar/AccountMain";
+import PersonSummary from "../../../components/SummaryBar/PersonSummary";
 const arrowNavigation = [
   {
     link: "/persondataentry/interactions",
@@ -88,7 +88,7 @@ export function Layout({
       <SideBar options={arrowNavigation} title={"Person Data Entry"} />
       <div className={classes.content}>
         <LocationDataEntryHeader />
-        <AccountMain />
+        <PersonSummary />
         {/*<Grid sx={{padding: '20px 100px'}}><Configuration /></Grid>*/}
         {/*<BreadCrumb breadcrumbs={['Organization Data Entry', breadcrumb]} />*/}
         <main>{children}</main>

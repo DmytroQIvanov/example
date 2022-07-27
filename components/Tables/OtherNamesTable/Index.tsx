@@ -15,7 +15,7 @@ import {
   CREATE_OTHER_NAME,
   DELETE_OTHER_NAMES,
   VALIDATE_OTHER_NAME,
-} from "../../../shemas/OtherNamesShemas";
+} from "../../../schemas/OtherNamesSchemas";
 import { useRouter } from "next/router";
 
 // const rows: IRowsPersonEmploymentTable[] = [
