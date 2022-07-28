@@ -23,7 +23,7 @@ const ApolloProviderWrapper: React.FC<{ children: ReactNode }> = ({
   const { signOut } = useClerk();
 
   const authMiddleware = setContext(async (req, { headers }) => {
-    const token = await getToken({ template: "dev" });
+    const token = await getToken({ template: process.env.NEXT_PUBLIC_CLERK_TEMPLATE_NAME });
     // console.log("Hasura token is");
     // console.log(token);
 
