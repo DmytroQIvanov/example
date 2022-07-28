@@ -9,6 +9,7 @@ query person_query($pid: Int!) {
     modified_by
     nick_name
     person_id
+    employee_id
     last_employee_list_name
     last_employee_list_action
     last_employee_df
