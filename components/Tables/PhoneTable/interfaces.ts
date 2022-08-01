@@ -1,14 +1,14 @@
 interface IRowsPersonEmploymentTable {
   id: string;
-  phoneNumber: string;
+  phone_number: string;
   cell: string;
   card: string;
-  doNotCallDate: string;
-  phoneType: string;
+  doNotCall: string;
+  phone_type: string;
   comments: string;
-  dfkv: string;
-  dlkv: string;
-  dmi: string;
+  date_first_known_valid: string;
+  date_last_known_valid: string;
+  date_marked_invalid: string;
   options?: string;
 }
 interface IColumnsPersonEmploymentTable {

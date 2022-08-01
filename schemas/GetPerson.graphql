@@ -660,3 +660,24 @@ query person_type_query {
     category
   }
 }
+
+query person_phone_query($pid: Int!) {
+  person_phone(where: { person_id: { _eq: $pid } }) {
+    person_phone_id
+    person_id
+    phone_number
+    phone_type {
+      phone_type_id
+      phone_type
+    }
+    information_source_type {
+      information_source_type_id
+      information_source_type
+    }
+    date_marked_do_not_call
+    comments
+    date_first_known_valid
+    date_last_known_valid
+    date_marked_invalid
+  }
+}

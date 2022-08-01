@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import TableBody from "@material-ui/core/TableBody";
 
 import {
@@ -8,6 +8,14 @@ import {
 import TableRowComponent from "./TableRow";
 import TableWrapper from "../TablesComponents/TableWrapper/Index";
 import { HeadCell } from "../TablesComponents/Interfaces/HeadCell";
+import { useRouter } from "next/router";
+import { useMutation, useQuery } from "@apollo/client";
+import {
+  DELETE_PERSON_PHONE,
+  INSERT_PERSON_PHONE,
+  PERSON_PHONE_DATA,
+  UPDATE_PERSON_PHONE,
+} from "../../../schemas/PhonesSchemas";
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -32,50 +40,6 @@ export function getComparator<Key extends keyof any>(
     ? (a, b) => descendingComparator(a, b, orderBy)
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
-
-function stableSort<T>(
-  array: readonly T[],
-  comparator: (a: T, b: T) => number
-) {
-  const stabilizedThis = array.map((el, index) => [el, index] as [T, number]);
-  stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0]);
-    if (order !== 0) {
-      return order;
-    }
-    return a[1] - b[1];
-  });
-  return stabilizedThis.map((el) => el[0]);
-}
-
-const rows: IRowsPersonEmploymentTable[] = [
-  {
-    id: "1",
-    phoneNumber: "(405) 702-0623",
-    cell: "Cell",
-    card: "card",
-    doNotCallDate: "01/01/2021",
-    phoneType: "phoneType",
-    comments:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-    dfkv: "01/02/2021",
-    dlkv: "string1",
-    dmi: "02/03/2013",
-  },
-  {
-    id: "2",
-    phoneNumber: "(402) 702-0623",
-    cell: "Cel4",
-    card: "cara",
-    doNotCallDate: "02/04/2021",
-    phoneType: "phoneType2",
-    comments:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-    dfkv: "01/02/2021",
-    dlkv: "string1",
-    dmi: "02/03/2013",
-  },
-];
 
 const headCells: readonly HeadCell<IColumnsPersonEmploymentTable>[] = [
   {
@@ -130,7 +94,7 @@ const headCells: readonly HeadCell<IColumnsPersonEmploymentTable>[] = [
 const PhoneTable = () => {
   const [order, setOrder] = React.useState<Order>("asc");
   const [orderBy, setOrderBy] =
-    React.useState<keyof IRowsPersonEmploymentTable>("phoneNumber");
+    React.useState<keyof IRowsPersonEmploymentTable>("id");
 
   const handleRequestSort = (
     _: any,
@@ -140,14 +104,83 @@ const PhoneTable = () => {
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
   };
-  const [tableElements, setTableElements] = useState(rows);
+  const [tableElements, setTableElements] = useState([]);
   const onDelete = (id: string | undefined) => {
     if (!id) return;
     setTableElements(tableElements.filter((elem) => elem.id !== id));
   };
 
+  const router = useRouter();
+  const {
+    data: personPhoneTables,
+    error,
+    loading,
+    fetchMore,
+    refetch,
+  } = useQuery(PERSON_PHONE_DATA, {
+    variables: { pid: router.query.id },
+    skip: !router.query.id,
+  });
+  console.log(personPhoneTables);
+  console.log(error);
+
+  useEffect(() => {
+    if (personPhoneTables?.person_phone)
+      setTableElements(() =>
+        personPhoneTables?.person_phone.map((elem: any) => {
+          return {
+            id: elem.person_phone_id,
+            ...elem,
+            validateState: Boolean(elem.date_marked_invalid),
+          };
+        })
+      );
+  }, [personPhoneTables?.person_phone]);
+
+  const [changeFunction, { loading: changeLoading }] =
+    useMutation(UPDATE_PERSON_PHONE);
+
+  const [createFunction, { loading: createLoading, error: createError }] =
+    useMutation(INSERT_PERSON_PHONE);
+
+  const [deleteFunction, { loading: deleteLoading, error: deleteError }] =
+    useMutation(DELETE_PERSON_PHONE);
+
+  const onChangeFunction = (state: any) => {
+    changeFunction({
+      variables: {
+        id: state.person_research_id,
+        date: state.date_researched,
+        comments: state.comments || null,
+      },
+    });
+  };
+  const onCreateFunction = (state: any) => {
+    createFunction({
+      variables: {
+        pid: router.query.id,
+        date: state.date_researched,
+        created_by: state.created_by,
+        comments: state.comments || null,
+      },
+    }).then(() => {
+      refetch();
+    });
+  };
+
+  const onDeleteFunction = (state: any) => {
+    if (!state.person_research_id) return;
+    deleteFunction({ variables: { id: state.person_phone_id } });
+  };
+
   return (
-    <TableWrapper rows={rows}>
+    <TableWrapper
+      rows={tableElements}
+      onSaveFunction={onCreateFunction}
+      onChangeFunction={onChangeFunction}
+      deleteFunction={onDeleteFunction}
+      refetch={refetch}
+    >
       {({
         EnhancedTableHead,
         stableSort,
@@ -180,6 +213,7 @@ const PhoneTable = () => {
                   onAddSave={onAddSave}
                   onAddCancel={onAddCancel}
                   activeRowObject={activeRowObject}
+                  refetch={refetch}
                 />
               )
             )}
