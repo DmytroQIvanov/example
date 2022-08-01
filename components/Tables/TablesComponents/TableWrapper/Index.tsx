@@ -1,4 +1,4 @@
-import React, { MouseEventHandler, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Alert, Box, Button, Collapse, LinearProgress } from "@mui/material";
 import Paper from "@material-ui/core/Paper";
 import TableContainer from "@material-ui/core/TableContainer";
@@ -10,10 +10,20 @@ import TableSortLabel from "@mui/material/TableSortLabel";
 import { visuallyHidden } from "@mui/utils";
 import { Order } from "../Interfaces/Order";
 import { useTableWrapper } from "../../../../hooks/UseTableWrapper";
-import {
-  IActiveRowObject,
-  ITableWrapperProps,
-} from "../Interfaces/TableWrapperInterfaces";
+import { ITableWrapperProps } from "../Interfaces/TableWrapperInterfaces";
+import Modal from "@mui/material/Modal";
+
+const style = {
+  position: "absolute" as "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  bgcolor: "background.paper",
+  boxShadow: 24,
+  pt: 3,
+  px: 4,
+  pb: 4,
+};
 
 const Index: React.FC<ITableWrapperProps> = ({
   children,
@@ -211,6 +221,14 @@ const Index: React.FC<ITableWrapperProps> = ({
     );
   }
 
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   return (
     <div
       style={{
@@ -266,21 +284,47 @@ const Index: React.FC<ITableWrapperProps> = ({
           }}
         >
           <Table aria-label="customized table">
-            {children({
-              EnhancedTableHead,
-              stableSort,
-              getComparator,
-              descendingComparator,
-              tableElements,
-              onAddSave,
-              handleChangeMainStateEvent,
-              handleChangeMainState,
-              onAddCancel,
-              onSaveWithProvidedState,
-              onChangeWithProvidedState,
-              activeRowObject,
-              onDelete,
-            })}
+            <>
+              {children({
+                EnhancedTableHead,
+                stableSort,
+                getComparator,
+                descendingComparator,
+                tableElements,
+                onAddSave,
+                handleChangeMainStateEvent,
+                handleChangeMainState,
+                onAddCancel,
+                onSaveWithProvidedState,
+                onChangeWithProvidedState,
+                activeRowObject,
+                onDelete,
+              })}
+              <Modal
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="child-modal-title"
+                aria-describedby="child-modal-description"
+              >
+                <Box sx={{ ...style, width: "40vw" }}>
+                  <h2 sx={{ mt: "20px" }}>
+                    You currently do not have permissions to perform that action
+                  </h2>
+
+                  <Button
+                    onClick={handleClose}
+                    variant="contained"
+                    color="success"
+                    sx={{
+                      mt: "20px",
+                      // display: "block", mr: "0px", ml: "auto"
+                    }}
+                  >
+                    Close
+                  </Button>
+                </Box>
+              </Modal>
+            </>
           </Table>
         </TableContainer>
       </div>
