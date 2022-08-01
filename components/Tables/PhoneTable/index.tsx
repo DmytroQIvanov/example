@@ -140,7 +140,6 @@ const PhoneTable = () => {
   const [createFunction, { loading: createLoading, error: createError }] =
     useMutation(INSERT_PERSON_PHONE);
 
-  console.log(createError);
   const [deleteFunction, { loading: deleteLoading, error: deleteError }] =
     useMutation(DELETE_PERSON_PHONE);
 
@@ -155,9 +154,11 @@ const PhoneTable = () => {
 
         id: state.person_phone_id,
       },
-    }).then(() => {
-      refetch();
-    });
+    })
+      .then(() => {
+        refetch();
+      })
+      .catch(setErrorMessage);
   };
   const onCreateFunction = (state: any) => {
     createFunction({
@@ -170,18 +171,23 @@ const PhoneTable = () => {
 
         pid: router.query.id,
       },
-    }).then(() => {
-      setSuccessAlert(true);
+    })
+      .then(() => {
+        setSuccessAlert(true);
 
-      refetch();
-    });
+        refetch();
+      })
+      .catch(setErrorMessage);
   };
 
   const onDeleteFunction = (state: any) => {
     if (!state.person_phone_id) return;
-    deleteFunction({ variables: { id: state.person_phone_id } });
+    deleteFunction({
+      variables: { id: state.person_phone_id },
+    }).catch(setErrorMessage);
   };
 
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   return (
     <TableWrapper
       rows={tableElements}
@@ -189,6 +195,7 @@ const PhoneTable = () => {
       onChangeFunction={onChangeFunction}
       deleteFunction={onDeleteFunction}
       refetch={refetch}
+      errorMessage={errorMessage}
     >
       {({
         EnhancedTableHead,

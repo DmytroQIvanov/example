@@ -57,4 +57,6 @@ export interface ITableWrapperProps {
 
   onSaveFunction?: Function;
   onChangeFunction?: Function;
+  // permissionMessage?: Array;
+  errorMessage?: string;
 }

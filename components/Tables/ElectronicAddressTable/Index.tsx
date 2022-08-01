@@ -118,7 +118,7 @@ const Index = () => {
 
         id: state.person_electronic_id,
       },
-    });
+    }).catch(setErrorMessage);
   };
   const onCreateFunction = (state: any) => {
     const date = new Date();
@@ -130,16 +130,22 @@ const Index = () => {
         electronictype: state.electronic_type.electronic_type_id,
         pid: router.query.id,
       },
-    }).then(() => {
-      setSuccessAlert(true);
-      refetch();
-    });
+    })
+      .then(() => {
+        setSuccessAlert(true);
+        refetch();
+      })
+      .catch(setErrorMessage);
   };
 
   const onDeleteFunction = (state: any) => {
     if (!state.person_electronic_id) return;
-    deleteFunction({ variables: { id: state.person_electronic_id } });
+    deleteFunction({ variables: { id: state.person_electronic_id } }).catch(
+      setErrorMessage
+    );
   };
+
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   return (
     <TableWrapper
@@ -148,6 +154,7 @@ const Index = () => {
       onChangeFunction={onChangeFunction}
       onSaveFunction={onCreateFunction}
       deleteFunction={onDeleteFunction}
+      errorMessage={errorMessage}
     >
       {({
         EnhancedTableHead,

@@ -34,6 +34,7 @@ const Index: React.FC<ITableWrapperProps> = ({
   deleteFunction,
   onSaveFunction,
   onChangeFunction,
+  errorMessage,
 }) => {
   const {
     tableElements,
@@ -53,9 +54,23 @@ const Index: React.FC<ITableWrapperProps> = ({
     onSaveFunction,
     onChangeFunction
   );
+  const checkPermissionError = (text: string): boolean => {
+    if (text.toString().includes("not found in type: 'mutation_root'"))
+      return true;
+    return false;
+  };
+
   const [buttonsListState, setButtonsListState] = useState(
     buttonsList !== undefined ? buttonsList : []
   );
+
+  const [permissionError, setPermissionError] = useState(false);
+  useEffect(() => {
+    if (errorMessage) {
+      refetch && refetch();
+      setPermissionError(checkPermissionError(errorMessage));
+    }
+  }, [errorMessage]);
 
   //SORT FUNCTIONS
   function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
@@ -221,12 +236,12 @@ const Index: React.FC<ITableWrapperProps> = ({
     );
   }
 
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => {
-    setOpen(true);
-  };
+  // const [open, setOpen] = React.useState(false);
+  // const handleOpen = () => {
+  //   setOpen(true);
+  // };
   const handleClose = () => {
-    setOpen(false);
+    setPermissionError(false);
   };
 
   return (
@@ -301,23 +316,25 @@ const Index: React.FC<ITableWrapperProps> = ({
                 onDelete,
               })}
               <Modal
-                open={open}
+                open={permissionError}
                 onClose={handleClose}
                 aria-labelledby="child-modal-title"
                 aria-describedby="child-modal-description"
               >
                 <Box sx={{ ...style, width: "40vw" }}>
-                  <h2 sx={{ mt: "20px" }}>
+                  <h2>
                     You currently do not have permissions to perform that action
                   </h2>
 
                   <Button
                     onClick={handleClose}
                     variant="contained"
-                    color="success"
+                    color="error"
                     sx={{
                       mt: "20px",
-                      // display: "block", mr: "0px", ml: "auto"
+                      display: "block",
+                      mr: "0px",
+                      ml: "auto",
                     }}
                   >
                     Close

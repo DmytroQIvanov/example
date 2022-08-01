@@ -112,7 +112,6 @@ const Index: React.FC<{
     useMutation(CREATE_OTHER_NAME);
   const [changeFunction, { loading: changeLoading }] =
     useMutation(CHANGE_OTHER_NAME);
-  console.log(error);
 
   const onChangeFunction = (state: any) => {
     const date = new Date();
@@ -128,7 +127,7 @@ const Index: React.FC<{
         nick_name: state.nick_name,
         suffix: state.suffix,
       },
-    });
+    }).catch(setErrorMessage);
   };
 
   const onCreateFunction = (state: any) => {
@@ -146,7 +145,7 @@ const Index: React.FC<{
         nick_name: state.nick_name,
         suffix: state.suffix,
       },
-    });
+    }).catch(setErrorMessage);
   };
 
   const [validateFunction, { loading: validateLoading }] =
@@ -156,8 +155,12 @@ const Index: React.FC<{
     useMutation(DELETE_OTHER_NAMES);
 
   const onDelete = (state: any) => {
-    deleteFunction({ variables: { id: state.person_other_name_id } });
+    deleteFunction({ variables: { id: state.person_other_name_id } }).catch(
+      setErrorMessage
+    );
   };
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
   return (
     <TableWrapper
       rows={tableData}
@@ -165,6 +168,7 @@ const Index: React.FC<{
       onSaveFunction={onCreateFunction}
       onChangeFunction={onChangeFunction}
       deleteFunction={onDelete}
+      errorMessage={errorMessage}
 
       // disableAddBtn
       // buttonsList={[{ label: "Add", buttonFunction: () => {} }]}

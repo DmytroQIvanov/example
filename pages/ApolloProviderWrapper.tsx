@@ -1,6 +1,5 @@
 import React, { ReactNode } from "react";
 import { useAuth, useClerk, useUser } from "@clerk/nextjs";
-// import { useUser } from '@clerk/clerk-react'
 import { setContext } from "@apollo/client/link/context";
 import {
   HttpLink,
@@ -9,9 +8,8 @@ import {
   from,
   InMemoryCache,
 } from "@apollo/client";
-import { useRouter } from "next/router";
 import { Box } from "@material-ui/core";
-import { FiLogOut, FiShuffle } from "react-icons/fi";
+import { FiLogOut } from "react-icons/fi";
 import Typography from "@mui/material/Typography";
 
 const ApolloProviderWrapper: React.FC<{ children: ReactNode }> = ({
@@ -19,14 +17,12 @@ const ApolloProviderWrapper: React.FC<{ children: ReactNode }> = ({
 }) => {
   const { getToken } = useAuth();
   const { user } = useUser();
-  const router = useRouter();
   const { signOut } = useClerk();
 
   const authMiddleware = setContext(async (req, { headers }) => {
-    const token = await getToken({ template: process.env.NEXT_PUBLIC_CLERK_TEMPLATE_NAME });
-    // console.log("Hasura token is");
-    // console.log(token);
-
+    const token = await getToken({
+      template: process.env.NEXT_PUBLIC_CLERK_TEMPLATE_NAME,
+    });
     return {
       headers: {
         ...headers,
@@ -39,11 +35,11 @@ const ApolloProviderWrapper: React.FC<{ children: ReactNode }> = ({
   const httpLink = new HttpLink({
     uri: process.env.NEXT_PUBLIC_GRAPHQL_API,
   });
-  // console.log("userRole", user);
-
   const apolloClient = new ApolloClient({
     link: from([authMiddleware, httpLink]),
     cache: new InMemoryCache(),
+
+    // defaultOptions: { mutate: { errorPolicy: "none" } },
   });
   if (!user?.unsafeMetadata.role)
     return (

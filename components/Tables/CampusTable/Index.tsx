@@ -211,7 +211,7 @@ const CampusTable = () => {
         pi: Boolean(state.is_pi),
         summary: state.summary || null,
       },
-    });
+    }).catch(setErrorMessage);
   };
   const onCreateFunction = (state: any) => {
     const date = new Date();
@@ -227,16 +227,21 @@ const CampusTable = () => {
         pi: Boolean(state.is_pi),
         summary: state.summary || null,
       },
-    }).then(() => {
-      setSuccessAlert(true);
-      refetch();
-    });
+    })
+      .then(() => {
+        setSuccessAlert(true);
+        refetch();
+      })
+      .catch(setErrorMessage);
   };
 
   const onDeleteFunction = (state: any) => {
     if (!state.person_campus_id) return;
-    deleteFunction({ variables: { id: state.person_campus_id } });
+    deleteFunction({ variables: { id: state.person_campus_id } }).catch(
+      setErrorMessage
+    );
   };
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   return (
     <TableWrapper
@@ -245,6 +250,7 @@ const CampusTable = () => {
       onChangeFunction={onChangeFunction}
       onSaveFunction={onCreateFunction}
       deleteFunction={onDeleteFunction}
+      errorMessage={errorMessage}
     >
       {({
         EnhancedTableHead,

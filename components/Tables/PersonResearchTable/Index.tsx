@@ -158,7 +158,7 @@ const PersonResearchTable = () => {
         date: state.date_researched,
         comments: state.comments || null,
       },
-    });
+    }).catch(setErrorMessage);
   };
   const onCreateFunction = (state: any) => {
     createFunction({
@@ -168,15 +168,21 @@ const PersonResearchTable = () => {
         created_by: state.created_by,
         comments: state.comments || null,
       },
-    }).then(() => {
-      refetch();
-    });
+    })
+      .then(() => {
+        refetch();
+      })
+      .catch(setErrorMessage);
   };
 
   const onDeleteFunction = (state: any) => {
     if (!state.person_research_id) return;
-    deleteFunction({ variables: { id: state.person_research_id } });
+    deleteFunction({ variables: { id: state.person_research_id } }).catch(
+      setErrorMessage
+    );
   };
+
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   return (
     <TableWrapper
@@ -184,6 +190,8 @@ const PersonResearchTable = () => {
       onSaveFunction={onCreateFunction}
       onChangeFunction={onChangeFunction}
       deleteFunction={onDeleteFunction}
+      errorMessage={errorMessage}
+      refetch={refetch}
     >
       {({
         EnhancedTableHead,
