@@ -1,4 +1,4 @@
-import { PersonDataEntryHeader } from "../../components/Headers/PersonDataEntryHeader";
+import PersonHeader from "../../components/Headers/PersonDataEntryHeader/Index";
 import PersonSummary from "../../components/SummaryBar/PersonSummary";
 import BreadCrumb from "../../components/BreadCrumb";
 import useStyles from "../styles";
@@ -91,7 +91,7 @@ export function Layout({
       <SideBar options={arrowNavigation} title={"Person Data Entry"} />
 
       <div className={classes.content}>
-        <PersonDataEntryHeader />
+        <PersonHeader />
         <PersonSummary />
         <BreadCrumb breadcrumbs={["Person Data Entry", breadcrumb]} />
         <main>{children}</main>

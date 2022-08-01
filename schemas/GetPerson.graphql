@@ -645,3 +645,18 @@ mutation insert_person_electronic($pid: Int!, $email: String!, $source: Int!, $e
     date_marked_invalid
   }
 }
+
+
+query campus_query {
+  campus {
+    campus_id
+    campus_name
+  }
+}
+
+query person_type_query {
+  person_type {
+    id
+    category
+  }
+}

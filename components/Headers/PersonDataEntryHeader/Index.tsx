@@ -2,26 +2,20 @@ import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import { NativeSelect, FormControl, Button } from "@mui/material";
 
-import SearchMenu from "../Search/SearchBox";
-import { ConfTemplate } from "../Configuration/Type";
-import { BootstrapInput } from "../Search/Type";
-import { useRouter } from "next/router";
+import SearchMenu from "../../Search/SearchBox";
+import { ConfTemplate } from "../../Configuration/Type";
+import { BootstrapInput } from "../../Search/Type";
+import { PersonHeaderController } from "./PersonHeader.controller";
+import DropDown from "./DropDown";
 
-export function PersonDataEntryHeader() {
-  const router = useRouter();
+import styles from "./styles.module.scss";
 
-  const onAddNewPerson = () => {
-    // if (router.pathname.includes("[id]")) {
-    //   router.pathname = router.pathname.replace("/[id]", "");
-    // } else {
-    //   // href += router.pathname + `/${id}`;
-    // }
+export default function Index() {
+  const {
+    onAddNewPerson,
+    dropbarLists: { person, campus },
+  } = PersonHeaderController();
 
-    router.pathname = "/persondataentry";
-    router.query.state = "creating";
-    delete router.query.id;
-    router.push(router);
-  };
   return (
     <>
       <div className="header_container"> </div>
@@ -52,26 +46,12 @@ export function PersonDataEntryHeader() {
                   </FormControl>
                 </Grid>
                 <Grid item sm={6}>
-                  <FormControl sx={{ m: 1, width: "90%" }} variant="standard">
-                    <NativeSelect
-                      id="campus-id"
-                      name="campus"
-                      size="small"
-                      input={<BootstrapInput />}
-                    >
-                      <option className="default-option" value="">
-                        Campus
-                      </option>
-                      {ConfTemplate.campus &&
-                        ConfTemplate.campus.map((item, itemIndex) => {
-                          return (
-                            <option value={item} key={itemIndex}>
-                              {item}
-                            </option>
-                          );
-                        })}
-                    </NativeSelect>
-                  </FormControl>
+                  <DropDown
+                    list={campus.list}
+                    title={"Campus"}
+                    handleClick={() => {}}
+                    selectedValue={1}
+                  />
                 </Grid>
               </Grid>
             </Grid>
@@ -109,26 +89,12 @@ export function PersonDataEntryHeader() {
                   </FormControl>
                 </Grid>
                 <Grid item sm={4}>
-                  <FormControl sx={{ m: 1, width: "90%" }} variant="standard">
-                    <NativeSelect
-                      id="person-id"
-                      name="person"
-                      size="small"
-                      input={<BootstrapInput />}
-                    >
-                      <option className="default-option" value="">
-                        Person Category
-                      </option>
-                      {ConfTemplate.campus &&
-                        ConfTemplate.campus.map((item, itemIndex) => {
-                          return (
-                            <option value={item} key={itemIndex}>
-                              {item}
-                            </option>
-                          );
-                        })}
-                    </NativeSelect>
-                  </FormControl>
+                  <DropDown
+                    list={person.list}
+                    title={"Person Category"}
+                    handleClick={() => {}}
+                    selectedValue={1}
+                  />
                 </Grid>
                 <Grid item sm={4}>
                   <FormControl sx={{ m: 1, width: "90%" }} variant="standard">
@@ -138,6 +104,7 @@ export function PersonDataEntryHeader() {
                       onClick={() => {
                         onAddNewPerson();
                       }}
+                      className={styles.addBtn}
                     >
                       Add New Person
                     </Button>
