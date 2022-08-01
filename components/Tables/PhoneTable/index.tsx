@@ -184,7 +184,11 @@ const PhoneTable = () => {
     if (!state.person_phone_id) return;
     deleteFunction({
       variables: { id: state.person_phone_id },
-    }).catch(setErrorMessage);
+    })
+      .then(() => {
+        setErrorMessage("not found in type: 'mutation_root'");
+      })
+      .catch(setErrorMessage);
   };
 
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
