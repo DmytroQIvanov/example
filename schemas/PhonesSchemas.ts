@@ -6,10 +6,10 @@ export const PERSON_PHONE_DATA = gql`
       person_phone_id
       person_id
       phone_number
-      #      phone_type {
-      #        phone_type_id
-      #        phone_type
-      #      }
+      phone_type {
+        phone_type_id
+        phone_type
+      }
       information_source_type {
         information_source_type_id
         information_source_type
@@ -38,6 +38,7 @@ export const INSERT_PERSON_PHONE = gql`
     $source: Int!
     $dnc: timestamp = null
     $comments: String
+    $pid: Int!
   ) {
     insert_person_phone_one(
       object: {
@@ -46,6 +47,7 @@ export const INSERT_PERSON_PHONE = gql`
         information_source_type_id: $source
         date_marked_do_not_call: $dnc
         comments: $comments
+        person_id: $pid
       }
     ) {
       phone_number

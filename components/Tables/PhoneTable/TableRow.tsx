@@ -12,24 +12,16 @@ import TableRowWrapper from "../TablesComponents/TableRowWrapper";
 //ICONS
 import { UseEditableTable } from "../../../hooks/UseEditableTable";
 import OptionsBlock from "../TablesComponents/OptionsBlock";
-import { IActiveRowObject } from "../TablesComponents/Interfaces/TableWrapperInterfaces";
 import { ITableRowComponent } from "../TablesComponents/Interfaces/ITableRowComponent";
-import { useMutation } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import {
   DNC,
   INVALIDATE_PERSON_PHONE,
+  PHONE_TYPE_DATA,
   REMOVE_DNC,
   VALIDATE_PERSON_PHONE,
 } from "../../../schemas/PhonesSchemas";
-
-const dropArray = [
-  {
-    label: "Something",
-  },
-  {
-    label: "Lorem",
-  },
-];
+import { UseGetInformationSourceType } from "../../../hooks/UseGetInformationSourceType";
 
 const TableRowComponent: React.FC<
   ITableRowComponent<IRowsPersonEmploymentTable>
@@ -47,6 +39,7 @@ const TableRowComponent: React.FC<
 
   const [dncFunction] = useMutation(DNC);
   const [remove_dncFunction] = useMutation(REMOVE_DNC);
+  const { data: phoneTypeArray } = useQuery(PHONE_TYPE_DATA);
 
   const { onCancel, summaryObject, onSave } = UseEditableTable({
     row,
@@ -61,6 +54,36 @@ const TableRowComponent: React.FC<
   const [dncBoolean, setDncBoolean] = useState(
     Boolean(summaryObject.rowValues?.date_marked_do_not_call)
   );
+
+  useEffect(() => {
+    if (Boolean(summaryObject.rowValues.date_marked_do_not_call)) {
+      setDncBoolean(true);
+    } else {
+      setDncBoolean(false);
+    }
+  }, [summaryObject.rowValues.date_marked_do_not_call]);
+
+  useEffect(() => {
+    summaryObject.handleChange("dncBoolean", dncBoolean || "");
+  }, [dncBoolean]);
+
+  const [phoneTypeList, setPhoneTypeList] = useState<
+    { label: string; id: string }[]
+  >([]);
+  useEffect(() => {
+    phoneTypeArray?.phone_type &&
+      setPhoneTypeList(
+        phoneTypeArray.phone_type.map((elem: any) => {
+          return {
+            id: elem.phone_type_id,
+            label: elem.phone_type,
+          };
+        })
+      );
+  }, [phoneTypeArray?.phone_type]);
+
+  const { informationSourceArray } = UseGetInformationSourceType();
+
   return (
     <TableRowWrapper summaryObject={summaryObject}>
       <TableCell component="th" scope="row" width={"270px"}>
@@ -74,55 +97,57 @@ const TableRowComponent: React.FC<
       <TableCell width={"200px"}>
         {EditableBlock({
           ...summaryObject,
-          name: "phone_number",
+          name: "phone_type.phone_type",
+          idName: "phone_type.phone_type_id",
           type: "dropdown",
-          itemsArray: dropArray,
+          itemsArray: phoneTypeList,
         })}
       </TableCell>
       <TableCell width={"250px"}>
         {EditableBlock({
           ...summaryObject,
-          name: "card",
+          name: "information_source_type.information_source_type",
+          idName: "information_source_type.information_source_type_id",
           type: "dropdown",
-          itemsArray: dropArray,
+          itemsArray: informationSourceArray,
         })}
       </TableCell>
       <TableCell width={"200px"}>
-        <Box sx={{ display: "flex", flexDirection: "row" }}>
-          {EditableBlock({
-            ...summaryObject,
-            name: "doNotCall",
-            type: "date",
-            checkBox: {
-              value: dncBoolean,
-              label: "Do Not Call",
-              onClick: () => {
-                const date = new Date();
-                let data;
-                if (!dncBoolean) {
-                  data = dncFunction({
+        {EditableBlock({
+          ...summaryObject,
+          name: "date_marked_do_not_call",
+          type: "date",
+          checkBox: {
+            value: dncBoolean,
+            label: "Do Not Call",
+            onClick: () => {
+              const date = new Date();
+              let data;
+              if (!dncBoolean) {
+                summaryObject.rowValues?.person_phone_id &&
+                  (data = dncFunction({
                     variables: {
                       id: summaryObject.rowValues.person_phone_id,
                       date,
                     },
-                  });
-                  setDncBoolean(true);
-                } else {
-                  data = remove_dncFunction({
+                  }));
+                setDncBoolean(true);
+              } else {
+                summaryObject.rowValues?.person_phone_id &&
+                  (data = remove_dncFunction({
                     variables: {
                       id: summaryObject.rowValues.person_phone_id,
                       date,
                     },
-                  });
-                  setDncBoolean(false);
-                }
-                Promise.all([data]).then(() => {
-                  refetch && refetch();
-                });
-              },
+                  }));
+                setDncBoolean(false);
+              }
+              Promise.all([data]).then(() => {
+                refetch && refetch();
+              });
             },
-          })}
-        </Box>
+          },
+        })}
       </TableCell>
       <TableCell width={"400px"}>
         {EditableBlock({

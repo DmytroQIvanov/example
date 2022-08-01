@@ -174,12 +174,14 @@ const EditableBlock: React.FC<propsBlockWithState> = (data) => {
               value={rowValues[name] || date}
               disabled={disabledState}
               onChange={(newValue) => {
-                const month = newValue.getUTCMonth() + 1;
-                const day = newValue.getUTCDate();
-                const year = newValue.getUTCFullYear();
-                console.log(`${day}/${month}/${year}`);
+                // const month = newValue.getUTCMonth() + 1;
+                // const day = newValue.getUTCDate() + 1;
+                // const year = newValue.getUTCFullYear();
+                // console.log(`${day}/${month}/${year}`);
                 // handleChange(name, `${day}/${month}/${year}`);
-                handleChange(name, `${month}/${day}/${year}`);
+                // handleChange(name, `${month}/${day}/${year}`);
+                alert(newValue);
+                handleChange(name, newValue.toLocaleString("en-US", newValue));
               }}
               renderInput={(params) => <TextField {...params} style={styles} />}
             />

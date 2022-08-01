@@ -46,23 +46,25 @@ const headCells: readonly HeadCell<IColumnsPersonEmploymentTable>[] = [
     id: "phoneNumber",
     numeric: true,
     label: "Phone Number",
+    sortingBy: "phone_number",
   },
   {
     id: "phonyType",
     numeric: false,
     label: "Phone Type",
-    sortingBy: "phoneType",
+    sortingBy: "phone_type.phone_type_id",
   },
   {
     id: "infoSource",
     numeric: false,
     label: "Info Source",
-    sortingBy: "card",
+    sortingBy: "information_source_type.information_source_type_id",
   },
   {
     id: "doNotCallDate",
     numeric: false,
     label: "Do Not Call Date",
+    sortingBy: "date_marked_do_not_call",
   },
   {
     id: "comments",
@@ -71,17 +73,17 @@ const headCells: readonly HeadCell<IColumnsPersonEmploymentTable>[] = [
     width: "400px",
   },
   {
-    id: "dfkv",
+    id: "date_first_known_valid",
     numeric: false,
     label: "DFKV",
   },
   {
-    id: "dlkv",
+    id: "date_last_known_valid",
     numeric: false,
     label: "DLKV",
   },
   {
-    id: "dmi",
+    id: "date_marked_invalid",
     numeric: false,
     label: "DMI",
   },
@@ -95,6 +97,7 @@ const PhoneTable = () => {
   const [order, setOrder] = React.useState<Order>("asc");
   const [orderBy, setOrderBy] =
     React.useState<keyof IRowsPersonEmploymentTable>("id");
+  const [successAlert, setSuccessAlert] = useState(false);
 
   const handleRequestSort = (
     _: any,
@@ -105,10 +108,6 @@ const PhoneTable = () => {
     setOrderBy(property);
   };
   const [tableElements, setTableElements] = useState([]);
-  const onDelete = (id: string | undefined) => {
-    if (!id) return;
-    setTableElements(tableElements.filter((elem) => elem.id !== id));
-  };
 
   const router = useRouter();
   const {
@@ -121,8 +120,6 @@ const PhoneTable = () => {
     variables: { pid: router.query.id },
     skip: !router.query.id,
   });
-  console.log(personPhoneTables);
-  console.log(error);
 
   useEffect(() => {
     if (personPhoneTables?.person_phone)
@@ -143,33 +140,45 @@ const PhoneTable = () => {
   const [createFunction, { loading: createLoading, error: createError }] =
     useMutation(INSERT_PERSON_PHONE);
 
+  console.log(createError);
   const [deleteFunction, { loading: deleteLoading, error: deleteError }] =
     useMutation(DELETE_PERSON_PHONE);
 
   const onChangeFunction = (state: any) => {
     changeFunction({
       variables: {
-        id: state.person_research_id,
-        date: state.date_researched,
-        comments: state.comments || null,
-      },
-    });
-  };
-  const onCreateFunction = (state: any) => {
-    createFunction({
-      variables: {
-        pid: router.query.id,
-        date: state.date_researched,
-        created_by: state.created_by,
-        comments: state.comments || null,
+        number: state.phone_number,
+        type: state.phone_type.phone_type_id,
+        source: state.information_source_type.information_source_type_id,
+        dnc: state.date_marked_do_not_call,
+        comments: state.comments,
+
+        id: state.person_phone_id,
       },
     }).then(() => {
       refetch();
     });
   };
+  const onCreateFunction = (state: any) => {
+    createFunction({
+      variables: {
+        number: state.phone_number,
+        type: state.phone_type.phone_type_id,
+        source: state.information_source_type.information_source_type_id,
+        comments: state.comments,
+        dnc: state.dncBoolean ? state.date_marked_do_not_call : null,
+
+        pid: router.query.id,
+      },
+    }).then(() => {
+      setSuccessAlert(true);
+
+      refetch();
+    });
+  };
 
   const onDeleteFunction = (state: any) => {
-    if (!state.person_research_id) return;
+    if (!state.person_phone_id) return;
     deleteFunction({ variables: { id: state.person_phone_id } });
   };
 
@@ -199,6 +208,7 @@ const PhoneTable = () => {
             orderBy={orderBy}
             onRequestSort={handleRequestSort}
             headCells={headCells}
+            success={{ successAlert, setSuccessAlert }}
           />
           <TableBody>
             {/*@ts-ignore*/}

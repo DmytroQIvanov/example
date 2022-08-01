@@ -3,9 +3,9 @@ import { useQuery } from "@apollo/client";
 import { INFORMATION_SOURCE_QUERY } from "../schemas/CommonTableSchemas";
 
 export const UseGetInformationSourceType = () => {
-  const [informationSourceArray, setInformationSourceArray] = useState<any[]>(
-    []
-  );
+  const [informationSourceArray, setInformationSourceArray] = useState<
+    { label: string; id: string }[]
+  >([]);
   const { data: informationSourceData } = useQuery(INFORMATION_SOURCE_QUERY);
   useEffect(() => {
     informationSourceData?.information_source_type &&

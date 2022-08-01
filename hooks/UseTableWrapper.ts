@@ -131,9 +131,12 @@ export const useTableWrapper = (
         datefirstknownvalid: pst,
       },
     ]);
-    console.log(tableElements);
     refetch && refetch({ pid: router.query?.id });
     onSaveFunction && onSaveFunction(state);
+
+    // if(state.validateState){
+    //
+    // }
     // onSaveFunction({
     //   variables: {
     //     pid: router.query?.id,

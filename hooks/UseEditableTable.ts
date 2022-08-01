@@ -354,13 +354,23 @@ export const UseEditableTable = ({
     name: string,
     value: string | number | boolean | Date
   ) => {
-    setEditableRowValues((prevState: any) => {
-      return {
-        ...prevState,
+    if (activeRowObject.checkActiveRow(row.id)) {
+      setRowValues((prevState: any) => {
+        return {
+          ...prevState,
 
-        ...func2({ value, name, prevState }),
-      };
-    });
+          ...func2({ value, name, prevState }),
+        };
+      });
+    } else {
+      setEditableRowValues((prevState: any) => {
+        return {
+          ...prevState,
+
+          ...func2({ value, name, prevState }),
+        };
+      });
+    }
   };
 
   // ---USE-EFFECTS---
@@ -370,6 +380,15 @@ export const UseEditableTable = ({
     setEditableRowValues(row);
     setRowValues(row);
   }, [row]);
+
+  useEffect(() => {
+    setEditableRowValues((prevState: any) => {
+      return { ...prevState, validateState };
+    });
+    setRowValues((prevState: any) => {
+      return { ...prevState, validateState };
+    });
+  }, [validateState]);
 
   // IF ROW STATE CHANGES THAN THE EDITABLE ROW VALUES CHANGES TO DEFAULT STATE
   useEffect(() => {

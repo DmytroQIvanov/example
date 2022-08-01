@@ -681,3 +681,11 @@ query person_phone_query($pid: Int!) {
     date_marked_invalid
   }
 }
+
+query phone_type_query {
+  phone_type {
+    phone_type_id
+    phone_type
+    phone_type_acronym
+  }
+}
