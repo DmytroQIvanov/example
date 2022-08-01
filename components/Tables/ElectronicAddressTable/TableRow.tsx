@@ -1,7 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import TableCell from "@material-ui/core/TableCell";
 import { Box } from "@mui/material";
-import TableRow from "@material-ui/core/TableRow";
 import TableRowWrapper from "../TablesComponents/TableRowWrapper";
 
 //INTERFACES
@@ -11,17 +10,14 @@ import { IRowsPersonEmploymentTable } from "./interfaces";
 import EditableBlock from "../TablesComponents/EditableBlock";
 import { UseEditableTable } from "../../../hooks/UseEditableTable";
 import OptionsBlock from "../TablesComponents/OptionsBlock";
-import { IActiveRowObject } from "../TablesComponents/Interfaces/TableWrapperInterfaces";
 import { ITableRowComponent } from "../TablesComponents/Interfaces/ITableRowComponent";
-
-const dropArray = [
-  {
-    label: "Something",
-  },
-  {
-    label: "Lorem",
-  },
-];
+import { useMutation, useQuery } from "@apollo/client";
+import {
+  ELECTRONIC_TYPE_QUERY,
+  INVALIDATE_PERSON_ELECTRONIC,
+  VALIDATE_PERSON_ELECTRONIC,
+} from "../../../schemas/PersonElectronicSchema";
+import { UseGetInformationSourceType } from "../../../hooks/UseGetInformationSourceType";
 
 const TableRowComponent: React.FC<
   ITableRowComponent<IRowsPersonEmploymentTable>
@@ -33,13 +29,41 @@ const TableRowComponent: React.FC<
   onSaveWithProvidedState,
   onChangeWithProvidedState,
 }) => {
+  const [invalidateFunction, { loading: invalidateLoading }] = useMutation(
+    INVALIDATE_PERSON_ELECTRONIC
+  );
+  const [validateFunction, { loading: validateLoading }] = useMutation(
+    VALIDATE_PERSON_ELECTRONIC
+  );
+
   const { onCancel, summaryObject, onSave } = UseEditableTable({
     row,
     activeRowObject,
     onSaveWithProvidedState,
     onChangeWithProvidedState,
     onAddCancel,
+    invalidateFunction,
+    validateFunction,
   });
+
+  const [electronicTypeArray, setElectronicTypeArray] = useState([]);
+
+  const { data: electronicTypeDataArray } = useQuery(ELECTRONIC_TYPE_QUERY);
+
+  useEffect(() => {
+    electronicTypeDataArray?.electronic_type &&
+      setElectronicTypeArray(
+        electronicTypeDataArray.electronic_type.map((elem: any) => {
+          return {
+            id: elem.electronic_type_id,
+            label: elem.electronic_type,
+            //acronym
+          };
+        })
+      );
+  }, [electronicTypeDataArray]);
+
+  const { informationSourceArray } = UseGetInformationSourceType();
 
   return (
     <TableRowWrapper summaryObject={summaryObject}>
@@ -47,25 +71,27 @@ const TableRowComponent: React.FC<
         <Box>
           {EditableBlock({
             ...summaryObject,
-            name: "electronicAddress",
+            name: "electronic_address",
           })}
         </Box>
       </TableCell>
-      <TableCell width={"200px"}>
+      <TableCell width={"250px"}>
         {EditableBlock({
           ...summaryObject,
-          name: "electronicType",
+          idName: "electronic_type.electronic_type_id",
+          name: "electronic_type.electronic_type",
           type: "dropdown",
-          itemsArray: dropArray,
+          itemsArray: electronicTypeArray,
         })}
       </TableCell>
 
       <TableCell width={"200px"}>
         {EditableBlock({
           ...summaryObject,
-          name: "source",
+          name: "information_source_type.information_source_type",
+          idName: "information_source_type.information_source_type_id",
           type: "dropdown",
-          itemsArray: dropArray,
+          itemsArray: informationSourceArray,
         })}
       </TableCell>
       <TableCell width={"130px"}>
@@ -98,12 +124,16 @@ const TableRowComponent: React.FC<
         })}
       </TableCell>
       <TableCell width={"230px"}>
-        {EditableBlock({ ...summaryObject, name: "dfkv", type: "date" })}
+        {EditableBlock({
+          ...summaryObject,
+          name: "date_first_known_valid",
+          type: "date",
+        })}
       </TableCell>
       <TableCell width={"230px"}>
         {EditableBlock({
           ...summaryObject,
-          name: "dlkv",
+          name: "date_last_known_valid",
           type: "date",
         })}
         {EditableBlock({ ...summaryObject, type: "validate" })}
@@ -111,7 +141,7 @@ const TableRowComponent: React.FC<
       <TableCell width={"230px"}>
         {EditableBlock({
           ...summaryObject,
-          name: "dmi",
+          name: "date_marked_invalid",
           type: "date",
         })}
 

@@ -1,23 +1,23 @@
 interface IRowsPersonEmploymentTable {
   id: string;
-  electronicAddress: string;
-  electronicType: string;
-  source: string;
+  electronic_address: string;
+  electronic_type: string;
+  information_source_type: string;
   emailOptions: boolean;
-  dfkv: string;
-  dlkv: string;
-  dmi: string;
+  date_first_known_valid: string;
+  date_last_known_valid: string;
+  date_marked_invalid: string;
   options?: string;
 }
 interface IColumnsPersonEmploymentTable {
   id: string;
-  electronicAddress: string;
-  electronicType: string;
-  source: string;
-  emailOptions: string;
-  dfkv: string;
-  dlkv: string;
-  dmi: string;
+  electronic_address: string;
+  electronic_type: string;
+  information_source_type: string;
+  emailOptions: boolean;
+  date_first_known_valid: string;
+  date_last_known_valid: string;
+  date_marked_invalid: string;
   options: string;
 }
 

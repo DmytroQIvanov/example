@@ -8,7 +8,7 @@ interface extraProps extends propsBlockWithState {
   styles: any;
 }
 export const Dropdown = ({
-  itemsArray,
+  itemsArray = [],
   rowValues,
   width,
   inputParams,
@@ -38,15 +38,27 @@ export const Dropdown = ({
         fullWidth={width ? true : false}
         {...inputParams}
         disabled={disabledState}
-        value={{
-          id: dropDownFunction(idName),
-          label: dropDownFunction(name),
-        }}
+        value={
+          dropDownFunction(idName) && dropDownFunction(name)
+            ? {
+                id: dropDownFunction(idName),
+                label: dropDownFunction(name),
+              }
+            : null
+        }
         onChange={(
           event: any,
           newValue: { label: string | number; id: number | string } | null
         ) => {
-          if (!newValue || !name) return;
+          if (!newValue || !name) {
+            event.preventDefault();
+
+            handleChangeArray([
+              { name, value: null },
+              { name: idName, value: null },
+            ]);
+            return;
+          }
           if (idName) {
             handleChangeArray([
               { name, value: newValue.label },

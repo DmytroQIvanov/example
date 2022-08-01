@@ -18,6 +18,7 @@ import {
   SUPER_AREA_QUERY,
   VALIDATE_CAMPUS_TABLE,
 } from "../../../schemas/CampusSchemas";
+import { UseGetInformationSourceType } from "../../../hooks/UseGetInformationSourceType";
 
 const TableRowComponent: React.FC<
   ITableRowComponent<IRowsPersonEmploymentTable>
@@ -49,9 +50,6 @@ const TableRowComponent: React.FC<
     { label: string; id: string }[]
   >([]);
 
-  const [informationSourceArray, setInformationSourceArray] = useState<any[]>(
-    []
-  );
   const [superAreaArray, setSuperAreaArray] = useState<
     { label: string; id: string }[]
   >([]);
@@ -73,18 +71,7 @@ const TableRowComponent: React.FC<
       );
   }, [campusData]);
 
-  const { data: informationSourceData } = useQuery(INFORMATION_SOURCE_QUERY);
-  useEffect(() => {
-    informationSourceData?.information_source_type &&
-      setInformationSourceArray(
-        informationSourceData.information_source_type.map((elem: any) => {
-          return {
-            id: elem.information_source_type_id,
-            label: elem.information_source_type,
-          };
-        })
-      );
-  }, [informationSourceData]);
+  const { informationSourceArray } = UseGetInformationSourceType();
 
   const { data: superAreaData } = useQuery(SUPER_AREA_QUERY, {
     variables: { campus: summaryObject.rowValues?.campus?.campus_id },

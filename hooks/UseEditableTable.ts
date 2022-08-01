@@ -342,15 +342,6 @@ export const UseEditableTable = ({
     }[]
   ) => {
     setEditableRowValues((prevState: any) => {
-      console.log("///");
-      console.log(prevState);
-      console.log(
-        func3(
-          data.map((elem) => {
-            return { ...elem, prevState };
-          })
-        )
-      );
       return func3(
         data.map((elem) => {
           return { ...elem, prevState };

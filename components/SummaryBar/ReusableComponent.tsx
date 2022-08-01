@@ -1,26 +1,8 @@
-import React, { useEffect } from "react";
-import {
-  Autocomplete,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  TextField,
-} from "@mui/material";
+import React from "react";
+import { Autocomplete, TextField } from "@mui/material";
 import Box from "@mui/material/Box";
+import { dateOptions } from "../Tables/TablesComponents/EditableBlock/Components/dateOptions";
 
-// const handleChange = (
-//   name: string,
-//   value: string | number | boolean | Date
-// ) => {
-//   setEditableRowValues((prevState: any) => {
-//     return {
-//       ...prevState,
-//
-//       ...func2({ value, name, prevState }),
-//     };
-//   });
-// };
 const ReusableComponent: React.FC<{
   editStatus: number;
   personDataState: any;
@@ -29,7 +11,7 @@ const ReusableComponent: React.FC<{
   name: string;
   idName?: string;
   loading: boolean;
-  type?: "textField" | "selectableList";
+  type?: "textField" | "selectableList" | "date";
   coma?: boolean;
   handleChange: (name: string, text: string | number) => void;
   editable?: boolean;
@@ -65,7 +47,6 @@ const ReusableComponent: React.FC<{
     if (!inputName) return;
     const result = inputName?.toString().split(".");
     if (result?.length === 2) {
-      alert(editableState?.[result[0]]?.[result[1]]);
       return editableState?.[result[0]]?.[result[1]];
     } else if (result?.length === 3) {
       return editableState?.[result[0]]?.[result[1]]?.[result[2]];
@@ -75,34 +56,26 @@ const ReusableComponent: React.FC<{
   };
   let data = dropDownFunction(name);
   let component;
-  // useEffect(() => {
-  //   if (!dropDownFunction(name)) {
-  //     handleChange(name, "");
-  // alert();
-  // }
-  // if (idName && !dropDownFunction(idName)) {
-  //   handleChange(idName, "");
-  // }
-  // }, [name, idName]);
-  console.log(personDataState);
-  console.log(name, idName);
-  // console.log(name,idName);
+  let textField = data;
+  let styles = !editable ? { backgroundColor: "#C3DBFF" } : {};
+
   switch (type) {
     case "textField":
       component = (
         <TextField
+          style={styles}
           defaultValue={name && dropDownFunction(name)}
           variant="outlined"
           onChange={handleChangeEvent}
           name={name}
           value={dropDownFunction(name)}
           size={"small"}
+          disabled={!editable}
         />
       );
       break;
     case "selectableList":
       if (!list) return <></>;
-      // if (list) return <>{idName}</>;
       component = (
         <Autocomplete
           disablePortal
@@ -114,64 +87,76 @@ const ReusableComponent: React.FC<{
           //   id: dropDownFunction(idName) || null,
           //   label: dropDownFunction(name) || null,
           // }}
-          value={{
-            id: dropDownFunction(idName) || "",
-            label: dropDownFunction(name) || "",
-          }}
+          value={
+            dropDownFunction(idName) && dropDownFunction(name)
+              ? {
+                  id: dropDownFunction(idName),
+                  label: dropDownFunction(name),
+                }
+              : null
+          }
           onChange={(
             event: any,
             newValue: { label: string | number; id: number | string } | null
           ) => {
-            // if (!newValue || !name) return;
-            // if (idName) {
-            console.log(newValue);
+            event.preventDefault();
+            if (!newValue || !name) {
+              handleChangeArray([
+                { name, value: null },
+                { name: idName, value: null },
+              ]);
+              return;
+            }
             handleChangeArray([
               { name, value: newValue.label },
               { name: idName, value: newValue.id },
             ]);
-            // } else {
-            //   handleChange(name, newValue.id);
-            // }
           }}
           renderInput={(params) => (
             <TextField
               {...params}
-              // style={styles}
               size={"small"}
               label={""}
               name={name}
+              style={styles}
+              disabled={!editable}
             />
           )}
         />
-        // <FormControl fullWidth size={"small"}>
-        //   <InputLabel id="demo-simple-select-label">
-        //     {/*Name Source Type*/}
-        //   </InputLabel>
-        //   <Select
-        //     onChange={(event, child) =>
-        //       handleChange("nameSourceType", event.target.value)
-        //     }
-        //     name={"nameSourceType"}
-        //     value={editableState["nameSourceType"]}
-        //   >
-        //     <MenuItem value={10}>Ten</MenuItem>
-        //     <MenuItem value={20}>Twenty</MenuItem>
-        //     <MenuItem value={30}>Thirty</MenuItem>
-        //   </Select>
-        // </FormControl>
       );
+      break;
+
+    case "date":
+      component = (
+        <TextField
+          // defaultValue={name && dropDownFunction(name)}
+          variant="outlined"
+          onChange={handleChangeEvent}
+          name={name}
+          // value={new Date(dropDownFunction(name)).toString()}
+          size={"small"}
+          style={styles}
+          disabled={!editable}
+        />
+      );
+      break;
+  }
+  switch (type) {
+    case "date":
+      textField = new Date(textField).toLocaleString("en-US", dateOptions);
       break;
   }
 
   return (
     <div>
-      {editStatus && editable ? (
+      {/*{editStatus && editable ? (*/}
+      {editStatus ? (
         component
       ) : (
         <Box sx={{ ml: "10px" }}>
-          {data ? (
+          {textField ? (
             `
-            ${data} ${coma ? "," : ""}`
+            ${textField} ${coma ? "," : ""}`
           ) : loading ? (
             "..."
           ) : (

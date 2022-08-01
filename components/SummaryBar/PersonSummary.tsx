@@ -30,6 +30,8 @@ import {
 } from "../../schemas/PersonGraphqlShcemas";
 import { dateOptions } from "../Tables/TablesComponents/EditableBlock/Components/dateOptions";
 import { PERSON_RESEARCH_QUERY } from "../../schemas/PersonResearch";
+import CollapsedPersonSummary from "./CollapsedPersonSummary";
+import SideComponent from "./SideComponent";
 
 const row1Title = {
   fname: "First Name",
@@ -92,7 +94,7 @@ interface valuesTypes {
   person_campuses: {
     campus: {
       campus_name: string;
-    }
+    };
     area: {
       area_id: number;
       area: string;
@@ -165,7 +167,9 @@ const PersonSummary = () => {
   };
   const goTo1 = (path: string) => {
     let href = path + `/${router.query.id}`;
-    router.push(href);
+    router.push(href).then(() => {
+      setEditStatus(0);
+    });
   };
   useEffect(() => {
     if (router.query.state === "creating") {
@@ -243,9 +247,6 @@ const PersonSummary = () => {
         console.log(error);
         setAlertErrorPopup(true);
       });
-    // } else {
-    //   setAlertErrorPopup(true);
-    // }
   };
 
   const {
@@ -300,7 +301,6 @@ const PersonSummary = () => {
     }[]
   ) => {
     let object = data[0].prevState;
-    console.log(data[0]);
 
     data.forEach(({ prevState, value, name }) => {
       const result = name.toString().split(".");
@@ -320,12 +320,10 @@ const PersonSummary = () => {
             },
           },
         };
-        console.log("object", object);
       } else {
         object = { ...object, [name]: value };
       }
     });
-    console.log("object2", object);
     return object;
   };
 
@@ -336,21 +334,12 @@ const PersonSummary = () => {
     }[]
   ) => {
     setState((prevState: any) => {
-      console.log("///");
-      console.log(prevState);
-      console.log(
-        func3(
-          data.map((elem) => {
-            return { ...elem, prevState };
-          })
-        )
-      );
-      return func3(
+      const state = func3(
         data.map((elem) => {
           return { ...elem, prevState };
         })
       );
-      // return prevState;
+      return state;
     });
   };
 
@@ -431,8 +420,6 @@ const PersonSummary = () => {
     onCreateUser,
   };
 
-  console.log(personData);
-  console.log(personTypeArray);
   return (
     <Box
       sx={{
@@ -445,97 +432,19 @@ const PersonSummary = () => {
       className="account_main"
     >
       {collapse ? (
-        <Box sx={{ display: "flex" }}>
-          <TableContainer>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>
-                    <strong>{row2Title.aid}</strong>
-                  </TableCell>
-                  <TableCell>
-                    <strong>{row1Title.name}</strong>
-                  </TableCell>
-
-                  <TableCell>
-                    <strong>{row1Title.cohort}</strong>
-                  </TableCell>
-                  <TableCell>
-                    <strong>{row2Title.type}</strong>
-                  </TableCell>
-                  <TableCell>
-                    <strong>{rowSubTitle.location}</strong>
-                  </TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                <TableRow>
-                  <TableCell sx={{ textAlign: "left !important" }}>
-                    {personDataState?.person_id}
-                  </TableCell>
-                  <TableCell
-                    sx={{ textAlign: "left !important", display: "flex" }}
-                  >
-                    <ReusableComponent
-                      {...reusableComponentObject}
-                      name={"last_name"}
-                      coma
-                    />
-                    <ReusableComponent
-                      {...reusableComponentObject}
-                      name={"first_name"}
-                      coma
-                    />
-                    <ReusableComponent
-                      {...reusableComponentObject}
-                      name={"middle_names"}
-                      coma
-                    />
-                    <ReusableComponent
-                      {...reusableComponentObject}
-                      name={"nick_name"}
-                    />
-                  </TableCell>
-                  <TableCell>
-                    {data?.sample_person[index].typeByType?.typename}
-                  </TableCell>
-                  <TableCell>
-                    {data?.sample_person[index].user_accounts.map(
-                      (
-                        { account_location }: { account_location?: Number },
-                        key: number
-                      ) => (
-                        <span key={`${account_location || key}`}>
-                          <span>{`${account_location}`}</span>
-                          <span>
-                            {index <
-                            data?.sample_person[index].user_accounts?.length - 1
-                              ? ", "
-                              : ""}
-                          </span>
-                        </span>
-                      )
-                    )}
-                  </TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
-          </TableContainer>
-          <Box
-            sx={{
-              flex: 1,
-              display: "flex",
-              justifyContent: "space-between",
-              marginTop: "35px",
-            }}
-          >
-            {textOnLabels.map((elem, key) => (
-              <Box sx={{ fontSize: "13px", p: "0 1px" }} key={key}>
-                <ColorLabel type={key} text={elem} />
-              </Box>
-            ))}
-          </Box>
-        </Box>
+        <CollapsedPersonSummary
+          {...{
+            row2Title,
+            row1Title,
+            rowSubTitle,
+            personDataState,
+            reusableComponentObject,
+            data,
+            index,
+            textOnLabels,
+            subIndex,
+          }}
+        />
       ) : (
         <>
           <TableContainer sx={{ position: "relative" }}>
@@ -599,15 +508,7 @@ const PersonSummary = () => {
                       name={"suffix"}
                     />
                   </TableCell>
-                  <TableCell>
-                    {/*<ReusableComponent*/}
-                    {/*  {...reusableComponentObject}*/}
-                    {/*  name={"person_type"}*/}
-                    {/*  idName={"person_type_id"}*/}
-                    {/*  type={"selectableList"}*/}
-                    {/*  list={personTypeArray}*/}
-                    {/*/>*/}
-                  </TableCell>
+                  <TableCell>{/*Name Source Type*/}</TableCell>
                 </TableRow>
               </TableBody>
             </Table>
@@ -639,6 +540,7 @@ const PersonSummary = () => {
                         <ReusableComponent
                           {...reusableComponentObject}
                           name={"person_id"}
+                          editable={false}
                         />
                       </TableCell>
                       <TableCell>
@@ -689,16 +591,16 @@ const PersonSummary = () => {
                             {...reusableComponentObject}
                             name={"date_added"}
                             editable={false}
+                            type={"date"}
                           />
-                          {/*{data?.sample_person[index].date_created}*/}
                         </TableCell>
                         <TableCell>
                           <ReusableComponent
                             {...reusableComponentObject}
                             name={"date_modified"}
                             editable={false}
+                            type={"date"}
                           />
-                          {/*{data?.sample_person[index].date_modified}*/}
                         </TableCell>
                         <TableCell>
                           <ReusableComponent
@@ -730,186 +632,17 @@ const PersonSummary = () => {
                 ))}
               </Box>
             </Box>
-            {personDataState?.person_campuses?.length >= 1 ? (
-              <Box
-                sx={{
-                  p: 1,
-                  m: 2,
-                  border: "1px solid #000",
-                  borderRadius: "5px",
-                  flex: 1,
-                }}
-              >
-                <TableContainer>
-                  <Table>
-                    <TableBody>
-                      <TableRow className={styles.tableRow}>
-                        <TableCell
-                          style={{ paddingTop: 10, paddingBottom: 10 }}
-                        >
-                          <strong>{rowSubTitle.name}: </strong>
-
-                          {
-                            personDataState?.person_campuses[subIndex]?.campus
-                              ?.campus_name
-                          }
-                        </TableCell>
-                      </TableRow>
-                      <TableRow className={styles.tableRow}>
-                        <TableCell
-                          style={{ paddingTop: 10, paddingBottom: 10 }}
-                        >
-                          <strong>{rowSubTitle.type}: </strong>
-                          {
-                            personDataState?.person_campuses[subIndex]?.area
-                              ?.area
-                          }
-                        </TableCell>
-                      </TableRow>
-                      <TableRow className={styles.tableRow}>
-                        <TableCell
-                          style={{ paddingTop: 10, paddingBottom: 10 }}
-                        >
-                          <strong>{rowSubTitle.location}: </strong>
-                          {
-                            personDataState?.person_campuses[subIndex]?.area
-                              ?.super_area?.super_area
-                          }
-                        </TableCell>
-                      </TableRow>
-                      <TableRow className={styles.tableRow}>
-                        <TableCell
-                          style={{ paddingTop: 10, paddingBottom: 10 }}
-                        >
-                          <strong>{rowSubTitle.activeDate}: </strong>
-                          {personDataState?.person_campuses[subIndex]?.turfid}
-                          {/*{personDataState?.first_name}{" "}*/}
-                          {/*{personDataState?.middle_name}{" "}*/}
-                          {/*{personDataState?.last_name}*/}
-                        </TableCell>
-                      </TableRow>
-                      <TableRow className={styles.tableRow}>
-                        <TableCell
-                          style={{ paddingTop: 10, paddingBottom: 10 }}
-                        >
-                          <strong>{rowSubTitle.pmStatus}: </strong>
-                          {data?.sample_person[subIndex].user_accounts[subIndex]
-                            ?.is_pm
-                            ? "Yes"
-                            : "No"}
-                        </TableCell>
-                      </TableRow>
-                      <TableRow className={styles.tableRow}>
-                        <TableCell
-                          style={{ paddingTop: 10, paddingBottom: 10 }}
-                        >
-                          <strong>{rowSubTitle.canEmail}: </strong>
-                          {data?.sample_person[subIndex].user_accounts[subIndex]
-                            ?.can_email
-                            ? "Yes"
-                            : "No"}
-                        </TableCell>
-                      </TableRow>
-
-                      <TableRow className={styles.tableRow}>
-                        <TableCell
-                          style={{ paddingTop: 10, paddingBottom: 10 }}
-                        >
-                          <Box
-                            sx={{
-                              display: "flex",
-                              gap: "0px 20px",
-                              paddingBottom: "15px",
-                            }}
-                          >
-                            <strong>{rowSubTitle.dfkv}: </strong>
-                            {(() => {
-                              const date = new Date(
-                                personDataState?.person_campuses[
-                                  subIndex
-                                ]?.date_last_known_valid
-                              );
-                              return (
-                                <>
-                                  {date?.toLocaleString("en-US", dateOptions)}
-                                </>
-                              );
-                            })()}
-
-                            <Box
-                              sx={{
-                                textAlign: "right",
-                                m: "auto 0px auto auto",
-                                color: "#0400ff",
-                                cursor: "pointer",
-                              }}
-                              className={"disable-select"}
-                              onClick={() => handleSubIndex()}
-                            >
-                              {(() => {
-                                if (
-                                  personDataState?.person_campuses?.length == 1
-                                )
-                                  return (
-                                    <>
-                                      {personDataState?.person_campuses?.length}
-                                    </>
-                                  );
-                                return (
-                                  <>
-                                    {subIndex + 1} of{" "}
-                                    {personDataState?.person_campuses?.length}{" "}
-                                    &gt;
-                                  </>
-                                );
-                              })()}
-                            </Box>
-                          </Box>
-                          <Button
-                            style={{
-                              backgroundColor: "#6BAD43",
-                              height: "30px",
-                              fontSize: "14px",
-                            }}
-                            variant="contained"
-                            onClick={() => goTo1("/persondataentry/research/")}
-                          >
-                            Campus Data Entry
-                          </Button>
-                        </TableCell>
-                      </TableRow>
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-              </Box>
-            ) : (
-              <Box
-                sx={{
-                  p: 1,
-                  m: 2,
-                  border: "1px solid #000",
-                  borderRadius: "5px",
-                  flex: 1,
-                  display: "flex",
-                }}
-              >
-                {fetchLoading ? (
-                  <Box sx={{ m: "auto", fontWeight: 600, color: "black" }}>
-                    <span>Loading...</span>
-                  </Box>
-                ) : (
-                  <Box
-                    sx={{
-                      m: "auto",
-                      fontWeight: 600,
-                      color: "black",
-                    }}
-                  >
-                    <span>No Campus Affiliations</span>
-                  </Box>
-                )}
-              </Box>
-            )}
+            <SideComponent
+              {...{
+                personDataState,
+                rowSubTitle,
+                subIndex,
+                data,
+                handleSubIndex,
+                fetchLoading,
+                goTo1,
+              }}
+            />
           </Box>
         </>
       )}

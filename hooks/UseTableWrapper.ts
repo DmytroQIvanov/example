@@ -18,17 +18,11 @@ export const useTableWrapper = (
   const router = useRouter();
   useEffect(() => {
     let result = rows?.map((elem) => {
-      console.log(elem);
       let result = elem;
       for (const field in elem) {
-        console.log(typeof elem[field]);
         if (elem[field] === null) {
           result[field] = "";
         } else {
-          // if (typeof elem[field] === "object") {
-          //   result[field] = { ...elem[field] };
-          // }
-          // if (field !== "__typename" && field !== "person_home_address_id")
           result[field] = elem[field];
         }
       }
@@ -58,7 +52,8 @@ export const useTableWrapper = (
   };
   const onChangeAddState = () => {
     if (!alreadyAdded) {
-      const id = temporallyTableElements[tableElements.length - 1]?.id + 1 || 0;
+      // const id = temporallyTableElements[tableElements.length - 1]?.id + 1 || 0;
+      const id = -99;
       setTemporallyTableElements([
         ...tableElements,
         {

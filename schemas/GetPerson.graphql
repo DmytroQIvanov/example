@@ -7,7 +7,7 @@ query GetPerson($search: String!) {
 }
 
 query person_query($pid: Int!) {
-  person(where: {person_id: {_eq: $pid}}) {
+  person(where: { person_id: { _eq: $pid } }) {
     first_name
     middle_names
     last_name
@@ -40,7 +40,6 @@ query person_query($pid: Int!) {
       person_type
     }
   }
-
 }
 
 mutation create_person(
@@ -342,24 +341,26 @@ query campus_query {
 }
 
 query super_area_query($campus: Int!) {
-  super_area(where: {campus_id: {_eq: $campus}}) {
+  super_area(where: { campus_id: { _eq: $campus } }) {
     super_area_id
     super_area
     campus_id
-#    areas {
-#      area_id
-#      area
-#      campus_id
-#    }
+    #    areas {
+    #      area_id
+    #      area
+    #      campus_id
+    #    }
   }
 }
 
 query area_query($campus: Int!, $superarea: Int!) {
-  area(where: {super_area_id: {_eq: $superarea}, campus_id: {_eq: $campus}}) {
+  area(
+    where: { super_area_id: { _eq: $superarea }, campus_id: { _eq: $campus } }
+  ) {
     area_id
     area
-#    super_area_id
-#    campus_id
+    #    super_area_id
+    #    campus_id
   }
 }
 mutation update_person_campus(
@@ -506,7 +507,7 @@ query person_campus_query($pid: Int!) {
 }
 
 mutation update_person(
-  $pid:String
+  $pid: String
   $first_name: String
   $middle_names: String
   $last_name: String
@@ -516,7 +517,7 @@ mutation update_person(
 ) {
   update_person(
     objects: {
-      pid:$pid
+      pid: $pid
       first_name: $first_name
       middle_names: $middle_names
       last_name: $last_name
@@ -582,5 +583,65 @@ query person_type_query {
   person_type {
     id
     person_type
+  }
+}
+
+query person_electronic_query($pid: Int!) {
+  person_electronic(where: { person_id: { _eq: $pid } }) {
+    person_id
+    person_electronic_id
+    electronic_type {
+      electronic_type_id
+      electronic_type
+    }
+    information_source_type {
+      information_source_type_id
+      information_source_type
+    }
+    date_first_known_valid
+    date_last_known_valid
+    date_marked_do_not_include
+    date_marked_invalid
+  }
+}
+
+mutation insert_person_electronic($pid: Int!, $email: String!, $source: Int!, $electronictype: Int!) {
+  insert_person_electronic_one(object: {electronic_address: $email, information_source_type_id: $source,
+    electronic_type_id: $electronictype, person_id: $pid}) {
+    person_id
+    person_electronic_id
+    electronic_address
+    electronic_type {
+      electronic_type_id
+      electronic_type
+    }
+    information_source_type {
+      information_source_type_id
+      information_source_type
+    }
+    date_first_known_valid
+    date_last_known_valid
+    date_marked_invalid
+  }
+}
+
+
+mutation insert_person_electronic($pid: Int!, $email: String!, $source: Int!, $electronictype: Int!) {
+  insert_person_electronic_one(object: {electronic_address: $email, information_source_type_id: $source,
+    electronic_type_id: $electronictype, person_id: $pid}) {
+    person_id
+    person_electronic_id
+    electronic_address
+    electronic_type {
+      electronic_type_id
+      electronic_type
+    }
+    information_source_type {
+      information_source_type_id
+      information_source_type
+    }
+    date_first_known_valid
+    date_last_known_valid
+    date_marked_invalid
   }
 }

@@ -140,13 +140,15 @@ const SearchMenu: React.FC<{
 
         <div
           style={{
-            position: "absolute",
+            position: "fixed",
             // @ts-ignore
             left: inputRef.current?.getClientRects()[0].x,
             zIndex: "1000",
             // @ts-ignore
             top: inputRef.current?.getClientRects()[0].y,
             display: "block",
+            // overflowY: "scroll",
+            // overflowX: "auto",
           }}
         >
           {children}
@@ -188,7 +190,7 @@ const SearchMenu: React.FC<{
                 <TableBody>
                   <TableRow>
                     <TableCell>
-                      <Box className={styles.result}>
+                      <Box className={`${styles.result}`}>
                         <TableContainer>
                           <Table sx={{ pt: "-22px", position: "relative" }}>
                             <TableHead>

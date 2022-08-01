@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import TableBody from "@material-ui/core/TableBody";
 import TableWrapper from "../TablesComponents/TableWrapper/Index";
 
@@ -9,77 +9,44 @@ import {
 import TableRowComponent from "./TableRow";
 import { HeadCell } from "../TablesComponents/Interfaces/HeadCell";
 import { Order } from "../TablesComponents/Interfaces/Order";
-
-const rows: IRowsPersonEmploymentTable[] = [
-  {
-    id: "1",
-    electronicAddress: "msalvador@school.edu",
-    electronicType: "Un1iversity Email",
-    source: "U.List",
-    emailOptions: true,
-    dfkv: "01/01/2021",
-    dlkv: "01/01/2022",
-    dmi: "01/01/2022",
-  },
-  {
-    id: "2",
-    electronicAddress: "m2salvador@sssssschool.edu",
-    electronicType: "Un5iversity Email",
-    source: "U.List",
-    emailOptions: true,
-    dfkv: "01/11/2021",
-    dlkv: "01/01/2022",
-    dmi: "01/01/2022",
-  },
-  {
-    id: "3",
-    electronicAddress: "ms4alvador@school.edu",
-    electronicType: "Un3iversity Email",
-    source: "U.List",
-    emailOptions: true,
-    dfkv: "01/31/2021",
-    dlkv: "01/01/2022",
-    dmi: "01/01/2022",
-  },
-  {
-    id: "4",
-    electronicAddress: "ms32alvador@school.edu",
-    electronicType: "Un3iversity Email",
-    source: "U.List",
-    emailOptions: true,
-    dfkv: "01/51/2021",
-    dlkv: "01/01/2022",
-    dmi: "01/01/2022",
-  },
-];
+import { useRouter } from "next/router";
+import { useMutation, useQuery } from "@apollo/client";
+import {
+  DELETE_PERSON_ELECTRONIC,
+  INSERT_PERSON_ELECTRONIC,
+  PERSON_ELECTRONIC_DATA,
+  UPDATE_PERSON_ELECTRONIC,
+} from "../../../schemas/PersonElectronicSchema";
 
 const headCells: readonly HeadCell<IColumnsPersonEmploymentTable>[] = [
   {
-    id: "electronicAddress",
+    id: "electronic_address",
     label: "Electronic Address",
   },
   {
-    id: "electronicType",
+    id: "electronic_type",
     label: "Electronic Type",
+    sortingBy: "electronic_type.electronic_type_id",
   },
   {
-    id: "source",
+    id: "information_source_type",
     label: "Source",
+    sortingBy: "electronic_type.electronic_type_id",
   },
   {
     id: "emailOptions",
     label: "Email Options",
   },
   {
-    id: "dfkv",
+    id: "date_first_known_valid",
     label: "DFKV",
   },
   {
-    id: "dlkv",
+    id: "date_last_known_valid",
     label: "DLKV",
   },
   {
-    id: "dmi",
+    id: "date_marked_invalid",
     label: "DMI",
   },
   {
@@ -91,7 +58,7 @@ const headCells: readonly HeadCell<IColumnsPersonEmploymentTable>[] = [
 const Index = () => {
   const [order, setOrder] = React.useState<Order>("asc");
   const [orderBy, setOrderBy] =
-    React.useState<keyof IRowsPersonEmploymentTable>("electronicAddress");
+    React.useState<keyof IRowsPersonEmploymentTable>("id");
 
   const handleRequestSort = (
     _: any,
@@ -101,24 +68,98 @@ const Index = () => {
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
   };
-  const [tableElements, setTableElements] = useState(rows);
-  const onDelete = (id: string | undefined) => {
-    if (!id) return;
-    setTableElements(tableElements.filter((elem) => elem.id !== id));
+
+  const [data, setData] = useState<any[]>([]);
+  const [successAlert, setSuccessAlert] = useState(false);
+
+  const router = useRouter();
+  const {
+    data: personElectronicTables,
+    error,
+    loading,
+    fetchMore,
+    refetch,
+  } = useQuery(PERSON_ELECTRONIC_DATA, {
+    variables: { pid: router.query.id },
+    skip: !router.query.id,
+  });
+
+  useEffect(() => {
+    if (personElectronicTables?.person_electronic)
+      setData(() =>
+        personElectronicTables?.person_electronic.map((elem: any) => {
+          return {
+            id: elem.person_electronic_id,
+            ...elem,
+            validateState: Boolean(elem.date_marked_invalid),
+          };
+        })
+      );
+  }, [personElectronicTables?.person_electronic]);
+
+  const [changeFunction, { loading: changeLoading }] = useMutation(
+    UPDATE_PERSON_ELECTRONIC
+  );
+
+  const [createFunction, { loading: createLoading, error: createError }] =
+    useMutation(INSERT_PERSON_ELECTRONIC);
+
+  const [deleteFunction, { loading: deleteLoading, error: deleteError }] =
+    useMutation(DELETE_PERSON_ELECTRONIC);
+
+  const onChangeFunction = (state: any) => {
+    const date = new Date();
+
+    changeFunction({
+      variables: {
+        email: state.electronic_address,
+        source: state.information_source_type.information_source_type_id,
+        electronictype: state.electronic_type.electronic_type_id,
+
+        id: state.person_electronic_id,
+      },
+    });
   };
+  const onCreateFunction = (state: any) => {
+    const date = new Date();
+
+    createFunction({
+      variables: {
+        email: state.electronic_address,
+        source: state.information_source_type.information_source_type_id,
+        electronictype: state.electronic_type.electronic_type_id,
+        pid: router.query.id,
+      },
+    }).then(() => {
+      setSuccessAlert(true);
+      refetch();
+    });
+  };
+
+  const onDeleteFunction = (state: any) => {
+    if (!state.person_electronic_id) return;
+    deleteFunction({ variables: { id: state.person_electronic_id } });
+  };
+
   return (
-    <TableWrapper rows={rows}>
+    <TableWrapper
+      rows={data}
+      refetch={refetch}
+      onChangeFunction={onChangeFunction}
+      onSaveFunction={onCreateFunction}
+      deleteFunction={onDeleteFunction}
+    >
       {({
         EnhancedTableHead,
         stableSort,
         getComparator,
-        tableElements,
         onSaveWithProvidedState,
         onChangeWithProvidedState,
         onAddSave,
         onAddCancel,
         activeRowObject,
         onDelete,
+        tableElements: data,
       }) => (
         <>
           <EnhancedTableHead
@@ -129,7 +170,7 @@ const Index = () => {
           />
           <TableBody>
             {/*@ts-ignore*/}
-            {stableSort(tableElements, getComparator(order, orderBy)).map(
+            {stableSort(data, getComparator(order, orderBy)).map(
               (row: IRowsPersonEmploymentTable) => (
                 <TableRowComponent
                   row={row}
