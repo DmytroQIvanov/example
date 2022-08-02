@@ -42,6 +42,7 @@ export interface ITableWrapperProps {
     onChangeWithProvidedState: (state: any) => void;
     activeRowObject: IActiveRowObject;
     onDelete: Function;
+    handleErrorMessage: (text: string) => void;
   }) => React.ReactNode;
   buttonsList?: [
     {

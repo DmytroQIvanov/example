@@ -24,7 +24,6 @@ export const ValidateComponent = ({
         onClick={() => {
           const date = new Date();
           const pst = date.toLocaleString("en-US", dateOptions);
-          handleChange("dlkv", pst);
           changeValidateState(false, true);
         }}
       >

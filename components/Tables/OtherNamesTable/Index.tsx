@@ -148,11 +148,7 @@ const Index: React.FC<{
     }).catch(setErrorMessage);
   };
 
-  const [validateFunction, { loading: validateLoading }] =
-    useMutation(VALIDATE_OTHER_NAME);
-
-  const [deleteFunction, { loading: deleteLoading }] =
-    useMutation(DELETE_OTHER_NAMES);
+  const [deleteFunction] = useMutation(DELETE_OTHER_NAMES);
 
   const onDelete = (state: any) => {
     deleteFunction({ variables: { id: state.person_other_name_id } }).catch(
@@ -184,6 +180,7 @@ const Index: React.FC<{
         onAddCancel,
         activeRowObject,
         onDelete,
+        handleErrorMessage,
       }) => (
         <>
           <EnhancedTableHead
@@ -206,7 +203,7 @@ const Index: React.FC<{
                   onAddSave={onAddSave}
                   onAddCancel={onAddCancel}
                   activeRowObject={activeRowObject}
-                  validateFunction={validateFunction}
+                  handleErrorMessage={handleErrorMessage}
                 />
               )
             )}

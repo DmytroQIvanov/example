@@ -186,7 +186,7 @@ const PhoneTable = () => {
       variables: { id: state.person_phone_id },
     })
       .then(() => {
-        setErrorMessage("not found in type: 'mutation_root'");
+        refetch();
       })
       .catch(setErrorMessage);
   };
@@ -212,6 +212,7 @@ const PhoneTable = () => {
         onAddCancel,
         activeRowObject,
         onDelete,
+        handleErrorMessage,
       }) => (
         <>
           <EnhancedTableHead
@@ -235,6 +236,7 @@ const PhoneTable = () => {
                   onAddCancel={onAddCancel}
                   activeRowObject={activeRowObject}
                   refetch={refetch}
+                  handleErrorMessage={handleErrorMessage}
                 />
               )
             )}

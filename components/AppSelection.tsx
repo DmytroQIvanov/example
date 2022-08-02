@@ -54,18 +54,9 @@ export function AppSelection() {
     uri: "https://api.advancemarketingsolutions.net/v1/graphql",
     cache: new InMemoryCache(),
   });
-  // const apolloClient = new ApolloClient({
-  //   cache: new InMemoryCache(),
-  //
-  // link: from([authMiddleware, httpLink]),
-  // link: httpLink,
-  // headers: { "x-hasura-admin-secret": "grace_under_pressure" },
-  // });
 
   const { data, error } = useQuery(qsad, {
-    // query: qsad,
     variables: { search: "Ivan" },
-    // client,
   });
   console.log(data);
   console.log(error);

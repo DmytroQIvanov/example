@@ -1,6 +1,5 @@
 import React from "react";
 import TableCell from "@material-ui/core/TableCell";
-import TableRow from "@material-ui/core/TableRow";
 //INTERFACES
 import { IRowsPersonEmploymentTable } from "./interfaces";
 import TableRowWrapper from "../TablesComponents/TableRowWrapper";
@@ -9,17 +8,7 @@ import TableRowWrapper from "../TablesComponents/TableRowWrapper";
 import EditableBlock from "../TablesComponents/EditableBlock";
 import { UseEditableTable } from "../../../hooks/UseEditableTable";
 import OptionsBlock from "../TablesComponents/OptionsBlock";
-import { IActiveRowObject } from "../TablesComponents/Interfaces/TableWrapperInterfaces";
 import { ITableRowComponent } from "../TablesComponents/Interfaces/ITableRowComponent";
-
-const dropArray = [
-  {
-    label: "Something",
-  },
-  {
-    label: "Lorem",
-  },
-];
 
 const TableRowComponent: React.FC<
   ITableRowComponent<IRowsPersonEmploymentTable>

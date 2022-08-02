@@ -25,30 +25,18 @@ import { UseGetInformationSourceType } from "../../../hooks/UseGetInformationSou
 
 const TableRowComponent: React.FC<
   ITableRowComponent<IRowsPersonEmploymentTable>
-> = ({
-  row,
-  onDelete,
-  onAddCancel,
-  activeRowObject,
-  onSaveWithProvidedState,
-  onChangeWithProvidedState,
-  refetch,
-}) => {
-  const [invalidateFunction] = useMutation(INVALIDATE_PERSON_PHONE);
-  const [validateFunction] = useMutation(VALIDATE_PERSON_PHONE);
+> = (props) => {
+  const { onDelete, activeRowObject, refetch } = props;
 
   const [dncFunction] = useMutation(DNC);
   const [remove_dncFunction] = useMutation(REMOVE_DNC);
   const { data: phoneTypeArray } = useQuery(PHONE_TYPE_DATA);
 
   const { onCancel, summaryObject, onSave } = UseEditableTable({
-    row,
-    activeRowObject,
-    onSaveWithProvidedState,
-    onChangeWithProvidedState,
-    onAddCancel,
-    validateFunction,
-    invalidateFunction,
+    ...props,
+
+    validateSchema: VALIDATE_PERSON_PHONE,
+    invalidateSchema: INVALIDATE_PERSON_PHONE,
   });
 
   const [dncBoolean, setDncBoolean] = useState(

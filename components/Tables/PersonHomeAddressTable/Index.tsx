@@ -139,6 +139,7 @@ const Index: React.FC<{
         onAddCancel,
         activeRowObject,
         onDelete,
+        handleErrorMessage,
       }) => (
         <>
           <EnhancedTableHead
@@ -162,6 +163,7 @@ const Index: React.FC<{
                   onAddCancel={onAddCancel}
                   activeRowObject={activeRowObject}
                   refetch={refetch}
+                  handleErrorMessage={handleErrorMessage}
                 />
               )
             )}

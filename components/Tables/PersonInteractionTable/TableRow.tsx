@@ -14,21 +14,10 @@ import { ITableRowComponent } from "../TablesComponents/Interfaces/ITableRowComp
 
 const TableRowComponent: React.FC<
   ITableRowComponent<IRowsPersonEmploymentTable>
-> = ({
-  row,
-  onDelete,
-  onAddCancel,
-  activeRowObject,
-  onSaveWithProvidedState,
-  onChangeWithProvidedState,
-  handleOpenPersonInteractionModal,
-}) => {
+> = (props) => {
+  const { onDelete, activeRowObject, handleOpenPersonInteractionModal } = props;
   const { onCancel, summaryObject } = UseEditableTable({
-    row,
-    activeRowObject,
-    onSaveWithProvidedState,
-    onChangeWithProvidedState,
-    onAddCancel,
+    ...props,
   });
 
   return (

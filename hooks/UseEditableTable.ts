@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { IActiveRowObject } from "../components/Tables/TablesComponents/Interfaces/TableWrapperInterfaces";
 import { dateOptions } from "../components/Tables/TablesComponents/EditableBlock/Components/dateOptions";
+import { DocumentNode } from "graphql";
+import { useMutation } from "@apollo/client";
+import {
+  INVALIDATE_PERSON_HOME_ADDRESS,
+  VALIDATE_PERSON_HOME_ADDRESS,
+} from "../schemas/HomeAddressSchemas";
 
 export type rowStateTypes = "default" | "change" | "add";
 
@@ -18,12 +24,6 @@ export interface ISummaryObject {
   handleChangeArray: Function;
 }
 
-interface IUseEditableTableReturns {
-  onSave: () => void;
-  onCancel: () => void;
-  changeRowState: () => void;
-  summaryObject: ISummaryObject;
-}
 export const UseEditableTable = ({
   activeRowObject,
   row,
@@ -31,9 +31,12 @@ export const UseEditableTable = ({
   onSaveWithProvidedState,
   onAddCancel,
   refetch,
-  invalidateFunction,
-  validateFunction,
+  // invalidateFunction,
+  // validateFunction,
+  handleErrorMessage,
   dmiNullFunction,
+  validateSchema,
+  invalidateSchema,
 }: {
   activeRowObject: IActiveRowObject;
   row?: any;
@@ -41,9 +44,13 @@ export const UseEditableTable = ({
   onSaveWithProvidedState: any;
   onAddCancel: any;
   refetch?: Function;
-  invalidateFunction?: Function;
-  validateFunction?: Function;
+  // invalidateFunction?: Function;
+  // validateFunction?: Function;
+  handleErrorMessage?: (value: string) => void;
   dmiNullFunction?: Function;
+
+  invalidateSchema?: DocumentNode;
+  validateSchema?: DocumentNode;
 }): {
   onSave: () => void;
   onCancel: () => void;
@@ -108,6 +115,8 @@ export const UseEditableTable = ({
     setRowState(result);
     activeRowObject.handleRowState(rowValues.id, result);
   };
+  const validateValue = validateSchema && useMutation(validateSchema);
+  const invalidateValue = invalidateSchema && useMutation(invalidateSchema);
 
   // SAVE WITH PROVIDED STATE
   const saveWithProvidedState = (state: any) => {
@@ -193,21 +202,17 @@ export const UseEditableTable = ({
       setRowValues((prevState2: any) => {
         const date = new Date();
         const pst = date.toLocaleString("en-US", dateOptions);
-        prevState2["dlkv"] = pst;
-        prevState2["datelastknownvalid"] = pst;
         prevState2["date_last_known_valid"] = pst;
         prevState2["dmi"] = null;
-        prevState2["datemarkedinvalid"] = null;
         prevState2["date_marked_invalid"] = null;
 
-        // const dlkvPromise = dlkvFunction({
-        //   variables: { id: prevState2.id, date: pst },
-        // });
         const validatePromise =
-          validateFunction &&
-          validateFunction({
+          validateValue &&
+          validateValue[0] &&
+          validateValue[0]({
             variables: { id: prevState2.id, date: pst },
-          });
+          }).catch(handleErrorMessage);
+
         let dmiNullPromise =
           dmiNullFunction &&
           dmiNullFunction({
@@ -222,12 +227,8 @@ export const UseEditableTable = ({
       setEditableRowValues((prevState2: any) => {
         const date = new Date();
         const pst = date.toLocaleString("en-US", dateOptions);
-        prevState2["dlkv"] = pst;
         prevState2["date_last_known_valid"] = pst;
-        prevState2["datelastknownvalid"] = pst;
-        prevState2["dmi"] = null;
         prevState2["date_marked_invalid"] = null;
-        prevState2["datemarkedinvalid"] = null;
 
         return prevState2;
       });
@@ -241,20 +242,22 @@ export const UseEditableTable = ({
       ) {
         const date = new Date();
         const pst = date.toLocaleString("en-US", dateOptions);
-        invalidateFunction &&
-          invalidateFunction({
+
+        invalidateValue &&
+          invalidateValue[0] &&
+          invalidateValue[0]({
             variables: { id: rowValues.id, date: pst },
-          }).then(() => {
-            refetch && refetch();
-          });
+          })
+            .then(() => {
+              refetch && refetch();
+            })
+            .catch(handleErrorMessage);
         setRowValues((prevState2: any) => {
-          prevState2["dmi"] = pst;
           prevState2["date_marked_invalid"] = pst;
 
           return prevState2;
         });
         setEditableRowValues((prevState2: any) => {
-          prevState2["dmi"] = pst;
           prevState2["date_marked_invalid"] = pst;
 
           return prevState2;

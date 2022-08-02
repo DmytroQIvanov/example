@@ -204,6 +204,7 @@ const PersonResearchTable = () => {
         onAddCancel,
         activeRowObject,
         onDelete,
+        handleErrorMessage,
       }) => (
         <>
           <EnhancedTableHead
@@ -226,6 +227,7 @@ const PersonResearchTable = () => {
                   onAddSave={onAddSave}
                   onAddCancel={onAddCancel}
                   activeRowObject={activeRowObject}
+                  handleErrorMessage={handleErrorMessage}
                 />
               )
             )}

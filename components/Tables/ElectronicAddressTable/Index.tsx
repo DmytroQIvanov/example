@@ -167,6 +167,7 @@ const Index = () => {
         activeRowObject,
         onDelete,
         tableElements: data,
+        handleErrorMessage,
       }) => (
         <>
           <EnhancedTableHead
@@ -188,6 +189,7 @@ const Index = () => {
                   onAddSave={onAddSave}
                   onAddCancel={onAddCancel}
                   activeRowObject={activeRowObject}
+                  handleErrorMessage={handleErrorMessage}
                 />
               )
             )}

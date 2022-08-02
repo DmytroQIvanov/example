@@ -22,36 +22,21 @@ import {
 
 const TableRowComponent: React.FC<
   ITableRowComponent<IRowsPersonEmploymentTable>
-> = ({
-  row,
-  onDelete,
-  onAddCancel,
-  activeRowObject,
-  onSaveWithProvidedState,
-  onChangeWithProvidedState,
-  refetch,
-}) => {
-  const [invalidateFunction, { loading: invalidateLoading }] = useMutation(
-    INVALIDATE_PERSON_HOME_ADDRESS
-  );
-  const [validateFunction, { loading: validateLoading }] = useMutation(
-    VALIDATE_PERSON_HOME_ADDRESS
-  );
-  const [dmiNullFunction] = useMutation(HOME_ADDRESS_DMI_NULL);
-
-  const [dlkvFunction, { loading: mutateLoading }] = useMutation(
-    CHANGE_DATE_LAST_KNOWN_VALID
-  );
-  const { onCancel, summaryObject, onSave } = UseEditableTable({
-    row,
+> = (props) => {
+  const {
+    onDelete,
     activeRowObject,
     onSaveWithProvidedState,
     onChangeWithProvidedState,
-    onAddCancel,
-    invalidateFunction,
-    validateFunction,
+    refetch,
+  } = props;
+  const [dmiNullFunction] = useMutation(HOME_ADDRESS_DMI_NULL);
+
+  const { onCancel, summaryObject, onSave } = UseEditableTable({
+    ...props,
     dmiNullFunction,
-    // dlkvFunction,
+    invalidateSchema: INVALIDATE_PERSON_HOME_ADDRESS,
+    validateSchema: VALIDATE_PERSON_HOME_ADDRESS,
   });
 
   const [stateModal, setStateModal] = useState(false);

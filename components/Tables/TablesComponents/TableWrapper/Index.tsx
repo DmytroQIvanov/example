@@ -12,18 +12,7 @@ import { Order } from "../Interfaces/Order";
 import { useTableWrapper } from "../../../../hooks/UseTableWrapper";
 import { ITableWrapperProps } from "../Interfaces/TableWrapperInterfaces";
 import Modal from "@mui/material/Modal";
-
-const style = {
-  position: "absolute" as "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  bgcolor: "background.paper",
-  boxShadow: 24,
-  pt: 3,
-  px: 4,
-  pb: 4,
-};
+import { tableWrapperModalStyle } from "./style";
 
 const Index: React.FC<ITableWrapperProps> = ({
   children,
@@ -64,6 +53,8 @@ const Index: React.FC<ITableWrapperProps> = ({
     buttonsList !== undefined ? buttonsList : []
   );
 
+  const [errorMessageText, handleErrorMessage] = useState<string | null>();
+
   const [permissionError, setPermissionError] = useState(false);
   useEffect(() => {
     if (errorMessage) {
@@ -71,6 +62,12 @@ const Index: React.FC<ITableWrapperProps> = ({
       setPermissionError(checkPermissionError(errorMessage));
     }
   }, [errorMessage]);
+  useEffect(() => {
+    if (errorMessageText) {
+      refetch && refetch();
+      setPermissionError(checkPermissionError(errorMessageText));
+    }
+  }, [errorMessageText]);
 
   //SORT FUNCTIONS
   function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
@@ -314,6 +311,7 @@ const Index: React.FC<ITableWrapperProps> = ({
                 onChangeWithProvidedState,
                 activeRowObject,
                 onDelete,
+                handleErrorMessage,
               })}
               <Modal
                 open={permissionError}
@@ -321,7 +319,7 @@ const Index: React.FC<ITableWrapperProps> = ({
                 aria-labelledby="child-modal-title"
                 aria-describedby="child-modal-description"
               >
-                <Box sx={{ ...style, width: "40vw" }}>
+                <Box sx={{ ...tableWrapperModalStyle, width: "40vw" }}>
                   <h2>
                     You currently do not have permissions to perform that action
                   </h2>

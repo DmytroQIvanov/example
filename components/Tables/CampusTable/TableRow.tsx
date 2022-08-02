@@ -9,7 +9,6 @@ import TableRowWrapper from "../TablesComponents/TableRowWrapper";
 //INTERFACES
 import { IRowsPersonEmploymentTable } from "./interfaces";
 import { ITableRowComponent } from "../TablesComponents/Interfaces/ITableRowComponent";
-import { INFORMATION_SOURCE_QUERY } from "../../../schemas/CommonTableSchemas";
 import { useMutation, useQuery } from "@apollo/client";
 import {
   AREA_QUERY,
@@ -22,28 +21,12 @@ import { UseGetInformationSourceType } from "../../../hooks/UseGetInformationSou
 
 const TableRowComponent: React.FC<
   ITableRowComponent<IRowsPersonEmploymentTable>
-> = ({
-  row,
-  onDelete,
-  onAddCancel,
-  activeRowObject,
-  onSaveWithProvidedState,
-  onChangeWithProvidedState,
-}) => {
-  const [invalidateFunction, { loading: invalidateLoading }] = useMutation(
-    INVALIDATE_CAMPUS_TABLE
-  );
-  const [validateFunction, { loading: validateLoading }] = useMutation(
-    VALIDATE_CAMPUS_TABLE
-  );
+> = (props) => {
+  const { onDelete, activeRowObject } = props;
   const { onCancel, summaryObject, onSave } = UseEditableTable({
-    row,
-    activeRowObject,
-    onSaveWithProvidedState,
-    onChangeWithProvidedState,
-    onAddCancel,
-    invalidateFunction,
-    validateFunction,
+    ...props,
+    invalidateSchema: INVALIDATE_CAMPUS_TABLE,
+    validateSchema: VALIDATE_CAMPUS_TABLE,
   });
 
   const [campusArray, setCampusArray] = useState<

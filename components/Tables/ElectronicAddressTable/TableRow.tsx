@@ -21,29 +21,13 @@ import { UseGetInformationSourceType } from "../../../hooks/UseGetInformationSou
 
 const TableRowComponent: React.FC<
   ITableRowComponent<IRowsPersonEmploymentTable>
-> = ({
-  row,
-  onDelete,
-  onAddCancel,
-  activeRowObject,
-  onSaveWithProvidedState,
-  onChangeWithProvidedState,
-}) => {
-  const [invalidateFunction, { loading: invalidateLoading }] = useMutation(
-    INVALIDATE_PERSON_ELECTRONIC
-  );
-  const [validateFunction, { loading: validateLoading }] = useMutation(
-    VALIDATE_PERSON_ELECTRONIC
-  );
+> = (props) => {
+  const { onDelete, activeRowObject } = props;
 
   const { onCancel, summaryObject, onSave } = UseEditableTable({
-    row,
-    activeRowObject,
-    onSaveWithProvidedState,
-    onChangeWithProvidedState,
-    onAddCancel,
-    invalidateFunction,
-    validateFunction,
+    ...props,
+    validateSchema: VALIDATE_PERSON_ELECTRONIC,
+    invalidateSchema: INVALIDATE_PERSON_ELECTRONIC,
   });
 
   const [electronicTypeArray, setElectronicTypeArray] = useState([]);

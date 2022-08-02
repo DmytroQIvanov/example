@@ -26,36 +26,17 @@ import {
 
 const TableRowComponent: React.FC<
   ITableRowComponent<IRowsPersonEmploymentTable>
-> = ({
-  row,
-  onDelete,
-  onAddCancel,
-  activeRowObject,
-  onSaveWithProvidedState,
-  onChangeWithProvidedState,
-}) => {
-  const [invalidateFunction, { loading: invalidateLoading }] = useMutation(
-    INVALIDATE_OTHER_NAME
-  );
-  const [validateFunction, { loading: validateLoading }] =
-    useMutation(VALIDATE_OTHER_NAME);
+> = (props) => {
+  const { onDelete, activeRowObject } = props;
 
   const [dmiNullFunction] = useMutation(HOME_ADDRESS_DMI_NULL);
 
-  const [dlkvFunction, { loading: mutateLoading }] = useMutation(
-    CHANGE_DATE_LAST_KNOWN_VALID
-  );
-
   const { onCancel, summaryObject, onSave } = UseEditableTable({
-    row,
-    activeRowObject,
-    onSaveWithProvidedState,
-    onChangeWithProvidedState,
-    onAddCancel,
-    invalidateFunction,
-    validateFunction,
+    ...props,
     dmiNullFunction,
     // dlkvFunction,
+    validateSchema: VALIDATE_OTHER_NAME,
+    invalidateSchema: INVALIDATE_OTHER_NAME,
   });
 
   const [nameSourceTypeArray, setNameSourceTypeArray] = useState<
@@ -64,20 +45,16 @@ const TableRowComponent: React.FC<
   const [nameSourceSubTypeArray, setNameSourceSubTypeArray] = useState<
     { label: string; id: string }[]
   >([]);
-  const router = useRouter();
 
-  const {
-    data: nameSourceSubType,
-    error,
-    loading,
-    fetchMore,
-    refetch,
-  } = useQuery(NAME_SOURCE_SUBTYPE_QUERY, {
-    variables: {
-      id: summaryObject.rowValues?.name_source_type?.name_source_type_id,
-    },
-    skip: !summaryObject.rowValues?.name_source_type?.name_source_type_id,
-  });
+  const { data: nameSourceSubType, refetch } = useQuery(
+    NAME_SOURCE_SUBTYPE_QUERY,
+    {
+      variables: {
+        id: summaryObject.rowValues?.name_source_type?.name_source_type_id,
+      },
+      skip: !summaryObject.rowValues?.name_source_type?.name_source_type_id,
+    }
+  );
   useEffect(() => {
     if (summaryObject.rowValues.name_source_type)
       refetch({
