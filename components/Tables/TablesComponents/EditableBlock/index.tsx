@@ -180,7 +180,6 @@ const EditableBlock: React.FC<propsBlockWithState> = (data) => {
                 // console.log(`${day}/${month}/${year}`);
                 // handleChange(name, `${day}/${month}/${year}`);
                 // handleChange(name, `${month}/${day}/${year}`);
-                alert(newValue);
                 handleChange(name, newValue.toLocaleString("en-US", newValue));
               }}
               renderInput={(params) => <TextField {...params} style={styles} />}

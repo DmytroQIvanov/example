@@ -357,7 +357,7 @@ export const UseEditableTable = ({
     name: string,
     value: string | number | boolean | Date
   ) => {
-    if (activeRowObject.checkActiveRow(row.id)) {
+    if (activeRowObject.checkActiveRow(row.id, "default")) {
       setRowValues((prevState: any) => {
         return {
           ...prevState,
