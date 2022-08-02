@@ -103,12 +103,16 @@ const Index: React.FC<{
     setStateModal(true);
   };
 
-  const [
-    deleteTableFunction,
-    { loading: deletingLoading, error: errorMessage },
-  ] = useMutation(DELETE_PERSON_HOME_TABLE);
-  // const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [deleteTableFunction, { loading: deletingLoading }] = useMutation(
+    DELETE_PERSON_HOME_TABLE
+  );
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
+  const onDelete = (state: any) => {
+    deleteTableFunction({
+      variables: { id: state.person_home_address_id },
+    }).catch(setErrorMessage);
+  };
   return (
     <TableWrapper
       buttonsList={[
@@ -121,7 +125,7 @@ const Index: React.FC<{
       rows={tableData}
       disableAddBtn
       refetch={refetch}
-      deleteFunction={deleteTableFunction}
+      deleteFunction={onDelete}
       errorMessage={errorMessage}
     >
       {({
