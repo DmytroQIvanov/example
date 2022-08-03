@@ -13,9 +13,11 @@ import AddressEditModal from "./AddressEditModal";
 import { LinearProgress } from "@mui/material";
 import { useMutation } from "@apollo/client";
 import {
+  CREATE_HOME_ADDRESS,
   DELETE_PERSON_HOME_TABLE,
   HOME_ADDRESS_TABLE,
   INVALIDATE_PERSON_HOME_ADDRESS,
+  UPDATE_HOME_ADDRESS,
 } from "../../../schemas/HomeAddressSchemas";
 import { useRouter } from "next/router";
 import UseTableValues from "../../../hooks/UseTableValues";
@@ -98,9 +100,9 @@ const Index: React.FC = () => {
       idName: "person_home_address_id",
     },
     schemas: {
-      // changeSchema: CHANGE_OTHER_NAME,
-      // createSchema: CREATE_OTHER_NAME,
-      // deleteSchema: DELETE_PERSON_HOME_TABLE,
+      changeSchema: UPDATE_HOME_ADDRESS,
+      createSchema: CREATE_HOME_ADDRESS,
+      deleteSchema: DELETE_PERSON_HOME_TABLE,
       querySchema: HOME_ADDRESS_TABLE,
     },
   });
