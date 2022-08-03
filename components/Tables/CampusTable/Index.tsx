@@ -16,6 +16,13 @@ import {
   PERSON_CAMPUS_QUERY,
   UPDATE_PERSON_CAMPUS,
 } from "../../../schemas/CampusSchemas";
+import UseTableValues from "../../../hooks/UseTableValues";
+import {
+  DELETE_PERSON_PHONE,
+  INSERT_PERSON_PHONE,
+  PERSON_PHONE_DATA,
+  UPDATE_PERSON_PHONE,
+} from "../../../schemas/PhonesSchemas";
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -146,55 +153,22 @@ const headCells: readonly HeadCell<IColumnsPersonEmploymentTable>[] = [
 ];
 
 const CampusTable = () => {
-  const [order, setOrder] = React.useState<Order>("asc");
-  const [orderBy, setOrderBy] =
-    React.useState<keyof IRowsPersonEmploymentTable>("id");
-
-  const handleRequestSort = (
-    _: any,
-    property: keyof IRowsPersonEmploymentTable
-  ) => {
-    const isAsc = orderBy === property && order === "asc";
-    setOrder(isAsc ? "desc" : "asc");
-    setOrderBy(property);
-  };
-
-  const [data, setData] = useState<any[]>([]);
-  const [successAlert, setSuccessAlert] = useState(false);
-
   const router = useRouter();
   const {
-    data: personCampusTables,
-    error,
-    loading,
-    fetchMore,
+    tableElements,
     refetch,
-  } = useQuery(PERSON_CAMPUS_QUERY, {
-    variables: { pid: router.query.id },
-    skip: !router.query.id,
+    functions: { createFunction, deleteFunction, changeFunction },
+    alert: { setSuccessAlert, successAlert },
+    error: { setErrorMessage, errorMessage },
+  } = UseTableValues({
+    tableNames: { tableName: "person_campus", idName: "person_campus_id" },
+    schemas: {
+      changeSchema: UPDATE_PERSON_CAMPUS,
+      createSchema: INSERT_PERSON_CAMPUS,
+      deleteSchema: DELETE_CAMPUS_TABLE,
+      querySchema: PERSON_CAMPUS_QUERY,
+    },
   });
-
-  useEffect(() => {
-    if (personCampusTables?.person_campus)
-      setData(() =>
-        personCampusTables?.person_campus.map((elem: any) => {
-          return {
-            id: elem.person_campus_id,
-            ...elem,
-            validateState: Boolean(elem.date_marked_invalid),
-          };
-        })
-      );
-  }, [personCampusTables?.person_campus]);
-
-  const [changeFunction, { loading: changeLoading }] =
-    useMutation(UPDATE_PERSON_CAMPUS);
-
-  const [createFunction, { loading: createLoading, error: createError }] =
-    useMutation(INSERT_PERSON_CAMPUS);
-
-  const [deleteFunction, { loading: deleteLoading, error: deleteError }] =
-    useMutation(DELETE_CAMPUS_TABLE);
 
   const onChangeFunction = (state: any) => {
     const date = new Date();
@@ -211,7 +185,7 @@ const CampusTable = () => {
         pi: Boolean(state.is_pi),
         summary: state.summary || null,
       },
-    }).catch(setErrorMessage);
+    });
   };
   const onCreateFunction = (state: any) => {
     const date = new Date();
@@ -227,73 +201,25 @@ const CampusTable = () => {
         pi: Boolean(state.is_pi),
         summary: state.summary || null,
       },
-    })
-      .then(() => {
-        setSuccessAlert(true);
-        refetch();
-      })
-      .catch(setErrorMessage);
+    });
   };
 
   const onDeleteFunction = (state: any) => {
     if (!state.person_campus_id) return;
-    deleteFunction({ variables: { id: state.person_campus_id } }).catch(
-      setErrorMessage
-    );
+    deleteFunction({ variables: { id: state.person_campus_id } });
   };
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   return (
     <TableWrapper
-      rows={data}
-      refetch={refetch}
-      onChangeFunction={onChangeFunction}
+      rows={tableElements}
       onSaveFunction={onCreateFunction}
+      onChangeFunction={onChangeFunction}
       deleteFunction={onDeleteFunction}
+      refetch={refetch}
       errorMessage={errorMessage}
-    >
-      {({
-        EnhancedTableHead,
-        stableSort,
-        getComparator,
-        tableElements,
-        onSaveWithProvidedState,
-        onChangeWithProvidedState,
-        onAddSave,
-        onAddCancel,
-        activeRowObject,
-        onDelete,
-        handleErrorMessage,
-      }) => (
-        <>
-          <EnhancedTableHead
-            order={order}
-            orderBy={orderBy}
-            onRequestSort={handleRequestSort}
-            headCells={headCells}
-            success={{ successAlert, setSuccessAlert }}
-          />
-          <TableBody>
-            {/*@ts-ignore*/}
-            {stableSort(tableElements, getComparator(order, orderBy)).map(
-              (row: IRowsPersonEmploymentTable) => (
-                <TableRowComponent
-                  row={row}
-                  key={`${row.id}`}
-                  onChangeWithProvidedState={onChangeWithProvidedState}
-                  onSaveWithProvidedState={onSaveWithProvidedState}
-                  onDelete={onDelete}
-                  onAddSave={onAddSave}
-                  onAddCancel={onAddCancel}
-                  activeRowObject={activeRowObject}
-                  handleErrorMessage={handleErrorMessage}
-                />
-              )
-            )}
-          </TableBody>
-        </>
-      )}
-    </TableWrapper>
+      headCells={headCells}
+      TableRowComponent={TableRowComponent}
+    />
   );
 };
 

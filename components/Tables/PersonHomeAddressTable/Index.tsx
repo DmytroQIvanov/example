@@ -14,9 +14,17 @@ import { LinearProgress } from "@mui/material";
 import { useMutation } from "@apollo/client";
 import {
   DELETE_PERSON_HOME_TABLE,
+  HOME_ADDRESS_TABLE,
   INVALIDATE_PERSON_HOME_ADDRESS,
 } from "../../../schemas/HomeAddressSchemas";
 import { useRouter } from "next/router";
+import UseTableValues from "../../../hooks/UseTableValues";
+import {
+  CHANGE_OTHER_NAME,
+  CREATE_OTHER_NAME,
+  DELETE_OTHER_NAMES,
+  GET_OTHER_NAMES,
+} from "../../../schemas/OtherNamesSchemas";
 
 `accuracy: "ROOFTOP"
 apartment: null
@@ -76,24 +84,26 @@ const headCells: readonly HeadCell<IColumnsPersonEmploymentTable>[] = [
   },
 ];
 
-const Index: React.FC<{
-  tableData: IRowsPersonEmploymentTable[];
-  loading?: boolean;
-  refetch?: Function;
-}> = ({ tableData, loading, refetch }) => {
-  const [order, setOrder] = React.useState<Order>("asc");
-  const [orderBy, setOrderBy] =
-    React.useState<keyof IRowsPersonEmploymentTable>("options");
-
+const Index: React.FC = () => {
   const router = useRouter();
-  const handleRequestSort = (
-    _: any,
-    property: keyof IRowsPersonEmploymentTable
-  ) => {
-    const isAsc = orderBy === property && order === "asc";
-    setOrder(isAsc ? "desc" : "asc");
-    setOrderBy(property);
-  };
+  const {
+    tableElements,
+    refetch,
+    functions: { createFunction, deleteFunction, changeFunction },
+    alert: { setSuccessAlert, successAlert },
+    error: { setErrorMessage, errorMessage },
+  } = UseTableValues({
+    tableNames: {
+      tableName: "person_home_address",
+      idName: "person_home_address_id",
+    },
+    schemas: {
+      // changeSchema: CHANGE_OTHER_NAME,
+      // createSchema: CREATE_OTHER_NAME,
+      // deleteSchema: DELETE_PERSON_HOME_TABLE,
+      querySchema: HOME_ADDRESS_TABLE,
+    },
+  });
 
   const [stateModal, setStateModal] = useState(false);
   const onHandleClose = () => {
@@ -103,82 +113,42 @@ const Index: React.FC<{
     setStateModal(true);
   };
 
-  const [deleteTableFunction, { loading: deletingLoading }] = useMutation(
-    DELETE_PERSON_HOME_TABLE
-  );
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-
   const onDelete = (state: any) => {
-    deleteTableFunction({
+    deleteFunction({
       variables: { id: state.person_home_address_id },
-    }).catch(setErrorMessage);
+    });
   };
   return (
-    <TableWrapper
-      buttonsList={[
-        {
-          label: "Add",
-          buttonFunction: onHandleOpen,
-          disabled: !router.query.id,
-        },
-      ]}
-      rows={tableData}
-      disableAddBtn
-      refetch={refetch}
-      deleteFunction={onDelete}
-      errorMessage={errorMessage}
-    >
-      {({
-        EnhancedTableHead,
-        stableSort,
-        getComparator,
-        tableElements,
-        onSaveWithProvidedState,
-        onChangeWithProvidedState,
-        onAddSave,
-        onAddCancel,
-        activeRowObject,
-        onDelete,
-        handleErrorMessage,
-      }) => (
-        <>
-          <EnhancedTableHead
-            order={order}
-            orderBy={orderBy}
-            onRequestSort={handleRequestSort}
-            headCells={headCells}
-            loading={loading}
+    <>
+      <TableWrapper
+        rows={tableElements}
+        // onSaveFunction={onCreateFunction}
+        // onChangeFunction={onChangeFunction}
+        deleteFunction={onDelete}
+        refetch={refetch}
+        errorMessage={errorMessage}
+        headCells={headCells}
+        TableRowComponent={TableRowComponent}
+        buttonsList={[
+          {
+            label: "Add",
+            buttonFunction: onHandleOpen,
+            disabled: !router.query.id,
+          },
+        ]}
+        disableAddBtn
+        addressEditModal={({ onSaveWithProvidedState }) => (
+          <AddressEditModal
+            open={stateModal}
+            handleClose={onHandleClose}
+            onChangeAddress={onSaveWithProvidedState}
+            refetch={refetch}
+            title={"Adding home address"}
+            rowState={"add"}
           />
-          <TableBody style={{ minHeight: "200px", height: "200px" }}>
-            {/*@ts-ignore*/}
-            {stableSort(tableElements, getComparator(order, orderBy)).map(
-              (row: IRowsPersonEmploymentTable) => (
-                <TableRowComponent
-                  row={row}
-                  key={`${row?.person_home_address_id}`}
-                  onChangeWithProvidedState={onChangeWithProvidedState}
-                  onSaveWithProvidedState={onSaveWithProvidedState}
-                  onDelete={onDelete}
-                  onAddSave={onAddSave}
-                  onAddCancel={onAddCancel}
-                  activeRowObject={activeRowObject}
-                  refetch={refetch}
-                  handleErrorMessage={handleErrorMessage}
-                />
-              )
-            )}
-            <AddressEditModal
-              open={stateModal}
-              handleClose={onHandleClose}
-              onChangeAddress={onSaveWithProvidedState}
-              refetch={refetch}
-              title={"Adding home address"}
-              rowState={"add"}
-            />
-          </TableBody>
-        </>
-      )}
-    </TableWrapper>
+        )}
+      />
+    </>
   );
 };
 

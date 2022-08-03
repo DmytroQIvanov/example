@@ -1,4 +1,4 @@
-export const style = {
+export const tableWrapperModalStyle = {
   position: "absolute" as "absolute",
   top: "50%",
   left: "50%",

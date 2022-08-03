@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import TableBody from "@material-ui/core/TableBody";
 import TableWrapper from "../TablesComponents/TableWrapper/Index";
 
 import {
@@ -8,44 +7,14 @@ import {
 } from "./interfaces";
 import TableRowComponent from "./TableRow";
 import { HeadCell } from "../TablesComponents/Interfaces/HeadCell";
-import { Order } from "../TablesComponents/Interfaces/Order";
-import { useMutation } from "@apollo/client";
 import {
   CHANGE_OTHER_NAME,
   CREATE_OTHER_NAME,
   DELETE_OTHER_NAMES,
-  VALIDATE_OTHER_NAME,
+  GET_OTHER_NAMES,
 } from "../../../schemas/OtherNamesSchemas";
 import { useRouter } from "next/router";
-
-// const rows: IRowsPersonEmploymentTable[] = [
-//   {
-//     id: "1",
-//     nameSourceType: "Departament Directory",
-//     nameSourceSubType: "W298167",
-//     firstName: "Christopfer",
-//     middleNames: "Kennetch",
-//     lastName: "Sugasree",
-//     nickName: "May",
-//     suffix: "smth",
-//     dfkv: "01/01/2021",
-//     dlkv: "01/01/2022",
-//     dmi: "01/01/2022",
-//   },
-//   {
-//     id: "2",
-//     nameSourceType: "sDepartament Directory",
-//     nameSourceSubType: "4W298167",
-//     firstName: "Christop5425fer",
-//     middleNames: "Kennetch47",
-//     lastName: "Sugasreedad",
-//     nickName: "ssss",
-//     suffix: "smth555",
-//     dfkv: "01/01/2041",
-//     dlkv: "01/01/2012",
-//     dmi: "01/01/2022",
-//   },
-// ];
+import UseTableValues from "../../../hooks/UseTableValues";
 
 const headCells: readonly HeadCell<IColumnsPersonEmploymentTable>[] = [
   {
@@ -89,29 +58,26 @@ const headCells: readonly HeadCell<IColumnsPersonEmploymentTable>[] = [
   },
 ];
 
-const Index: React.FC<{
-  tableData: IRowsPersonEmploymentTable[];
-  loading?: boolean;
-  refetch?: Function;
-}> = ({ tableData, loading, refetch }) => {
-  const [order, setOrder] = React.useState<Order>("asc");
-  const [orderBy, setOrderBy] =
-    React.useState<keyof IRowsPersonEmploymentTable>("id");
-
+const Index: React.FC = () => {
   const router = useRouter();
-  const handleRequestSort = (
-    _: any,
-    property: keyof IRowsPersonEmploymentTable
-  ) => {
-    const isAsc = orderBy === property && order === "asc";
-    setOrder(isAsc ? "desc" : "asc");
-    setOrderBy(property);
-  };
-
-  const [createFunction, { loading: createLoading, error }] =
-    useMutation(CREATE_OTHER_NAME);
-  const [changeFunction, { loading: changeLoading }] =
-    useMutation(CHANGE_OTHER_NAME);
+  const {
+    tableElements,
+    refetch,
+    functions: { createFunction, deleteFunction, changeFunction },
+    alert: { setSuccessAlert, successAlert },
+    error: { setErrorMessage, errorMessage },
+  } = UseTableValues({
+    tableNames: {
+      tableName: "person_other_name",
+      idName: "person_other_name_id",
+    },
+    schemas: {
+      changeSchema: CHANGE_OTHER_NAME,
+      createSchema: CREATE_OTHER_NAME,
+      deleteSchema: DELETE_OTHER_NAMES,
+      querySchema: GET_OTHER_NAMES,
+    },
+  });
 
   const onChangeFunction = (state: any) => {
     const date = new Date();
@@ -127,7 +93,7 @@ const Index: React.FC<{
         nick_name: state.nick_name,
         suffix: state.suffix,
       },
-    }).catch(setErrorMessage);
+    });
   };
 
   const onCreateFunction = (state: any) => {
@@ -145,72 +111,24 @@ const Index: React.FC<{
         nick_name: state.nick_name,
         suffix: state.suffix,
       },
-    }).catch(setErrorMessage);
+    });
   };
 
-  const [deleteFunction] = useMutation(DELETE_OTHER_NAMES);
-
-  const onDelete = (state: any) => {
-    deleteFunction({ variables: { id: state.person_other_name_id } }).catch(
-      setErrorMessage
-    );
+  const onDeleteFunction = (state: any) => {
+    deleteFunction({ variables: { id: state.person_other_name_id } });
   };
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   return (
     <TableWrapper
-      rows={tableData}
-      refetch={refetch}
+      rows={tableElements}
       onSaveFunction={onCreateFunction}
       onChangeFunction={onChangeFunction}
-      deleteFunction={onDelete}
+      deleteFunction={onDeleteFunction}
+      refetch={refetch}
       errorMessage={errorMessage}
-
-      // disableAddBtn
-      // buttonsList={[{ label: "Add", buttonFunction: () => {} }]}
-    >
-      {({
-        EnhancedTableHead,
-        stableSort,
-        getComparator,
-        tableElements,
-        onSaveWithProvidedState,
-        onChangeWithProvidedState,
-        onAddSave,
-        onAddCancel,
-        activeRowObject,
-        onDelete,
-        handleErrorMessage,
-      }) => (
-        <>
-          <EnhancedTableHead
-            order={order}
-            orderBy={orderBy}
-            onRequestSort={handleRequestSort}
-            headCells={headCells}
-            loading={loading}
-          />
-          <TableBody style={{ minHeight: "200px", height: "200px" }}>
-            {/*@ts-ignore*/}
-            {stableSort(tableElements, getComparator(order, orderBy)).map(
-              (row: IRowsPersonEmploymentTable) => (
-                <TableRowComponent
-                  row={row}
-                  key={`${row.id}`}
-                  onChangeWithProvidedState={onChangeWithProvidedState}
-                  onSaveWithProvidedState={onSaveWithProvidedState}
-                  onDelete={onDelete}
-                  onAddSave={onAddSave}
-                  onAddCancel={onAddCancel}
-                  activeRowObject={activeRowObject}
-                  handleErrorMessage={handleErrorMessage}
-                />
-              )
-            )}
-          </TableBody>
-        </>
-      )}
-    </TableWrapper>
+      headCells={headCells}
+      TableRowComponent={TableRowComponent}
+    />
   );
 };
 

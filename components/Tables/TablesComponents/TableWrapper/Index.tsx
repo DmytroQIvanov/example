@@ -13,9 +13,9 @@ import { useTableWrapper } from "../../../../hooks/UseTableWrapper";
 import { ITableWrapperProps } from "../Interfaces/TableWrapperInterfaces";
 import Modal from "@mui/material/Modal";
 import { tableWrapperModalStyle } from "./style";
+import TableBody from "@material-ui/core/TableBody";
 
 const Index: React.FC<ITableWrapperProps> = ({
-  children,
   buttonsList,
   rows,
   disableAddBtn,
@@ -24,6 +24,9 @@ const Index: React.FC<ITableWrapperProps> = ({
   onSaveFunction,
   onChangeFunction,
   errorMessage,
+  headCells,
+  TableRowComponent,
+  addressEditModal,
 }) => {
   const {
     tableElements,
@@ -241,6 +244,14 @@ const Index: React.FC<ITableWrapperProps> = ({
     setPermissionError(false);
   };
 
+  const [order, setOrder] = React.useState<Order>("asc");
+  const [orderBy, setOrderBy] = React.useState<any>("id");
+  const handleRequestSort = (_: any, property: any) => {
+    const isAsc = orderBy === property && order === "asc";
+    setOrder(isAsc ? "desc" : "asc");
+    setOrderBy(property);
+  };
+
   return (
     <div
       style={{
@@ -296,23 +307,36 @@ const Index: React.FC<ITableWrapperProps> = ({
           }}
         >
           <Table aria-label="customized table">
+            <EnhancedTableHead
+              order={order}
+              orderBy={orderBy}
+              onRequestSort={handleRequestSort}
+              headCells={headCells}
+              // success={{ successAlert, setSuccessAlert }}
+            />
             <>
-              {children({
-                EnhancedTableHead,
-                stableSort,
-                getComparator,
-                descendingComparator,
-                tableElements,
-                onAddSave,
-                handleChangeMainStateEvent,
-                handleChangeMainState,
-                onAddCancel,
-                onSaveWithProvidedState,
-                onChangeWithProvidedState,
-                activeRowObject,
-                onDelete,
-                handleErrorMessage,
-              })}
+              <TableBody>
+                {/*@ts-ignore*/}
+                {stableSort(tableElements, getComparator(order, orderBy)).map(
+                  (row: any) => (
+                    <TableRowComponent
+                      row={row}
+                      key={`${row.id}`}
+                      refetch={refetch}
+                      tableElements={tableElements}
+                      onAddSave={onAddSave}
+                      handleChangeMainStateEvent={handleChangeMainStateEvent}
+                      handleChangeMainState={handleChangeMainState}
+                      onAddCancel={onAddCancel}
+                      onSaveWithProvidedState={onSaveWithProvidedState}
+                      onChangeWithProvidedState={onChangeWithProvidedState}
+                      activeRowObject={activeRowObject}
+                      onDelete={onDelete}
+                      handleErrorMessage={handleErrorMessage}
+                    />
+                  )
+                )}
+              </TableBody>
               <Modal
                 open={permissionError}
                 onClose={handleClose}
@@ -339,6 +363,8 @@ const Index: React.FC<ITableWrapperProps> = ({
                   </Button>
                 </Box>
               </Modal>
+              {addressEditModal &&
+                addressEditModal({ onSaveWithProvidedState })}
             </>
           </Table>
         </TableContainer>

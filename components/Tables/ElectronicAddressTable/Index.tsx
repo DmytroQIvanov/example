@@ -17,6 +17,13 @@ import {
   PERSON_ELECTRONIC_DATA,
   UPDATE_PERSON_ELECTRONIC,
 } from "../../../schemas/PersonElectronicSchema";
+import UseTableValues from "../../../hooks/UseTableValues";
+import {
+  DELETE_CAMPUS_TABLE,
+  INSERT_PERSON_CAMPUS,
+  PERSON_CAMPUS_QUERY,
+  UPDATE_PERSON_CAMPUS,
+} from "../../../schemas/CampusSchemas";
 
 const headCells: readonly HeadCell<IColumnsPersonEmploymentTable>[] = [
   {
@@ -56,56 +63,25 @@ const headCells: readonly HeadCell<IColumnsPersonEmploymentTable>[] = [
 ];
 
 const Index = () => {
-  const [order, setOrder] = React.useState<Order>("asc");
-  const [orderBy, setOrderBy] =
-    React.useState<keyof IRowsPersonEmploymentTable>("id");
-
-  const handleRequestSort = (
-    _: any,
-    property: keyof IRowsPersonEmploymentTable
-  ) => {
-    const isAsc = orderBy === property && order === "asc";
-    setOrder(isAsc ? "desc" : "asc");
-    setOrderBy(property);
-  };
-
-  const [data, setData] = useState<any[]>([]);
-  const [successAlert, setSuccessAlert] = useState(false);
-
   const router = useRouter();
   const {
-    data: personElectronicTables,
-    error,
-    loading,
-    fetchMore,
+    tableElements,
     refetch,
-  } = useQuery(PERSON_ELECTRONIC_DATA, {
-    variables: { pid: router.query.id },
-    skip: !router.query.id,
+    functions: { createFunction, deleteFunction, changeFunction },
+    alert: { setSuccessAlert, successAlert },
+    error: { setErrorMessage, errorMessage },
+  } = UseTableValues({
+    tableNames: {
+      tableName: "person_electronic",
+      idName: "person_electronic_id",
+    },
+    schemas: {
+      changeSchema: UPDATE_PERSON_ELECTRONIC,
+      createSchema: INSERT_PERSON_ELECTRONIC,
+      deleteSchema: DELETE_PERSON_ELECTRONIC,
+      querySchema: PERSON_ELECTRONIC_DATA,
+    },
   });
-
-  useEffect(() => {
-    if (personElectronicTables?.person_electronic)
-      setData(() =>
-        personElectronicTables?.person_electronic.map((elem: any) => {
-          return {
-            id: elem.person_electronic_id,
-            ...elem,
-            validateState: Boolean(elem.date_marked_invalid),
-          };
-        })
-      );
-  }, [personElectronicTables?.person_electronic]);
-
-  const [changeFunction, { loading: changeLoading }] = useMutation(
-    UPDATE_PERSON_ELECTRONIC
-  );
-
-  const [createFunction, { loading: createLoading, error: createError }] =
-    useMutation(INSERT_PERSON_ELECTRONIC);
-
-  const [deleteFunction, { loading: deleteLoading, error: deleteError }] =
-    useMutation(DELETE_PERSON_ELECTRONIC);
 
   const onChangeFunction = (state: any) => {
     const date = new Date();
@@ -118,7 +94,7 @@ const Index = () => {
 
         id: state.person_electronic_id,
       },
-    }).catch(setErrorMessage);
+    });
   };
   const onCreateFunction = (state: any) => {
     const date = new Date();
@@ -130,73 +106,25 @@ const Index = () => {
         electronictype: state.electronic_type.electronic_type_id,
         pid: router.query.id,
       },
-    })
-      .then(() => {
-        setSuccessAlert(true);
-        refetch();
-      })
-      .catch(setErrorMessage);
+    });
   };
 
   const onDeleteFunction = (state: any) => {
     if (!state.person_electronic_id) return;
-    deleteFunction({ variables: { id: state.person_electronic_id } }).catch(
-      setErrorMessage
-    );
+    deleteFunction({ variables: { id: state.person_electronic_id } });
   };
-
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   return (
     <TableWrapper
-      rows={data}
-      refetch={refetch}
-      onChangeFunction={onChangeFunction}
+      rows={tableElements}
       onSaveFunction={onCreateFunction}
+      onChangeFunction={onChangeFunction}
       deleteFunction={onDeleteFunction}
+      refetch={refetch}
       errorMessage={errorMessage}
-    >
-      {({
-        EnhancedTableHead,
-        stableSort,
-        getComparator,
-        onSaveWithProvidedState,
-        onChangeWithProvidedState,
-        onAddSave,
-        onAddCancel,
-        activeRowObject,
-        onDelete,
-        tableElements: data,
-        handleErrorMessage,
-      }) => (
-        <>
-          <EnhancedTableHead
-            order={order}
-            orderBy={orderBy}
-            onRequestSort={handleRequestSort}
-            headCells={headCells}
-          />
-          <TableBody>
-            {/*@ts-ignore*/}
-            {stableSort(data, getComparator(order, orderBy)).map(
-              (row: IRowsPersonEmploymentTable) => (
-                <TableRowComponent
-                  row={row}
-                  key={`${row.id}`}
-                  onChangeWithProvidedState={onChangeWithProvidedState}
-                  onSaveWithProvidedState={onSaveWithProvidedState}
-                  onDelete={onDelete}
-                  onAddSave={onAddSave}
-                  onAddCancel={onAddCancel}
-                  activeRowObject={activeRowObject}
-                  handleErrorMessage={handleErrorMessage}
-                />
-              )
-            )}
-          </TableBody>
-        </>
-      )}
-    </TableWrapper>
+      headCells={headCells}
+      TableRowComponent={TableRowComponent}
+    />
   );
 };
 
