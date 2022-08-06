@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import TableBody from "@material-ui/core/TableBody";
 import TableWrapper from "../TablesComponents/TableWrapper/Index";
 
 import {
@@ -8,7 +7,7 @@ import {
 } from "./interfaces";
 import TableRowComponent from "./TableRow";
 import { HeadCell } from "../TablesComponents/Interfaces/HeadCell";
-import { Order } from "../TablesComponents/Interfaces/Order";
+import { useRouter } from "next/router";
 
 const rows: IRowsPersonEmploymentTable[] = [
   {
@@ -84,64 +83,37 @@ const headCells: readonly HeadCell<IColumnsPersonEmploymentTable>[] = [
 ];
 
 const Index = () => {
-  const [order, setOrder] = React.useState<Order>("asc");
-  const [orderBy, setOrderBy] =
-    React.useState<keyof IRowsPersonEmploymentTable>("options");
-
-  const handleRequestSort = (
-    _: any,
-    property: keyof IRowsPersonEmploymentTable
-  ) => {
-    const isAsc = orderBy === property && order === "asc";
-    setOrder(isAsc ? "desc" : "asc");
-    setOrderBy(property);
-  };
-  const [tableElements, setTableElements] = useState(rows);
-  const onDelete = (id: string | undefined) => {
-    if (!id) return;
-    setTableElements(tableElements.filter((elem) => elem.id !== id));
-  };
+  const router = useRouter();
+  // const {
+  //   tableElements,
+  //   refetch,
+  //   functions: { createFunction, deleteFunction, changeFunction },
+  //   alert: { setSuccessAlert, successAlert },
+  //   error: { setErrorMessage, errorMessage },
+  // } = UseTableValues({
+  //   tableNames: {
+  //     tableName: "person_home_address",
+  //     idName: "person_home_address_id",
+  //   },
+  //   schemas: {
+  //     changeSchema: UPDATE_HOME_ADDRESS,
+  //     createSchema: CREATE_HOME_ADDRESS,
+  //     deleteSchema: DELETE_PERSON_HOME_TABLE,
+  //     querySchema: HOME_ADDRESS_TABLE,
+  //   },
+  // });
   return (
-    <TableWrapper rows={rows} buttonsList={[{ label: "Location Data Entry" }]}>
-      {({
-        EnhancedTableHead,
-        stableSort,
-        getComparator,
-        tableElements,
-        onSaveWithProvidedState,
-        onChangeWithProvidedState,
-        onAddSave,
-        onAddCancel,
-        activeRowObject,
-        onDelete,
-      }) => (
-        <>
-          <EnhancedTableHead
-            order={order}
-            orderBy={orderBy}
-            onRequestSort={handleRequestSort}
-            headCells={headCells}
-          />
-          <TableBody>
-            {/*@ts-ignore*/}
-            {stableSort(tableElements, getComparator(order, orderBy)).map(
-              (row: IRowsPersonEmploymentTable) => (
-                <TableRowComponent
-                  row={row}
-                  key={`${row.id}`}
-                  onChangeWithProvidedState={onChangeWithProvidedState}
-                  onSaveWithProvidedState={onSaveWithProvidedState}
-                  onDelete={onDelete}
-                  onAddSave={onAddSave}
-                  onAddCancel={onAddCancel}
-                  activeRowObject={activeRowObject}
-                />
-              )
-            )}
-          </TableBody>
-        </>
-      )}
-    </TableWrapper>
+    <TableWrapper
+      buttonsList={[{ label: "Location Data Entry" }]}
+      rows={rows}
+      // onSaveFunction={onCreateFunction}
+      // onChangeFunction={onChangeFunction}
+      // deleteFunction={onDeleteFunction}
+      // refetch={refetch}
+      // errorMessage={errorMessage}
+      headCells={headCells}
+      TableRowComponent={TableRowComponent}
+    />
   );
 };
 

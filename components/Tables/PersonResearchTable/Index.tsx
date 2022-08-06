@@ -10,13 +10,19 @@ import TableWrapper from "../TablesComponents/TableWrapper/Index";
 import { HeadCell } from "../TablesComponents/Interfaces/HeadCell";
 import { useRouter } from "next/router";
 import { useMutation, useQuery } from "@apollo/client";
-import { DELETE_CAMPUS_TABLE } from "../../../schemas/CampusSchemas";
+import {
+  DELETE_CAMPUS_TABLE,
+  INSERT_PERSON_CAMPUS,
+  PERSON_CAMPUS_QUERY,
+  UPDATE_PERSON_CAMPUS,
+} from "../../../schemas/CampusSchemas";
 import {
   DELETE_PERSON_RESEARCH,
   INSERT_PERSON_RESEARCH,
   MUTATE_PERSON_RESEARCH,
   PERSON_RESEARCH_QUERY,
 } from "../../../schemas/PersonResearch";
+import UseTableValues from "../../../hooks/UseTableValues";
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -96,69 +102,31 @@ const headCells: readonly HeadCell<IColumnsPersonEmploymentTable>[] = [
 ];
 
 const PersonResearchTable = () => {
-  const [order, setOrder] = React.useState<Order>("asc");
-  const [orderBy, setOrderBy] =
-    React.useState<keyof IRowsPersonEmploymentTable>("id");
-
-  const handleRequestSort = (
-    _: any,
-    property: keyof IRowsPersonEmploymentTable
-  ) => {
-    const isAsc = orderBy === property && order === "asc";
-    setOrder(isAsc ? "desc" : "asc");
-    setOrderBy(property);
-  };
-  // const [tableElements, setTableElements] = useState(rows);
-  // const onDelete = (id: string | undefined) => {
-  //   if (!id) return;
-  //   setTableElements(tableElements.filter((elem) => elem.id !== id));
-  // };
-
-  const [data, setData] = useState<any[]>([]);
-
   const router = useRouter();
   const {
-    data: personResearchTables,
-    error,
-    loading,
-    fetchMore,
+    tableElements,
     refetch,
-  } = useQuery(PERSON_RESEARCH_QUERY, {
-    variables: { pid: router.query.id },
-    skip: !router.query.id,
+    functions: { createFunction, deleteFunction, changeFunction },
+    alert: { setSuccessAlert, successAlert },
+    error: { setErrorMessage, errorMessage },
+  } = UseTableValues({
+    tableNames: { tableName: "person_research", idName: "person_research_id" },
+    schemas: {
+      changeSchema: MUTATE_PERSON_RESEARCH,
+      createSchema: INSERT_PERSON_RESEARCH,
+      deleteSchema: DELETE_PERSON_RESEARCH,
+      querySchema: PERSON_RESEARCH_QUERY,
+    },
   });
 
-  useEffect(() => {
-    if (personResearchTables?.person_research)
-      setData(() =>
-        personResearchTables?.person_research.map((elem: any) => {
-          return {
-            id: elem.person_research_id,
-            ...elem,
-          };
-        })
-      );
-  }, [personResearchTables?.person_research]);
-
-  const [changeFunction, { loading: changeLoading }] = useMutation(
-    MUTATE_PERSON_RESEARCH
-  );
-
-  const [createFunction, { loading: createLoading, error: createError }] =
-    useMutation(INSERT_PERSON_RESEARCH);
-
-  const [deleteFunction, { loading: deleteLoading, error: deleteError }] =
-    useMutation(DELETE_PERSON_RESEARCH);
-
   const onChangeFunction = (state: any) => {
-    alert(state.person_research_id);
     changeFunction({
       variables: {
         id: state.person_research_id,
         date: state.date_researched,
         comments: state.comments || null,
       },
-    }).catch(setErrorMessage);
+    });
   };
   const onCreateFunction = (state: any) => {
     createFunction({
@@ -168,73 +136,25 @@ const PersonResearchTable = () => {
         created_by: state.created_by,
         comments: state.comments || null,
       },
-    })
-      .then(() => {
-        refetch();
-      })
-      .catch(setErrorMessage);
+    });
   };
 
   const onDeleteFunction = (state: any) => {
     if (!state.person_research_id) return;
-    deleteFunction({ variables: { id: state.person_research_id } }).catch(
-      setErrorMessage
-    );
+    deleteFunction({ variables: { id: state.person_research_id } });
   };
-
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   return (
     <TableWrapper
-      rows={data}
+      rows={tableElements}
       onSaveFunction={onCreateFunction}
       onChangeFunction={onChangeFunction}
       deleteFunction={onDeleteFunction}
-      errorMessage={errorMessage}
       refetch={refetch}
-    >
-      {({
-        EnhancedTableHead,
-        stableSort,
-        getComparator,
-        tableElements,
-        onSaveWithProvidedState,
-        onChangeWithProvidedState,
-        onAddSave,
-        onAddCancel,
-        activeRowObject,
-        onDelete,
-        handleErrorMessage,
-      }) => (
-        <>
-          <EnhancedTableHead
-            order={order}
-            orderBy={orderBy}
-            onRequestSort={handleRequestSort}
-            headCells={headCells}
-            loading={changeLoading || createLoading || deleteLoading}
-          />
-          <TableBody>
-            {/*@ts-ignore*/}
-            {stableSort(tableElements, getComparator(order, orderBy)).map(
-              (row: IRowsPersonEmploymentTable) => (
-                <TableRowComponent
-                  row={row}
-                  key={`${row.id}`}
-                  onChangeWithProvidedState={onChangeWithProvidedState}
-                  onSaveWithProvidedState={onSaveWithProvidedState}
-                  onDelete={onDelete}
-                  onAddSave={onAddSave}
-                  onAddCancel={onAddCancel}
-                  activeRowObject={activeRowObject}
-                  handleErrorMessage={handleErrorMessage}
-                />
-              )
-            )}
-          </TableBody>
-        </>
-      )}
-    </TableWrapper>
+      errorMessage={errorMessage}
+      headCells={headCells}
+      TableRowComponent={TableRowComponent}
+    />
   );
 };
 

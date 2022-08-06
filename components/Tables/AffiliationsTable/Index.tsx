@@ -8,6 +8,14 @@ import {
 } from "./interfaces";
 import TableRowComponent from "./TableRow";
 import { HeadCell } from "../TablesComponents/Interfaces/HeadCell";
+import { useRouter } from "next/router";
+import UseTableValues from "../../../hooks/UseTableValues";
+import {
+  CREATE_HOME_ADDRESS,
+  DELETE_PERSON_HOME_TABLE,
+  HOME_ADDRESS_TABLE,
+  UPDATE_HOME_ADDRESS,
+} from "../../../schemas/HomeAddressSchemas";
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -113,59 +121,37 @@ const headCells: readonly HeadCell<IColumnsPersonEmploymentTable>[] = [
 ];
 
 const AffiliationTable = () => {
-  const [order, setOrder] = React.useState<Order>("asc");
-  const [orderBy, setOrderBy] =
-    React.useState<keyof IRowsPersonEmploymentTable>("campus");
+  const router = useRouter();
+  // const {
+  //   tableElements,
+  //   refetch,
+  //   functions: { createFunction, deleteFunction, changeFunction },
+  //   alert: { setSuccessAlert, successAlert },
+  //   error: { setErrorMessage, errorMessage },
+  // } = UseTableValues({
+  //   tableNames: {
+  //     tableName: "person_home_address",
+  //     idName: "person_home_address_id",
+  //   },
+  //   schemas: {
+  //     changeSchema: UPDATE_HOME_ADDRESS,
+  //     createSchema: CREATE_HOME_ADDRESS,
+  //     deleteSchema: DELETE_PERSON_HOME_TABLE,
+  //     querySchema: HOME_ADDRESS_TABLE,
+  //   },
+  // });
 
-  const handleRequestSort = (
-    _: any,
-    property: keyof IRowsPersonEmploymentTable
-  ) => {
-    const isAsc = orderBy === property && order === "asc";
-    setOrder(isAsc ? "desc" : "asc");
-    setOrderBy(property);
-  };
   return (
-    <TableWrapper rows={rows}>
-      {({
-        EnhancedTableHead,
-        stableSort,
-        getComparator,
-        tableElements,
-        onSaveWithProvidedState,
-        onChangeWithProvidedState,
-        onAddSave,
-        onAddCancel,
-        activeRowObject,
-        onDelete,
-      }) => (
-        <>
-          <EnhancedTableHead
-            order={order}
-            orderBy={orderBy}
-            onRequestSort={handleRequestSort}
-            headCells={headCells}
-          />
-          <TableBody>
-            {/*@ts-ignore*/}
-            {stableSort(tableElements, getComparator(order, orderBy)).map(
-              (row: IRowsPersonEmploymentTable) => (
-                <TableRowComponent
-                  row={row}
-                  key={`${row.id}`}
-                  onChangeWithProvidedState={onChangeWithProvidedState}
-                  onSaveWithProvidedState={onSaveWithProvidedState}
-                  onDelete={onDelete}
-                  onAddSave={onAddSave}
-                  onAddCancel={onAddCancel}
-                  activeRowObject={activeRowObject}
-                />
-              )
-            )}
-          </TableBody>
-        </>
-      )}
-    </TableWrapper>
+    <TableWrapper
+      rows={rows}
+      // onSaveFunction={onCreateFunction}
+      // onChangeFunction={onChangeFunction}
+      // deleteFunction={onDeleteFunction}
+      // refetch={refetch}
+      // errorMessage={errorMessage}
+      headCells={headCells}
+      TableRowComponent={TableRowComponent}
+    />
   );
 };
 

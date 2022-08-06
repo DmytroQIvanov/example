@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import TableBody from "@material-ui/core/TableBody";
+import React from "react";
 
 import {
   IRowsPersonEmploymentTable,
@@ -8,45 +7,7 @@ import {
 import TableRowComponent from "./TableRow";
 import TableWrapper from "../TablesComponents/TableWrapper/Index";
 import { HeadCell } from "../TablesComponents/Interfaces/HeadCell";
-
-function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
-  if (b[orderBy] < a[orderBy]) {
-    return -1;
-  }
-  if (b[orderBy] > a[orderBy]) {
-    return 1;
-  }
-  return 0;
-}
-
-type Order = "asc" | "desc";
-
-export function getComparator<Key extends keyof any>(
-  order: Order,
-  orderBy: Key
-): (
-  a: { [key in Key]: number | string },
-  b: { [key in Key]: number | string }
-) => number {
-  return order === "desc"
-    ? (a, b) => descendingComparator(a, b, orderBy)
-    : (a, b) => -descendingComparator(a, b, orderBy);
-}
-
-function stableSort<T>(
-  array: readonly T[],
-  comparator: (a: T, b: T) => number
-) {
-  const stabilizedThis = array.map((el, index) => [el, index] as [T, number]);
-  stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0]);
-    if (order !== 0) {
-      return order;
-    }
-    return a[1] - b[1];
-  });
-  return stabilizedThis.map((el) => el[0]);
-}
+import { useRouter } from "next/router";
 
 const rows: IRowsPersonEmploymentTable[] = [
   {
@@ -135,60 +96,36 @@ const headCells: readonly HeadCell<IColumnsPersonEmploymentTable>[] = [
 ];
 
 const PersonEmploymentTable = () => {
-  const [order, setOrder] = React.useState<Order>("asc");
-  const [orderBy, setOrderBy] =
-    React.useState<keyof IRowsPersonEmploymentTable>("jobTitle");
-
-  const handleRequestSort = (
-    _: any,
-    property: keyof IRowsPersonEmploymentTable
-  ) => {
-    const isAsc = orderBy === property && order === "asc";
-    setOrder(isAsc ? "desc" : "asc");
-    setOrderBy(property);
-  };
-
+  const router = useRouter();
+  // const {
+  //   tableElements,
+  //   refetch,
+  //   functions: { createFunction, deleteFunction, changeFunction },
+  //   alert: { setSuccessAlert, successAlert },
+  //   error: { setErrorMessage, errorMessage },
+  // } = UseTableValues({
+  //   tableNames: {
+  //     tableName: "person_home_address",
+  //     idName: "person_home_address_id",
+  //   },
+  //   schemas: {
+  //     changeSchema: UPDATE_HOME_ADDRESS,
+  //     createSchema: CREATE_HOME_ADDRESS,
+  //     deleteSchema: DELETE_PERSON_HOME_TABLE,
+  //     querySchema: HOME_ADDRESS_TABLE,
+  //   },
+  // });
   return (
-    <TableWrapper rows={rows}>
-      {({
-        EnhancedTableHead,
-        stableSort,
-        getComparator,
-        tableElements,
-        onSaveWithProvidedState,
-        onChangeWithProvidedState,
-        onAddSave,
-        onAddCancel,
-        activeRowObject,
-        onDelete,
-      }) => (
-        <>
-          <EnhancedTableHead
-            order={order}
-            orderBy={orderBy}
-            onRequestSort={handleRequestSort}
-            headCells={headCells}
-          />
-          <TableBody>
-            {/*@ts-ignore*/}
-            {stableSort(tableElements, getComparator(order, orderBy)).map(
-              (row: IRowsPersonEmploymentTable) => (
-                <TableRowComponent
-                  row={row}
-                  key={`${row.id}`}
-                  onChangeWithProvidedState={onChangeWithProvidedState}
-                  onSaveWithProvidedState={onSaveWithProvidedState}
-                  onDelete={onDelete}
-                  onAddSave={onAddSave}
-                  onAddCancel={onAddCancel}
-                  activeRowObject={activeRowObject}
-                />
-              )
-            )}
-          </TableBody>
-        </>
-      )}
-    </TableWrapper>
+    <TableWrapper
+      rows={rows}
+      // onSaveFunction={onCreateFunction}
+      // onChangeFunction={onChangeFunction}
+      // deleteFunction={onDeleteFunction}
+      // refetch={refetch}
+      // errorMessage={errorMessage}
+      headCells={headCells}
+      TableRowComponent={TableRowComponent}
+    />
   );
 };
 
