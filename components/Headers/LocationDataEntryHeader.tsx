@@ -5,6 +5,7 @@ import { NativeSelect, FormControl, Button } from "@mui/material";
 import SearchMenu from "../Search/SearchBox";
 import { ConfTemplate } from "../Configuration/Type";
 import { BootstrapInput } from "../Search/Type";
+import { LOCATION_BUILDING_QUERY } from "../../schemas/LocationHeaderSchemas";
 
 export function LocationDataEntryHeader() {
   return (
@@ -51,7 +52,20 @@ export function LocationDataEntryHeader() {
               </Grid>
               <Grid item sm={6}>
                 <FormControl sx={{ m: 1, width: "95%" }} variant="standard">
-                  <SearchMenu placeholder={"Search by"} />
+                  <SearchMenu
+                    placeholder={"Search by"}
+                    searchTitle={[
+                      { label: "Name", valueName: "building_name" },
+                      { label: "Campus", valueName: "campus.campus_name" },
+                      { label: "Acronym", valueName: "building_acronym" },
+                      { label: "Sector", valueName: "sector" },
+                      { label: "ID", valueName: "building_id", id: true },
+                    ]}
+                    search={{
+                      schema: LOCATION_BUILDING_QUERY,
+                      name: "building_fuzzy_search",
+                    }}
+                  />
                 </FormControl>
               </Grid>
             </Grid>

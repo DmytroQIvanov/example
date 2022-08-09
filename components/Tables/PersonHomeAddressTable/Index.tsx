@@ -139,7 +139,11 @@ const Index: React.FC = () => {
           },
         ]}
         disableAddBtn
-        addressEditModal={({ onSaveWithProvidedState }) => (
+        addressEditModal={({
+          onSaveWithProvidedState,
+        }: {
+          onSaveWithProvidedState: any;
+        }) => (
           <AddressEditModal
             open={stateModal}
             handleClose={onHandleClose}

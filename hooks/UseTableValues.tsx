@@ -6,14 +6,16 @@ import { DocumentNode } from "graphql";
 const UseTableValues = ({
   schemas: { createSchema, changeSchema, deleteSchema, querySchema },
   tableNames: { idName, tableName },
+  customVariables,
 }: {
   schemas: {
-    createSchema: DocumentNode;
-    changeSchema: DocumentNode;
-    deleteSchema: DocumentNode;
-    querySchema: DocumentNode;
+    createSchema?: DocumentNode;
+    changeSchema?: DocumentNode;
+    deleteSchema?: DocumentNode;
+    querySchema?: DocumentNode;
   };
   tableNames: { idName: string; tableName: string };
+  customVariables?: any;
 }) => {
   const [successAlert, setSuccessAlert] = useState(false);
   const [tableElements, setTableElements] = useState([]);
@@ -21,15 +23,17 @@ const UseTableValues = ({
 
   const router = useRouter();
 
-  const { data, refetch } = useQuery(querySchema, {
-    variables: { pid: router.query.id },
-    skip: !router.query.id,
-  });
+  const queryResult =
+    querySchema &&
+    useQuery(querySchema, {
+      variables: customVariables || { pid: router.query.id },
+      skip: !router.query.id,
+    });
 
   useEffect(() => {
-    if (data?.[tableName])
+    if (queryResult?.data?.[tableName])
       setTableElements(() =>
-        data?.[tableName].map((elem: any) => {
+        queryResult?.data?.[tableName].map((elem: any) => {
           return {
             id: elem[idName],
             ...elem,
@@ -37,41 +41,53 @@ const UseTableValues = ({
           };
         })
       );
-  }, [data?.[tableName]]);
+  }, [queryResult?.data?.[tableName]]);
 
   const changeMutation = changeSchema && useMutation(changeSchema);
   const createMutation = createSchema && useMutation(createSchema);
   const deleteMutation = deleteSchema && useMutation(deleteSchema);
 
   const changeFunction = (state: any) => {
-    changeMutation[0](state)
-      .then(() => {
-        refetch();
-      })
-      .catch(setErrorMessage);
+    changeMutation &&
+      changeMutation[0]({ variables: { ...state } })
+        .then(() => {
+          queryResult?.refetch();
+        })
+        .catch((reason) => {
+          setErrorMessage(reason);
+          console.log("ERROR///" + " " + reason);
+        });
   };
   const deleteFunction = (state: any) => {
-    deleteMutation[0](state)
-      .then(() => {
-        refetch();
-      })
-      .catch(setErrorMessage);
+    deleteMutation &&
+      deleteMutation[0]({ variables: { ...state } })
+        .then(() => {
+          queryResult?.refetch();
+        })
+        .catch((reason) => {
+          setErrorMessage(reason);
+          console.log("ERROR///" + " " + reason);
+        });
   };
   const createFunction = (state: any) => {
-    createMutation[0](state)
-      .then(() => {
-        refetch();
-      })
-      .catch(setErrorMessage);
+    createMutation &&
+      createMutation[0]({ variables: { ...state } })
+        .then(() => {
+          queryResult?.refetch();
+        })
+        .catch((reason) => {
+          setErrorMessage(reason);
+          console.log("ERROR///" + " " + reason);
+        });
   };
 
   return {
     functions: {
-      changeFunction: changeFunction,
-      createFunction: createFunction,
-      deleteFunction: deleteFunction,
+      changeFunction,
+      createFunction,
+      deleteFunction,
     },
-    refetch,
+    refetch: queryResult?.refetch,
     alert: { successAlert, setSuccessAlert },
     tableElements,
     error: { setErrorMessage, errorMessage },

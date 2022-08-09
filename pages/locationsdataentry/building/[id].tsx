@@ -1,8 +1,8 @@
 import type { ReactElement } from "react";
 
-import { Layout } from "./layout";
+import { Layout } from "../layout";
 
-import Table from "../../components/Tables/BuildingTable/Index";
+import Table from "../../../components/Tables/BuildingTable/Index";
 
 export default function Index() {
   return (

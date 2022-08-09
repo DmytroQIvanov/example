@@ -9,7 +9,17 @@ import { PersonHeaderController } from "./PersonHeader.controller";
 import DropDown from "./DropDown";
 
 import styles from "./styles.module.scss";
+import { gql } from "@apollo/client";
 
+const SEARCH_PERSON = gql`
+  query person_search($search: String!) {
+    fuzzy_search(args: { search_text: $search }) {
+      person_id
+      full_name
+      employee_id
+    }
+  }
+`;
 export default function Index() {
   const {
     onAddNewPerson,
@@ -59,7 +69,9 @@ export default function Index() {
               <Grid container>
                 <Grid item sm={12}>
                   <FormControl sx={{ m: 1, width: "95%" }} variant="standard">
-                    <SearchMenu />
+                    <SearchMenu
+                      search={{ schema: SEARCH_PERSON, name: "fuzzy_search" }}
+                    />
                   </FormControl>
                 </Grid>
               </Grid>

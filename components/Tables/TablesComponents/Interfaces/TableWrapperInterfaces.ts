@@ -14,36 +14,36 @@ export interface IActiveRowObject {
 }
 
 export interface ITableWrapperProps {
-  children: (props: {
-    EnhancedTableHead: React.FC<{
-      order: Order;
-      orderBy: any;
-      onRequestSort: any;
-      headCells: any;
-      loading?: boolean;
-    }>;
-    stableSort: any;
-    getComparator: any;
-    descendingComparator: any;
-
-    tableElements: any;
-    // onDelete: (id: string | undefined) => void;
-    onAddSave: () => void;
-    handleChangeMainStateEvent: (
-      event: React.ChangeEvent<HTMLInputElement>
-    ) => void;
-
-    handleChangeMainState: (
-      name: string,
-      value: string | number | boolean | Date
-    ) => void;
-    onAddCancel: (id: string | undefined) => void;
-    onSaveWithProvidedState: (state: any) => void;
-    onChangeWithProvidedState: (state: any) => void;
-    activeRowObject: IActiveRowObject;
-    onDelete: Function;
-    handleErrorMessage: (text: string) => void;
-  }) => React.ReactNode;
+  // children: (props: {
+  //   EnhancedTableHead: React.FC<{
+  //     order: Order;
+  //     orderBy: any;
+  //     onRequestSort: any;
+  //     headCells: any;
+  //     loading?: boolean;
+  //   }>;
+  //   stableSort: any;
+  //   getComparator: any;
+  //   descendingComparator: any;
+  //
+  //   tableElements: any;
+  //   // onDelete: (id: string | undefined) => void;
+  //   onAddSave: () => void;
+  //   handleChangeMainStateEvent: (
+  //     event: React.ChangeEvent<HTMLInputElement>
+  //   ) => void;
+  //
+  //   handleChangeMainState: (
+  //     name: string,
+  //     value: string | number | boolean | Date
+  //   ) => void;
+  //   onAddCancel: (id: string | undefined) => void;
+  //   onSaveWithProvidedState: (state: any) => void;
+  //   onChangeWithProvidedState: (state: any) => void;
+  //   activeRowObject: IActiveRowObject;
+  //   onDelete: Function;
+  //   handleErrorMessage: (text: string) => void;
+  // }) => React.ReactNode;
   buttonsList?: [
     {
       label: string;
@@ -59,5 +59,9 @@ export interface ITableWrapperProps {
   onSaveFunction?: Function;
   onChangeFunction?: Function;
   // permissionMessage?: Array;
-  errorMessage?: string;
+  errorMessage?: string | null;
+
+  headCells: any;
+  TableRowComponent: React.FC<any>;
+  addressEditModal?: Function;
 }

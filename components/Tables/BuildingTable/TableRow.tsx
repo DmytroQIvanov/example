@@ -9,6 +9,7 @@ import TableRowWrapper from "../TablesComponents/TableRowWrapper";
 //INTERFACES
 import { IRowsPersonEmploymentTable } from "./interfaces";
 import { ITableRowComponent } from "../TablesComponents/Interfaces/ITableRowComponent";
+import { UseGetLocation } from "../../../hooks/UseGetLocation";
 
 const dropArray = [
   {
@@ -36,6 +37,8 @@ const TableRowComponent: React.FC<
     onChangeWithProvidedState,
     onAddCancel,
   });
+
+  const { locationsArray } = UseGetLocation();
   return (
     <TableRowWrapper summaryObject={summaryObject}>
       <TableCell component="th" scope="row" width={"300px"}>
@@ -55,15 +58,16 @@ const TableRowComponent: React.FC<
       <TableCell component="th" scope="row" width={"300px"}>
         {EditableBlock({
           ...summaryObject,
-          name: "locationType",
+          name: "location_type.location_type",
+          idName: "location_type.location_type_id",
           type: "dropdown",
-          itemsArray: dropArray,
+          itemsArray: locationsArray,
         })}
       </TableCell>
       <TableCell width={"220px"}>
         {EditableBlock({
           ...summaryObject,
-          name: "dateCreated",
+          name: "date_created",
           type: "date",
           disabled: true,
           availableStateBoolean: false,
@@ -72,7 +76,10 @@ const TableRowComponent: React.FC<
       <TableCell width={"220px"}>
         {EditableBlock({
           ...summaryObject,
-          name: "locationId",
+          // name: "location_type_id",
+          name: "location_id",
+          disabled: true,
+          // editable:false,
         })}
       </TableCell>
 

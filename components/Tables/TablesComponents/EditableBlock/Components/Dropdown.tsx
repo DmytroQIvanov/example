@@ -4,7 +4,7 @@ import { propsBlockWithState } from "../interfaces";
 
 interface extraProps extends propsBlockWithState {
   inputParams: any;
-  disabledState: boolean;
+  disabledState?: boolean;
   styles: any;
 }
 export const Dropdown = ({
@@ -37,7 +37,7 @@ export const Dropdown = ({
         options={itemsArray && itemsArray}
         fullWidth={width ? true : false}
         {...inputParams}
-        disabled={disabledState}
+        disabled={disabledState && disabledState}
         value={
           dropDownFunction(idName) && dropDownFunction(name)
             ? {

@@ -77,7 +77,7 @@ const EditableBlock: React.FC<propsBlockWithState> = (data) => {
   const createdBy = ["created_by"];
 
   // ---DISABLED STATE---
-  const [disabledState, setDisabledState] = useState(false);
+  const [disabledState, setDisabledState] = useState(disabled);
 
   const { isLoaded, isSignedIn, user } = useUser();
   const func = () => {

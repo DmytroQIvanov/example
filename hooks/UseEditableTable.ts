@@ -164,7 +164,6 @@ export const UseEditableTable = ({
     }[]
   ) => {
     let object = data[0].prevState;
-    console.log(data[0]);
 
     data.forEach(({ prevState, value, name }) => {
       const result = name.toString().split(".");
@@ -184,12 +183,10 @@ export const UseEditableTable = ({
             },
           },
         };
-        console.log("object", object);
       } else {
         object = { ...object, [name]: value };
       }
     });
-    console.log("object2", object);
     return object;
   };
 
@@ -350,7 +347,6 @@ export const UseEditableTable = ({
           return { ...elem, prevState };
         })
       );
-      // return prevState;
     });
   };
   const handleChange = (

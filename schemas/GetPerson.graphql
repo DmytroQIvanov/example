@@ -605,9 +605,20 @@ query person_electronic_query($pid: Int!) {
   }
 }
 
-mutation insert_person_electronic($pid: Int!, $email: String!, $source: Int!, $electronictype: Int!) {
-  insert_person_electronic_one(object: {electronic_address: $email, information_source_type_id: $source,
-    electronic_type_id: $electronictype, person_id: $pid}) {
+mutation insert_person_electronic(
+  $pid: Int!
+  $email: String!
+  $source: Int!
+  $electronictype: Int!
+) {
+  insert_person_electronic_one(
+    object: {
+      electronic_address: $email
+      information_source_type_id: $source
+      electronic_type_id: $electronictype
+      person_id: $pid
+    }
+  ) {
     person_id
     person_electronic_id
     electronic_address
@@ -625,10 +636,20 @@ mutation insert_person_electronic($pid: Int!, $email: String!, $source: Int!, $e
   }
 }
 
-
-mutation insert_person_electronic($pid: Int!, $email: String!, $source: Int!, $electronictype: Int!) {
-  insert_person_electronic_one(object: {electronic_address: $email, information_source_type_id: $source,
-    electronic_type_id: $electronictype, person_id: $pid}) {
+mutation insert_person_electronic(
+  $pid: Int!
+  $email: String!
+  $source: Int!
+  $electronictype: Int!
+) {
+  insert_person_electronic_one(
+    object: {
+      electronic_address: $email
+      information_source_type_id: $source
+      electronic_type_id: $electronictype
+      person_id: $pid
+    }
+  ) {
     person_id
     person_electronic_id
     electronic_address
@@ -645,7 +666,6 @@ mutation insert_person_electronic($pid: Int!, $email: String!, $source: Int!, $e
     date_marked_invalid
   }
 }
-
 
 query campus_query {
   campus {
@@ -687,5 +707,181 @@ query phone_type_query {
     phone_type_id
     phone_type
     phone_type_acronym
+  }
+}
+
+query building_search($search: String!) {
+  building_fuzzy_search(args: { search_text: $search }) {
+    building_id
+    campus {
+      campus_id
+      campus_name
+    }
+    building_name
+    building_acronym
+    sector
+    building_street_number
+    building_street_name
+    building_city
+    building_state
+    building_zip
+    comments
+  }
+}
+
+query building_query($id: Int!) {
+  building_by_pk(building_id: $id) {
+    building_id
+    campus {
+      campus_id
+      campus_name
+    }
+    building_acronym
+    sector
+    building_name
+    building_street_number
+    building_street_name
+    building_city
+    building_state
+    building_zip
+    comments
+  }
+}
+
+mutation update_building(
+  $building_id: Int!
+  $building_acronym: String
+  $sector: String
+  $building_name: String
+  $building_street_number: String
+  $building_zip: String
+  $building_street_name: String
+  $campus_id: Int
+  $building_state: String
+  $comments: String
+  $building_city: String
+) {
+  update_building_by_pk(
+    pk_columns: { building_id: $building_id }
+    _set: {
+      campus_id: $campus_id
+      building_acronym: $building_acronym
+      sector: $sector
+      building_street_name: $building_street_name
+      building_street_number: $building_street_number
+      building_city: $building_city
+      building_state: $building_state
+      building_zip: $building_zip
+      comments: $comments
+      building_name: $building_name
+    }
+  ) {
+    building_acronym
+    building_city
+    building_name
+    building_state
+    building_street_name
+    building_street_number
+    building_zip
+    campus {
+      campus_id
+      campus_name
+    }
+    sector
+    comments
+  }
+}
+
+query location_type_query {
+  location_type {
+    location_type_id
+    location_type
+  }
+}
+
+query location_query($id: Int!) {
+  location(where: { building_id: { _eq: $id } }) {
+    building_id
+    room
+    floor
+    location_type {
+      location_type_id
+      location_type
+    }
+    location_id
+
+    location_type_id
+    date_created
+  }
+}
+mutation insert_location(
+  $id: Int
+  $floor: String
+  $type: Int
+  $room: String
+  $used_to_calculate_code: Boolean = false
+) {
+  insert_location_one(
+    object: {
+      building_id: $id
+      floor: $floor
+      location_type_id: $type
+      room: $room
+      used_to_calculate_code: $used_to_calculate_code
+    }
+  ) {
+    building_id
+    location_id
+    floor
+    location_type {
+      location_type_id
+      location_type
+    }
+    date_created
+  }
+}
+
+mutation insert_location(
+  $id: Int
+  $floor: String
+  $type: Int
+  $room: String
+  $created_by: String
+  $used_to_calculate_code: Boolean = false
+) {
+  insert_location_one(
+    object: {
+      building_id: $id
+      floor: $floor
+      location_type_id: $type
+      room: $room
+      used_to_calculate_code: $used_to_calculate_code
+      created_by: $created_by
+    }
+  ) {
+    building_id
+    location_id
+    floor
+    location_type {
+      location_type_id
+      location_type
+    }
+    date_created
+  }
+}
+
+mutation update_location($id: Int!, $room: String, $type: Int, $floor: String) {
+  update_location_by_pk(
+    pk_columns: { location_id: $id }
+    _set: { room: $room, location_type_id: $type, floor: $floor }
+  ) {
+    building_id
+    floor
+    location_id
+    date_created
+    location_type {
+      location_type_id
+      location_type
+    }
   }
 }

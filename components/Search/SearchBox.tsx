@@ -12,56 +12,12 @@ import {
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { BootstrapInput } from "./Type";
 import styles from "./styles.module.scss";
-import { createPortal } from "react-dom";
 import { useRef } from "react";
 import Typography from "@mui/material/Typography";
 import { useRouter } from "next/router";
+import { HeaderModal } from "../Headers/Components/Modal";
+import { DocumentNode } from "graphql";
 
-interface DataTypes {
-  // person_order_id: Number;
-  // first_name?: String;
-  // middle_name?: String;
-  // last_name?: String;
-  // nickname?: String;
-  // order_id?: Number;
-  // order_state?: String;
-  // code?: String;
-
-  full_name: string;
-  person_id: number;
-  employee_id: number;
-}
-
-const SEARCH_DATA = gql`
-  query sample_search_bar_query {
-    sample_person_order {
-      person_order_id
-      first_name
-      middle_name
-      last_name
-      nickname
-      order_id
-      order_state
-      code
-    }
-  }
-`;
-
-const SEARCH_PERSON = gql`
-  query person_search($search: String!) {
-    fuzzy_search(args: { search_text: $search }) {
-      person_id
-      full_name
-      employee_id
-    }
-  }
-`;
-
-// const initialSearchTitle = [
-//   { label: "Name", valueName: "full_name" },
-//   { label: "Person ID", valueName: "person_id", id: true },
-//   { label: "Employee ID", valueName: "employee_id" },
-// ];
 const initialSearchTitle = [
   { label: "Name", valueName: "full_name" },
   { label: "PID", valueName: "person_id", id: true },
@@ -73,7 +29,12 @@ const initialSearchTitle = [
 const SearchMenu: React.FC<{
   placeholder?: string;
   searchTitle?: any[];
-}> = ({ placeholder = "Search Person", searchTitle = initialSearchTitle }) => {
+  search?: { schema: DocumentNode; name: string };
+}> = ({
+  placeholder = "Search Person",
+  searchTitle = initialSearchTitle,
+  search,
+}) => {
   const [searchData, setSearchData] = React.useState("");
 
   const [visibility, setVisibility] = useState(false);
@@ -106,60 +67,12 @@ const SearchMenu: React.FC<{
     setSearchData("");
     router.push(href);
   };
-  const { data, error, loading } = useQuery(SEARCH_PERSON, {
-    skip: !searchData,
-    variables: { search: searchData },
-  });
-  console.log(data);
-  const Modal = ({
-    isOpen,
-    coverApp,
-    close,
-    children,
-  }: {
-    isOpen: boolean;
-    coverApp: boolean;
-    close: () => void;
-    children: React.ReactNode;
-  }) => {
-    if (!isOpen) return null;
-    const ModalDom = (
-      <>
-        <div
-          style={{
-            top: "0",
-            left: "0",
-            width: "100%",
-            height: "100%",
-            position: "fixed",
-            zIndex: "100",
-            backgroundColor: "rgba(136,136,136,0.09)",
-          }}
-          onClick={close}
-        />
-
-        <div
-          style={{
-            position: "fixed",
-            // @ts-ignore
-            left: inputRef.current?.getClientRects()[0].x,
-            zIndex: "1000",
-            // @ts-ignore
-            top: inputRef.current?.getClientRects()[0].y,
-            display: "block",
-            // overflowY: "scroll",
-            // overflowX: "auto",
-          }}
-        >
-          {children}
-        </div>
-      </>
-    );
-    if (!coverApp) return ModalDom;
-
-    const target = document.body;
-    return createPortal(ModalDom, target);
-  };
+  const queryData =
+    search &&
+    useQuery(search.schema, {
+      skip: !searchData,
+      variables: { search: searchData },
+    });
 
   const inputRef = useRef();
 
@@ -177,10 +90,11 @@ const SearchMenu: React.FC<{
       />
       {visibility ? (
         <>
-          <Modal
+          <HeaderModal
             isOpen={visibility}
             coverApp={visibility}
             close={() => setVisibility(false)}
+            inputRef={inputRef}
           >
             <TableContainer
               className={styles.searchContainer}
@@ -206,71 +120,84 @@ const SearchMenu: React.FC<{
                               </TableRow>
                             </TableHead>
                             <TableBody>
-                              {data?.fuzzy_search.length == 0 && (
-                                <Typography
-                                  sx={{
-                                    mt: "10px",
-                                    ml: "15px",
-                                    textAlign: "left !important",
-                                  }}
-                                >
-                                  No results
-                                </Typography>
-                              )}
-                              {data?.fuzzy_search.map((elem: any) => {
-                                return (
-                                  <TableRow
-                                    key={`${elem[searchTitleId?.valueName]}`}
-                                    onClick={(e) => {
-                                      goTo(e, elem[searchTitleId?.valueName]);
-                                    }}
+                              {search &&
+                                queryData &&
+                                queryData.data?.[search.name].length == 0 && (
+                                  <Typography
                                     sx={{
+                                      mt: "10px",
+                                      ml: "15px",
                                       textAlign: "left !important",
-                                      cursor: "pointer",
                                     }}
                                   >
-                                    {searchTitle.map((searchTitleElem) => (
-                                      <TableCell
-                                        align={"left"}
-                                        sx={{ textAlign: "left !important" }}
+                                    No results
+                                  </Typography>
+                                )}
+                              {search &&
+                                queryData &&
+                                queryData.data?.[search.name].map(
+                                  (elem: any) => {
+                                    return (
+                                      <TableRow
+                                        key={`${
+                                          elem[searchTitleId?.valueName]
+                                        }`}
+                                        onClick={(e) => {
+                                          goTo(
+                                            e,
+                                            elem[searchTitleId?.valueName]
+                                          );
+                                        }}
+                                        sx={{
+                                          textAlign: "left !important",
+                                          cursor: "pointer",
+                                        }}
                                       >
-                                        {elem[searchTitleElem.valueName]}
-                                      </TableCell>
-                                    ))}
-                                  </TableRow>
-                                );
-                                // if (
-                                //   `${last_name} ${first_name} ${middle_name} ${nickname}`
-                                //     .toLowerCase()
-                                //     .includes(searchData)
-                                // ) {
-                                //   return (
-                                //     <TableRow key={`${person_order_id}`}>
-                                //       {" "}
-                                //       <TableCell>
-                                //         {" "}
-                                //         {full_name}
-                                //         {`${last_name || ""}, ${
-                                //           first_name || ""
-                                //         } ${middle_name || ""} ${
-                                //           nickname || ""
-                                //         }`}{" "}
-                                //       </TableCell>{" "}
-                                //       <TableCell>
-                                //         <>{person_order_id}</>
-                                //       </TableCell>{" "}
-                                //       <TableCell>
-                                //         <>{order_id || ""}</>
-                                //       </TableCell>{" "}
-                                //       <TableCell>{code || ""}</TableCell>{" "}
-                                //       <TableCell>
-                                //         {order_state || ""}
-                                //       </TableCell>{" "}
-                                //     </TableRow>
-                                //   );
-                                // }
-                              })}
-                              {loading && (
+                                        {searchTitle.map((searchTitleElem) => (
+                                          <TableCell
+                                            align={"left"}
+                                            sx={{
+                                              textAlign: "left !important",
+                                            }}
+                                          >
+                                            {elem[searchTitleElem.valueName]}
+                                          </TableCell>
+                                        ))}
+                                      </TableRow>
+                                    );
+                                    // if (
+                                    //   `${last_name} ${first_name} ${middle_name} ${nickname}`
+                                    //     .toLowerCase()
+                                    //     .includes(searchData)
+                                    // ) {
+                                    //   return (
+                                    //     <TableRow key={`${person_order_id}`}>
+                                    //       {" "}
+                                    //       <TableCell>
+                                    //         {" "}
+                                    //         {full_name}
+                                    //         {`${last_name || ""}, ${
+                                    //           first_name || ""
+                                    //         } ${middle_name || ""} ${
+                                    //           nickname || ""
+                                    //         }`}{" "}
+                                    //       </TableCell>{" "}
+                                    //       <TableCell>
+                                    //         <>{person_order_id}</>
+                                    //       </TableCell>{" "}
+                                    //       <TableCell>
+                                    //         <>{order_id || ""}</>
+                                    //       </TableCell>{" "}
+                                    //       <TableCell>{code || ""}</TableCell>{" "}
+                                    //       <TableCell>
+                                    //         {order_state || ""}
+                                    //       </TableCell>{" "}
+                                    //     </TableRow>
+                                    //   );
+                                    // }
+                                  }
+                                )}
+                              {queryData?.loading && (
                                 <Box
                                   sx={{
                                     position: "absolute",
@@ -290,7 +217,7 @@ const SearchMenu: React.FC<{
                 </TableBody>
               </Table>
             </TableContainer>
-          </Modal>
+          </HeaderModal>
         </>
       ) : (
         ""
