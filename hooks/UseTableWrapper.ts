@@ -60,7 +60,7 @@ export const useTableWrapper = (
           id,
         },
       ]);
-      setActiveRow({ state: "add", number: String(id) });
+      setActiveRow({ state: "add", number: id });
       setAlreadyAdded(true);
     }
   };

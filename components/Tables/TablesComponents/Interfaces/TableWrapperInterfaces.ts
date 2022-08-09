@@ -4,7 +4,7 @@ import { Order } from "./Order";
 export type RowStateTypes = "add" | "change" | "default";
 
 export interface IActiveRow {
-  number: string | null;
+  number: string | number | null;
   state: RowStateTypes;
 }
 export interface IActiveRowObject {
